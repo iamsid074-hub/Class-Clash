@@ -121,8 +121,8 @@ export const MainMenuScreen: React.FC = () => {
             lineHeight: 1,
           }}
         >
-          <span style={{ color: '#ffffff' }}>CLAS</span>
-          <span style={{ color: '#ff0066' }}>HA</span>
+          <span style={{ color: '#ffffff' }}>CLA</span>
+          <span style={{ color: '#ff0066' }}>SHA</span>
         </h1>
       </div>
 

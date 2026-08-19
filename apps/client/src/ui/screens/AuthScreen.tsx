@@ -183,8 +183,8 @@ export const AuthScreen: React.FC = () => {
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ color: '#f4ece1' }}>CLAS</span>
-              <span style={{ color: '#ff0066' }}>HA</span>
+              <span style={{ color: '#f4ece1' }}>CLA</span>
+              <span style={{ color: '#ff0066' }}>SHA</span>
             </h1>
             <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#e4ceaf', letterSpacing: '0.18em', marginTop: '2px' }}>
               ULTRALIGHT ESPORTS LOBBY
