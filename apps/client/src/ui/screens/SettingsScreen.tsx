@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../state/useGameStore';
-import { ArrowLeft, Music, Volume2, CheckCircle, Info, Tag, Sliders, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Volume2, Music, Info, Tag, ChevronRight, CheckCircle } from 'lucide-react';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 
 export interface GameSettings {
@@ -22,6 +22,8 @@ const MUSIC_TRACKS = [
   { id: 'LOFI_ARENA', label: 'Lo-Fi Arena' },
 ];
 
+type SettingsTab = 'MENU' | 'SOUND' | 'ABOUT' | 'VERSION';
+
 const Ios26Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void }> = ({ checked, onChange }) => (
   <button
     type="button"
@@ -31,12 +33,12 @@ const Ios26Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void }
       width: '54px',
       height: '32px',
       borderRadius: '50px',
-      background: checked ? '#34c759' : 'rgba(255, 255, 255, 0.18)',
+      background: checked ? '#ff0066' : 'rgba(218, 170, 195, 0.4)',
       border: 'none',
       cursor: 'pointer',
       position: 'relative',
       transition: 'background 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-      boxShadow: checked ? '0 2px 10px rgba(52, 199, 89, 0.4)' : 'none',
+      boxShadow: checked ? '0 4px 14px rgba(255, 0, 102, 0.35)' : 'none',
     }}
   >
     <div
@@ -49,7 +51,7 @@ const Ios26Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void }
         top: '3px',
         left: checked ? '25px' : '3px',
         transition: 'left 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.35)',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.2)',
       }}
     />
   </button>
@@ -57,6 +59,7 @@ const Ios26Toggle: React.FC<{ checked: boolean; onChange: (v: boolean) => void }
 
 export const SettingsScreen: React.FC = () => {
   const { setScreen, triggerGateTransition } = useGameStore();
+  const [activeTab, setActiveTab] = useState<SettingsTab>('MENU');
 
   const [settings, setSettings] = useState<GameSettings>(() => {
     try {
@@ -83,10 +86,14 @@ export const SettingsScreen: React.FC = () => {
     setTimeout(() => setShowSavedFeedback(false), 1400);
   };
 
-  const handleBackToMenu = () => {
-    triggerGateTransition(() => {
-      setScreen('MAIN_MENU');
-    }, 'MAIN MENU', 'CLASHA');
+  const handleBackNavigation = () => {
+    if (activeTab !== 'MENU') {
+      setActiveTab('MENU');
+    } else {
+      triggerGateTransition(() => {
+        setScreen('MAIN_MENU');
+      }, 'MAIN MENU', 'CLASHA');
+    }
   };
 
   return (
@@ -98,16 +105,16 @@ export const SettingsScreen: React.FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 10,
-        background: 'linear-gradient(135deg, #09040e 0%, #150921 50%, #20092d 100%)',
+        background: 'radial-gradient(circle at 50% 30%, rgba(255, 238, 245, 0.98) 0%, rgba(255, 204, 226, 0.98) 100%)',
         display: 'flex',
         flexDirection: 'column',
         boxSizing: 'border-box',
         overflow: 'auto',
-        color: '#ffffff',
+        color: '#2b0017',
         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Outfit', sans-serif",
       }}
     >
-      {/* 1. TOP iOS 26 GLASSMORPHIC HEADER */}
+      {/* 1. TOP LIGHT PINK & WHITE GLASSMORPHIC HEADER */}
       <div
         style={{
           width: '100%',
@@ -116,26 +123,26 @@ export const SettingsScreen: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'space-between',
           boxSizing: 'border-box',
-          background: 'rgba(15, 10, 25, 0.75)',
-          backdropFilter: 'blur(30px) saturate(180%)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+          background: 'rgba(255, 255, 255, 0.75)',
+          backdropFilter: 'blur(25px)',
+          borderBottom: '2px solid rgba(255, 102, 163, 0.3)',
           position: 'sticky',
           top: 0,
           zIndex: 50,
         }}
       >
-        {/* Left: iOS 26 Back Button & Logo */}
+        {/* Left: Back Button & Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
           <button
             type="button"
             className="hud-interactive btn-press-effect"
-            onClick={handleBackToMenu}
+            onClick={handleBackNavigation}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '10px',
               padding: '12px 24px',
-              borderRadius: '18px',
+              borderRadius: '16px',
               background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
               border: '2px solid #ffffff',
               color: '#ffffff',
@@ -144,29 +151,26 @@ export const SettingsScreen: React.FC = () => {
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
               cursor: 'pointer',
-              boxShadow: '0 8px 25px rgba(255, 0, 102, 0.45)',
+              boxShadow: '0 6px 20px rgba(255, 0, 102, 0.4)',
               transition: 'all 0.2s ease',
             }}
           >
-            <ArrowLeft size={18} /> BACK TO MENU
+            <ArrowLeft size={18} />
+            <span>{activeTab === 'MENU' ? 'BACK TO MENU' : 'BACK TO SETTINGS'}</span>
           </button>
           <ClassClashLogo size={0.7} />
         </div>
 
-        {/* Center: Title */}
+        {/* Center: Title ONLY (No Subtitle Above) */}
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-            iOS 26 SYSTEM CONTROL
-          </div>
           <div
             style={{
-              fontSize: '2.2rem',
+              fontSize: '2.4rem',
               fontWeight: 900,
               fontStyle: 'italic',
-              color: '#ffffff',
+              color: '#2b0017',
               fontFamily: "'Kanit', sans-serif",
               lineHeight: 1,
-              marginTop: '2px',
             }}
           >
             SETTINGS
@@ -181,13 +185,13 @@ export const SettingsScreen: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                color: '#34c759',
+                color: '#00a843',
                 fontWeight: 900,
                 fontSize: '0.85rem',
-                background: 'rgba(52, 199, 89, 0.15)',
+                background: 'rgba(0, 200, 83, 0.12)',
                 padding: '6px 14px',
                 borderRadius: '50px',
-                border: '1px solid rgba(52, 199, 89, 0.3)',
+                border: '1.5px solid #00c853',
               }}
             >
               <CheckCircle size={16} /> SAVED
@@ -196,7 +200,7 @@ export const SettingsScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. iOS 26 GROUPED SETTINGS CARDS CONTAINER */}
+      {/* 2. MAIN PAGE BODY: MENU OR SUB-PAGES */}
       <div
         style={{
           flex: 1,
@@ -206,187 +210,311 @@ export const SettingsScreen: React.FC = () => {
           padding: '0 24px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '28px',
           boxSizing: 'border-box',
         }}
       >
-        {/* CARD 1: SOUND SECTION */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.15em', paddingLeft: '8px', textTransform: 'uppercase' }}>
-            SOUND
-          </div>
+        {/* VIEW A: MAIN SETTINGS MENU LIST (CLICKABLE SECTIONS) */}
+        {activeTab === 'MENU' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', textAlign: 'left' }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.15em', paddingLeft: '6px', textTransform: 'uppercase' }}>
+              SELECT PREFERENCE CATEGORY
+            </div>
 
-          <div
-            style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              backdropFilter: 'blur(30px) saturate(180%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.14)',
-              borderRadius: '24px',
-              padding: '24px 28px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '22px',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            {/* 1.1 Background Music Selection */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Music size={20} color="#ff0066" />
-                <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.02em' }}>
-                  BACKGROUND MUSIC TRACK
+            <div
+              style={{
+                background: '#ffffff',
+                borderRadius: '24px',
+                border: '2px solid #ff66a3',
+                boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {/* Item 1: SOUND */}
+              <button
+                type="button"
+                className="btn-press-effect"
+                onClick={() => setActiveTab('SOUND')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '22px 28px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid rgba(255, 102, 163, 0.2)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'rgba(255, 0, 102, 0.1)', border: '1.5px solid #ff0066', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Volume2 size={22} color="#ff0066" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                      SOUND
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
+                      Background music track, music toggle & SFX volume
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight size={22} color="#ff0066" />
+              </button>
+
+              {/* Item 2: ABOUT */}
+              <button
+                type="button"
+                className="btn-press-effect"
+                onClick={() => setActiveTab('ABOUT')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '22px 28px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid rgba(255, 102, 163, 0.2)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'rgba(255, 0, 102, 0.1)', border: '1.5px solid #ff0066', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Info size={22} color="#ff0066" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                      ABOUT
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
+                      Game information, genre & studio details
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight size={22} color="#ff0066" />
+              </button>
+
+              {/* Item 3: VERSION */}
+              <button
+                type="button"
+                className="btn-press-effect"
+                onClick={() => setActiveTab('VERSION')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '22px 28px',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 0.2s ease',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'rgba(255, 0, 102, 0.1)', border: '1.5px solid #ff0066', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Tag size={22} color="#ff0066" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                      VERSION
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
+                      App build release & architecture status
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight size={22} color="#ff0066" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* VIEW B: SUB-PAGE 1 - SOUND SETTINGS */}
+        {activeTab === 'SOUND' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.15em', paddingLeft: '6px', textTransform: 'uppercase' }}>
+              SOUND PREFERENCES
+            </div>
+
+            <div
+              style={{
+                background: '#ffffff',
+                borderRadius: '24px',
+                border: '2px solid #ff66a3',
+                padding: '32px 36px',
+                boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '26px',
+              }}
+            >
+              {/* Track Selector */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <Music size={20} color="#ff0066" />
+                  <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>
+                    BACKGROUND MUSIC TRACK
+                  </span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                  {MUSIC_TRACKS.map((track) => {
+                    const isSelected = settings.bgMusicTrack === track.id;
+                    return (
+                      <button
+                        key={track.id}
+                        type="button"
+                        className="btn-press-effect"
+                        onClick={() => updateSetting('bgMusicTrack', track.id)}
+                        style={{
+                          padding: '14px 16px',
+                          borderRadius: '16px',
+                          background: isSelected
+                            ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)'
+                            : 'rgba(255, 240, 246, 0.6)',
+                          border: isSelected ? '2px solid #ffffff' : '1.5px solid rgba(255, 102, 163, 0.4)',
+                          color: isSelected ? '#ffffff' : '#2b0017',
+                          fontWeight: 900,
+                          fontSize: '0.85rem',
+                          cursor: 'pointer',
+                          textAlign: 'center',
+                          boxShadow: isSelected ? '0 6px 20px rgba(255, 0, 102, 0.4)' : 'none',
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        {track.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              {/* Music Toggle */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>BACKGROUND MUSIC</div>
+                  <div style={{ fontSize: '0.8rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>Turn background music on or off</div>
+                </div>
+                <Ios26Toggle
+                  checked={settings.isBgMusicEnabled}
+                  onChange={(val) => updateSetting('isBgMusicEnabled', val)}
+                />
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              {/* SFX Volume */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Volume2 size={20} color="#ff0066" />
+                    <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>EFFECT, DARE & SFX VOLUME</span>
+                  </div>
+                  <span style={{ color: '#ff0066', fontWeight: 900, fontSize: '0.95rem' }}>{settings.sfxVolume}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.sfxVolume}
+                  onChange={(e) => updateSetting('sfxVolume', Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#ff0066', cursor: 'pointer', height: '8px' }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VIEW C: SUB-PAGE 2 - ABOUT */}
+        {activeTab === 'ABOUT' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.15em', paddingLeft: '6px', textTransform: 'uppercase' }}>
+              ABOUT CLASHA
+            </div>
+
+            <div
+              style={{
+                background: '#ffffff',
+                borderRadius: '24px',
+                border: '2px solid #ff66a3',
+                padding: '32px 36px',
+                boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>GAME TITLE</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#2b0017', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif" }}>CLASHA</span>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>GENRE</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#2b0017' }}>ESPORTS DARE CABIN PARTY BATTLE</span>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>DEVELOPER & STUDIO</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#ff0066' }}>CLASHA ESPORTS LABS</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VIEW D: SUB-PAGE 3 - VERSION */}
+        {activeTab === 'VERSION' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'left' }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.15em', paddingLeft: '6px', textTransform: 'uppercase' }}>
+              APPLICATION VERSION
+            </div>
+
+            <div
+              style={{
+                background: '#ffffff',
+                borderRadius: '24px',
+                border: '2px solid #ff66a3',
+                padding: '32px 36px',
+                boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>APPLICATION VERSION</span>
+                <span style={{ fontSize: '1.05rem', fontWeight: 900, color: '#2b0017' }}>v1.0.4</span>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>BUILD ARCHITECTURE</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#2b0017' }}>iOS 26 VISION-CYBER EDITION</span>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>UPDATE STATUS</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#007029', background: 'rgba(0, 200, 83, 0.12)', padding: '6px 14px', borderRadius: '50px', border: '1.5px solid #00c853' }}>
+                  ✓ UP TO DATE (LATEST RELEASE)
                 </span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '2px' }}>
-                {MUSIC_TRACKS.map((track) => {
-                  const isSelected = settings.bgMusicTrack === track.id;
-                  return (
-                    <button
-                      key={track.id}
-                      type="button"
-                      className="btn-press-effect"
-                      onClick={() => updateSetting('bgMusicTrack', track.id)}
-                      style={{
-                        padding: '12px 14px',
-                        borderRadius: '16px',
-                        background: isSelected
-                          ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)'
-                          : 'rgba(255, 255, 255, 0.08)',
-                        border: isSelected ? '2px solid #ffffff' : '1px solid rgba(255, 255, 255, 0.15)',
-                        color: '#ffffff',
-                        fontWeight: 900,
-                        fontSize: '0.85rem',
-                        cursor: 'pointer',
-                        textAlign: 'center',
-                        boxShadow: isSelected ? '0 6px 20px rgba(255, 0, 102, 0.4)' : 'none',
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      {track.label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            {/* 1.2 Background Music ON / OFF Toggle */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 900 }}>BACKGROUND MUSIC</div>
-                <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)', fontWeight: 600 }}>Enable or disable lobby & arena background music</div>
-              </div>
-              <Ios26Toggle
-                checked={settings.isBgMusicEnabled}
-                onChange={(val) => updateSetting('isBgMusicEnabled', val)}
-              />
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            {/* 1.3 Effect, Dare & SFX Volume Slider */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <Volume2 size={20} color="#ff0066" />
-                  <span style={{ fontSize: '0.95rem', fontWeight: 900 }}>EFFECT, DARE & SFX VOLUME</span>
-                </div>
-                <span style={{ color: '#ff0066', fontWeight: 900, fontSize: '0.95rem' }}>{settings.sfxVolume}%</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={settings.sfxVolume}
-                onChange={(e) => updateSetting('sfxVolume', Number(e.target.value))}
-                style={{ width: '100%', accentColor: '#ff0066', cursor: 'pointer', height: '8px' }}
-              />
             </div>
           </div>
-        </div>
-
-        {/* CARD 2: ABOUT SECTION */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.15em', paddingLeft: '8px', textTransform: 'uppercase' }}>
-            ABOUT
-          </div>
-
-          <div
-            style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              backdropFilter: 'blur(30px) saturate(180%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.14)',
-              borderRadius: '24px',
-              padding: '20px 28px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>GAME TITLE</span>
-              <span style={{ fontSize: '1rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif" }}>CLASHA</span>
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>GENRE</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#ffffff' }}>ESPORTS DARE CABIN PARTY BATTLE</span>
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>DEVELOPER & STUDIO</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#ff0066' }}>CLASHA ESPORTS LABS</span>
-            </div>
-          </div>
-        </div>
-
-        {/* CARD 3: VERSION SECTION */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.15em', paddingLeft: '8px', textTransform: 'uppercase' }}>
-            VERSION
-          </div>
-
-          <div
-            style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              backdropFilter: 'blur(30px) saturate(180%)',
-              border: '1.5px solid rgba(255, 255, 255, 0.14)',
-              borderRadius: '24px',
-              padding: '20px 28px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.45)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>APPLICATION VERSION</span>
-              <span style={{ fontSize: '1rem', fontWeight: 900, color: '#ffffff' }}>v1.0.4</span>
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>BUILD ARCHITECTURE</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#ffffff' }}>iOS 26 VISION-CYBER EDITION</span>
-            </div>
-
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 255, 255, 0.1)', margin: 0 }} />
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 800 }}>UPDATE STATUS</span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#34c759', background: 'rgba(52, 199, 89, 0.15)', padding: '4px 12px', borderRadius: '50px', border: '1px solid rgba(52, 199, 89, 0.3)' }}>
-                ✓ UP TO DATE (LATEST RELEASE)
-              </span>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
