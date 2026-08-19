@@ -29,7 +29,7 @@ const GoogleIcon: React.FC = () => (
 export const AuthScreen: React.FC = () => {
   const { setDisplayName, setScreen, triggerGateTransition } = useGameStore();
 
-  const [mode, setMode] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
+  const [mode, setMode] = useState<'LOGIN' | 'REGISTER'>('REGISTER');
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [nameInput, setNameInput] = useState('');
@@ -270,17 +270,35 @@ export const AuthScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Mode Switcher Tabs */}
+          {/* Mode Switcher Tabs with Sliding Indicator Pill */}
           <div
             style={{
+              position: 'relative',
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
               background: '#120e10',
-              padding: '5px',
-              borderRadius: '14px',
+              padding: '4px',
+              borderRadius: '16px',
               border: '1px solid rgba(228, 206, 175, 0.18)',
+              overflow: 'hidden',
             }}
           >
+            {/* Sliding Pill Indicator */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '4px',
+                bottom: '4px',
+                left: mode === 'LOGIN' ? '4px' : 'calc(50% + 2px)',
+                width: 'calc(50% - 6px)',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 4px 15px rgba(255, 0, 102, 0.4)',
+                zIndex: 1,
+              }}
+            />
+
             <button
               type="button"
               onClick={() => {
@@ -288,10 +306,12 @@ export const AuthScreen: React.FC = () => {
                 setAuthError(null);
               }}
               style={{
-                padding: '11px',
-                borderRadius: '10px',
+                position: 'relative',
+                zIndex: 2,
+                padding: '12px',
+                borderRadius: '12px',
                 border: 'none',
-                background: mode === 'LOGIN' ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)' : 'transparent',
+                background: 'transparent',
                 color: '#ffffff',
                 fontWeight: 900,
                 fontSize: '0.92rem',
@@ -299,7 +319,7 @@ export const AuthScreen: React.FC = () => {
                 fontFamily: "'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'color 0.3s ease',
               }}
             >
               SIGN IN
@@ -311,10 +331,12 @@ export const AuthScreen: React.FC = () => {
                 setAuthError(null);
               }}
               style={{
-                padding: '11px',
-                borderRadius: '10px',
+                position: 'relative',
+                zIndex: 2,
+                padding: '12px',
+                borderRadius: '12px',
                 border: 'none',
-                background: mode === 'REGISTER' ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)' : 'transparent',
+                background: 'transparent',
                 color: '#ffffff',
                 fontWeight: 900,
                 fontSize: '0.92rem',
@@ -322,7 +344,7 @@ export const AuthScreen: React.FC = () => {
                 fontFamily: "'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                transition: 'color 0.3s ease',
               }}
             >
               CREATE ACCOUNT
@@ -350,35 +372,42 @@ export const AuthScreen: React.FC = () => {
             </div>
           )}
 
-          {/* Form Fields */}
-          <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            {mode === 'REGISTER' && (
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
-                </label>
-                <input
-                  type="text"
-                  value={nameInput}
-                  onChange={(e) => setNameInput(e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '14px 18px',
-                    borderRadius: '14px',
-                    border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                    background: '#261f22',
-                    color: '#f4ece1',
-                    fontWeight: 900,
-                    fontSize: '1.1rem',
-                    outline: 'none',
-                    marginTop: '6px',
-                    boxSizing: 'border-box',
-                  }}
-                  placeholder="Enter Username"
-                  required
-                />
-              </div>
-            )}
+          {/* Form Fields with Smooth Swipe Expansion */}
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '18px' }} onSubmit={handleAuthSubmit}>
+            <div
+              style={{
+                maxHeight: mode === 'REGISTER' ? '120px' : '0px',
+                opacity: mode === 'REGISTER' ? 1 : 0,
+                transform: mode === 'REGISTER' ? 'translateY(0px)' : 'translateY(-12px)',
+                overflow: 'hidden',
+                transition: 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                marginBottom: mode === 'REGISTER' ? '0px' : '-18px',
+              }}
+            >
+              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
+              </label>
+              <input
+                type="text"
+                value={nameInput}
+                onChange={(e) => setNameInput(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '14px 18px',
+                  borderRadius: '14px',
+                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
+                  background: '#261f22',
+                  color: '#f4ece1',
+                  fontWeight: 900,
+                  fontSize: '1.1rem',
+                  outline: 'none',
+                  marginTop: '6px',
+                  boxSizing: 'border-box',
+                }}
+                placeholder="Enter Username"
+                required={mode === 'REGISTER'}
+              />
+            </div>
 
             <div>
               <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
