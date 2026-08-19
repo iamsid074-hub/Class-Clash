@@ -43,37 +43,51 @@ export interface UserProfile {
 
 export class SupabaseAuthService {
   /**
-   * Local fallback helper to create & persist session
+   * Helper to fetch all registered accounts from local storage
    */
-  private static createLocalSession(email: string, displayName?: string): UserProfile {
-    const mockId = `racer_${Date.now()}`;
-    const profile: UserProfile = {
-      id: mockId,
-      email,
-      displayName: displayName || email.split('@')[0].toUpperCase(),
-      racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
-      avatar: 'avatar_cyber',
-      matchesPlayed: 14,
-      leaderboardPoints: 85,
-      winRate: 68,
-      isVerified: true,
-    };
-    localStorage.setItem('class_clash_session', JSON.stringify(profile));
-    return profile;
+  private static getLocalUsers(): Record<string, { pass: string; profile: UserProfile }> {
+    try {
+      const stored = localStorage.getItem('clasha_registered_users');
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
   }
 
   /**
    * Register a new racer with Email, Password, & Username
    */
   public static async signUp(email: string, pass: string, displayName: string) {
+    const cleanEmail = email.trim().toLowerCase();
+
     if (!isSupabaseConfigured) {
-      const profile = this.createLocalSession(email, displayName);
-      return { data: { user: { id: profile.id, email } }, error: null, profile };
+      const users = this.getLocalUsers();
+      if (users[cleanEmail]) {
+        return { data: null, error: { message: 'ACCOUNT ALREADY EXISTS! PLEASE SIGN IN INSTEAD.' }, profile: null };
+      }
+
+      const mockId = `racer_${Date.now()}`;
+      const profile: UserProfile = {
+        id: mockId,
+        email: cleanEmail,
+        displayName: displayName || cleanEmail.split('@')[0].toUpperCase(),
+        racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
+        avatar: 'avatar_cyber',
+        matchesPlayed: 0,
+        leaderboardPoints: 0,
+        winRate: 0,
+        isVerified: true,
+      };
+
+      users[cleanEmail] = { pass, profile };
+      localStorage.setItem('clasha_registered_users', JSON.stringify(users));
+      localStorage.setItem('class_clash_session', JSON.stringify(profile));
+      return { data: { user: { id: mockId, email: cleanEmail } }, error: null, profile };
     }
 
     try {
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: cleanEmail,
         password: pass,
         options: {
           data: {
@@ -83,11 +97,11 @@ export class SupabaseAuthService {
         },
       });
 
-      if (error) return { data: null, error, profile: null };
+      if (error) return { data: null, error: { message: error.message }, profile: null };
 
       const profile: UserProfile = {
         id: data.user?.id || `racer_${Date.now()}`,
-        email,
+        email: cleanEmail,
         displayName: displayName || 'RACER_ONE',
         racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
         avatar: 'avatar_cyber',
@@ -100,38 +114,54 @@ export class SupabaseAuthService {
       await supabase.from('profiles').upsert(profile);
       localStorage.setItem('class_clash_session', JSON.stringify(profile));
       return { data, error: null, profile };
-    } catch (fetchErr) {
-      console.warn('Supabase fetch failed, falling back to local session:', fetchErr);
-      const profile = this.createLocalSession(email, displayName);
-      return { data: { user: { id: profile.id, email } }, error: null, profile };
+    } catch (fetchErr: any) {
+      return { data: null, error: { message: fetchErr.message || 'REGISTRATION FAILED' }, profile: null };
     }
   }
 
   /**
-   * Sign In existing racer
+   * Sign In existing racer - STRICT CHECK: Account MUST be created first!
    */
   public static async signIn(email: string, pass: string) {
+    const cleanEmail = email.trim().toLowerCase();
+
     if (!isSupabaseConfigured) {
-      const saved = localStorage.getItem('class_clash_session');
-      if (saved) {
-        try {
-          const profile = JSON.parse(saved);
-          return { data: { user: { id: profile.id, email } }, error: null, profile };
-        } catch (e) {
-          // ignore
-        }
+      const users = this.getLocalUsers();
+      const account = users[cleanEmail];
+
+      if (!account) {
+        return {
+          data: null,
+          error: { message: 'NO ACCOUNT FOUND WITH THIS EMAIL! PLEASE CREATE AN ACCOUNT FIRST.' },
+          profile: null,
+        };
       }
-      const profile = this.createLocalSession(email);
-      return { data: { user: { id: profile.id, email } }, error: null, profile };
+
+      if (account.pass !== pass) {
+        return {
+          data: null,
+          error: { message: 'INCORRECT PASSWORD! PLEASE CHECK YOUR PASSWORD AND TRY AGAIN.' },
+          profile: null,
+        };
+      }
+
+      localStorage.setItem('class_clash_session', JSON.stringify(account.profile));
+      return { data: { user: { id: account.profile.id, email: cleanEmail } }, error: null, profile: account.profile };
     }
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email,
+        email: cleanEmail,
         password: pass,
       });
 
-      if (error) return { data: null, error, profile: null };
+      if (error) {
+        return {
+          data: null,
+          error: { message: error.message.includes('Invalid') ? 'ACCOUNT NOT FOUND OR INCORRECT PASSWORD! PLEASE CREATE AN ACCOUNT FIRST.' : error.message },
+          profile: null,
+        };
+      }
 
       const { data: profileData } = await supabase
         .from('profiles')
@@ -141,8 +171,8 @@ export class SupabaseAuthService {
 
       const profile: UserProfile = profileData || {
         id: data.user.id,
-        email: data.user.email || email,
-        displayName: data.user.user_metadata?.display_name || email.split('@')[0],
+        email: data.user.email || cleanEmail,
+        displayName: data.user.user_metadata?.display_name || cleanEmail.split('@')[0],
         racerTag: data.user.user_metadata?.racer_tag || '#CC-RACER-948',
         avatar: 'avatar_cyber',
         matchesPlayed: 14,
@@ -153,10 +183,12 @@ export class SupabaseAuthService {
 
       localStorage.setItem('class_clash_session', JSON.stringify(profile));
       return { data, error: null, profile };
-    } catch (fetchErr) {
-      console.warn('Supabase fetch failed, falling back to local session:', fetchErr);
-      const profile = this.createLocalSession(email);
-      return { data: { user: { id: profile.id, email } }, error: null, profile };
+    } catch (fetchErr: any) {
+      return {
+        data: null,
+        error: { message: 'AUTHENTICATION ERROR! PLEASE CHECK YOUR CREDENTIALS OR CREATE AN ACCOUNT.' },
+        profile: null,
+      };
     }
   }
 
