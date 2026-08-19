@@ -1,0 +1,327 @@
+:root {
+  --bg-main: #0c0410;
+  --bg-card: rgba(26, 8, 30, 0.88);
+  --bg-glass: rgba(255, 0, 127, 0.08);
+  --border-glass: rgba(255, 128, 191, 0.3);
+  --accent-pink: #ff007f;
+  --accent-pink-light: #ff66b3;
+  --accent-pink-glow: #ff3399;
+  --accent-white: #ffffff;
+  --text-main: #ffffff;
+  --text-muted: #e6b8d4;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body, html, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Intense Pink Neon LED Strip Light Architectural Beam */
+.pink-neon-strip-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 
+    0 0 4px #ffffff,
+    0 0 12px #ff007f,
+    0 0 30px #ff007f,
+    0 0 55px #ff0055,
+    0 0 85px #ff0055;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.pink-neon-strip-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #ffffff;
+  box-shadow: 
+    0 0 4px #ffffff,
+    0 0 12px #ff007f,
+    0 0 30px #ff007f,
+    0 0 55px #ff0055,
+    0 0 85px #ff0055;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.pink-neon-strip-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 
+    0 0 4px #ffffff,
+    0 0 12px #ff007f,
+    0 0 30px #ff007f,
+    0 0 55px #ff0055,
+    0 0 85px #ff0055;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.pink-neon-strip-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #ffffff;
+  box-shadow: 
+    0 0 4px #ffffff,
+    0 0 12px #ff007f,
+    0 0 30px #ff007f,
+    0 0 55px #ff0055,
+    0 0 85px #ff0055;
+  z-index: 99;
+  pointer-events: none;
+}
+
+/* Custom Pink Notched Cards Matching Reference Screenshot */
+.custom-pink-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 36px;
+  box-shadow: 0 16px 45px rgba(255, 0, 102, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  padding: 40px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.custom-pink-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 55px rgba(255, 0, 102, 0.32);
+}
+
+/* Top-Left Pink Corner Notch Ribbon */
+.custom-pink-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 42px;
+  background: #ff0066;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  border-top-left-radius: 36px;
+}
+
+/* Bottom-Right Pink Corner Notch Ribbon */
+.custom-pink-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  background: #ff0066;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  border-bottom-right-radius: 36px;
+}
+
+/* Primary Button - Hot Pink Neon Gradient with White Bold Text */
+.btn-primary {
+  background: linear-gradient(135deg, #ff007f 0%, #ff4da6 50%, #ff80bf 100%);
+  color: #ffffff;
+  border: none;
+  padding: 16px 32px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 900;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(255, 0, 127, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(255, 0, 127, 0.8), 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+/* Secondary Button - Pure White with Hot Pink Borders & Text */
+.btn-secondary {
+  background: #ffffff;
+  color: #ff007f;
+  border: 2px solid #ff66b3;
+  padding: 16px 32px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 900;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 0, 127, 0.1);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-secondary:hover {
+  transform: scale(1.05);
+  background: #fff0f5;
+  box-shadow: 0 0 30px rgba(255, 102, 179, 0.8);
+}
+
+/* Input Fields - White / Pink Glow */
+.input-field {
+  background: rgba(20, 5, 25, 0.7);
+  border: 2px solid var(--border-glass);
+  color: #ffffff;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-family: var(--font-heading);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: #ff66b3;
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.input-field::placeholder {
+  color: #e6b8d4;
+  opacity: 0.7;
+}
+
+/* Screen Overlay Layouts */
+.screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HUD Overlay */
+.hud-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.hud-interactive {
+  pointer-events: auto;
+}
+
+/* Shimmer Animation for Pink & White Title */
+@keyframes pinkShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #ffffff 0%, #ff66b3 35%, #ff007f 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pinkShimmer 3.5s linear infinite;
+  filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.5));
+}
+
+/* Hide Default Browser Scrollbars (Mouse Wheel & Touch Scrolling Remain 100% Functional) */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+}
+
+* {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.panel-slide-in {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Diagonal Rectangle Parallelogram Menu Buttons (Right Edge - Large & Bold) */
+.diagonal-menu-btn {
+  transform: skewX(-16deg);
+  background: linear-gradient(135deg, rgba(255, 0, 102, 0.95) 0%, rgba(220, 0, 90, 0.95) 100%);
+  border: 3px solid #ffffff;
+  border-radius: 16px;
+  padding: 22px 38px;
+  width: 420px;
+  cursor: pointer;
+  box-shadow: 0 12px 38px rgba(255, 0, 102, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.diagonal-menu-btn:hover {
+  transform: skewX(-16deg) translateX(-18px) scale(1.04);
+  background: linear-gradient(135deg, #ff0066 0%, #ff3385 100%);
+  box-shadow: 0 16px 50px rgba(255, 0, 102, 0.8), inset 0 0 16px rgba(255, 255, 255, 0.6);
+  border-color: #ffffff;
+}
+
+.diagonal-menu-btn-content {
+  transform: skewX(16deg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
