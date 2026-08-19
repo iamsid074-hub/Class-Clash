@@ -3,7 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
 import { SupabaseAuthService, isSupabaseConfigured } from '../../networking/supabaseClient';
-import { Lock, Mail, User, ArrowRight, Sparkles, Database, ShieldCheck, Trophy } from 'lucide-react';
+import { Lock, Mail, User, ArrowRight, Sparkles, Database, ShieldCheck, Trophy, Loader2 } from 'lucide-react';
 
 const GoogleIcon: React.FC = () => (
   <svg width="20" height="20" viewBox="0 0 24 24">
@@ -461,15 +461,18 @@ export const AuthScreen: React.FC = () => {
               />
             </div>
 
-            {/* Submit Action Button */}
+            {/* Submit Action Button with Tactile Active Press Feedback & Spinning Loader */}
             <button
               type="submit"
+              className="hud-interactive btn-press-effect"
               disabled={isLoading}
               style={{
                 width: '100%',
                 height: '56px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+                background: isLoading
+                  ? 'linear-gradient(135deg, #cc0052 0%, #e6005c 100%)'
+                  : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
                 border: '2px solid #ffffff',
                 color: '#ffffff',
                 fontWeight: 900,
@@ -477,25 +480,31 @@ export const AuthScreen: React.FC = () => {
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
                 cursor: isLoading ? 'wait' : 'pointer',
-                boxShadow: '0 8px 25px rgba(255, 0, 102, 0.45)',
+                boxShadow: isLoading
+                  ? '0 0 15px rgba(255, 0, 102, 0.3)'
+                  : '0 8px 25px rgba(255, 0, 102, 0.55)',
                 letterSpacing: '0.06em',
                 marginTop: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '10px',
-                opacity: isLoading ? 0.7 : 1,
+                gap: '12px',
+                transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
+                opacity: isLoading ? 0.85 : 1,
               }}
             >
               {isLoading ? (
-                'AUTHENTICATING...'
+                <>
+                  <Loader2 size={24} color="#ffffff" className="spin-icon" />
+                  <span>{mode === 'LOGIN' ? 'LOGGING IN...' : 'CREATING PROFILE...'}</span>
+                </>
               ) : mode === 'LOGIN' ? (
                 <>
-                  ENTER ARENA LOBBY <ArrowRight size={20} />
+                  <span>ENTER ARENA LOBBY</span> <ArrowRight size={20} />
                 </>
               ) : (
                 <>
-                  CREATE PROFILE & ENTER ARENA <Sparkles size={20} />
+                  <span>CREATE PROFILE & ENTER ARENA</span> <Sparkles size={20} />
                 </>
               )}
             </button>
@@ -513,6 +522,7 @@ export const AuthScreen: React.FC = () => {
           {/* Google Sign In Button - Apple iOS UI Style */}
           <button
             type="button"
+            className="hud-interactive btn-press-effect"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
             style={{
@@ -531,7 +541,7 @@ export const AuthScreen: React.FC = () => {
               justifyContent: 'center',
               gap: '12px',
               cursor: isLoading ? 'not-allowed' : 'pointer',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
               boxSizing: 'border-box',
             }}
           >
