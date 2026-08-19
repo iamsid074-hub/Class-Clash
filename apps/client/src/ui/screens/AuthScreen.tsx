@@ -230,14 +230,16 @@ export const AuthScreen: React.FC = () => {
       </div>
 
       {/* ====================================================================== */}
-      {/* RIGHT SPLIT (50%): CREAM DARK LOGIN & REGISTER FORM                   */}
+      {/* RIGHT SPLIT (50%): DITTO GRAFFITI BACKGROUND & AUTH FORM               */}
       {/* ====================================================================== */}
       <div
         style={{
           flex: '1',
           height: '100%',
-          background: 'linear-gradient(145deg, #1d181b 0%, #130f11 100%)',
-          borderLeft: '2px solid rgba(228, 206, 175, 0.15)',
+          backgroundImage: "url('/auth_bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -249,20 +251,20 @@ export const AuthScreen: React.FC = () => {
         {/* Form Container Card */}
         <div
           style={{
-            width: '460px',
+            width: '440px',
             maxWidth: '100%',
             display: 'flex',
             flexDirection: 'column',
-            gap: '24px',
+            gap: '22px',
             textAlign: 'left',
           }}
         >
           {/* Header */}
           <div>
-            <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#dfb77a', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#dfb77a', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
               ACCESS YOUR ACCOUNT
             </div>
-            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'Kanit', sans-serif", marginTop: '2px' }}>
+            <div style={{ fontSize: '2.6rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", marginTop: '2px', lineHeight: 1.1 }}>
               {mode === 'LOGIN' ? 'WELCOME BACK' : 'CREATE RACER PROFILE'}
             </div>
           </div>
@@ -272,10 +274,10 @@ export const AuthScreen: React.FC = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              background: '#120e10',
+              background: 'rgba(0, 0, 0, 0.4)',
               padding: '5px',
-              borderRadius: '14px',
-              border: '1px solid rgba(228, 206, 175, 0.18)',
+              borderRadius: '16px',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
             }}
           >
             <button
@@ -285,18 +287,19 @@ export const AuthScreen: React.FC = () => {
                 setAuthError(null);
               }}
               style={{
-                padding: '11px',
-                borderRadius: '10px',
-                border: 'none',
-                background: mode === 'LOGIN' ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)' : 'transparent',
+                padding: '12px',
+                borderRadius: '12px',
+                border: mode === 'LOGIN' ? '1px solid #ffffff' : 'none',
+                background: mode === 'LOGIN' ? 'linear-gradient(90deg, #ff0066 0%, #ff007f 100%)' : 'transparent',
                 color: '#ffffff',
                 fontWeight: 900,
-                fontSize: '0.92rem',
+                fontSize: '0.95rem',
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
+                boxShadow: mode === 'LOGIN' ? '0 0 15px rgba(255, 0, 102, 0.5)' : 'none',
               }}
             >
               SIGN IN
@@ -308,18 +311,19 @@ export const AuthScreen: React.FC = () => {
                 setAuthError(null);
               }}
               style={{
-                padding: '11px',
-                borderRadius: '10px',
-                border: 'none',
-                background: mode === 'REGISTER' ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)' : 'transparent',
-                color: '#ffffff',
+                padding: '12px',
+                borderRadius: '12px',
+                border: mode === 'REGISTER' ? '1px solid #ffffff' : 'none',
+                background: mode === 'REGISTER' ? 'linear-gradient(90deg, #ff0066 0%, #ff007f 100%)' : 'transparent',
+                color: mode === 'REGISTER' ? '#ffffff' : 'rgba(255, 255, 255, 0.65)',
                 fontWeight: 900,
-                fontSize: '0.92rem',
+                fontSize: '0.95rem',
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
+                boxShadow: mode === 'REGISTER' ? '0 0 15px rgba(255, 0, 102, 0.5)' : 'none',
               }}
             >
               CREATE ACCOUNT
@@ -348,10 +352,10 @@ export const AuthScreen: React.FC = () => {
           )}
 
           {/* Form Fields */}
-          <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+          <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {mode === 'REGISTER' && (
               <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
                 </label>
                 <input
@@ -362,11 +366,11 @@ export const AuthScreen: React.FC = () => {
                     width: '100%',
                     padding: '14px 18px',
                     borderRadius: '14px',
-                    border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                    background: '#261f22',
-                    color: '#f4ece1',
-                    fontWeight: 900,
-                    fontSize: '1.1rem',
+                    border: '1.5px solid #ffffff',
+                    background: '#eef4ff',
+                    color: '#000000',
+                    fontWeight: 800,
+                    fontSize: '1.05rem',
                     outline: 'none',
                     marginTop: '6px',
                     boxSizing: 'border-box',
@@ -378,7 +382,7 @@ export const AuthScreen: React.FC = () => {
             )}
 
             <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Mail size={14} color="#ff0066" /> EMAIL ADDRESS
               </label>
               <input
@@ -389,11 +393,11 @@ export const AuthScreen: React.FC = () => {
                   width: '100%',
                   padding: '14px 18px',
                   borderRadius: '14px',
-                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                  background: '#261f22',
-                  color: '#f4ece1',
-                  fontWeight: 900,
-                  fontSize: '1.1rem',
+                  border: '1.5px solid #ffffff',
+                  background: '#eef4ff',
+                  color: '#000000',
+                  fontWeight: 800,
+                  fontSize: '1.05rem',
                   outline: 'none',
                   marginTop: '6px',
                   boxSizing: 'border-box',
@@ -404,7 +408,7 @@ export const AuthScreen: React.FC = () => {
             </div>
 
             <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <Lock size={14} color="#ff0066" /> PASSWORD
               </label>
               <input
@@ -415,11 +419,11 @@ export const AuthScreen: React.FC = () => {
                   width: '100%',
                   padding: '14px 18px',
                   borderRadius: '14px',
-                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                  background: '#261f22',
-                  color: '#f4ece1',
-                  fontWeight: 900,
-                  fontSize: '1.1rem',
+                  border: '1.5px solid #ffffff',
+                  background: '#eef4ff',
+                  color: '#000000',
+                  fontWeight: 800,
+                  fontSize: '1.05rem',
                   outline: 'none',
                   marginTop: '6px',
                   boxSizing: 'border-box',
@@ -437,15 +441,15 @@ export const AuthScreen: React.FC = () => {
                 width: '100%',
                 height: '56px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-                border: '2px solid #ffffff',
+                background: 'linear-gradient(90deg, #ff0066 0%, #ff007f 100%)',
+                border: '1.5px solid #ffffff',
                 color: '#ffffff',
                 fontWeight: 900,
                 fontSize: '1.2rem',
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
                 cursor: isLoading ? 'wait' : 'pointer',
-                boxShadow: '0 8px 25px rgba(255, 0, 102, 0.45)',
+                boxShadow: '0 0 25px rgba(255, 0, 102, 0.6)',
                 letterSpacing: '0.06em',
                 marginTop: '10px',
                 display: 'flex',
