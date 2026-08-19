@@ -3,7 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { Plus, ArrowRight, User, Trophy, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
+import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
@@ -221,6 +221,24 @@ export const MainMenuScreen: React.FC = () => {
               </div>
             </div>
             <Trophy size={34} color="#ffffff" strokeWidth={3.2} />
+          </div>
+        </button>
+
+        {/* BUTTON 5: SETTINGS */}
+        <button
+          className="diagonal-menu-btn"
+          onClick={() => triggerGateTransition(() => setScreen('SETTINGS'), 'GAME SETTINGS', 'PREFERENCES')}
+        >
+          <div className="diagonal-menu-btn-content">
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+                SETTINGS
+              </div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+                AUDIO & GRAPHICS
+              </div>
+            </div>
+            <Settings size={34} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
       </div>

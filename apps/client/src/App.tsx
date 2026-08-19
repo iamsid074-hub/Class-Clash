@@ -19,6 +19,7 @@ import { BracketScreen } from './ui/screens/BracketScreen';
 import { ChampionScreen } from './ui/screens/ChampionScreen';
 import { LeaderboardScreen } from './ui/screens/LeaderboardScreen';
 import { ProfileScreen } from './ui/screens/ProfileScreen';
+import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { AuthScreen } from './ui/screens/AuthScreen';
 import { CyberGateTransition } from './ui/components/CyberGateTransition';
 import { SupabaseAuthService } from './networking/supabaseClient';
@@ -99,6 +100,7 @@ export const App: React.FC = () => {
       {screen === 'CHAMPION' && <ChampionScreen />}
       {screen === 'LEADERBOARD' && <LeaderboardScreen />}
       {screen === 'PROFILE' && <ProfileScreen />}
+      {screen === 'SETTINGS' && <SettingsScreen />}
     </div>
   );
 };

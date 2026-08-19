@@ -21,7 +21,8 @@ export type GameScreen =
   | 'BRACKET'
   | 'CHAMPION'
   | 'LEADERBOARD'
-  | 'PROFILE';
+  | 'PROFILE'
+  | 'SETTINGS';
 
 interface GameStore {
   screen: GameScreen;
