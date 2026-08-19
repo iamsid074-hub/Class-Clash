@@ -20,7 +20,7 @@ export const AuthScreen: React.FC = () => {
     setAuthError(null);
 
     if (!emailInput.trim() || !passwordInput.trim()) {
-      setAuthError('PLEASE ENTER BOTH EMAIL AND PASSWORD!');
+      setAuthError('Please enter both email and password.');
       return;
     }
 
@@ -30,7 +30,7 @@ export const AuthScreen: React.FC = () => {
       if (mode === 'LOGIN') {
         const { error, profile } = await SupabaseAuthService.signIn(emailInput.trim(), passwordInput.trim());
         if (error) {
-          setAuthError(error.message.toUpperCase());
+          setAuthError(error.message);
           setIsLoading(false);
           return;
         }
@@ -44,7 +44,7 @@ export const AuthScreen: React.FC = () => {
         }, 'AUTHENTICATED', profile?.displayName || 'CLASHA');
       } else {
         if (!nameInput.trim()) {
-          setAuthError('PLEASE ENTER A DISPLAY USERNAME!');
+          setAuthError('Please enter a display username.');
           setIsLoading(false);
           return;
         }
@@ -56,7 +56,7 @@ export const AuthScreen: React.FC = () => {
         );
 
         if (error) {
-          setAuthError(error.message.toUpperCase());
+          setAuthError(error.message);
           setIsLoading(false);
           return;
         }
@@ -70,7 +70,7 @@ export const AuthScreen: React.FC = () => {
         }, 'RACER REGISTERED', nameInput.trim().toUpperCase());
       }
     } catch (err: any) {
-      setAuthError('AUTHENTICATION FAILED! PLEASE TRY AGAIN.');
+      setAuthError('Authentication failed. Please try again.');
       setIsLoading(false);
     }
   };
@@ -283,20 +283,24 @@ export const AuthScreen: React.FC = () => {
             </button>
           </div>
 
-          {/* Auth Error Banner */}
+          {/* Auth Error Banner - Pure Apple iOS UI (No Icon) */}
           {authError && (
             <div
               style={{
-                background: 'rgba(255, 51, 102, 0.15)',
-                border: '1.5px solid #ff3366',
-                borderRadius: '12px',
-                padding: '12px 16px',
-                color: '#ff6688',
+                background: 'rgba(255, 59, 48, 0.12)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 69, 58, 0.28)',
+                borderRadius: '14px',
+                padding: '12px 18px',
+                color: '#ff453a',
                 fontSize: '0.86rem',
-                fontWeight: 800,
+                fontWeight: 600,
+                fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                lineHeight: 1.45,
+                letterSpacing: '-0.01em',
               }}
             >
-              ⚠️ {authError}
+              {authError}
             </div>
           )}
 

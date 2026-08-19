@@ -132,7 +132,7 @@ export class SupabaseAuthService {
       if (!account) {
         return {
           data: null,
-          error: { message: 'NO ACCOUNT FOUND WITH THIS EMAIL! PLEASE CREATE AN ACCOUNT FIRST.' },
+          error: { message: 'No account found with this email. Please create an account first.' },
           profile: null,
         };
       }
@@ -140,7 +140,7 @@ export class SupabaseAuthService {
       if (account.pass !== pass) {
         return {
           data: null,
-          error: { message: 'INCORRECT PASSWORD! PLEASE CHECK YOUR PASSWORD AND TRY AGAIN.' },
+          error: { message: 'Incorrect password. Please check your password and try again.' },
           profile: null,
         };
       }
@@ -158,7 +158,7 @@ export class SupabaseAuthService {
       if (error) {
         return {
           data: null,
-          error: { message: error.message.includes('Invalid') ? 'ACCOUNT NOT FOUND OR INCORRECT PASSWORD! PLEASE CREATE AN ACCOUNT FIRST.' : error.message },
+          error: { message: error.message.includes('Invalid') ? 'Account not found or incorrect password. Please create an account first.' : error.message },
           profile: null,
         };
       }
