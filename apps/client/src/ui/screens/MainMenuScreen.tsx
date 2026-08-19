@@ -6,7 +6,7 @@ import { PinkNeonFrame } from '../components/PinkNeonFrame';
 import { Plus, ArrowRight, User, Trophy, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
-  const { displayName, setDisplayName, setScreen, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
+  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
   const [createRoomIdInput, setCreateRoomIdInput] = useState('ARENA' + Math.floor(Math.random() * 899 + 100));
   const [createPasswordInput, setCreatePasswordInput] = useState('1234');
   const [joinRoomIdInput, setJoinRoomIdInput] = useState('');
@@ -20,6 +20,9 @@ export const MainMenuScreen: React.FC = () => {
     setErrorMessage(null);
 
     triggerGateTransition(() => {
+      setRoomCode(finalRoomId);
+      setRoomPassword(finalPassword);
+      setScreen('TEAM_CABIN');
       NetworkClient.connect();
       NetworkClient.send({
         type: 'JOIN_ROOM',
@@ -44,6 +47,9 @@ export const MainMenuScreen: React.FC = () => {
     setErrorMessage(null);
 
     triggerGateTransition(() => {
+      setRoomCode(finalRoomId);
+      setRoomPassword(finalPassword);
+      setScreen('TEAM_CABIN');
       NetworkClient.connect();
       NetworkClient.send({
         type: 'JOIN_ROOM',

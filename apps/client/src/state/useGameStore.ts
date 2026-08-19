@@ -155,8 +155,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
       screen:
         data.tournament?.stage === 'CHAMPION'
           ? 'CHAMPION'
-          : state.isGateActive
-          ? state.screen
           : data.roomCode
           ? 'TEAM_CABIN'
           : state.screen,
