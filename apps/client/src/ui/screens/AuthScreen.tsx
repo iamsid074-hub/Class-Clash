@@ -183,32 +183,6 @@ export const AuthScreen: React.FC = () => {
           >
             BORING DAY? LET'S RACE TOGETHER.
           </div>
-
-          {/* Database Connection Pill */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              background: 'rgba(38, 30, 33, 0.85)',
-              border: '1px solid rgba(244, 236, 225, 0.18)',
-              borderRadius: '14px',
-              padding: '12px 18px',
-              marginTop: '8px',
-            }}
-          >
-            <Database size={18} color={isSupabaseConfigured ? '#00ffcc' : '#dfb77a'} />
-            <div>
-              <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#f4ece1' }}>
-                {isSupabaseConfigured ? 'SUPABASE CLOUD DATABASE CONNECTED' : 'LIVE MULTIPLAYER ENGINE ACTIVE'}
-              </div>
-              <div style={{ fontSize: '0.72rem', color: 'rgba(244, 236, 225, 0.65)' }}>
-                {isSupabaseConfigured
-                  ? 'Your profile & match records sync with Supabase cloud.'
-                  : 'Create an account or sign in to enter the cabin lobby.'}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

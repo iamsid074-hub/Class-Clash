@@ -7,28 +7,36 @@ interface CinematicSplashOverlayProps {
 export const CinematicSplashOverlay: React.FC<CinematicSplashOverlayProps> = ({ onComplete }) => {
   const [isFading, setIsFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasTriggeredRef = useRef(false);
 
-  useEffect(() => {
-    // Trim video playback to exactly 4.2 seconds
-    const timer1 = setTimeout(() => {
-      setIsFading(true);
-    }, 4200);
-
-    const timer2 = setTimeout(() => {
-      onComplete();
-    }, 4700);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, [onComplete]);
-
-  const handleSkip = () => {
+  const triggerCompletion = () => {
+    if (hasTriggeredRef.current) return;
+    hasTriggeredRef.current = true;
     setIsFading(true);
     setTimeout(() => {
       onComplete();
-    }, 400);
+    }, 500);
+  };
+
+  useEffect(() => {
+    // Timer fallback: Stop video & complete intro at exactly 5 seconds
+    const timer1 = setTimeout(() => {
+      triggerCompletion();
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, []);
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current && videoRef.current.currentTime >= 5.0) {
+      triggerCompletion();
+    }
+  };
+
+  const handleSkip = () => {
+    triggerCompletion();
   };
 
   return (
@@ -53,10 +61,11 @@ export const CinematicSplashOverlay: React.FC<CinematicSplashOverlayProps> = ({ 
     >
       <video
         ref={videoRef}
-        src="/intro.mp4"
+        src="/animation1.mp4"
         autoPlay
         muted
         playsInline
+        onTimeUpdate={handleTimeUpdate}
         style={{
           width: '100%',
           height: '100%',
