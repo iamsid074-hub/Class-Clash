@@ -7,21 +7,16 @@ import { AudioManager } from '../../utils/AudioManager';
 export interface GameSettings {
   bgMusicTrack: string;
   isBgMusicEnabled: boolean;
+  musicVolume: number;
   sfxVolume: number;
 }
 
 const DEFAULT_SETTINGS: GameSettings = {
-  bgMusicTrack: 'DEFAULT_1',
+  bgMusicTrack: 'CLASHA_THEME',
   isBgMusicEnabled: true,
+  musicVolume: 75,
   sfxVolume: 90,
 };
-
-const MUSIC_TRACKS = [
-  { id: 'DEFAULT_1', label: 'Default Track 1' },
-  { id: 'CYBER_NEON', label: 'Cyber Neon Beat' },
-  { id: 'CHILL_SYNTH', label: 'Chill Synthwave' },
-  { id: 'LOFI_ARENA', label: 'Lo-Fi Arena' },
-];
 
 type SettingsTab = 'MENU' | 'SOUND' | 'ABOUT' | 'VERSION';
 
@@ -88,8 +83,10 @@ export const SettingsScreen: React.FC = () => {
 
     if (key === 'isBgMusicEnabled') {
       AudioManager.setMusicEnabled(value as boolean);
-    } else if (key === 'sfxVolume') {
+    } else if (key === 'musicVolume') {
       AudioManager.setMusicVolume(value as number);
+    } else if (key === 'sfxVolume') {
+      AudioManager.setSfxVolume(value as number);
     }
   };
 
@@ -361,43 +358,35 @@ export const SettingsScreen: React.FC = () => {
                 gap: '26px',
               }}
             >
-              {/* Track Selector */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Official Active Track Badge */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <Music size={20} color="#ff0066" />
                   <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>
-                    BACKGROUND MUSIC TRACK
+                    CURRENT BACKGROUND MUSIC TRACK
                   </span>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                  {MUSIC_TRACKS.map((track) => {
-                    const isSelected = settings.bgMusicTrack === track.id;
-                    return (
-                      <button
-                        key={track.id}
-                        type="button"
-                        className="btn-press-effect"
-                        onClick={() => updateSetting('bgMusicTrack', track.id)}
-                        style={{
-                          padding: '14px 16px',
-                          borderRadius: '16px',
-                          background: isSelected
-                            ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)'
-                            : 'rgba(255, 240, 246, 0.6)',
-                          border: isSelected ? '2px solid #ffffff' : '1.5px solid rgba(255, 102, 163, 0.4)',
-                          color: isSelected ? '#ffffff' : '#2b0017',
-                          fontWeight: 900,
-                          fontSize: '0.85rem',
-                          cursor: 'pointer',
-                          textAlign: 'center',
-                          boxShadow: isSelected ? '0 6px 20px rgba(255, 0, 102, 0.4)' : 'none',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {track.label}
-                      </button>
-                    );
-                  })}
+                <div
+                  style={{
+                    padding: '16px 20px',
+                    borderRadius: '16px',
+                    background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+                    border: '2px solid #ffffff',
+                    color: '#ffffff',
+                    fontWeight: 900,
+                    fontSize: '0.95rem',
+                    fontStyle: 'italic',
+                    fontFamily: "'Kanit', sans-serif",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    boxShadow: '0 6px 20px rgba(255, 0, 102, 0.35)',
+                  }}
+                >
+                  <span>🎵 CLASHA OFFICIAL CUTE NEON THEME</span>
+                  <span style={{ fontSize: '0.78rem', background: 'rgba(255, 255, 255, 0.25)', padding: '4px 10px', borderRadius: '50px' }}>
+                    ACTIVE
+                  </span>
                 </div>
               </div>
 
@@ -407,7 +396,7 @@ export const SettingsScreen: React.FC = () => {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>BACKGROUND MUSIC</div>
-                  <div style={{ fontSize: '0.8rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>Turn background music on or off</div>
+                  <div style={{ fontSize: '0.8rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>Smooth Fade-In & Fade-Out background music</div>
                 </div>
                 <Ios26Toggle
                   checked={settings.isBgMusicEnabled}
@@ -417,7 +406,28 @@ export const SettingsScreen: React.FC = () => {
 
               <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
 
-              {/* SFX Volume */}
+              {/* Background Music Volume Slider */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <Music size={20} color="#ff0066" />
+                    <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2b0017' }}>BACKGROUND MUSIC VOLUME</span>
+                  </div>
+                  <span style={{ color: '#ff0066', fontWeight: 900, fontSize: '0.95rem' }}>{settings.musicVolume}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={settings.musicVolume}
+                  onChange={(e) => updateSetting('musicVolume', Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#ff0066', cursor: 'pointer', height: '8px' }}
+                />
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+
+              {/* Effect, Dare & SFX Volume Slider */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
