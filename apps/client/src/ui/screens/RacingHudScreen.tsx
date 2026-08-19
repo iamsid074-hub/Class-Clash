@@ -86,7 +86,7 @@ export const RacingHudScreen: React.FC = () => {
   const trackLength = 285;
   const calcProgress = (plist: typeof allPlayers) => {
     if (plist.length === 0) return 0;
-    const totalZ = plist.reduce((acc, p) => acc + Math.max(0, Math.min(trackLength, p.position.z + 10)), 0);
+    const totalZ = plist.reduce((acc, p) => acc + Math.max(0, Math.min(trackLength, (p.position?.z || 0) + 10)), 0);
     return Math.min(100, Math.round((totalZ / (plist.length * trackLength)) * 100));
   };
 
@@ -109,7 +109,7 @@ export const RacingHudScreen: React.FC = () => {
                   {p.displayName} {p.id === playerId ? ' (YOU)' : ''}
                 </span>
                 <span style={{ color: p.status === 'FINISHED' ? '#ffffff' : '#ff99cc', fontWeight: 900 }}>
-                  {p.status === 'FINISHED' ? `🏁 #${p.finishRank}` : `${Math.floor(Math.max(0, p.position.z))}m`}
+                  {p.status === 'FINISHED' ? `🏁 #${p.finishRank}` : `${Math.floor(Math.max(0, p.position?.z || 0))}m`}
                 </span>
               </div>
             ))}
@@ -160,7 +160,7 @@ export const RacingHudScreen: React.FC = () => {
             {team2Players.map((p) => (
               <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
                 <span style={{ color: p.status === 'FINISHED' ? '#ffffff' : '#ff99cc', fontWeight: 900 }}>
-                  {p.status === 'FINISHED' ? `🏁 #${p.finishRank}` : `${Math.floor(Math.max(0, p.position.z))}m`}
+                  {p.status === 'FINISHED' ? `🏁 #${p.finishRank}` : `${Math.floor(Math.max(0, p.position?.z || 0))}m`}
                 </span>
                 <span style={{ fontWeight: 700, color: p.id === playerId ? '#ffffff' : '#e6b8d4' }}>
                   {p.displayName} {p.id === playerId ? ' (YOU)' : ''}
