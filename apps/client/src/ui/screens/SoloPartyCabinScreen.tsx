@@ -37,15 +37,26 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const [isTvGateClosed, setIsTvGateClosed] = useState(false);
   const prevPhaseRef = useRef(state.phase);
 
-  // Trigger diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when 3-minute dare execution timer finishes!
+  // Trigger GPU-accelerated 60fps diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when dare timer finishes!
   useEffect(() => {
-    const prevPhase = prevPhaseRef.current;
-    if (prevPhase === 'CHALLENGE_EXECUTION' && state.phase === 'ROUND_RESULT') {
-      setIsTvGateClosed(true);
+    if (state.phase === 'ROUND_RESULT') {
+      // Step 1: Ensure shutters start open initially
+      setIsTvGateClosed(false);
+
+      // Step 2: On next animation frame, trigger smooth 60fps closing animation!
+      const animFrame = requestAnimationFrame(() => {
+        setIsTvGateClosed(true);
+      });
+
+      // Step 3: Hold closed for 2.0s so user sees full closing + NEXT ROUND badge + opening!
       const timer = setTimeout(() => {
         setIsTvGateClosed(false);
-      }, 1400);
-      return () => clearTimeout(timer);
+      }, 2000);
+
+      return () => {
+        cancelAnimationFrame(animFrame);
+        clearTimeout(timer);
+      };
     }
     prevPhaseRef.current = state.phase;
   }, [state.phase]);
@@ -590,57 +601,58 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH TV INTERNAL DIAGONAL SHUTTERS) */}
+        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH 60FPS GPU DIAGONAL SKEW SHUTTERS) */}
         {state.phase === 'ROUND_RESULT' && (
-          <div style={{ position: 'relative', width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', overflow: 'hidden' }}>
-            {/* TV Screen Top-Left Diagonal Shutter Panel */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              padding: '16px 20px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              overflow: 'hidden',
+            }}
+          >
+            {/* TV Screen Left Diagonal Skutter Door (GPU SkewX) */}
             <div
               style={{
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                background: '#09040e',
-                clipPath: isTvGateClosed ? 'polygon(0 0, 100% 0, 0 100%)' : 'polygon(0 0, 0 0, 0 0)',
-                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
+                top: '-30%',
+                left: '-30%',
+                width: '90%',
+                height: '160%',
+                background: 'linear-gradient(135deg, #09040e 0%, #170924 100%)',
+                borderRight: '3px solid #ff0066',
+                boxShadow: '8px 0 25px rgba(255, 0, 102, 0.7)',
+                transform: `skewX(-28deg) translate3d(${isTvGateClosed ? '0%' : '-115%'}, 0, 0)`,
+                transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
                 zIndex: 10,
-              }}
-            />
-
-            {/* TV Screen Bottom-Right Diagonal Shutter Panel */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                background: '#09040e',
-                clipPath: isTvGateClosed ? 'polygon(100% 0, 100% 100%, 0 100%)' : 'polygon(100% 100%, 100% 100%, 100% 100%)',
-                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
-                zIndex: 10,
-              }}
-            />
-
-            {/* Diagonal White Seam Line on TV Screen */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: 12,
-                opacity: isTvGateClosed ? 1 : 0,
-                transition: 'opacity 0.3s ease',
                 pointerEvents: 'none',
               }}
-            >
-              <svg width="100%" height="100%">
-                <line x1="100%" y1="0" x2="0" y2="100%" stroke="#ffffff" strokeWidth="3" />
-              </svg>
-            </div>
+            />
+
+            {/* TV Screen Right Diagonal Skutter Door (GPU SkewX) */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-30%',
+                right: '-30%',
+                width: '90%',
+                height: '160%',
+                background: 'linear-gradient(135deg, #170924 0%, #09040e 100%)',
+                borderLeft: '3px solid #ff0066',
+                boxShadow: '-8px 0 25px rgba(255, 0, 102, 0.7)',
+                transform: `skewX(-28deg) translate3d(${isTvGateClosed ? '0%' : '115%'}, 0, 0)`,
+                transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                zIndex: 10,
+                pointerEvents: 'none',
+              }}
+            />
 
             {/* TV Screen Center Floating NEXT ROUND Card */}
             <div
@@ -648,24 +660,27 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
-                transform: isTvGateClosed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.7)',
+                transform: isTvGateClosed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.5)',
                 opacity: isTvGateClosed ? 1 : 0,
                 zIndex: 15,
-                transition: 'all 0.35s cubic-bezier(0.77, 0, 0.175, 1)',
+                transition: 'transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease',
                 pointerEvents: 'none',
               }}
             >
               <div
                 style={{
-                  padding: '8px 18px',
-                  background: '#0a0412',
+                  padding: '10px 24px',
+                  background: 'rgba(15, 6, 20, 0.95)',
                   border: '2px solid #ffffff',
-                  borderRadius: '14px',
-                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
+                  borderRadius: '16px',
+                  boxShadow: '0 0 30px rgba(255, 0, 102, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3)',
                   whiteSpace: 'nowrap',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
                 }}
               >
-                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.06em' }}>
+                <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.08em' }}>
                   NEXT ROUND
                 </div>
               </div>
