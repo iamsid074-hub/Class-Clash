@@ -20,7 +20,7 @@ export const ChampionScreen: React.FC = () => {
       <div style={{ textAlign: 'center', marginBottom: '32px' }}>
         <Trophy size={88} color="#ffffff" style={{ filter: 'drop-shadow(0 0 35px #ff007f)' }} />
         <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.22em', marginTop: '16px', textShadow: '0 0 12px #ff007f' }}>
-          CLASS CLASH CHAMPIONS
+          CLASHA CHAMPIONS
         </div>
         <h1 className="text-gradient" style={{ fontSize: '4.5rem', fontWeight: 900, marginTop: '6px' }}>
           {championTeam?.name || 'NEON PINK'}

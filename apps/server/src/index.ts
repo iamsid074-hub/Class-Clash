@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3001;
 
 // Basic HTTP health endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', time: new Date().toISOString(), server: 'CLASS CLASH AUTHORITATIVE ENGINE' });
+  res.json({ status: 'ok', time: new Date().toISOString(), server: 'CLASHA AUTHORITATIVE ENGINE' });
 });
 
 wss.on('connection', (socket: WebSocket) => {
@@ -389,5 +389,5 @@ wss.on('connection', (socket: WebSocket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`⚡ CLASS CLASH Authoritative Game Server running on port ${PORT}`);
+  console.log(`⚡ CLASHA Authoritative Game Server running on port ${PORT}`);
 });

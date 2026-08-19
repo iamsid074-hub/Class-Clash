@@ -1,4 +1,4 @@
-// Shared Game Data Types & Protocols - CLASS CLASH
+// Shared Game Data Types & Protocols - CLASHA
 
 export type ConnectionStatus = 'CONNECTED' | 'RECONNECTING' | 'DISCONNECTED';
 

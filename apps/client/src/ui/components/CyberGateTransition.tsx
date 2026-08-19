@@ -12,7 +12,7 @@ export const CyberGateTransition: React.FC = () => {
   const isActive = storeActive || internalActive;
   const isClosed = storeClosed || internalClosed;
   const displayTitle = gateTitle || 'ENTER ARENA';
-  const displaySubhead = gateSubhead || 'CLASS CLASH';
+  const displaySubhead = gateSubhead || 'CLASHA';
 
   useEffect(() => {
     const prevScreen = prevScreenRef.current;

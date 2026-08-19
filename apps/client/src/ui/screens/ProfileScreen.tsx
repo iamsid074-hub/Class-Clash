@@ -14,20 +14,20 @@ export const ProfileScreen: React.FC = () => {
     }
     triggerGateTransition(() => {
       setScreen('MAIN_MENU');
-    }, 'MAIN MENU', 'CLASS CLASH');
+    }, 'MAIN MENU', 'CLASHA');
   };
 
   const handleBackToMenu = () => {
     triggerGateTransition(() => {
       setScreen('MAIN_MENU');
-    }, 'MAIN MENU', 'CLASS CLASH');
+    }, 'MAIN MENU', 'CLASHA');
   };
 
   const handleLogout = async () => {
     await SupabaseAuthService.signOut();
     triggerGateTransition(() => {
       setScreen('AUTH');
-    }, 'LOGGED OUT', 'CLASS CLASH');
+    }, 'LOGGED OUT', 'CLASHA');
   };
 
   return (

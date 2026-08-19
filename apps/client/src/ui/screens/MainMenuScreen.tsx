@@ -116,13 +116,13 @@ export const MainMenuScreen: React.FC = () => {
             letterSpacing: '0.04em',
             margin: 0,
             display: 'flex',
-            gap: '12px',
+            gap: '0px',
             textTransform: 'uppercase',
             lineHeight: 1,
           }}
         >
-          <span style={{ color: '#ffffff' }}>CLASS</span>
-          <span style={{ color: '#ff0066' }}>CLASH</span>
+          <span style={{ color: '#ffffff' }}>CLAS</span>
+          <span style={{ color: '#ff0066' }}>HA</span>
         </h1>
       </div>
 
@@ -578,7 +578,7 @@ export const MainMenuScreen: React.FC = () => {
                   </div>
                   <div>
                     <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#70e1ff', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                      OFFICIAL CLASS CLASH CHAMPIONSHIP • SEASON 1
+                      OFFICIAL CLASHA CHAMPIONSHIP • SEASON 1
                     </div>
                     <div style={{ fontSize: '2.5rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", lineHeight: 1.1, marginTop: '2px' }}>
                       WINTER DOOM TOURNAMENT
@@ -727,7 +727,7 @@ export const MainMenuScreen: React.FC = () => {
                         <CheckCircle2 size={20} color="#70e1ff" style={{ flexShrink: 0, marginTop: '2px' }} />
                         <div>
                           <div style={{ color: '#ffffff', fontSize: '0.95rem', fontWeight: 900, lineHeight: 1.2 }}>
-                            Play at least 10 rounds on Class Clash
+                            Play at least 10 rounds on Clasha
                           </div>
                           <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', marginTop: '2px', fontWeight: 700 }}>
                             Minimum match participation requirement

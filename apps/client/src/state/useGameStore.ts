@@ -83,11 +83,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isGateActive: false,
   isGateClosed: false,
   gateTitle: 'ENTER ARENA',
-  gateSubhead: 'CLASS CLASH',
+  gateSubhead: 'CLASHA',
   errorMessage: null,
   setErrorMessage: (errorMessage) => set({ errorMessage }),
 
-  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASS CLASH') => {
+  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASHA') => {
     // Step 0: Mount gates off-screen in open position with locked title & subhead
     set({ isGateActive: true, isGateClosed: false, gateTitle: title, gateSubhead: subhead });
 

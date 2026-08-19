@@ -30,7 +30,7 @@ export const BracketScreen: React.FC = () => {
         <h1 className="text-gradient" style={{ fontSize: '3.4rem', fontWeight: 900 }}>
           TOURNAMENT BRACKET
         </h1>
-        <p style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 700, letterSpacing: '0.1em' }}>CLASS CLASH CHAMPIONSHIP</p>
+        <p style={{ color: '#ffffff', fontSize: '1.1rem', fontWeight: 700, letterSpacing: '0.1em' }}>CLASHA CHAMPIONSHIP</p>
       </div>
 
       {/* Bracket Layout Tree */}

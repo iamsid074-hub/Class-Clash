@@ -85,13 +85,13 @@ export const TeamCabinScreen: React.FC = () => {
 
     triggerGateTransition(() => {
       setScreen('MATCHMAKING_SHUFFLE');
-    }, 'ENTER ARENA', 'CLASS CLASH');
+    }, 'ENTER ARENA', 'CLASHA');
   };
 
   const handleBackToMenu = () => {
     triggerGateTransition(() => {
       setScreen('MAIN_MENU');
-    }, 'MAIN MENU', 'CLASS CLASH');
+    }, 'MAIN MENU', 'CLASHA');
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

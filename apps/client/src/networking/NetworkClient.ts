@@ -13,7 +13,7 @@ export class NetworkClient {
     this.socket = new WebSocket(serverUrl);
 
     this.socket.onopen = () => {
-      console.log('⚡ Connected to CLASS CLASH Authoritative Game Server');
+      console.log('⚡ Connected to CLASHA Authoritative Game Server');
       useGameStore.getState().setIsConnected(true);
 
       // Send initial room join request if name exists

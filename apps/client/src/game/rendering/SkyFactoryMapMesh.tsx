@@ -95,7 +95,7 @@ export const SkyFactoryMapMesh: React.FC = () => {
           </mesh>
           <Html position={[0, 0, 0.45]} center distanceFactor={18}>
             <div style={{ background: 'linear-gradient(135deg, #ff007f 0%, #ff66b3 100%)', color: '#ffffff', padding: '12px 42px', borderRadius: '32px', fontWeight: 900, fontSize: '28px', letterSpacing: '0.24em', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", boxShadow: '0 0 40px rgba(255, 0, 127, 0.8)' }}>
-              CLASS CLASH
+              CLASHA
             </div>
           </Html>
         </group>

@@ -124,7 +124,7 @@ export const LeaderboardScreen: React.FC = () => {
         {/* Left: Back Button */}
         <button
           className="hud-interactive"
-          onClick={() => triggerGateTransition(() => setScreen('MAIN_MENU'), 'MAIN MENU', 'CLASS CLASH')}
+          onClick={() => triggerGateTransition(() => setScreen('MAIN_MENU'), 'MAIN MENU', 'CLASHA')}
           style={{
             display: 'flex',
             alignItems: 'center',

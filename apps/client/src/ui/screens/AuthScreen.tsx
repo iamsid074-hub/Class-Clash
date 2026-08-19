@@ -41,7 +41,7 @@ export const AuthScreen: React.FC = () => {
 
         triggerGateTransition(() => {
           setScreen('MAIN_MENU');
-        }, 'AUTHENTICATED', profile?.displayName || 'CLASS CLASH');
+        }, 'AUTHENTICATED', profile?.displayName || 'CLASHA');
       } else {
         if (!nameInput.trim()) {
           setAuthError('PLEASE ENTER A DISPLAY USERNAME!');
@@ -140,8 +140,8 @@ export const AuthScreen: React.FC = () => {
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ color: '#f4ece1' }}>CLASS </span>
-              <span style={{ color: '#ff0066' }}>CLASH</span>
+              <span style={{ color: '#f4ece1' }}>CLAS</span>
+              <span style={{ color: '#ff0066' }}>HA</span>
             </h1>
             <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#e4ceaf', letterSpacing: '0.18em', marginTop: '2px' }}>
               ULTRALIGHT ESPORTS LOBBY
@@ -381,7 +381,7 @@ export const AuthScreen: React.FC = () => {
                   marginTop: '6px',
                   boxSizing: 'border-box',
                 }}
-                placeholder="RACER@CLASSCLASH.COM"
+                placeholder="RACER@CLASHA.COM"
                 required
               />
             </div>
