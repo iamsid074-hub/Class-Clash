@@ -10,7 +10,7 @@
     "dev:server": "npm run dev --prefix apps/server",
     "dev:client": "npm run dev --prefix apps/client",
     "dev": "concurrently \"npm run dev --prefix apps/server\" \"npm run dev --prefix apps/client\"",
-    "build": "npm run build --prefix packages/shared && npm run build --prefix apps/client && npm run build --prefix apps/server"
+    "build": "npm run build --prefix packages/shared && npm run build --prefix apps/client"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",

@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "apps/client/dist",
+  "buildCommand": "npm run build --prefix packages/shared && npm run build --prefix apps/client",
+  "outputDirectory": "dist",
   "framework": "vite"
 }
