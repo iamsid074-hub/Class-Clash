@@ -172,16 +172,16 @@ export const AuthScreen: React.FC = () => {
 
           <div
             style={{
-              fontSize: '2.8rem',
+              fontSize: '2.4rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
               color: '#f4ece1',
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               letterSpacing: '0.02em',
             }}
           >
-            MAIN BHI AAP HI KI TRH BOR HOTA HUN, AJAO SATH ME KHELTE HAI.
+            BORING DAY? LET'S RACE TOGETHER.
           </div>
 
           {/* Database Connection Pill */}
