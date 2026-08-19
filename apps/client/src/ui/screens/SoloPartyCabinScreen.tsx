@@ -37,26 +37,15 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const [isTvGateClosed, setIsTvGateClosed] = useState(false);
   const prevPhaseRef = useRef(state.phase);
 
-  // Trigger GPU-accelerated 60fps diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when dare timer finishes!
+  // Trigger diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when 3-minute dare execution timer finishes!
   useEffect(() => {
-    if (state.phase === 'ROUND_RESULT') {
-      // Step 1: Ensure shutters start open initially
-      setIsTvGateClosed(false);
-
-      // Step 2: On next animation frame, trigger smooth 60fps closing animation!
-      const animFrame = requestAnimationFrame(() => {
-        setIsTvGateClosed(true);
-      });
-
-      // Step 3: Hold closed for 2.0s so user sees full closing + NEXT ROUND badge + opening!
+    const prevPhase = prevPhaseRef.current;
+    if (prevPhase === 'CHALLENGE_EXECUTION' && state.phase === 'ROUND_RESULT') {
+      setIsTvGateClosed(true);
       const timer = setTimeout(() => {
         setIsTvGateClosed(false);
-      }, 2000);
-
-      return () => {
-        cancelAnimationFrame(animFrame);
-        clearTimeout(timer);
-      };
+      }, 1400);
+      return () => clearTimeout(timer);
     }
     prevPhaseRef.current = state.phase;
   }, [state.phase]);
@@ -252,7 +241,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. REAL TV SCREEN WITH PURE WHITE TEXT (NO GLOW) */}
+      {/* 2. REAL TV SCREEN WITH SMOOTH PHASE ANIMATIONS & TV SCANLINES */}
       {/* ------------------------------------------------------------- */}
       <div
         style={{
@@ -273,9 +262,14 @@ export const SoloPartyCabinScreen: React.FC = () => {
           alignItems: 'center',
         }}
       >
+        {/* Authentic Digital OLED/CRT TV Monitor Scanlines Overlay */}
+        <div className="tv-scanlines-overlay" />
+
         {/* Phase: LOBBY / CABIN FREE ROAM - Joined Players Roster (Scrollable) */}
         {state.phase === 'LOBBY' && (
           <div
+            key="LOBBY"
+            className="tv-phase-animated"
             style={{
               width: '100%',
               height: '100%',
@@ -326,6 +320,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                     background: p.id === playerId ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: '6px',
+                    transition: 'all 0.2s ease',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -367,7 +362,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
         {/* Phase: PLAYER SELECTION - 5-SECOND SMOOTH SHUFFLING ANIMATION */}
         {state.phase === 'PLAYER_SELECTION' && (
-          <div style={{ textAlign: 'center', padding: '16px', width: '100%' }}>
+          <div key="PLAYER_SELECTION" className="tv-phase-animated" style={{ textAlign: 'center', padding: '16px', width: '100%' }}>
             <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#00f0ff', letterSpacing: '0.2em' }}>
               SHUFFLING PLAYERS...
             </div>
@@ -385,6 +380,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 letterSpacing: '0.08em',
                 fontFamily: "'Kanit', sans-serif",
                 textShadow: '0 0 15px rgba(0, 240, 255, 0.5)',
+                transition: 'all 0.15s ease',
               }}
             >
               {state.phaseTimeRemaining > 2
@@ -400,7 +396,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
         {/* Phase: DISCUSSION AND VOTING */}
         {state.phase === 'DISCUSSION_AND_VOTING' && (
-          <div style={{ width: '100%', height: '100%', position: 'relative', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div key="DISCUSSION_AND_VOTING" className="tv-phase-animated" style={{ width: '100%', height: '100%', position: 'relative', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             {/* Top Bar: Target Player Info */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
               <div>
@@ -441,6 +437,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             <div style={{ textAlign: 'center', paddingBottom: '2px' }}>
               <button
                 type="button"
+                className="hud-interactive btn-press-effect"
                 onClick={() => NetworkClient.skipPhase()}
                 style={{
                   padding: '4px 14px',
@@ -452,6 +449,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   fontWeight: 800,
                   cursor: 'pointer',
                   letterSpacing: '0.06em',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 SKIP TIMER (TESTING)
@@ -462,7 +460,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
         {/* Phase: LEADER CONFIRMATION */}
         {state.phase === 'LEADER_CONFIRMATION' && (
-          <div style={{ width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <div key="LEADER_CONFIRMATION" className="tv-phase-animated" style={{ width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.12em', marginBottom: '6px' }}>
               WINNING DARE FOR <span style={{ color: '#ff2a5f', fontWeight: 900, fontStyle: 'italic' }}>{selectedPlayer ? selectedPlayer.displayName.toUpperCase() : 'PLAYER'}</span>
             </div>
@@ -489,6 +487,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             {playerId === state.leaderPlayerId ? (
               <button
                 type="button"
+                className="hud-interactive btn-press-effect"
                 onClick={() => NetworkClient.confirmChallenge()}
                 style={{
                   padding: '10px 28px',
@@ -500,6 +499,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   borderRadius: '50px',
                   cursor: 'pointer',
                   letterSpacing: '0.04em',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 CONFIRM & START 3-MIN TIMER
@@ -514,7 +514,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
         {/* Phase: CHALLENGE EXECUTION (2-ZONE SPLIT: LEFT TASK CARD & RIGHT CRISP ITALIC TIMER) */}
         {state.phase === 'CHALLENGE_EXECUTION' && (
-          <div style={{ width: '100%', height: '100%', padding: '14px 18px', boxSizing: 'border-box', display: 'flex', gap: '14px', alignItems: 'center' }}>
+          <div key="CHALLENGE_EXECUTION" className="tv-phase-animated" style={{ width: '100%', height: '100%', padding: '14px 18px', boxSizing: 'border-box', display: 'flex', gap: '14px', alignItems: 'center' }}>
             {/* Left 54%: Rich Target Task Glass Card */}
             <div
               style={{
@@ -601,58 +601,57 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH 60FPS GPU DIAGONAL SKEW SHUTTERS) */}
+        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH TV INTERNAL DIAGONAL SHUTTERS) */}
         {state.phase === 'ROUND_RESULT' && (
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              padding: '16px 20px',
-              boxSizing: 'border-box',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              textAlign: 'center',
-              overflow: 'hidden',
-            }}
-          >
-            {/* TV Screen Left Diagonal Skutter Door (GPU SkewX) */}
+          <div key="ROUND_RESULT" className="tv-phase-animated" style={{ position: 'relative', width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', overflow: 'hidden' }}>
+            {/* TV Screen Top-Left Diagonal Shutter Panel */}
             <div
               style={{
                 position: 'absolute',
-                top: '-30%',
-                left: '-30%',
-                width: '90%',
-                height: '160%',
-                background: 'linear-gradient(135deg, #09040e 0%, #170924 100%)',
-                borderRight: '3px solid #ff0066',
-                boxShadow: '8px 0 25px rgba(255, 0, 102, 0.7)',
-                transform: `skewX(-28deg) translate3d(${isTvGateClosed ? '0%' : '-115%'}, 0, 0)`,
-                transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: '#09040e',
+                clipPath: isTvGateClosed ? 'polygon(0 0, 100% 0, 0 100%)' : 'polygon(0 0, 0 0, 0 0)',
+                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
                 zIndex: 10,
-                pointerEvents: 'none',
               }}
             />
 
-            {/* TV Screen Right Diagonal Skutter Door (GPU SkewX) */}
+            {/* TV Screen Bottom-Right Diagonal Shutter Panel */}
             <div
               style={{
                 position: 'absolute',
-                top: '-30%',
-                right: '-30%',
-                width: '90%',
-                height: '160%',
-                background: 'linear-gradient(135deg, #170924 0%, #09040e 100%)',
-                borderLeft: '3px solid #ff0066',
-                boxShadow: '-8px 0 25px rgba(255, 0, 102, 0.7)',
-                transform: `skewX(-28deg) translate3d(${isTvGateClosed ? '0%' : '115%'}, 0, 0)`,
-                transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: '#09040e',
+                clipPath: isTvGateClosed ? 'polygon(100% 0, 100% 100%, 0 100%)' : 'polygon(100% 100%, 100% 100%, 100% 100%)',
+                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
                 zIndex: 10,
-                pointerEvents: 'none',
               }}
             />
+
+            {/* Diagonal White Seam Line on TV Screen */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 12,
+                opacity: isTvGateClosed ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                pointerEvents: 'none',
+              }}
+            >
+              <svg width="100%" height="100%">
+                <line x1="100%" y1="0" x2="0" y2="100%" stroke="#ffffff" strokeWidth="3" />
+              </svg>
+            </div>
 
             {/* TV Screen Center Floating NEXT ROUND Card */}
             <div
@@ -660,27 +659,24 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
-                transform: isTvGateClosed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.5)',
+                transform: isTvGateClosed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.7)',
                 opacity: isTvGateClosed ? 1 : 0,
                 zIndex: 15,
-                transition: 'transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease',
+                transition: 'all 0.35s cubic-bezier(0.77, 0, 0.175, 1)',
                 pointerEvents: 'none',
               }}
             >
               <div
                 style={{
-                  padding: '10px 24px',
-                  background: 'rgba(15, 6, 20, 0.95)',
+                  padding: '8px 18px',
+                  background: '#0a0412',
                   border: '2px solid #ffffff',
-                  borderRadius: '16px',
-                  boxShadow: '0 0 30px rgba(255, 0, 102, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.3)',
+                  borderRadius: '14px',
+                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
                   whiteSpace: 'nowrap',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
                 }}
               >
-                <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.08em' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.06em' }}>
                   NEXT ROUND
                 </div>
               </div>
@@ -703,7 +699,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
         {/* Phase: GAME OVER CHAMPION */}
         {state.phase === 'GAME_OVER_CHAMPION' && (
-          <div style={{ textAlign: 'center', padding: '14px' }}>
+          <div key="GAME_OVER_CHAMPION" className="tv-phase-animated" style={{ textAlign: 'center', padding: '14px' }}>
             <Trophy size={36} color="#ffffff" style={{ margin: '0 auto 4px' }} />
             <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', margin: '4px 0', textShadow: 'none' }}>
               {championPlayer ? championPlayer.displayName.toUpperCase() : 'ONE CHAMPION'}
