@@ -248,15 +248,23 @@ export const AuthScreen: React.FC = () => {
           position: 'relative',
         }}
       >
-        {/* Form Container Card */}
+        {/* Form Container Card - Solid Dark Glass Backdrop to cover image center cleanly */}
         <div
           style={{
-            width: '440px',
+            width: '420px',
             maxWidth: '100%',
+            background: 'rgba(10, 6, 14, 0.96)',
+            backdropFilter: 'blur(30px)',
+            border: '1px solid rgba(255, 255, 255, 0.14)',
+            borderRadius: '24px',
+            padding: '32px 28px',
+            boxShadow: '0 30px 70px rgba(0, 0, 0, 0.95)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '22px',
+            gap: '20px',
             textAlign: 'left',
+            position: 'relative',
+            zIndex: 10,
           }}
         >
           {/* Header */}
