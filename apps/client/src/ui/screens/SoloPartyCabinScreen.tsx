@@ -56,20 +56,19 @@ export const SoloPartyCabinScreen: React.FC = () => {
     }
   }, [isMatchFinished, playerId, players]);
 
-  const [isTvGateClosed, setIsTvGateClosed] = useState(false);
-  const prevPhaseRef = useRef(state.phase);
+  const [isTvGateClosed, setIsTvGateClosed] = useState(state.phase === 'ROUND_RESULT');
 
-  // Trigger diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when 3-minute dare execution timer finishes!
+  // Seamless shutter sequence: Shutters start CLOSED on phase entry, hold card, then slide OPEN smoothly!
   useEffect(() => {
-    const prevPhase = prevPhaseRef.current;
-    if (prevPhase === 'CHALLENGE_EXECUTION' && state.phase === 'ROUND_RESULT') {
+    if (state.phase === 'ROUND_RESULT') {
       setIsTvGateClosed(true);
       const timer = setTimeout(() => {
         setIsTvGateClosed(false);
       }, 1400);
       return () => clearTimeout(timer);
+    } else {
+      setIsTvGateClosed(false);
     }
-    prevPhaseRef.current = state.phase;
   }, [state.phase]);
 
   // -------------------------------------------------------------

@@ -4,35 +4,10 @@ import { ClassClashLogo } from './ClassClashLogo';
 import { Zap } from 'lucide-react';
 
 export const CyberGateTransition: React.FC = () => {
-  const { screen, isGateActive: storeActive, isGateClosed: storeClosed, gateTitle, gateSubhead } = useGameStore();
-  const [internalActive, setInternalActive] = useState(false);
-  const [internalClosed, setInternalClosed] = useState(false);
-  const prevScreenRef = useRef<GameScreen>(screen);
+  const { isGateActive: isActive, isGateClosed: isClosed, gateTitle, gateSubhead } = useGameStore();
 
-  const isActive = storeActive || internalActive;
-  const isClosed = storeClosed || internalClosed;
   const displayTitle = gateTitle || 'ENTER ARENA';
   const displaySubhead = gateSubhead || 'CLASHA';
-
-  useEffect(() => {
-    const prevScreen = prevScreenRef.current;
-    if (prevScreen !== screen && (screen === 'TEAM_CABIN' || prevScreen === 'MAIN_MENU')) {
-      if (!storeActive) {
-        setInternalActive(true);
-        const closeTimer = setTimeout(() => setInternalClosed(true), 50);
-        const openTimer = setTimeout(() => setInternalClosed(false), 1600);
-        const endTimer = setTimeout(() => setInternalActive(false), 2100);
-
-        prevScreenRef.current = screen;
-        return () => {
-          clearTimeout(closeTimer);
-          clearTimeout(openTimer);
-          clearTimeout(endTimer);
-        };
-      }
-    }
-    prevScreenRef.current = screen;
-  }, [screen, storeActive]);
 
   if (!isActive) return null;
 

@@ -19,16 +19,19 @@ export const MainMenuScreen: React.FC = () => {
     const finalPassword = createPasswordInput.trim();
     setErrorMessage(null);
 
-    NetworkClient.connect();
-    NetworkClient.send({
-      type: 'JOIN_ROOM',
-      payload: {
-        roomCode: finalRoomId,
-        password: finalPassword,
-        isHost: true,
-        displayName: profileNameInput,
-      },
-    });
+    triggerGateTransition(() => {
+      NetworkClient.connect();
+      NetworkClient.send({
+        type: 'JOIN_ROOM',
+        payload: {
+          roomCode: finalRoomId,
+          password: finalPassword,
+          isHost: true,
+          displayName: profileNameInput,
+        },
+      });
+      setActiveModal('NONE');
+    }, 'ENTERING CABIN', 'CREATING PRIVATE ROOM');
   };
 
   const handleJoinRoom = () => {
@@ -40,16 +43,19 @@ export const MainMenuScreen: React.FC = () => {
     const finalPassword = joinPasswordInput.trim();
     setErrorMessage(null);
 
-    NetworkClient.connect();
-    NetworkClient.send({
-      type: 'JOIN_ROOM',
-      payload: {
-        roomCode: finalRoomId,
-        password: finalPassword,
-        isHost: false,
-        displayName: profileNameInput,
-      },
-    });
+    triggerGateTransition(() => {
+      NetworkClient.connect();
+      NetworkClient.send({
+        type: 'JOIN_ROOM',
+        payload: {
+          roomCode: finalRoomId,
+          password: finalPassword,
+          isHost: false,
+          displayName: profileNameInput,
+        },
+      });
+      setActiveModal('NONE');
+    }, 'ENTERING CABIN', 'JOINING PRIVATE ROOM');
   };
 
   const handleSaveProfile = () => {
