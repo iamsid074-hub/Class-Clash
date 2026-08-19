@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
-import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles } from 'lucide-react';
+import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, players } = useGameStore();
+  const { playerId, soloGameState, roomCode, roomPassword, players, setScreen, triggerGateTransition } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [shufflingName, setShufflingName] = useState('');
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const allPlayersList = Object.values(players);
   const localPlayer = players[playerId];
@@ -33,6 +34,21 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const leaderPlayer = state.leaderPlayerId ? players[state.leaderPlayerId] : null;
   const championPlayer = state.championPlayerId ? players[state.championPlayerId] : null;
 
+  const prevPhaseRef = useRef(state.phase);
+
+  // Trigger diagonal shutter gate transition ONLY when 3-minute dare execution timer finishes!
+  useEffect(() => {
+    const prevPhase = prevPhaseRef.current;
+    if (prevPhase === 'CHALLENGE_EXECUTION' && state.phase === 'ROUND_RESULT') {
+      triggerGateTransition(
+        () => {},
+        'NEXT ROUND',
+        'PREPARING NEXT TARGET PLAYER'
+      );
+    }
+    prevPhaseRef.current = state.phase;
+  }, [state.phase, triggerGateTransition]);
+
   // -------------------------------------------------------------
   // 5-SECOND SMOOTH SHUFFLING SLOT ANIMATION
   // -------------------------------------------------------------
@@ -48,8 +64,9 @@ export const SoloPartyCabinScreen: React.FC = () => {
   }, [state.phase, allPlayersList.length]);
 
   const handleCopyRoomCode = () => {
-    if (!state.roomCode) return;
-    navigator.clipboard.writeText(state.roomCode);
+    const code = state.roomCode || roomCode || 'ROOM1';
+    const pass = roomPassword || '1234';
+    navigator.clipboard.writeText(`ROOM ID: ${code} | PASS: ${pass}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -157,52 +174,65 @@ export const SoloPartyCabinScreen: React.FC = () => {
       }}
     >
       {/* ------------------------------------------------------------- */}
-      {/* 1. TOP CORNER ROOM ID & TIMER BADGES */}
+      {/* 1. TOP CORNER ROOM ID, PASS & TIMER BADGES (LOBBY ONLY) */}
       {/* ------------------------------------------------------------- */}
-      <div style={{ position: 'absolute', top: '24px', left: '24px', pointerEvents: 'auto' }}>
-        <div
-          onClick={handleCopyRoomCode}
-          style={{
-            padding: '12px 24px',
-            background: 'rgba(9, 13, 22, 0.92)',
-            border: '2px solid #ffffff',
-            borderRadius: '14px',
-            boxShadow: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            cursor: 'pointer',
-            userSelect: 'none',
-          }}
-          title="Click to copy Room Code"
-        >
-          <span style={{ fontSize: '1.6rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', letterSpacing: '0.12em', fontFamily: "'Kanit', sans-serif" }}>
-            {state.roomCode}
-          </span>
-          {copied ? (
-            <Check size={20} color="#10b981" />
-          ) : (
-            <Copy size={20} color="#ffffff" />
-          )}
+      {state.phase === 'LOBBY' && (
+        <div style={{ position: 'absolute', top: '24px', left: '24px', pointerEvents: 'auto' }}>
+          <div
+            onClick={handleCopyRoomCode}
+            style={{
+              padding: '10px 20px',
+              background: 'rgba(28, 28, 30, 0.88)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              cursor: 'pointer',
+              userSelect: 'none',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+            }}
+            title="Click to copy Room ID & Password"
+          >
+            <div>
+              <div style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700, letterSpacing: '0.08em' }}>ROOM ID</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.08em', fontFamily: "'Kanit', sans-serif" }}>
+                {state.roomCode || roomCode || 'ROOM1'}
+              </div>
+            </div>
+
+            <div style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.18)', paddingLeft: '16px' }}>
+              <div style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700, letterSpacing: '0.08em' }}>PASS</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ff3b30', letterSpacing: '0.08em', fontFamily: "'Kanit', sans-serif" }}>
+                {roomPassword || '1234'}
+              </div>
+            </div>
+
+            <div style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.18)', paddingLeft: '12px' }}>
+              {copied ? <Check size={18} color="#34c759" /> : <Copy size={18} color="rgba(255, 255, 255, 0.8)" />}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {state.phase === 'LOBBY' && (
         <div style={{ position: 'absolute', top: '24px', right: '24px', pointerEvents: 'auto' }}>
           <div
             style={{
-              padding: '10px 26px',
-              background: 'rgba(9, 13, 22, 0.94)',
-              border: '2px solid #ffffff',
-              borderRadius: '14px',
-              boxShadow: 'none',
+              padding: '10px 24px',
+              background: 'rgba(28, 28, 30, 0.88)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '16px',
               textAlign: 'center',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
             }}
           >
-            <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.12em' }}>
-              JOIN WINDOW — {state.phase.replace(/_/g, ' ')}
+            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.65)', letterSpacing: '0.1em' }}>
+              JOIN WINDOW
             </div>
-            <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
+            <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
               {Math.floor(state.phaseTimeRemaining / 60)}:{(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
             </div>
           </div>
@@ -562,20 +592,16 @@ export const SoloPartyCabinScreen: React.FC = () => {
         {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS) */}
         {state.phase === 'ROUND_RESULT' && (
           <div style={{ width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-            <div style={{ padding: '4px 14px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.4)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 900, color: '#10b981', letterSpacing: '0.12em', marginBottom: '10px' }}>
-              ✓ TASK TIME EXPIRED
+            <div style={{ padding: '4px 14px', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.12em', marginBottom: '10px' }}>
+              ✓ DARE TIMER EXPIRED
             </div>
 
-            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.06em', marginBottom: '6px' }}>
-              ROUND {state.currentRound} FINISHED!
+            <div style={{ fontSize: '3.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.06em', margin: '4px 0', lineHeight: 1 }}>
+              NEXT ROUND
             </div>
 
-            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.04em', margin: '8px 0' }}>
-              NEXT ROUND STARTING IN <span style={{ fontSize: '1.6rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff' }}>{state.phaseTimeRemaining}</span> SECONDS...
-            </div>
-
-            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.5)', marginTop: '8px' }}>
-              GET READY FOR THE NEXT TARGET PLAYER SELECTION
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.04em', marginTop: '8px' }}>
+              STARTING IN <span style={{ fontSize: '1.4rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff' }}>{state.phaseTimeRemaining}</span> SECONDS...
             </div>
           </div>
         )}
@@ -889,8 +915,152 @@ export const SoloPartyCabinScreen: React.FC = () => {
               color: '#ffffff',
             }}
           >
-            ⏩ SKIP TIMER / PHASE (TESTING)
           </button>
+        </div>
+      )}
+
+      {/* BOTTOM LEFT CORNER EXIT ARROW BUTTON - CLEAN iOS UI */}
+      <button
+        className="hud-interactive"
+        onClick={() => setShowExitConfirm(true)}
+        title="Exit Cabin Room"
+        style={{
+          position: 'absolute',
+          bottom: '24px',
+          left: '24px',
+          width: '46px',
+          height: '46px',
+          borderRadius: '50%',
+          background: 'rgba(28, 28, 30, 0.85)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          color: '#ffffff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+          zIndex: 40,
+          pointerEvents: 'auto',
+          transition: 'transform 0.15s ease',
+        }}
+      >
+        <ArrowLeft size={22} color="#ffffff" strokeWidth={2.2} />
+      </button>
+
+      {/* EXIT CONFIRMATION MODAL OVERLAY - PURE iOS UI */}
+      {showExitConfirm && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(16px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999,
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            style={{
+              width: '360px',
+              background: 'rgba(28, 28, 30, 0.94)',
+              backdropFilter: 'blur(30px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '22px',
+              padding: '24px',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <ArrowLeft size={24} color="#ffffff" strokeWidth={2.2} />
+              </div>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+                  color: '#ffffff',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                Exit Cabin Room?
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '6px', fontWeight: 500, lineHeight: 1.45 }}>
+                Are you sure you want to leave this room lobby and return to the main menu?
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+              <button
+                className="hud-interactive"
+                onClick={() => setShowExitConfirm(false)}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="hud-interactive"
+                onClick={() => {
+                  setShowExitConfirm(false);
+                  NetworkClient.send({ type: 'LEAVE_ROOM', payload: {} });
+                  triggerGateTransition(() => {
+                    setScreen('MAIN_MENU');
+                  }, 'MAIN MENU', 'CLASHA');
+                }}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: '#ff3b30',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                }}
+              >
+                Exit Room
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

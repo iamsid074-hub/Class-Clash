@@ -62,6 +62,7 @@ export const TeamCabinScreen: React.FC = () => {
   const { roomCode, roomPassword, playerId, players, teams, setScreen, displayName, setDisplayName, triggerGateTransition } = useGameStore();
   const [copied, setCopied] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const localPlayer = players[playerId];
   const allTeams = Object.values(teams);
@@ -456,6 +457,146 @@ export const TeamCabinScreen: React.FC = () => {
           )}
         </button>
       </div>
+
+      {/* BOTTOM LEFT CORNER EXIT ARROW BUTTON - CLEAN iOS UI */}
+      <button
+        className="hud-interactive"
+        onClick={() => setShowExitConfirm(true)}
+        title="Exit Cabin Room"
+        style={{
+          position: 'absolute',
+          bottom: '24px',
+          left: '24px',
+          width: '46px',
+          height: '46px',
+          borderRadius: '50%',
+          background: 'rgba(28, 28, 30, 0.85)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          color: '#ffffff',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+          zIndex: 40,
+        }}
+      >
+        <ArrowLeft size={22} color="#ffffff" strokeWidth={2.2} />
+      </button>
+
+      {/* EXIT CONFIRMATION MODAL OVERLAY - PURE iOS UI */}
+      {showExitConfirm && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(16px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 999,
+          }}
+        >
+          <div
+            style={{
+              width: '360px',
+              background: 'rgba(28, 28, 30, 0.94)',
+              backdropFilter: 'blur(30px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '22px',
+              padding: '24px',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <ArrowLeft size={24} color="#ffffff" strokeWidth={2.2} />
+              </div>
+            </div>
+
+            <div>
+              <div
+                style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 700,
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+                  color: '#ffffff',
+                  letterSpacing: '-0.01em',
+                }}
+              >
+                Exit Cabin Room?
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '6px', fontWeight: 500, lineHeight: 1.45 }}>
+                Are you sure you want to leave this room lobby and return to the main menu?
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+              <button
+                className="hud-interactive"
+                onClick={() => setShowExitConfirm(false)}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                }}
+              >
+                Cancel
+              </button>
+
+              <button
+                className="hud-interactive"
+                onClick={() => {
+                  setShowExitConfirm(false);
+                  NetworkClient.send({ type: 'LEAVE_ROOM', payload: {} });
+                  handleBackToMenu();
+                }}
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  background: '#ff3b30',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '0.9rem',
+                  cursor: 'pointer',
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                }}
+              >
+                Exit Room
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

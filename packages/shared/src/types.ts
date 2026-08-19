@@ -219,6 +219,7 @@ export interface MatchSnapshot {
 // Network Message Types
 export type ClientMessageType =
   | 'JOIN_ROOM'
+  | 'LEAVE_ROOM'
   | 'CREATE_TEAM'
   | 'JOIN_TEAM'
   | 'LEAVE_TEAM'
