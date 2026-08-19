@@ -125,13 +125,23 @@ export const LeaderboardScreen: React.FC = () => {
       entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entry.teamName.toLowerCase().includes(searchQuery.toLowerCase());
     if (filterMode === 'TOP') return matchesSearch && entry.rank <= 5;
-    if (filterMode === 'LOCAL') return matchesSearch && (entry.isLocalPlayer || entry.teamName === 'ARENA SQUAD');
     return matchesSearch;
   });
+  const myPlayerEntry = realLeaderboard.find((e) => e.isLocalPlayer) || realLeaderboard[0] || {
+    rank: 1,
+    displayName: displayName || 'RACER_ONE',
+    avatarId: 'avatar_cyber',
+    teamName: 'ARENA SQUAD',
+    wins: 0,
+    races: 0,
+    winRate: '0%',
+    points: 0,
+    isLocalPlayer: true,
+  };
 
-  const rank1 = realLeaderboard[0];
-  const rank2 = realLeaderboard[1];
-  const rank3 = realLeaderboard[2];
+  const rank1 = realLeaderboard[0] || myPlayerEntry;
+  const rank2 = realLeaderboard[1] || null;
+  const rank3 = realLeaderboard[2] || null;
 
   return (
     <div
@@ -317,14 +327,14 @@ export const LeaderboardScreen: React.FC = () => {
                 >
                   🥈
                 </div>
-                <RacerAvatarSvg avatarId={rank2.avatarId} size={38} />
+                <RacerAvatarSvg avatarId={rank2?.avatarId || 'avatar_cyber'} size={38} />
                 <div>
-                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank2.displayName}</div>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank2.teamName}</div>
+                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank2?.displayName || 'VACANT SLOT'}</div>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank2?.teamName || 'CHALLENGER SQUAD'}</div>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank2.points} PTS</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank2?.points || 0} PTS</div>
               </div>
             </div>
 
@@ -357,14 +367,14 @@ export const LeaderboardScreen: React.FC = () => {
                 >
                   🥉
                 </div>
-                <RacerAvatarSvg avatarId={rank3.avatarId} size={38} />
+                <RacerAvatarSvg avatarId={rank3?.avatarId || 'avatar_cyber'} size={38} />
                 <div>
-                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank3.displayName}</div>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank3.teamName}</div>
+                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank3?.displayName || 'VACANT SLOT'}</div>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank3?.teamName || 'RENEGADE SQUAD'}</div>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank3.points} PTS</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank3?.points || 0} PTS</div>
               </div>
             </div>
           </div>
@@ -384,30 +394,30 @@ export const LeaderboardScreen: React.FC = () => {
                 YOUR RANK & STATS
               </div>
               <div style={{ background: '#ffffff', color: '#ff0066', fontWeight: 900, fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px' }}>
-                #7 RANKED
+                #{myPlayerEntry.rank} RANKED
               </div>
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-              <RacerAvatarSvg avatarId="avatar_apex" size={54} />
+              <RacerAvatarSvg avatarId={myPlayerEntry.avatarId} size={54} />
               <div>
-                <div style={{ fontWeight: 900, fontSize: '1.25rem' }}>{displayName || 'Racer_834'}</div>
-                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ffe6f2' }}>TEAM NEON PINK</div>
+                <div style={{ fontWeight: 900, fontSize: '1.25rem' }}>{myPlayerEntry.displayName}</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ffe6f2' }}>{myPlayerEntry.teamName}</div>
               </div>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.18)', borderRadius: '12px', padding: '10px 14px' }}>
               <div>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>SCORE</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>2,150 PTS</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.points} PTS</div>
               </div>
               <div>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>WIN RATE</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>67.3%</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.winRate}</div>
               </div>
               <div>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>WINS</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>64</div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.wins}</div>
               </div>
             </div>
           </div>
