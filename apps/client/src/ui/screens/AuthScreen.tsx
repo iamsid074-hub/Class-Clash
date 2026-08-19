@@ -371,7 +371,7 @@ export const AuthScreen: React.FC = () => {
                     marginTop: '6px',
                     boxSizing: 'border-box',
                   }}
-                  placeholder="ENTER USERNAME (E.G. VIRAT)"
+                  placeholder="Enter Username"
                   required
                 />
               </div>
@@ -398,7 +398,7 @@ export const AuthScreen: React.FC = () => {
                   marginTop: '6px',
                   boxSizing: 'border-box',
                 }}
-                placeholder="RACER@CLASHA.COM"
+                placeholder="Enter Email Address"
                 required
               />
             </div>
@@ -424,7 +424,7 @@ export const AuthScreen: React.FC = () => {
                   marginTop: '6px',
                   boxSizing: 'border-box',
                 }}
-                placeholder="••••••••••••"
+                placeholder="Enter Password"
                 required
               />
             </div>

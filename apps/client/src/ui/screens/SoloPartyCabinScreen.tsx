@@ -679,7 +679,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                         ? 'Target Player cannot submit dares'
                         : hasAlreadyProposed
                         ? '✓ 1 Dare submitted for this round'
-                        : 'Suggest a dare (4-80 chars)...'
+                        : 'Suggest a dare...'
                     }
                     style={{
                       flex: 1,

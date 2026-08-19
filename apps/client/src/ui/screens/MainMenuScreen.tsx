@@ -390,7 +390,7 @@ export const MainMenuScreen: React.FC = () => {
                           boxSizing: 'border-box',
                           letterSpacing: '0.08em',
                         }}
-                        placeholder="ENTER ROOM ID (E.G. ARENA101)"
+                        placeholder="ENTER ROOM ID"
                       />
                     </div>
 
@@ -415,7 +415,7 @@ export const MainMenuScreen: React.FC = () => {
                           marginTop: '4px',
                           boxSizing: 'border-box',
                         }}
-                        placeholder="ENTER PASSWORD (E.G. 1234)"
+                        placeholder="ENTER PASSWORD"
                       />
                     </div>
                   </div>
@@ -500,7 +500,7 @@ export const MainMenuScreen: React.FC = () => {
                         marginTop: '4px',
                         boxSizing: 'border-box',
                       }}
-                      placeholder="E.G. ARENA101"
+                      placeholder="ENTER ROOM ID"
                     />
                   </div>
 
