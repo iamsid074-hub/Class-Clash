@@ -167,25 +167,21 @@ export const AuthScreen: React.FC = () => {
               letterSpacing: '0.1em',
             }}
           >
-            <Trophy size={14} color="#ff0066" /> RACER AUTHENTICATION GATEWAY
+            <Trophy size={14} color="#ff0066" /> MULTIPLAYER RACING ARENA
           </div>
 
           <div
             style={{
-              fontSize: '3rem',
+              fontSize: '2.8rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
               color: '#f4ece1',
-              lineHeight: 1.05,
+              lineHeight: 1.1,
               letterSpacing: '0.02em',
             }}
           >
-            ENTER THE ARENA & TRACK YOUR STATS
-          </div>
-
-          <div style={{ fontSize: '0.95rem', color: 'rgba(244, 236, 225, 0.75)', lineHeight: 1.6, fontWeight: 500 }}>
-            Create custom cabin lobbies, set room passwords, compete in high-speed multiplayer tournaments, and save your racer identity across sessions.
+            MAIN BHI AAP HI KI TRH BOR HOTA HUN, AJAO SATH ME KHELTE HAI.
           </div>
 
           {/* Database Connection Pill */}
@@ -204,12 +200,12 @@ export const AuthScreen: React.FC = () => {
             <Database size={18} color={isSupabaseConfigured ? '#00ffcc' : '#dfb77a'} />
             <div>
               <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#f4ece1' }}>
-                {isSupabaseConfigured ? 'SUPABASE CLOUD DATABASE CONNECTED' : 'PERSISTENT RACER SESSION ACTIVE'}
+                {isSupabaseConfigured ? 'SUPABASE CLOUD DATABASE CONNECTED' : 'LIVE MULTIPLAYER ENGINE ACTIVE'}
               </div>
               <div style={{ fontSize: '0.72rem', color: 'rgba(244, 236, 225, 0.65)' }}>
                 {isSupabaseConfigured
-                  ? 'Your profile, match records, and credentials sync with Supabase cloud.'
-                  : 'Username & ID persist locally in browser. Enter Supabase keys in .env to sync across devices.'}
+                  ? 'Your profile & match records sync with Supabase cloud.'
+                  : 'Create an account or sign in to enter the cabin lobby.'}
               </div>
             </div>
           </div>
