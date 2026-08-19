@@ -277,4 +277,21 @@ export class SupabaseAuthService {
     }
     return null;
   }
+
+  /**
+   * Automatically update profile & leaderboard points on match finish
+   */
+  public static addMatchResult(pointsEarned: number) {
+    try {
+      const saved = localStorage.getItem('class_clash_session');
+      if (saved) {
+        const profile: UserProfile = JSON.parse(saved);
+        profile.matchesPlayed = (profile.matchesPlayed || 0) + 1;
+        profile.leaderboardPoints = (profile.leaderboardPoints || 0) + Math.max(0, pointsEarned);
+        localStorage.setItem('class_clash_session', JSON.stringify(profile));
+      }
+    } catch {
+      // ignore
+    }
+  }
 }

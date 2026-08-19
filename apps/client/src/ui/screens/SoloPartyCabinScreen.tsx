@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
+import { SupabaseAuthService } from '../../networking/supabaseClient';
 import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
@@ -33,6 +34,27 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const selectedPlayer = state.selectedPlayerId ? players[state.selectedPlayerId] : null;
   const leaderPlayer = state.leaderPlayerId ? players[state.leaderPlayerId] : null;
   const championPlayer = state.championPlayerId ? players[state.championPlayerId] : null;
+
+  const sortedPodiumPlayers = useMemo(() => {
+    return [...allPlayersList].sort((a, b) => (b.score || 0) - (a.score || 0));
+  }, [allPlayersList]);
+
+  const isMatchFinished =
+    state.phase === 'GAME_OVER_CHAMPION' ||
+    (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds);
+
+  const hasSavedResultRef = useRef(false);
+
+  useEffect(() => {
+    if (isMatchFinished) {
+      if (!hasSavedResultRef.current) {
+        hasSavedResultRef.current = true;
+        const myPlayer = players[playerId];
+        const pts = myPlayer ? (myPlayer.score || 100) : 100;
+        SupabaseAuthService.addMatchResult(pts);
+      }
+    }
+  }, [isMatchFinished, playerId, players]);
 
   const [isTvGateClosed, setIsTvGateClosed] = useState(false);
   const prevPhaseRef = useRef(state.phase);
@@ -601,8 +623,8 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH TV INTERNAL DIAGONAL SHUTTERS) */}
-        {state.phase === 'ROUND_RESULT' && (
+        {/* Phase: ROUND RESULT (INTERMEDIATE ROUNDS 1-2 ONLY) */}
+        {state.phase === 'ROUND_RESULT' && state.currentRound < state.totalRounds && (
           <div key="ROUND_RESULT" className="tv-phase-animated" style={{ position: 'relative', width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', overflow: 'hidden' }}>
             {/* TV Screen Top-Left Diagonal Shutter Panel */}
             <div
@@ -697,13 +719,119 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: GAME OVER CHAMPION */}
-        {state.phase === 'GAME_OVER_CHAMPION' && (
-          <div key="GAME_OVER_CHAMPION" className="tv-phase-animated" style={{ textAlign: 'center', padding: '14px' }}>
-            <Trophy size={36} color="#ffffff" style={{ margin: '0 auto 4px' }} />
-            <h1 style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', margin: '4px 0', textShadow: 'none' }}>
-              {championPlayer ? championPlayer.displayName.toUpperCase() : 'ONE CHAMPION'}
-            </h1>
+        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - PODIUM CHAMPIONS (1ST, 2ND, 3RD) */}
+        {(state.phase === 'GAME_OVER_CHAMPION' || (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds)) && (
+          <div
+            key="MATCH_FINISHED_PODIUM"
+            className="tv-phase-animated"
+            style={{
+              width: '100%',
+              height: '100%',
+              padding: '12px 18px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '3px 14px', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '50px' }}>
+              <Trophy size={14} color="#ffffff" />
+              <span style={{ fontSize: '0.72rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.14em' }}>
+                MATCH FINISHED • FINAL PODIUM STANDINGS
+              </span>
+            </div>
+
+            {/* Top 3 Champions Cards Row */}
+            <div style={{ display: 'flex', gap: '10px', width: '100%', alignItems: 'flex-end', justifyContent: 'center', flex: 1, margin: '8px 0' }}>
+              {/* 2ND PLACE */}
+              {sortedPodiumPlayers[1] ? (
+                <div
+                  style={{
+                    flex: 1,
+                    height: '80%',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    padding: '8px 6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#94a3b8', letterSpacing: '0.08em' }}>
+                    🥈 2ND PLACE
+                  </div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
+                    {sortedPodiumPlayers[1].displayName.toUpperCase()}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
+                    {sortedPodiumPlayers[1].score || 100} PTS
+                  </div>
+                </div>
+              ) : null}
+
+              {/* 1ST PLACE (CENTER CHAMPION HIGHLIGHT) */}
+              {sortedPodiumPlayers[0] ? (
+                <div
+                  style={{
+                    flex: 1.2,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, rgba(255, 0, 102, 0.2) 0%, rgba(255, 51, 133, 0.1) 100%)',
+                    border: '2px solid #ffffff',
+                    borderRadius: '14px',
+                    padding: '10px 8px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    boxShadow: '0 0 20px rgba(255, 0, 102, 0.4)',
+                  }}
+                >
+                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#fbbf24', letterSpacing: '0.08em' }}>
+                    🥇 1ST CHAMPION
+                  </div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
+                    {sortedPodiumPlayers[0].displayName.toUpperCase()}
+                  </div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff', background: '#ff0066', padding: '2px 10px', borderRadius: '50px' }}>
+                    {sortedPodiumPlayers[0].score || 150} PTS
+                  </div>
+                </div>
+              ) : null}
+
+              {/* 3RD PLACE */}
+              {sortedPodiumPlayers[2] ? (
+                <div
+                  style={{
+                    flex: 1,
+                    height: '70%',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1.5px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '12px',
+                    padding: '8px 6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#b45309', letterSpacing: '0.08em' }}>
+                    🥉 3RD PLACE
+                  </div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
+                    {sortedPodiumPlayers[2].displayName.toUpperCase()}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
+                    {sortedPodiumPlayers[2].score || 50} PTS
+                  </div>
+                </div>
+              ) : null}
+            </div>
+
           </div>
         )}
       </div>
@@ -1010,34 +1138,67 @@ export const SoloPartyCabinScreen: React.FC = () => {
         </div>
       )}
 
-      {/* BOTTOM LEFT CORNER EXIT ARROW BUTTON - CLEAN iOS UI */}
-      <button
-        className="hud-interactive"
-        onClick={() => setShowExitConfirm(true)}
-        title="Exit Cabin Room"
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          left: '24px',
-          width: '46px',
-          height: '46px',
-          borderRadius: '50%',
-          background: 'rgba(28, 28, 30, 0.85)',
-          backdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          color: '#ffffff',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-          zIndex: 40,
-          pointerEvents: 'auto',
-          transition: 'transform 0.15s ease',
-        }}
-      >
-        <ArrowLeft size={22} color="#ffffff" strokeWidth={2.2} />
-      </button>
+      {/* BOTTOM LEFT CORNER EXIT ARROW / BACK TO MAIN MENU BUTTON */}
+      {isMatchFinished ? (
+        <button
+          className="hud-interactive btn-press-effect"
+          onClick={() => setShowExitConfirm(true)}
+          style={{
+            position: 'absolute',
+            bottom: '24px',
+            left: '24px',
+            padding: '12px 26px',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+            border: '2px solid #ffffff',
+            color: '#ffffff',
+            fontWeight: 900,
+            fontSize: '1rem',
+            fontStyle: 'italic',
+            fontFamily: "'Kanit', sans-serif",
+            letterSpacing: '0.06em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            cursor: 'pointer',
+            boxShadow: '0 8px 25px rgba(255, 0, 102, 0.55)',
+            zIndex: 40,
+            pointerEvents: 'auto',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          <ArrowLeft size={20} color="#ffffff" strokeWidth={2.5} />
+          <span>BACK TO MAIN MENU</span>
+        </button>
+      ) : (
+        <button
+          className="hud-interactive btn-press-effect"
+          onClick={() => setShowExitConfirm(true)}
+          title="Exit Cabin Room"
+          style={{
+            position: 'absolute',
+            bottom: '24px',
+            left: '24px',
+            width: '46px',
+            height: '46px',
+            borderRadius: '50%',
+            background: 'rgba(28, 28, 30, 0.85)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            color: '#ffffff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+            zIndex: 40,
+            pointerEvents: 'auto',
+            transition: 'transform 0.15s ease',
+          }}
+        >
+          <ArrowLeft size={22} color="#ffffff" strokeWidth={2.2} />
+        </button>
+      )}
 
       {/* EXIT CONFIRMATION MODAL OVERLAY - PURE iOS UI */}
       {showExitConfirm && (
