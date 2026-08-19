@@ -175,9 +175,9 @@ export class SupabaseAuthService {
         displayName: data.user.user_metadata?.display_name || cleanEmail.split('@')[0],
         racerTag: data.user.user_metadata?.racer_tag || '#CC-RACER-948',
         avatar: 'avatar_cyber',
-        matchesPlayed: 14,
-        leaderboardPoints: 85,
-        winRate: 68,
+        matchesPlayed: 0,
+        leaderboardPoints: 0,
+        winRate: 0,
         isVerified: true,
       };
 
@@ -203,9 +203,9 @@ export class SupabaseAuthService {
         displayName: 'Google Racer',
         racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
         avatar: 'avatar_cyber',
-        matchesPlayed: 1,
-        leaderboardPoints: 50,
-        winRate: 100,
+        matchesPlayed: 0,
+        leaderboardPoints: 0,
+        winRate: 0,
         isVerified: true,
       };
       localStorage.setItem('class_clash_session', JSON.stringify(mockProfile));

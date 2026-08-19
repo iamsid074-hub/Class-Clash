@@ -70,33 +70,68 @@ export const LeaderboardScreen: React.FC = () => {
   const { setScreen, displayName, triggerGateTransition } = useGameStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [filterMode, setFilterMode] = useState<'ALL' | 'TOP' | 'LOCAL'>('ALL');
+  const [realLeaderboard, setRealLeaderboard] = useState<LeaderboardEntry[]>([]);
 
-  // Sample Mock Leaderboard Data
-  const mockLeaderboard: LeaderboardEntry[] = [
-    { rank: 1, displayName: 'APEX_VIXEN', avatarId: 'avatar_apex', teamName: 'TEAM NEON PINK', wins: 142, races: 168, winRate: '84.5%', points: 3850 },
-    { rank: 2, displayName: 'CYBER_PHANTOM', avatarId: 'avatar_cyber', teamName: 'TEAM SAKURA', wins: 128, races: 160, winRate: '80.0%', points: 3420 },
-    { rank: 3, displayName: 'NINJA_ROSE', avatarId: 'avatar_ninja', teamName: 'TEAM MAGENTA', wins: 115, races: 152, winRate: '75.6%', points: 3180 },
-    { rank: 4, displayName: 'MECH_QUEEN', avatarId: 'avatar_mech', teamName: 'TEAM FLAMINGO', wins: 98, races: 140, winRate: '70.0%', points: 2890 },
-    { rank: 5, displayName: 'VELOCITY_RIDER', avatarId: 'avatar_cyber', teamName: 'TEAM CRYSTAL', wins: 87, races: 130, winRate: '66.9%', points: 2650 },
-    { rank: 6, displayName: 'BLUSH_STRIKER', avatarId: 'avatar_ninja', teamName: 'TEAM BLUSH', wins: 76, races: 122, winRate: '62.2%', points: 2410 },
-    { rank: 7, displayName: displayName || 'Racer_834', avatarId: 'avatar_apex', teamName: 'TEAM NEON PINK', wins: 64, races: 95, winRate: '67.3%', points: 2150, isLocalPlayer: true },
-    { rank: 8, displayName: 'PINK_LIGHTNING', avatarId: 'avatar_mech', teamName: 'TEAM PEARL', wins: 55, races: 90, winRate: '61.1%', points: 1980 },
-    { rank: 9, displayName: 'SAKURA_DRIFT', avatarId: 'avatar_cyber', teamName: 'TEAM SAKURA', wins: 49, races: 84, winRate: '58.3%', points: 1760 },
-    { rank: 10, displayName: 'TURBO_ROSE', avatarId: 'avatar_ninja', teamName: 'TEAM MAGENTA', wins: 42, races: 78, winRate: '53.8%', points: 1540 },
-  ];
+  // Dynamically load real registered racer accounts & user sessions
+  React.useEffect(() => {
+    try {
+      const storedUsersRaw = localStorage.getItem('clasha_registered_users');
+      const sessionRaw = localStorage.getItem('class_clash_session');
+      const currentUser = sessionRaw ? JSON.parse(sessionRaw) : null;
+      
+      const userMap: Record<string, any> = storedUsersRaw ? JSON.parse(storedUsersRaw) : {};
+      const profiles: any[] = Object.values(userMap).map((u: any) => u.profile).filter(Boolean);
 
-  const filteredList = mockLeaderboard.filter((entry) => {
+      if (currentUser && !profiles.some((p) => p.displayName === currentUser.displayName)) {
+        profiles.push(currentUser);
+      }
+
+      if (profiles.length === 0 && currentUser) {
+        profiles.push(currentUser);
+      }
+
+      // If no users registered yet, show active racer entry
+      if (profiles.length === 0) {
+        profiles.push({
+          displayName: displayName || 'RACER_ONE',
+          avatar: 'avatar_cyber',
+          matchesPlayed: 0,
+          leaderboardPoints: 0,
+        });
+      }
+
+      const sorted: LeaderboardEntry[] = profiles
+        .sort((a, b) => (b.leaderboardPoints || 0) - (a.leaderboardPoints || 0))
+        .map((p, idx) => ({
+          rank: idx + 1,
+          displayName: p.displayName || 'RACER',
+          avatarId: p.avatar || 'avatar_cyber',
+          teamName: 'ARENA SQUAD',
+          wins: Math.floor((p.matchesPlayed || 0) * 0.7),
+          races: p.matchesPlayed || 0,
+          winRate: (p.matchesPlayed || 0) > 0 ? `${Math.round(((p.matchesPlayed || 0) * 0.7 / (p.matchesPlayed || 1)) * 100)}%` : '0%',
+          points: p.leaderboardPoints || 0,
+          isLocalPlayer: currentUser ? p.displayName === currentUser.displayName : true,
+        }));
+
+      setRealLeaderboard(sorted);
+    } catch {
+      setRealLeaderboard([]);
+    }
+  }, [displayName]);
+
+  const filteredList = realLeaderboard.filter((entry) => {
     const matchesSearch =
       entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entry.teamName.toLowerCase().includes(searchQuery.toLowerCase());
     if (filterMode === 'TOP') return matchesSearch && entry.rank <= 5;
-    if (filterMode === 'LOCAL') return matchesSearch && (entry.isLocalPlayer || entry.teamName === 'TEAM NEON PINK');
+    if (filterMode === 'LOCAL') return matchesSearch && (entry.isLocalPlayer || entry.teamName === 'ARENA SQUAD');
     return matchesSearch;
   });
 
-  const rank1 = mockLeaderboard[0];
-  const rank2 = mockLeaderboard[1];
-  const rank3 = mockLeaderboard[2];
+  const rank1 = realLeaderboard[0];
+  const rank2 = realLeaderboard[1];
+  const rank3 = realLeaderboard[2];
 
   return (
     <div

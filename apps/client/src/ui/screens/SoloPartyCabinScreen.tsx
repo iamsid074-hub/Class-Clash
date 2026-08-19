@@ -453,29 +453,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 {Math.floor(state.phaseTimeRemaining / 60)} : {(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
               </div>
             </div>
-
-            {/* Bottom testing skip trigger */}
-            <div style={{ textAlign: 'center', paddingBottom: '2px' }}>
-              <button
-                type="button"
-                className="hud-interactive btn-press-effect"
-                onClick={() => NetworkClient.skipPhase()}
-                style={{
-                  padding: '4px 14px',
-                  borderRadius: '50px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: '0.7rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  letterSpacing: '0.06em',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                SKIP TIMER (TESTING)
-              </button>
-            </div>
           </div>
         )}
 
@@ -1084,12 +1061,12 @@ export const SoloPartyCabinScreen: React.FC = () => {
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* 4. BOTTOM QUICK START & SKIP BUTTONS (FOR IMMEDIATE TESTING) */}
+      {/* 4. BOTTOM START MATCH ACTION BUTTON */}
       {/* ------------------------------------------------------------- */}
       {state.phase === 'LOBBY' && (
         <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
           <button
-            className="cyber-button glow"
+            className="cyber-button glow btn-press-effect"
             onClick={() => NetworkClient.send({ type: 'START_SOLO_GAME', payload: {} })}
             style={{
               padding: '14px 36px',
@@ -1100,39 +1077,14 @@ export const SoloPartyCabinScreen: React.FC = () => {
               alignItems: 'center',
               gap: '12px',
               background: '#ffffff',
-              boxShadow: 'none',
+              boxShadow: '0 8px 30px rgba(255, 255, 255, 0.4)',
               border: '2px solid #ffffff',
               borderRadius: '16px',
               cursor: 'pointer',
               color: '#000000',
             }}
           >
-            <Play size={22} color="#000000" /> START MATCH NOW (TESTING)
-          </button>
-        </div>
-      )}
-
-      {state.phase !== 'LOBBY' && state.phase !== 'GAME_OVER_CHAMPION' && (
-        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
-          <button
-            type="button"
-            onClick={() => NetworkClient.skipPhase()}
-            style={{
-              padding: '12px 28px',
-              fontSize: '0.95rem',
-              fontWeight: 900,
-              letterSpacing: '0.06em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: '#ff007f',
-              boxShadow: '0 0 20px rgba(255, 0, 127, 0.6)',
-              border: '2px solid #ffffff',
-              borderRadius: '16px',
-              cursor: 'pointer',
-              color: '#ffffff',
-            }}
-          >
+            <Play size={22} color="#000000" /> START MATCH
           </button>
         </div>
       )}

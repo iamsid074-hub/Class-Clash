@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { User, ShieldCheck, ArrowLeft, CheckCircle2, LogOut } from 'lucide-react';
 import { ClassClashLogo } from '../components/ClassClashLogo';
-import { SupabaseAuthService } from '../../networking/supabaseClient';
+import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
 export const ProfileScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, triggerGateTransition } = useGameStore();
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
+  useEffect(() => {
+    SupabaseAuthService.getSavedSession().then((p) => {
+      if (p) setUserProfile(p);
+    });
+  }, []);
+
+  const matchesPlayed = userProfile?.matchesPlayed || 0;
+  const points = userProfile?.leaderboardPoints || 0;
+  const winRate = matchesPlayed > 0 ? '70%' : '0%';
+  const isQualified = matchesPlayed >= 10 && points >= 50;
 
   const handleSaveAndReturn = () => {
     if (profileNameInput.trim()) {
@@ -270,17 +282,17 @@ export const ProfileScreen: React.FC = () => {
               </div>
               <div
                 style={{
-                  background: '#00c853',
+                  background: isQualified ? '#00c853' : '#ff9900',
                   color: '#ffffff',
                   padding: '8px 18px',
                   borderRadius: '12px',
                   fontWeight: 900,
                   fontSize: '0.85rem',
                   letterSpacing: '0.08em',
-                  boxShadow: '0 4px 12px rgba(0, 200, 83, 0.35)',
+                  boxShadow: isQualified ? '0 4px 12px rgba(0, 200, 83, 0.35)' : '0 4px 12px rgba(255, 153, 0, 0.35)',
                 }}
               >
-                QUALIFIED
+                {isQualified ? 'QUALIFIED' : 'IN PROGRESS'}
               </div>
             </div>
 
@@ -290,12 +302,12 @@ export const ProfileScreen: React.FC = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
-                <CheckCircle2 size={18} color="#00c853" />
-                <span>10+ Matches Played (Current: 14 Rounds)</span>
+                <CheckCircle2 size={18} color={matchesPlayed >= 10 ? "#00c853" : "#ff9900"} />
+                <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
-                <CheckCircle2 size={18} color="#00c853" />
-                <span>50+ Leaderboard Points (Current: 85 Points)</span>
+                <CheckCircle2 size={18} color={points >= 50 ? "#00c853" : "#ff9900"} />
+                <span>50+ Leaderboard Points (Current: {points} Points)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
                 <CheckCircle2 size={18} color="#00c853" />
@@ -344,10 +356,10 @@ export const ProfileScreen: React.FC = () => {
                   MATCHES PLAYED
                 </div>
                 <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  14 Rounds
+                  {matchesPlayed} Rounds
                 </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#008e3b', marginTop: '4px' }}>
-                  ✓ 10+ Rounds (Qualified)
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: matchesPlayed >= 10 ? '#008e3b' : '#ff9900', marginTop: '4px' }}>
+                  {matchesPlayed >= 10 ? '✓ 10+ Rounds (Qualified)' : '• Progressing'}
                 </div>
               </div>
 
@@ -365,10 +377,10 @@ export const ProfileScreen: React.FC = () => {
                   LEADERBOARD POINTS
                 </div>
                 <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  85 Points
+                  {points} Points
                 </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#008e3b', marginTop: '4px' }}>
-                  ✓ 50+ Points (Qualified)
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: points >= 50 ? '#008e3b' : '#ff9900', marginTop: '4px' }}>
+                  {points >= 50 ? '✓ 50+ Points (Qualified)' : '• Progressing'}
                 </div>
               </div>
 
@@ -386,10 +398,10 @@ export const ProfileScreen: React.FC = () => {
                   WIN RATE
                 </div>
                 <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  68%
+                  {winRate}
                 </div>
                 <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#e6005c', marginTop: '4px' }}>
-                  9 Victory Podiums
+                  {matchesPlayed} Podiums Recorded
                 </div>
               </div>
 
