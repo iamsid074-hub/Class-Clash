@@ -193,6 +193,40 @@ export class SupabaseAuthService {
   }
 
   /**
+   * Sign In with Google OAuth
+   */
+  public static async signInWithGoogle() {
+    if (!isSupabaseConfigured) {
+      const mockProfile: UserProfile = {
+        id: `google_user_${Date.now()}`,
+        email: 'google.user@gmail.com',
+        displayName: 'Google Racer',
+        racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
+        avatar: 'avatar_cyber',
+        matchesPlayed: 1,
+        leaderboardPoints: 50,
+        winRate: 100,
+        isVerified: true,
+      };
+      localStorage.setItem('class_clash_session', JSON.stringify(mockProfile));
+      return { data: null, error: null, profile: mockProfile };
+    }
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      return { data: null, error: { message: error.message }, profile: null };
+    }
+
+    return { data, error: null, profile: null };
+  }
+
+  /**
    * Sign out current racer
    */
   public static async signOut() {
@@ -218,13 +252,27 @@ export class SupabaseAuthService {
     if (isSupabaseConfigured) {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
+        const u = data.session.user;
         const { data: profileData } = await supabase
           .from('profiles')
           .select('*')
-          .eq('id', data.session.user.id)
+          .eq('id', u.id)
           .single();
 
-        if (profileData) return profileData;
+        const profile: UserProfile = profileData || {
+          id: u.id,
+          email: u.email || '',
+          displayName: u.user_metadata?.full_name || u.user_metadata?.name || (u.email ? u.email.split('@')[0] : 'Google Racer'),
+          racerTag: `#CC-RACER-${Math.floor(Math.random() * 899 + 100)}`,
+          avatar: 'avatar_cyber',
+          matchesPlayed: 0,
+          leaderboardPoints: 0,
+          winRate: 0,
+          isVerified: true,
+        };
+
+        localStorage.setItem('class_clash_session', JSON.stringify(profile));
+        return profile;
       }
     }
     return null;
