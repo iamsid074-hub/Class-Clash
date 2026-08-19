@@ -34,20 +34,21 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const leaderPlayer = state.leaderPlayerId ? players[state.leaderPlayerId] : null;
   const championPlayer = state.championPlayerId ? players[state.championPlayerId] : null;
 
+  const [isTvGateClosed, setIsTvGateClosed] = useState(false);
   const prevPhaseRef = useRef(state.phase);
 
-  // Trigger diagonal shutter gate transition ONLY when 3-minute dare execution timer finishes!
+  // Trigger diagonal shutter animation INSIDE THE MOUNTED LED TV SCREEN when 3-minute dare execution timer finishes!
   useEffect(() => {
     const prevPhase = prevPhaseRef.current;
     if (prevPhase === 'CHALLENGE_EXECUTION' && state.phase === 'ROUND_RESULT') {
-      triggerGateTransition(
-        () => {},
-        'NEXT ROUND',
-        'PREPARING NEXT TARGET PLAYER'
-      );
+      setIsTvGateClosed(true);
+      const timer = setTimeout(() => {
+        setIsTvGateClosed(false);
+      }, 1400);
+      return () => clearTimeout(timer);
     }
     prevPhaseRef.current = state.phase;
-  }, [state.phase, triggerGateTransition]);
+  }, [state.phase]);
 
   // -------------------------------------------------------------
   // 5-SECOND SMOOTH SHUFFLING SLOT ANIMATION
@@ -589,9 +590,88 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS) */}
+        {/* Phase: ROUND RESULT (ROUND FINISHED & NEXT ROUND STARTING IN X SECONDS WITH TV INTERNAL DIAGONAL SHUTTERS) */}
         {state.phase === 'ROUND_RESULT' && (
-          <div style={{ width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+          <div style={{ position: 'relative', width: '100%', height: '100%', padding: '16px 20px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', overflow: 'hidden' }}>
+            {/* TV Screen Top-Left Diagonal Shutter Panel */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: '#09040e',
+                clipPath: isTvGateClosed ? 'polygon(0 0, 100% 0, 0 100%)' : 'polygon(0 0, 0 0, 0 0)',
+                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
+                zIndex: 10,
+              }}
+            />
+
+            {/* TV Screen Bottom-Right Diagonal Shutter Panel */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: '#09040e',
+                clipPath: isTvGateClosed ? 'polygon(100% 0, 100% 100%, 0 100%)' : 'polygon(100% 100%, 100% 100%, 100% 100%)',
+                transition: 'clip-path 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
+                zIndex: 10,
+              }}
+            />
+
+            {/* Diagonal White Seam Line on TV Screen */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 12,
+                opacity: isTvGateClosed ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+                pointerEvents: 'none',
+              }}
+            >
+              <svg width="100%" height="100%">
+                <line x1="100%" y1="0" x2="0" y2="100%" stroke="#ffffff" strokeWidth="3" />
+              </svg>
+            </div>
+
+            {/* TV Screen Center Floating NEXT ROUND Card */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: isTvGateClosed ? 'translate(-50%, -50%) scale(1)' : 'translate(-50%, -50%) scale(0.7)',
+                opacity: isTvGateClosed ? 1 : 0,
+                zIndex: 15,
+                transition: 'all 0.35s cubic-bezier(0.77, 0, 0.175, 1)',
+                pointerEvents: 'none',
+              }}
+            >
+              <div
+                style={{
+                  padding: '8px 18px',
+                  background: '#0a0412',
+                  border: '2px solid #ffffff',
+                  borderRadius: '14px',
+                  boxShadow: '0 0 20px rgba(255, 255, 255, 0.4)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.06em' }}>
+                  NEXT ROUND
+                </div>
+              </div>
+            </div>
+
+            {/* TV Content behind shutters */}
             <div style={{ padding: '4px 14px', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '50px', fontSize: '0.75rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.12em', marginBottom: '10px' }}>
               ✓ DARE TIMER EXPIRED
             </div>
