@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { ArrowLeft, Volume2, Music, Info, Tag, ChevronRight, CheckCircle } from 'lucide-react';
 import { ClassClashLogo } from '../components/ClassClashLogo';
+import { AudioManager } from '../../utils/AudioManager';
 
 export interface GameSettings {
   bgMusicTrack: string;
@@ -84,6 +85,12 @@ export const SettingsScreen: React.FC = () => {
     setSettings((prev) => ({ ...prev, [key]: value }));
     setShowSavedFeedback(true);
     setTimeout(() => setShowSavedFeedback(false), 1400);
+
+    if (key === 'isBgMusicEnabled') {
+      AudioManager.setMusicEnabled(value as boolean);
+    } else if (key === 'sfxVolume') {
+      AudioManager.setMusicVolume(value as number);
+    }
   };
 
   const handleBackNavigation = () => {

@@ -23,6 +23,7 @@ import { SettingsScreen } from './ui/screens/SettingsScreen';
 import { AuthScreen } from './ui/screens/AuthScreen';
 import { CyberGateTransition } from './ui/components/CyberGateTransition';
 import { SupabaseAuthService } from './networking/supabaseClient';
+import { AudioManager } from './utils/AudioManager';
 
 import { SoloPartyCabinScreen } from './ui/screens/SoloPartyCabinScreen';
 
@@ -32,6 +33,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     NetworkClient.connect();
+    AudioManager.initBgMusic();
 
     // Check for saved session from Supabase or localStorage
     SupabaseAuthService.getSavedSession().then((session) => {
