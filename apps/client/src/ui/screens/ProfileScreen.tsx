@@ -26,10 +26,36 @@ export const ProfileScreen: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
 
+  // Live 10-Day Countdown Timer state for Upcoming Tournament
+  const [timeLeft, setTimeLeft] = useState({
+    days: 9,
+    hours: 23,
+    minutes: 59,
+    seconds: 59,
+  });
+
   useEffect(() => {
     SupabaseAuthService.getSavedSession().then((p) => {
       if (p) setUserProfile(p);
     });
+  }, []);
+
+  useEffect(() => {
+    // Target time: 10 Days from now
+    const targetDate = Date.now() + (9 * 24 * 60 * 60 * 1000 + 23 * 60 * 60 * 1000 + 59 * 60 * 1000 + 59 * 1000);
+
+    const updateCountdown = () => {
+      const diff = Math.max(0, targetDate - Date.now());
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeLeft({ days: d, hours: h, minutes: m, seconds: s });
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   const matchesPlayed = userProfile?.matchesPlayed || 0;
@@ -616,51 +642,149 @@ export const ProfileScreen: React.FC = () => {
               Tournament Status
             </div>
             <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              Official tournament entry qualification and requirement metrics.
+              Upcoming official championship details, countdown, and registration status.
             </div>
 
-            {/* Tournament Qualification Status Card */}
+            {/* Upcoming Tournament Main Card */}
             <div
               style={{
                 background: '#f8fafc',
                 border: '1px solid #e2e8f0',
-                borderRadius: '16px',
-                padding: '24px',
+                borderRadius: '20px',
+                padding: '32px',
                 marginBottom: '32px',
                 textAlign: 'left',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a' }}>
-                  WINTER DOOM TOURNAMENT
+              {/* Header Badge & Name */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#3b82f6', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '4px' }}>
+                    UPCOMING CHAMPIONSHIP
+                  </div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+                    WINTER DOOM TOURNAMENT
+                  </div>
                 </div>
+
                 <div
                   style={{
                     background: matchesPlayed >= 10 && points >= 50 ? '#dcfce7' : '#ffedd5',
                     color: matchesPlayed >= 10 && points >= 50 ? '#15803d' : '#c2410c',
-                    padding: '6px 14px',
-                    borderRadius: '8px',
-                    fontSize: '0.78rem',
+                    padding: '6px 16px',
+                    borderRadius: '50px',
+                    fontSize: '0.8rem',
                     fontWeight: 800,
+                    letterSpacing: '0.04em',
                   }}
                 >
                   {matchesPlayed >= 10 && points >= 50 ? 'QUALIFIED' : 'IN PROGRESS'}
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                  <Check size={18} color={matchesPlayed >= 10 ? '#16a34a' : '#ea580c'} />
-                  <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
+              {/* Description */}
+              <div style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.5, marginBottom: '28px' }}>
+                The ultimate seasonal arena championship. 64 qualified racers will battle for the season crown and exclusive champion rewards.
+              </div>
+
+              {/* LARGE 10-DAY COUNTDOWN TIMER */}
+              <div style={{ marginBottom: '32px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px', textAlign: 'center' }}>
+                  REGISTRATION OPENS IN
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                  <Check size={18} color={points >= 50 ? '#16a34a' : '#ea580c'} />
-                  <span>50+ Leaderboard Points (Current: {points} Points)</span>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', textAlign: 'center' }}>
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                      {String(timeLeft.days).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
+                      DAYS
+                    </div>
+                  </div>
+
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                      {String(timeLeft.hours).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
+                      HOURS
+                    </div>
+                  </div>
+
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                      {String(timeLeft.minutes).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
+                      MINUTES
+                    </div>
+                  </div>
+
+                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
+                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#3b82f6', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                      {String(timeLeft.seconds).padStart(2, '0')}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
+                      SECONDS
+                    </div>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                  <Check size={18} color="#16a34a" />
-                  <span>Identity Verification Completed (Status: Verified)</span>
+              </div>
+
+              {/* Qualification Criteria Checklist */}
+              <div style={{ background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0', padding: '20px', marginBottom: '28px' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a', marginBottom: '14px' }}>
+                  QUALIFICATION CRITERIA
                 </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                    <Check size={18} color={matchesPlayed >= 10 ? '#16a34a' : '#ea580c'} />
+                    <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                    <Check size={18} color={points >= 50 ? '#16a34a' : '#ea580c'} />
+                    <span>50+ Leaderboard Points (Current: {points} Points)</span>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                    <Check size={18} color="#16a34a" />
+                    <span>Identity Verification Completed (Status: Verified)</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* LOCKED REGISTRATION BUTTON */}
+              <button
+                type="button"
+                disabled
+                style={{
+                  width: '100%',
+                  padding: '16px 24px',
+                  borderRadius: '12px',
+                  background: '#e2e8f0',
+                  border: '1px solid #cbd5e1',
+                  color: '#64748b',
+                  fontWeight: 800,
+                  fontSize: '0.95rem',
+                  letterSpacing: '0.04em',
+                  cursor: 'not-allowed',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  boxShadow: 'none',
+                }}
+              >
+                <Lock size={18} color="#64748b" />
+                <span>REGISTRATION LOCKED (OPENS IN 10 DAYS)</span>
+              </button>
+
+              <div style={{ fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center', marginTop: '10px', fontWeight: 500 }}>
+                Registration unlocks automatically when countdown ends. Complete qualification requirements before launch.
               </div>
             </div>
           </div>
