@@ -18,7 +18,6 @@ import {
   Copy,
   ShieldCheck,
   CheckCircle2,
-  Heart,
   Sparkles,
   Gamepad2,
 } from 'lucide-react';
@@ -615,8 +614,8 @@ export const ProfileScreen: React.FC = () => {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
-                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500, fontFamily: APPLE_FONT }}>Best Lap Time</span>
-                  <span style={{ color: '#1c1c1e', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>1:24.52s (Sky Factory)</span>
+                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500, fontFamily: APPLE_FONT }}>Best Session Accuracy</span>
+                  <span style={{ color: '#1c1c1e', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>98.5% Accuracy</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
                   <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500, fontFamily: APPLE_FONT }}>Average Score Per Round</span>
@@ -624,11 +623,11 @@ export const ProfileScreen: React.FC = () => {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
                   <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500, fontFamily: APPLE_FONT }}>Identity Verification</span>
-                  <span style={{ color: '#34c759', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>✓ Verified Racer</span>
+                  <span style={{ color: '#34c759', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>✓ Verified Player</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500, fontFamily: APPLE_FONT }}>Division Tier</span>
-                  <span style={{ color: '#007aff', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>Tier 1 Champions Division</span>
+                  <span style={{ color: '#007aff', fontSize: '0.9rem', fontWeight: 700, fontFamily: APPLE_FONT }}>Tier 1 Champions League</span>
                 </div>
               </div>
             </div>
@@ -1059,7 +1058,7 @@ export const ProfileScreen: React.FC = () => {
 
                 <div style={{ padding: '16px', borderRadius: '20px', background: '#f2f2f7' }}>
                   <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '4px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                    ❓ How to join room?
+                    ❓ How to join cabin room?
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#8e8e93', lineHeight: 1.4, fontFamily: APPLE_FONT, textTransform: 'none' }}>
                     Main Menu -&gt; Join Room -&gt; Enter Room ID &amp; Password.
@@ -1128,7 +1127,7 @@ export const ProfileScreen: React.FC = () => {
 
                 <div>
                   <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                    CLASHA Arena Racing
+                    CLASHA Party Cabin Arena
                   </div>
                   <div style={{ fontSize: '0.88rem', color: '#8e8e93', fontWeight: 500, fontFamily: APPLE_FONT, textTransform: 'none' }}>
                     Version 1.0.4 • Created August 2026
@@ -1137,7 +1136,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               <div style={{ fontSize: '0.95rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                CLASHA is a high-speed 3D browser-based multiplayer obstacle racing game. Players join team cabins, compete in dynamic arenas (Sky Factory, Neon City, etc.), navigate real-time physical traps, and battle for global leaderboard rankings.
+                CLASHA is an interactive real-time multiplayer Party Cabin &amp; Challenge Clash game. Players enter private or public party cabins using Room Codes &amp; Passwords, propose challenges, participate in live voting &amp; elimination rounds, and compete for Champion glory on the global leaderboard.
               </div>
             </div>
 
@@ -1145,25 +1144,25 @@ export const ProfileScreen: React.FC = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '28px' }}>
               <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', fontFamily: APPLE_FONT }}>
-                  GAME CONCEPT & MECHANICS
+                  GAME CONCEPT &amp; MECHANICS
                 </div>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                  Multiplayer Obstacle Survival
+                  Party Cabin Challenge Battles
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                  Features real-time 3D multiplayer physics, room cabin matchmaking with password security, fallback offline simulation, and competitive seasonal championships like the Winter Doom Tournament.
+                  Built around multi-round Cabin Battles featuring Cabin Lobby, Proposal, Voting, and Champion Elimination phases. Powered by real-time server synchronization, team scoring, and fallback offline mode.
                 </div>
               </div>
 
               <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', fontFamily: APPLE_FONT }}>
-                  DEVELOPMENT & CREATOR
+                  DEVELOPMENT &amp; CREATOR
                 </div>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
                   Architected by ANSHU
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                  Designed and created by <strong>ANSHU</strong> in <strong>August 2026</strong>. Built using React, Three.js 3D rendering engine, Colyseus multiplayer framework, and Supabase cloud infrastructure.
+                  Designed and created by <strong>ANSHU</strong> in <strong>August 2026</strong>. Built using React, Three.js rendering engine, Colyseus multiplayer framework, and Supabase cloud infrastructure.
                 </div>
               </div>
             </div>
