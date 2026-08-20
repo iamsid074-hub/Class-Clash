@@ -18,6 +18,9 @@ import {
   Copy,
   ShieldCheck,
   CheckCircle2,
+  Heart,
+  Sparkles,
+  Gamepad2,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -1086,9 +1089,112 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER LEGAL & ASSISTANCE TABS (ABOUT, TERMS, PRIVACY, FAQ) */}
+        {/* TAB 5: ABOUT CLASHA */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && (
+        {activeTab === 'about' && (
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '20px', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              About CLASHA
+            </div>
+
+            {/* Main Overview Banner Card */}
+            <div
+              style={{
+                background: '#ffffff',
+                border: '1px solid #e5e5ea',
+                borderRadius: '32px',
+                padding: '32px 36px',
+                marginBottom: '24px',
+                boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+                <div
+                  style={{
+                    width: '56px',
+                    height: '56px',
+                    borderRadius: '9999px',
+                    background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    boxShadow: '0 6px 18px rgba(0, 122, 255, 0.3)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Gamepad2 size={28} color="#ffffff" />
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    CLASHA Arena Racing
+                  </div>
+                  <div style={{ fontSize: '0.88rem', color: '#8e8e93', fontWeight: 500, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    Version 1.0.4 • Created August 2026
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ fontSize: '0.95rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                CLASHA is a high-speed 3D browser-based multiplayer obstacle racing game. Players join team cabins, compete in dynamic arenas (Sky Factory, Neon City, etc.), navigate real-time physical traps, and battle for global leaderboard rankings.
+              </div>
+            </div>
+
+            {/* 2x2 Details Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '28px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', fontFamily: APPLE_FONT }}>
+                  GAME CONCEPT & MECHANICS
+                </div>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Multiplayer Obstacle Survival
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Features real-time 3D multiplayer physics, room cabin matchmaking with password security, fallback offline simulation, and competitive seasonal championships like the Winter Doom Tournament.
+                </div>
+              </div>
+
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', fontFamily: APPLE_FONT }}>
+                  DEVELOPMENT & CREATOR
+                </div>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Architected by ANSHU
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Designed and created by <strong>ANSHU</strong> in <strong>August 2026</strong>. Built using React, Three.js 3D rendering engine, Colyseus multiplayer framework, and Supabase cloud infrastructure.
+                </div>
+              </div>
+            </div>
+
+            {/* SIGNATURE CREATOR FOOTER NOTE */}
+            <div
+              style={{
+                background: '#ffffff',
+                border: '1px solid #e5e5ea',
+                borderRadius: '9999px',
+                padding: '18px 32px',
+                textAlign: 'center',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+              }}
+            >
+              <Sparkles size={18} color="#007aff" />
+              <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                made by <span style={{ color: '#007aff', fontWeight: 800 }}>ANSHU</span> • crafted byfromheart ❤️
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER LEGAL & ASSISTANCE TABS (TERMS, PRIVACY, FAQ) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '20px', textTransform: 'capitalize', fontFamily: APPLE_FONT }}>
               {activeTab.replace('_', ' ')}
