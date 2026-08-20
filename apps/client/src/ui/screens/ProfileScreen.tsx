@@ -20,6 +20,10 @@ import {
   CheckCircle2,
   Sparkles,
   Gamepad2,
+  AlertTriangle,
+  ShieldAlert,
+  Trash2,
+  UserCheck,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -1198,9 +1202,90 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER LEGAL & ASSISTANCE TABS (TERMS, PRIVACY, FAQ) */}
+        {/* TAB 6: TERMS & CONDITIONS */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && (
+        {activeTab === 'terms' && (
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              Terms &amp; Conditions
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginBottom: '24px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              Official User Agreement, Liability Waivers &amp; Rules of Conduct for CLASHA.
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
+              {/* Section 1: In-Class Responsibility */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <AlertTriangle size={20} color="#ff9500" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    1. In-Class &amp; Academic Usage Disclaimer
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  If a user chooses to play CLASHA during school, college, or university classes or lectures, it is <strong>100% the user's personal responsibility and risk</strong>. The Game Owner (ANSHU) and CLASHA platform hold <strong>ZERO liability</strong> for any disciplinary action, academic consequences, or school policy violations resulting from playing during class.
+                </div>
+              </div>
+
+              {/* Section 2: Dares & Proposals Liability Waiver */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <ShieldAlert size={20} color="#ff3b30" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    2. Dares, Challenges &amp; Game Prompts Liability Waiver
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Whatever dare, challenge, proposal, task, or prompt appears or is assigned within the game — the Game Owner holds <strong>absolute ZERO responsibility or liability</strong>. Every single action, choice, or dare performed by the user is strictly at the user's own sole risk, personal judgment, and discretion.
+                </div>
+              </div>
+
+              {/* Section 3: Game Owner Liability Exclusion */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <ShieldCheck size={20} color="#007aff" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    3. Game Owner Role &amp; Absolute Exclusion of Liability
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  The Game Owner (ANSHU) is strictly the software architect and creator. The Owner is not responsible for user behavior, multiplayer cabin interactions, chat messages, or how players use the app. All gameplay and interactions are conducted entirely at the user's own risk.
+                </div>
+              </div>
+
+              {/* Section 4: Voluntary Participation & Freedom */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Trash2 size={20} color="#34c759" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    4. Voluntary Participation &amp; Account Deletion Freedom
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Participation in CLASHA is completely voluntary. The Game Owner does not force or compel anyone to play. If any user does not wish to play or does not agree with these terms, they are free to refrain from playing or delete their account at any time without restriction.
+                </div>
+              </div>
+
+              {/* Section 5: Code of Conduct & Fair Play */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <UserCheck size={20} color="#5856d6" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    5. Multiplayer Code of Conduct &amp; Fair Play
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Players must maintain respectful behavior in party cabin chats and lobbies. Harassment, toxic behavior, exploiting glitches, or manipulating leaderboard points will result in an immediate account ban.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER LEGAL & ASSISTANCE TABS (PRIVACY, FAQ) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && activeTab !== 'terms' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '20px', textTransform: 'capitalize', fontFamily: APPLE_FONT }}>
               {activeTab.replace('_', ' ')}
