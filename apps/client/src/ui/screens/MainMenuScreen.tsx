@@ -6,7 +6,7 @@ import { PinkNeonFrame } from '../components/PinkNeonFrame';
 import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
-  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
+  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
   const [createRoomIdInput, setCreateRoomIdInput] = useState('ARENA' + Math.floor(Math.random() * 899 + 100));
   const [createPasswordInput, setCreatePasswordInput] = useState('1234');
   const [joinRoomIdInput, setJoinRoomIdInput] = useState('');
@@ -20,9 +20,15 @@ export const MainMenuScreen: React.FC = () => {
     const finalName = profileNameInput.trim() || displayName || 'HOST RACER';
     setErrorMessage(null);
 
-    // 1. Set store state first
+    // 1. Set store state & initialize local player state
     setRoomCode(finalRoomId);
     setRoomPassword(finalPassword);
+    initializeLocalRoom({
+      roomCode: finalRoomId,
+      roomPassword: finalPassword,
+      displayName: finalName,
+      isHost: true,
+    });
 
     // 2. Send JOIN_ROOM reliably (queues if socket not ready)
     NetworkClient.joinRoom({
@@ -50,9 +56,15 @@ export const MainMenuScreen: React.FC = () => {
     const finalName = profileNameInput.trim() || displayName || 'GUEST RACER';
     setErrorMessage(null);
 
-    // 1. Set store state first
+    // 1. Set store state & initialize local player state
     setRoomCode(finalRoomId);
     setRoomPassword(finalPassword);
+    initializeLocalRoom({
+      roomCode: finalRoomId,
+      roomPassword: finalPassword,
+      displayName: finalName,
+      isHost: false,
+    });
 
     // 2. Send JOIN_ROOM reliably (queues if socket not ready)
     NetworkClient.joinRoom({

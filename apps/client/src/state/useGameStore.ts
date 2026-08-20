@@ -56,6 +56,8 @@ interface GameStore {
 
   updateSoloGameState: (state: any) => void;
 
+  initializeLocalRoom: (data: { roomCode: string; roomPassword?: string; displayName: string; isHost: boolean }) => void;
+
   updateRoomState: (data: {
     roomCode: string;
     roomPassword?: string;
@@ -143,6 +145,47 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set((state) => ({
       soloGameState: state.soloGameState ? { ...state.soloGameState, ...data } : data,
     })),
+
+  initializeLocalRoom: (data) => {
+    const localId = get().playerId || `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+    const newPlayer: PlayerState = {
+      id: localId,
+      displayName: data.displayName || 'Racer',
+      avatar: data.isHost ? 'avatar_cyber' : 'avatar_neon',
+      teamId: null,
+      position: { x: 0, y: 1.5, z: 0 },
+      rotationY: 0,
+      velocity: { x: 0, y: 0, z: 0 },
+      status: 'IDLE',
+      isGrounded: true,
+      isReady: false,
+      connectionStatus: 'CONNECTED',
+      score: 0,
+      ping: 20,
+    };
+
+    set((state) => ({
+      roomCode: data.roomCode,
+      roomPassword: data.roomPassword || state.roomPassword,
+      playerId: localId,
+      players: Object.keys(state.players).length > 0 ? state.players : { [localId]: newPlayer },
+      teams: state.teams,
+      soloGameState: state.soloGameState || {
+        roomCode: data.roomCode,
+        isLocked: false,
+        currentRound: 1,
+        totalRounds: 3,
+        phase: 'LOBBY',
+        phaseTimeRemaining: 180,
+        selectedPlayerId: null,
+        leaderPlayerId: null,
+        proposals: [],
+        winningProposal: null,
+        chatMessages: [],
+        championPlayerId: null,
+      },
+    }));
+  },
 
   updateRoomState: (data) =>
     set((state) => ({
