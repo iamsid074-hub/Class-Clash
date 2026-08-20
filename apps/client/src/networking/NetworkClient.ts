@@ -64,7 +64,7 @@ export class NetworkClient {
               payload: {
                 roomCode: store.roomCode,
                 password: store.roomPassword || '',
-                isHost: true,
+                isHost: false,
                 displayName: store.displayName || 'RACER',
                 avatar: 'avatar_cyber',
               },

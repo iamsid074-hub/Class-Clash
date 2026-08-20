@@ -44,195 +44,107 @@ wss.on('connection', (socket: WebSocket) => {
             break;
           }
 
-          const existingRoom = RoomManager.getRoom(formattedCode);
+          let room = RoomManager.getRoom(formattedCode);
+          const inputPassword = (password || '').trim();
 
-          if (isHost) {
-            // Host Creating Room with Room ID and Password
-            const room = RoomManager.getOrCreateRoom(formattedCode);
-            room.password = (password || '').trim();
-            currentRoomCode = room.code;
-
-            // Clean up stale/disconnected players before adding the host
-            for (const [pid, client] of room.clients.entries()) {
-              if (client.readyState !== WebSocket.OPEN) {
-                console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
-                room.clients.delete(pid);
-                delete room.players[pid];
-              }
+          if (room) {
+            // Room already exists! Verify password strictly
+            if (room.password && room.password !== inputPassword) {
+              socket.send(
+                JSON.stringify({
+                  type: 'ERROR_NOTIFICATION',
+                  payload: { message: 'INCORRECT ROOM PASSWORD! PLEASE CHECK PASSWORD.' },
+                })
+              );
+              break;
             }
-
-            const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-            currentPlayerId = playerId;
-
-            const newPlayer: PlayerState = {
-              id: playerId,
-              displayName: displayName || `Racer ${Math.floor(Math.random() * 900 + 100)}`,
-              avatar: avatar || 'avatar_default',
-              teamId: null,
-              position: { x: 0, y: 1.5, z: 0 },
-              rotationY: 0,
-              velocity: { x: 0, y: 0, z: 0 },
-              status: 'IDLE',
-              isGrounded: true,
-              isReady: false,
-              connectionStatus: 'CONNECTED',
-              score: 0,
-              ping: 20,
-            };
-
-            room.players[playerId] = newPlayer;
-            room.clients.set(playerId, socket);
-
-            if (Object.keys(room.teams).length === 0) {
-              room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
-            }
-
-            console.log(`[Server] HOST joined room ${room.code} as ${playerId} (${newPlayer.displayName}). Total players: ${Object.keys(room.players).length}, Total clients: ${room.clients.size}`);
-
-            // Send ROOM_STATE directly to the host (includes playerId)
-            socket.send(
-              JSON.stringify({
-                type: 'ROOM_STATE',
-                payload: {
-                  playerId,
-                  roomCode: room.code,
-                  roomPassword: room.password || '',
-                  players: room.players,
-                  teams: room.teams,
-                  tournament: room.tournament,
-                },
-              })
-            );
-
-            // Immediately send current SOLO_GAME_STATE (with exact remaining room timer)
-            socket.send(
-              JSON.stringify({
-                type: 'SOLO_GAME_STATE',
-                payload: room.soloGameManager.state,
-              })
-            );
-
-            // Broadcast to all clients
-            room.broadcast({
-              type: 'ROOM_STATE',
-              payload: {
-                roomCode: room.code,
-                roomPassword: room.password || '',
-                players: room.players,
-                teams: room.teams,
-                tournament: room.tournament,
-              },
-            });
-
-            room.broadcast({
-              type: 'SOLO_GAME_STATE',
-              payload: room.soloGameManager.state,
-            });
           } else {
-            // Player Joining Existing Room
-            if (!existingRoom) {
-              console.warn(`[Server] Room ${formattedCode} not found for joiner`);
-              socket.send(
-                JSON.stringify({
-                  type: 'ERROR_NOTIFICATION',
-                  payload: { message: 'ROOM NOT FOUND! PLEASE CHECK ROOM ID.' },
-                })
-              );
-              break;
+            // Room does not exist yet! First player creates the room as Host
+            room = RoomManager.getOrCreateRoom(formattedCode);
+            room.password = inputPassword;
+          }
+
+          currentRoomCode = room.code;
+
+          // Clean up stale/disconnected players
+          for (const [pid, client] of room.clients.entries()) {
+            if (client.readyState !== WebSocket.OPEN) {
+              console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
+              room.clients.delete(pid);
+              delete room.players[pid];
             }
+          }
 
-            // Verify Password strictly
-            if (existingRoom.password && existingRoom.password !== (password || '').trim()) {
-              socket.send(
-                JSON.stringify({
-                  type: 'ERROR_NOTIFICATION',
-                  payload: { message: 'INCORRECT ROOM PASSWORD! PLEASE ENTER THE CORRECT PASSWORD.' },
-                })
-              );
-              break;
-            }
+          const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+          currentPlayerId = playerId;
 
-            const room = existingRoom;
-            currentRoomCode = room.code;
+          const newPlayer: PlayerState = {
+            id: playerId,
+            displayName: displayName || `Racer ${Math.floor(Math.random() * 900 + 100)}`,
+            avatar: avatar || 'avatar_default',
+            teamId: null,
+            position: { x: 0, y: 1.5, z: 0 },
+            rotationY: 0,
+            velocity: { x: 0, y: 0, z: 0 },
+            status: 'IDLE',
+            isGrounded: true,
+            isReady: false,
+            connectionStatus: 'CONNECTED',
+            score: 0,
+            ping: 20,
+          };
 
-            // Clean up stale/disconnected players before adding the joiner
-            for (const [pid, client] of room.clients.entries()) {
-              if (client.readyState !== WebSocket.OPEN) {
-                console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
-                room.clients.delete(pid);
-                delete room.players[pid];
-              }
-            }
+          room.players[playerId] = newPlayer;
+          room.clients.set(playerId, socket);
 
-            const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-            currentPlayerId = playerId;
+          const firstTeamId = Object.keys(room.teams)[0];
+          if (firstTeamId) {
+            room.joinTeam(playerId, firstTeamId);
+          } else {
+            room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
+          }
 
-            const newPlayer: PlayerState = {
-              id: playerId,
-              displayName: displayName || `Racer ${Math.floor(Math.random() * 900 + 100)}`,
-              avatar: avatar || 'avatar_default',
-              teamId: null,
-              position: { x: 0, y: 1.5, z: 0 },
-              rotationY: 0,
-              velocity: { x: 0, y: 0, z: 0 },
-              status: 'IDLE',
-              isGrounded: true,
-              isReady: false,
-              connectionStatus: 'CONNECTED',
-              score: 0,
-              ping: 20,
-            };
+          console.log(`[Server] Player ${newPlayer.displayName} (${playerId}) joined room ${room.code}. Total players: ${Object.keys(room.players).length}`);
 
-            room.players[playerId] = newPlayer;
-            room.clients.set(playerId, socket);
-
-            const firstTeamId = Object.keys(room.teams)[0];
-            if (firstTeamId) {
-              room.joinTeam(playerId, firstTeamId);
-            } else {
-              room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
-            }
-
-            console.log(`[Server] JOINER joined room ${room.code} as ${playerId} (${newPlayer.displayName}). Total players: ${Object.keys(room.players).length}, Total clients: ${room.clients.size}`);
-
-            socket.send(
-              JSON.stringify({
-                type: 'ROOM_STATE',
-                payload: {
-                  playerId,
-                  roomCode: room.code,
-                  roomPassword: room.password || '',
-                  players: room.players,
-                  teams: room.teams,
-                  tournament: room.tournament,
-                },
-              })
-            );
-
-            // Immediately send current SOLO_GAME_STATE (with exact remaining room timer) to joiner
-            socket.send(
-              JSON.stringify({
-                type: 'SOLO_GAME_STATE',
-                payload: room.soloGameManager.state,
-              })
-            );
-
-            room.broadcast({
+          // Send initial state to the newly joined player
+          socket.send(
+            JSON.stringify({
               type: 'ROOM_STATE',
               payload: {
+                playerId,
                 roomCode: room.code,
                 roomPassword: room.password || '',
                 players: room.players,
                 teams: room.teams,
                 tournament: room.tournament,
               },
-            });
+            })
+          );
 
-            room.broadcast({
+          socket.send(
+            JSON.stringify({
               type: 'SOLO_GAME_STATE',
               payload: room.soloGameManager.state,
-            });
-          }
+            })
+          );
+
+          // Broadcast updated room state & timer to ALL clients in the room!
+          room.broadcast({
+            type: 'ROOM_STATE',
+            payload: {
+              roomCode: room.code,
+              roomPassword: room.password || '',
+              players: room.players,
+              teams: room.teams,
+              tournament: room.tournament,
+            },
+          });
+
+          room.broadcast({
+            type: 'SOLO_GAME_STATE',
+            payload: room.soloGameManager.state,
+          });
+
           break;
         }
 

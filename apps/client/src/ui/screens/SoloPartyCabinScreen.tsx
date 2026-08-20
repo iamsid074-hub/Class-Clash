@@ -58,7 +58,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
         NetworkClient.joinRoom({
           roomCode: store.roomCode,
           password: store.roomPassword,
-          isHost: true,
+          isHost: false,
           displayName: store.displayName || 'RACER',
           avatar: 'avatar_cyber',
         });
