@@ -17,22 +17,25 @@ export const MainMenuScreen: React.FC = () => {
   const handleCreateRoom = () => {
     const finalRoomId = createRoomIdInput.trim().toUpperCase() || ('ROOM_' + Math.floor(Math.random() * 899 + 100));
     const finalPassword = createPasswordInput.trim();
+    const finalName = profileNameInput.trim() || displayName || 'HOST RACER';
     setErrorMessage(null);
 
+    setRoomCode(finalRoomId);
+    setRoomPassword(finalPassword);
+
+    NetworkClient.send({
+      type: 'JOIN_ROOM',
+      payload: {
+        roomCode: finalRoomId,
+        password: finalPassword,
+        isHost: true,
+        displayName: finalName,
+        avatar: 'avatar_cyber',
+      },
+    });
+
     triggerGateTransition(() => {
-      setRoomCode(finalRoomId);
-      setRoomPassword(finalPassword);
       setScreen('TEAM_CABIN');
-      NetworkClient.connect();
-      NetworkClient.send({
-        type: 'JOIN_ROOM',
-        payload: {
-          roomCode: finalRoomId,
-          password: finalPassword,
-          isHost: true,
-          displayName: profileNameInput,
-        },
-      });
       setActiveModal('NONE');
     }, 'ENTERING CABIN', 'CREATING PRIVATE ROOM');
   };
@@ -44,22 +47,25 @@ export const MainMenuScreen: React.FC = () => {
     }
     const finalRoomId = joinRoomIdInput.trim().toUpperCase();
     const finalPassword = joinPasswordInput.trim();
+    const finalName = profileNameInput.trim() || displayName || 'GUEST RACER';
     setErrorMessage(null);
 
+    setRoomCode(finalRoomId);
+    setRoomPassword(finalPassword);
+
+    NetworkClient.send({
+      type: 'JOIN_ROOM',
+      payload: {
+        roomCode: finalRoomId,
+        password: finalPassword,
+        isHost: false,
+        displayName: finalName,
+        avatar: 'avatar_neon',
+      },
+    });
+
     triggerGateTransition(() => {
-      setRoomCode(finalRoomId);
-      setRoomPassword(finalPassword);
       setScreen('TEAM_CABIN');
-      NetworkClient.connect();
-      NetworkClient.send({
-        type: 'JOIN_ROOM',
-        payload: {
-          roomCode: finalRoomId,
-          password: finalPassword,
-          isHost: false,
-          displayName: profileNameInput,
-        },
-      });
       setActiveModal('NONE');
     }, 'ENTERING CABIN', 'JOINING PRIVATE ROOM');
   };
