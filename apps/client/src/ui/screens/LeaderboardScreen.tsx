@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../state/useGameStore';
-import { ArrowLeft, Trophy, Crown, Flame, Search, Medal, UserCheck } from 'lucide-react';
+import { ArrowLeft, Trophy, Search, UserCheck, Check, Sparkles, User, Medal } from 'lucide-react';
+
+const APPLE_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Plus Jakarta Sans', sans-serif";
 
 interface LeaderboardEntry {
   rank: number;
   displayName: string;
   avatarId: string;
-  teamName: string;
   wins: number;
   races: number;
   winRate: string;
@@ -14,66 +15,14 @@ interface LeaderboardEntry {
   isLocalPlayer?: boolean;
 }
 
-// 4 Distinct High-Resolution Vector Racer Avatars
-const RacerAvatarSvg: React.FC<{ avatarId?: string; size?: number }> = ({ avatarId = 'avatar_cyber', size = 44 }) => {
-  const index = Math.abs(
-    (avatarId || 'avatar_cyber').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
-  ) % 4;
-
-  switch (index) {
-    case 0:
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-          <circle cx="32" cy="32" r="30" fill="#2b0a3d" stroke="#ff007f" strokeWidth="2.5" />
-          <path d="M18 26C18 20 24 16 32 16C40 16 46 20 46 26V38C46 44 40 48 32 48C24 48 18 44 18 38V26Z" fill="#3d1454" />
-          <path d="M14 26C14 24 20 22 32 22C44 22 50 24 50 26C50 31 44 33 32 33C20 33 14 31 14 26Z" fill="#ff007f" />
-          <path d="M20 26H44" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="32" cy="42" r="3" fill="#ff66b3" />
-        </svg>
-      );
-    case 1:
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-          <circle cx="32" cy="32" r="30" fill="#15102a" stroke="#ff66b3" strokeWidth="2.5" />
-          <path d="M16 22L32 14L48 22V42L32 50L16 42V22Z" fill="#251d42" />
-          <path d="M20 28H44V34H20V28Z" fill="#0f0b1e" stroke="#ff0066" strokeWidth="1.5" />
-          <circle cx="26" cy="31" r="2.5" fill="#ffffff" />
-          <circle cx="38" cy="31" r="2.5" fill="#ffffff" />
-          <path d="M26 40H38" stroke="#ff0066" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
-    case 2:
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-          <circle cx="32" cy="32" r="30" fill="#2d0f3c" stroke="#ffffff" strokeWidth="2" />
-          <rect x="20" y="18" width="24" height="28" rx="8" fill="#4d1b64" />
-          <path d="M22 24C22 22 26 20 32 20C38 20 42 22 42 24V32C42 34 38 36 32 36C26 36 22 34 22 32V24Z" fill="#ff007f" />
-          <path d="M25 28L39 28" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
-          <path d="M12 28H18M46 28H52" stroke="#ff66b3" strokeWidth="3" strokeLinecap="round" />
-        </svg>
-      );
-    case 3:
-    default:
-      return (
-        <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-          <circle cx="32" cy="32" r="30" fill="#23062c" stroke="#ffd700" strokeWidth="2.5" />
-          <path d="M18 20L25 14L32 22L39 14L46 20V42H18V20Z" fill="#ff0066" />
-          <path d="M22 28H42V36H22V28Z" fill="#260830" />
-          <path d="M26 32H38" stroke="#ffd700" strokeWidth="2.5" strokeLinecap="round" />
-          <circle cx="32" cy="12" r="3" fill="#ffd700" />
-        </svg>
-      );
-  }
-};
-
 export const LeaderboardScreen: React.FC = () => {
   const { setScreen, displayName, triggerGateTransition } = useGameStore();
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterMode, setFilterMode] = useState<'ALL' | 'TOP' | 'LOCAL'>('ALL');
+  const [filterMode, setFilterMode] = useState<'ALL' | 'TOP'>('ALL');
   const [realLeaderboard, setRealLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   // Dynamically load real registered racer accounts & user sessions
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       const storedUsersRaw = localStorage.getItem('clasha_registered_users');
       const sessionRaw = localStorage.getItem('class_clash_session');
@@ -93,7 +42,7 @@ export const LeaderboardScreen: React.FC = () => {
       // If no users registered yet, show active racer entry
       if (profiles.length === 0) {
         profiles.push({
-          displayName: displayName || 'RACER_ONE',
+          displayName: displayName || '2eosV3',
           avatar: 'avatar_cyber',
           matchesPlayed: 0,
           leaderboardPoints: 0,
@@ -102,17 +51,21 @@ export const LeaderboardScreen: React.FC = () => {
 
       const sorted: LeaderboardEntry[] = profiles
         .sort((a, b) => (b.leaderboardPoints || 0) - (a.leaderboardPoints || 0))
-        .map((p, idx) => ({
-          rank: idx + 1,
-          displayName: p.displayName || 'RACER',
-          avatarId: p.avatar || 'avatar_cyber',
-          teamName: 'ARENA SQUAD',
-          wins: Math.floor((p.matchesPlayed || 0) * 0.7),
-          races: p.matchesPlayed || 0,
-          winRate: (p.matchesPlayed || 0) > 0 ? `${Math.round(((p.matchesPlayed || 0) * 0.7 / (p.matchesPlayed || 1)) * 100)}%` : '0%',
-          points: p.leaderboardPoints || 0,
-          isLocalPlayer: currentUser ? p.displayName === currentUser.displayName : true,
-        }));
+        .map((p, idx) => {
+          const races = p.matchesPlayed || 0;
+          const wins = Math.floor(races * 0.7);
+          const winRatePercent = races > 0 ? `${Math.round((wins / races) * 100)}%` : '0%';
+          return {
+            rank: idx + 1,
+            displayName: p.displayName || 'CLASHA Player',
+            avatarId: p.avatar || 'avatar_cyber',
+            wins,
+            races,
+            winRate: winRatePercent,
+            points: p.leaderboardPoints || 0,
+            isLocalPlayer: currentUser ? p.displayName === currentUser.displayName : true,
+          };
+        });
 
       setRealLeaderboard(sorted);
     } catch {
@@ -121,17 +74,15 @@ export const LeaderboardScreen: React.FC = () => {
   }, [displayName]);
 
   const filteredList = realLeaderboard.filter((entry) => {
-    const matchesSearch =
-      entry.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      entry.teamName.toLowerCase().includes(searchQuery.toLowerCase());
-    if (filterMode === 'TOP') return matchesSearch && entry.rank <= 5;
+    const matchesSearch = entry.displayName.toLowerCase().includes(searchQuery.toLowerCase());
+    if (filterMode === 'TOP') return matchesSearch && entry.rank <= 10;
     return matchesSearch;
   });
+
   const myPlayerEntry = realLeaderboard.find((e) => e.isLocalPlayer) || realLeaderboard[0] || {
     rank: 1,
-    displayName: displayName || 'RACER_ONE',
+    displayName: displayName || '2eosV3',
     avatarId: 'avatar_cyber',
-    teamName: 'ARENA SQUAD',
     wins: 0,
     races: 0,
     winRate: '0%',
@@ -139,472 +90,367 @@ export const LeaderboardScreen: React.FC = () => {
     isLocalPlayer: true,
   };
 
-  const rank1 = realLeaderboard[0] || myPlayerEntry;
-  const rank2 = realLeaderboard[1] || null;
-  const rank3 = realLeaderboard[2] || null;
+  const handleBackToMenu = () => {
+    triggerGateTransition(() => {
+      setScreen('MAIN_MENU');
+    }, 'MAIN MENU', 'CLASHA');
+  };
 
   return (
     <div
-      className="screen-overlay"
       style={{
         position: 'absolute',
         top: 0,
         left: 0,
         width: '100vw',
         height: '100vh',
-        background: 'linear-gradient(135deg, #fff0f6 0%, #ffffff 45%, #ffe6f2 100%)',
-        padding: '24px 36px',
+        zIndex: 10,
+        background: '#f2f2f7',
         display: 'flex',
         flexDirection: 'column',
-        gap: '20px',
-        overflow: 'hidden',
-        zIndex: 10,
-        pointerEvents: 'auto',
-        fontFamily: "'Outfit', sans-serif",
-        color: '#1a1a24',
+        alignItems: 'center',
+        overflowY: 'auto',
+        color: '#1c1c1e',
+        fontFamily: APPLE_FONT,
+        padding: '36px 48px',
+        boxSizing: 'border-box',
       }}
     >
-      {/* 1. FULL WIDTH TOP BAR */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-        {/* Left: Back Button */}
-        <button
-          className="hud-interactive"
-          onClick={() => triggerGateTransition(() => setScreen('MAIN_MENU'), 'MAIN MENU', 'CLASHA')}
+      {/* TOP RIGHT iOS CIRCULAR BACK BUTTON */}
+      <button
+        onClick={handleBackToMenu}
+        title="Back to Menu"
+        style={{
+          position: 'absolute',
+          top: '28px',
+          right: '36px',
+          width: '44px',
+          height: '44px',
+          borderRadius: '9999px',
+          background: '#ffffff',
+          border: '1px solid #e5e5ea',
+          color: '#1c1c1e',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
+          transition: 'all 0.2s ease',
+          zIndex: 40,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = '#007aff';
+          e.currentTarget.style.color = '#ffffff';
+          e.currentTarget.style.transform = 'scale(1.08)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#ffffff';
+          e.currentTarget.style.color = '#1c1c1e';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        <ArrowLeft size={20} strokeWidth={2.5} />
+      </button>
+
+      {/* CENTERED CONTAINER (MAX-WIDTH: 1000px) */}
+      <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+        
+        {/* Screen Title Header */}
+        <div style={{ marginBottom: '24px' }}>
+          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.03em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+            Leaderboard
+          </div>
+          <div style={{ fontSize: '0.9rem', color: '#8e8e93', marginTop: '2px', fontWeight: 500, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+            Global Player Rankings &amp; Competitive Standings
+          </div>
+        </div>
+
+        {/* 1. YOUR RANK SUMMARY BANNER */}
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '10px',
-            padding: '10px 22px',
-            fontSize: '0.95rem',
-            fontWeight: 800,
+            justifyContent: 'space-between',
+            width: '100%',
             background: '#ffffff',
-            border: '2px solid #ff66a3',
-            color: '#ff0066',
-            borderRadius: '50px',
-            cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(255, 0, 102, 0.15)',
+            border: '1px solid #e5e5ea',
+            borderRadius: '32px',
+            padding: '24px 32px',
+            boxSizing: 'border-box',
+            marginBottom: '24px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
           }}
         >
-          <ArrowLeft size={18} color="#ff0066" /> BACK TO MENU
-        </button>
-
-        {/* Right: LEADERBOARD Title Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div
-            style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, #ff0066 0%, #ff66b3 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 6px 18px rgba(255, 0, 102, 0.35)',
-            }}
-          >
-            <Trophy size={22} color="#ffffff" />
-          </div>
-
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.12em' }}>
-              GLOBAL STANDINGS
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
             <div
               style={{
-                fontSize: '1.9rem',
-                fontWeight: 900,
-                color: '#1a1a24',
-                fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
-                margin: 0,
-                lineHeight: 1.1,
-              }}
-            >
-              LEADERBOARD
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. FULL WIDTH RESPONSIVE DASHBOARD GRID */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 'clamp(14px, 2vw, 24px)',
-          flex: 1,
-          minHeight: 0,
-          width: '100%',
-          overflowY: 'auto',
-        }}
-      >
-        {/* LEFT COLUMN: PODIUM HALL OF FAME + YOUR CARD */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto' }}>
-          {/* Top 3 Podium Card Box */}
-          <div
-            style={{
-              background: '#ffffff',
-              borderRadius: '20px',
-              border: '2px solid #ffe0ec',
-              padding: '20px',
-              boxShadow: '0 8px 24px rgba(255, 0, 102, 0.08)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-            }}
-          >
-            <div style={{ fontWeight: 900, fontSize: '1rem', color: '#ff0066', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Crown size={18} color="#ff0066" /> TOP 3 CHAMPIONS
-            </div>
-
-            {/* Rank 1 Card */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)',
-                border: '2px solid #ffd700',
-                borderRadius: '14px',
-                padding: '14px 16px',
+                width: '64px',
+                height: '64px',
+                borderRadius: '9999px',
+                background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
-                boxShadow: '0 4px 14px rgba(255, 215, 0, 0.25)',
+                justifyContent: 'center',
+                color: '#ffffff',
+                boxShadow: '0 6px 20px rgba(0, 122, 255, 0.3)',
+                flexShrink: 0,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div
-                  style={{
-                    background: 'linear-gradient(135deg, #ffd700 0%, #ffaa00 100%)',
-                    color: '#1a1a24',
-                    fontWeight: 900,
-                    fontSize: '0.8rem',
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  🥇
-                </div>
-                <RacerAvatarSvg avatarId={rank1.avatarId} size={42} />
-                <div>
-                  <div style={{ fontWeight: 900, fontSize: '0.95rem', color: '#1a1a24' }}>{rank1.displayName}</div>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#ff0066' }}>{rank1.teamName}</div>
-                </div>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#ff0066' }}>{rank1.points} PTS</div>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#888899' }}>{rank1.winRate} WIN</div>
-              </div>
+              <User size={32} color="#ffffff" strokeWidth={2} />
             </div>
 
-            {/* Rank 2 Card */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                border: '1.5px solid #cbd5e1',
-                borderRadius: '14px',
-                padding: '12px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div
-                  style={{
-                    background: '#cbd5e1',
-                    color: '#475569',
-                    fontWeight: 900,
-                    fontSize: '0.8rem',
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  🥈
-                </div>
-                <RacerAvatarSvg avatarId={rank2?.avatarId || 'avatar_cyber'} size={38} />
-                <div>
-                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank2?.displayName || 'VACANT SLOT'}</div>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank2?.teamName || 'CHALLENGER SQUAD'}</div>
-                </div>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  {myPlayerEntry.displayName}
+                </span>
+                <span style={{ background: '#e4f9ec', color: '#34c759', padding: '3px 10px', borderRadius: '9999px', fontSize: '0.72rem', fontWeight: 700, fontFamily: APPLE_FONT }}>
+                  YOU
+                </span>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank2?.points || 0} PTS</div>
-              </div>
-            </div>
-
-            {/* Rank 3 Card */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #fff7ed 0%, #ffffff 100%)',
-                border: '1.5px solid #fdba74',
-                borderRadius: '14px',
-                padding: '12px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div
-                  style={{
-                    background: '#fed7aa',
-                    color: '#9a3412',
-                    fontWeight: 900,
-                    fontSize: '0.8rem',
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  🥉
-                </div>
-                <RacerAvatarSvg avatarId={rank3?.avatarId || 'avatar_cyber'} size={38} />
-                <div>
-                  <div style={{ fontWeight: 900, fontSize: '0.9rem', color: '#1a1a24' }}>{rank3?.displayName || 'VACANT SLOT'}</div>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#666677' }}>{rank3?.teamName || 'RENEGADE SQUAD'}</div>
-                </div>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.95rem', fontWeight: 900, color: '#1a1a24' }}>{rank3?.points || 0} PTS</div>
+              <div style={{ fontSize: '0.85rem', color: '#8e8e93', marginTop: '2px', fontWeight: 500, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                Global Standing #{myPlayerEntry.rank} • {myPlayerEntry.races} Rounds Played
               </div>
             </div>
           </div>
 
-          {/* YOUR PLAYER CARD BOX */}
-          <div
-            style={{
-              background: 'linear-gradient(135deg, rgba(255, 0, 102, 0.95) 0%, rgba(255, 102, 179, 0.95) 100%)',
-              borderRadius: '20px',
-              padding: '20px',
-              color: '#ffffff',
-              boxShadow: '0 10px 25px rgba(255, 0, 102, 0.35)',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 900, letterSpacing: '0.08em', color: '#ffe6f2' }}>
-                YOUR RANK & STATS
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>
+                YOUR SCORE
               </div>
-              <div style={{ background: '#ffffff', color: '#ff0066', fontWeight: 900, fontSize: '0.75rem', padding: '3px 10px', borderRadius: '12px' }}>
-                #{myPlayerEntry.rank} RANKED
+              <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#007aff', marginTop: '2px', fontFamily: APPLE_FONT }}>
+                {myPlayerEntry.points} PTS
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '16px' }}>
-              <RacerAvatarSvg avatarId={myPlayerEntry.avatarId} size={54} />
-              <div>
-                <div style={{ fontWeight: 900, fontSize: '1.25rem' }}>{myPlayerEntry.displayName}</div>
-                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#ffe6f2' }}>{myPlayerEntry.teamName}</div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(255,255,255,0.18)', borderRadius: '12px', padding: '10px 14px' }}>
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>SCORE</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.points} PTS</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>WIN RATE</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.winRate}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#ffe6f2' }}>WINS</div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 900 }}>{myPlayerEntry.wins}</div>
-              </div>
+            <div
+              style={{
+                background: '#007aff',
+                color: '#ffffff',
+                padding: '10px 20px',
+                borderRadius: '9999px',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                fontFamily: APPLE_FONT,
+                boxShadow: '0 4px 14px rgba(0, 122, 255, 0.3)',
+              }}
+            >
+              #{myPlayerEntry.rank} Ranked
             </div>
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FULL WIDTH RANKINGS TABLE & SEARCH FILTER */}
+        {/* 2. MAIN LEADERBOARD TABLE CONTAINER */}
         <div
           style={{
             background: '#ffffff',
-            borderRadius: '20px',
-            border: '2px solid #ffe0ec',
-            padding: '24px',
-            boxShadow: '0 8px 30px rgba(255, 0, 102, 0.06)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-            minHeight: 0,
-            overflow: 'hidden',
+            border: '1px solid #e5e5ea',
+            borderRadius: '32px',
+            padding: '28px 32px',
+            boxSizing: 'border-box',
+            marginBottom: '32px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
           }}
         >
-          {/* Search & Filter Header Bar */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-            {/* Filter Chips */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {(['ALL', 'TOP', 'LOCAL'] as const).map((mode) => (
-                <button
-                  key={mode}
-                  onClick={() => setFilterMode(mode)}
-                  style={{
-                    padding: '8px 18px',
-                    borderRadius: '30px',
-                    border: filterMode === mode ? 'none' : '1.5px solid #ffb6c1',
-                    background: filterMode === mode ? 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)' : '#ffffff',
-                    color: filterMode === mode ? '#ffffff' : '#666677',
-                    fontWeight: 900,
-                    fontSize: '0.82rem',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: filterMode === mode ? '0 4px 12px rgba(255, 0, 102, 0.3)' : 'none',
-                  }}
-                >
-                  {mode === 'ALL' ? 'ALL RACERS' : mode === 'TOP' ? 'TOP 5 ONLY' : 'MY SQUAD'}
-                </button>
-              ))}
-            </div>
-
-            {/* Live Search Input */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: '#fff0f6',
-                border: '1.5px solid #ffb6c1',
-                borderRadius: '30px',
-                padding: '6px 16px',
-                width: '280px',
-              }}
-            >
-              <Search size={16} color="#ff0066" />
+          {/* Controls Bar: Search Input & Filter Pills */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', gap: '16px', flexWrap: 'wrap' }}>
+            {/* Search Input */}
+            <div style={{ position: 'relative', width: '320px', maxWidth: '100%' }}>
+              <Search size={18} color="#8e8e93" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
               <input
                 type="text"
-                placeholder="Search racer or squad..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search player name..."
                 style={{
-                  border: 'none',
-                  background: 'transparent',
-                  outline: 'none',
-                  fontSize: '0.85rem',
-                  fontWeight: 700,
-                  color: '#1a1a24',
                   width: '100%',
+                  padding: '12px 16px 12px 46px',
+                  borderRadius: '9999px',
+                  border: '1px solid #d1d1d6',
+                  background: '#ffffff',
+                  color: '#1c1c1e',
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  fontFamily: APPLE_FONT,
                 }}
               />
+            </div>
+
+            {/* Filter Pills */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={() => setFilterMode('ALL')}
+                style={{
+                  padding: '10px 22px',
+                  borderRadius: '9999px',
+                  background: filterMode === 'ALL' ? '#007aff' : '#f2f2f7',
+                  border: filterMode === 'ALL' ? 'none' : '1px solid #e5e5ea',
+                  color: filterMode === 'ALL' ? '#ffffff' : '#1c1c1e',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  fontFamily: APPLE_FONT,
+                  textTransform: 'none',
+                  transition: 'all 0.2s ease',
+                  boxShadow: filterMode === 'ALL' ? '0 4px 14px rgba(0, 122, 255, 0.3)' : 'none',
+                }}
+              >
+                All Players
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFilterMode('TOP')}
+                style={{
+                  padding: '10px 22px',
+                  borderRadius: '9999px',
+                  background: filterMode === 'TOP' ? '#007aff' : '#f2f2f7',
+                  border: filterMode === 'TOP' ? 'none' : '1px solid #e5e5ea',
+                  color: filterMode === 'TOP' ? '#ffffff' : '#1c1c1e',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  fontFamily: APPLE_FONT,
+                  textTransform: 'none',
+                  transition: 'all 0.2s ease',
+                  boxShadow: filterMode === 'TOP' ? '0 4px 14px rgba(0, 122, 255, 0.3)' : 'none',
+                }}
+              >
+                Top 10 Only
+              </button>
             </div>
           </div>
 
           {/* Table Column Headers */}
           <div
             style={{
-              display: 'flex',
-              padding: '10px 20px',
-              background: '#fff8fa',
-              borderRadius: '12px',
-              fontSize: '0.75rem',
-              fontWeight: 900,
-              color: '#ff0066',
-              letterSpacing: '0.06em',
+              display: 'grid',
+              gridTemplateColumns: '80px 2fr 1.2fr 1fr 1.2fr',
+              padding: '0 20px 14px 20px',
+              borderBottom: '1px solid #e5e5ea',
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              color: '#8e8e93',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              fontFamily: APPLE_FONT,
             }}
           >
-            <div style={{ width: '80px' }}>RANK</div>
-            <div style={{ flex: 2 }}>RACER NAME</div>
-            <div style={{ flex: 1.5 }}>SQUAD</div>
-            <div style={{ flex: 1, textAlign: 'center' }}>WINS / RACES</div>
-            <div style={{ flex: 1, textAlign: 'center' }}>WIN RATE</div>
-            <div style={{ flex: 1, textAlign: 'right' }}>SCORE POINTS</div>
+            <div>RANK</div>
+            <div>PLAYER NAME</div>
+            <div>ROUNDS PLAYED</div>
+            <div>WIN RATE</div>
+            <div style={{ textAlign: 'right' }}>SCORE POINTS</div>
           </div>
 
-          {/* Full-Width Scrollable Rankings List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto', flex: 1, paddingRight: '4px' }}>
-            {filteredList.map((player) => (
-              <div
-                key={player.rank}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px 20px',
-                  borderRadius: '14px',
-                  transition: 'all 0.2s ease',
-                  background: player.isLocalPlayer
-                    ? 'linear-gradient(135deg, rgba(255, 0, 102, 0.12) 0%, rgba(255, 102, 179, 0.08) 100%)'
-                    : player.rank % 2 === 0
-                    ? '#fffafc'
-                    : '#ffffff',
-                  border: player.isLocalPlayer
-                    ? '2px solid #ff0066'
-                    : '1px solid #ffe6f0',
-                  boxShadow: player.isLocalPlayer ? '0 4px 16px rgba(255, 0, 102, 0.2)' : 'none',
-                }}
-              >
-                {/* Rank Badge */}
-                <div style={{ width: '80px', display: 'flex', alignItems: 'center' }}>
-                  <div
-                    style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      background: player.rank <= 3 ? '#ff0066' : '#f1f5f9',
-                      color: player.rank <= 3 ? '#ffffff' : '#64748b',
-                      fontWeight: 900,
-                      fontSize: '0.85rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    #{player.rank}
-                  </div>
-                </div>
-
-                {/* Racer Avatar & Name */}
-                <div style={{ flex: 2, display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <RacerAvatarSvg avatarId={player.avatarId} size={40} />
+          {/* Table Body Rows */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
+            {filteredList.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', color: '#8e8e93', fontWeight: 600, fontFamily: APPLE_FONT }}>
+                No players found matching "{searchQuery}".
+              </div>
+            ) : (
+              filteredList.map((entry) => (
+                <div
+                  key={entry.rank}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '80px 2fr 1.2fr 1fr 1.2fr',
+                    alignItems: 'center',
+                    padding: '16px 20px',
+                    borderRadius: '20px',
+                    background: entry.isLocalPlayer ? '#f0f7ff' : '#ffffff',
+                    border: entry.isLocalPlayer ? '1px solid #007aff' : '1px solid #f2f2f7',
+                    boxShadow: entry.isLocalPlayer ? '0 4px 16px rgba(0, 122, 255, 0.08)' : 'none',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  {/* Rank Column */}
                   <div>
-                    <div style={{ fontWeight: 900, fontSize: '1.05rem', color: '#1a1a24', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      {player.displayName}
-                      {player.isLocalPlayer && (
-                        <span
-                          style={{
-                            background: '#ff0066',
-                            color: '#ffffff',
-                            fontSize: '0.65rem',
-                            fontWeight: 900,
-                            padding: '2px 8px',
-                            borderRadius: '10px',
-                          }}
-                        >
-                          YOU
-                        </span>
-                      )}
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '9999px',
+                        fontSize: '0.9rem',
+                        fontWeight: 800,
+                        background:
+                          entry.rank === 1
+                            ? '#fff3e0'
+                            : entry.rank === 2
+                            ? '#f2f2f7'
+                            : entry.rank === 3
+                            ? '#fff5eb'
+                            : '#f2f2f7',
+                        color:
+                          entry.rank === 1
+                            ? '#ff9500'
+                            : entry.rank === 2
+                            ? '#8e8e93'
+                            : entry.rank === 3
+                            ? '#c67d0a'
+                            : '#1c1c1e',
+                        fontFamily: APPLE_FONT,
+                      }}
+                    >
+                      #{entry.rank}
+                    </span>
+                  </div>
+
+                  {/* Player Name Column */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div
+                      style={{
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '9999px',
+                        background: entry.isLocalPlayer ? '#007aff' : '#e5e5ea',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#ffffff',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <User size={18} color={entry.isLocalPlayer ? '#ffffff' : '#8e8e93'} />
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span>{entry.displayName}</span>
+                        {entry.isLocalPlayer && (
+                          <span style={{ background: '#007aff', color: '#ffffff', padding: '2px 8px', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 800, fontFamily: APPLE_FONT }}>
+                            YOU
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Squad */}
-                <div style={{ flex: 1.5, fontSize: '0.85rem', fontWeight: 800, color: '#ff0066' }}>
-                  {player.teamName}
-                </div>
+                  {/* Rounds Played Column */}
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    {entry.races} Rounds
+                  </div>
 
-                {/* Wins / Races */}
-                <div style={{ flex: 1, textAlign: 'center', fontSize: '0.9rem', fontWeight: 900, color: '#1a1a24' }}>
-                  {player.wins} / {player.races}
-                </div>
+                  {/* Win Rate Column */}
+                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#34c759', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    {entry.winRate}
+                  </div>
 
-                {/* Win Rate */}
-                <div style={{ flex: 1, textAlign: 'center', fontSize: '0.9rem', fontWeight: 900, color: '#ff0066' }}>
-                  {player.winRate}
+                  {/* Score Points Column */}
+                  <div style={{ textAlign: 'right', fontSize: '1.1rem', fontWeight: 800, color: '#007aff', fontFamily: APPLE_FONT }}>
+                    {entry.points} PTS
+                  </div>
                 </div>
-
-                {/* Points */}
-                <div style={{ flex: 1, textAlign: 'right', fontSize: '1.1rem', fontWeight: 900, color: '#ff0066' }}>
-                  {player.points.toLocaleString()} PTS
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
