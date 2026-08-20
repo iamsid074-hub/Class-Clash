@@ -59,6 +59,10 @@ export const AuthScreen: React.FC = () => {
   const handleGoogleSignIn = async () => {
     setAuthError(null);
     setIsLoading(true);
+    // Clean any old OAuth query params/hashes before launching new OAuth flow
+    if (window.location.search || window.location.hash) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     try {
       const { error, profile } = await SupabaseAuthService.signInWithGoogle();
       if (error) {
