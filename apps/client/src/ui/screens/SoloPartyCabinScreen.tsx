@@ -68,22 +68,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
     return () => clearTimeout(timer);
   }, [soloGameState]);
 
-  // Live 1-second interval timer tick for cabin phase
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const currentStore = useGameStore.getState();
-      const currentSoloState = currentStore.soloGameState;
-      if (currentSoloState && currentSoloState.phaseTimeRemaining > 0) {
-        currentStore.updateSoloGameState({
-          ...currentSoloState,
-          phaseTimeRemaining: currentSoloState.phaseTimeRemaining - 1,
-        });
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
   useEffect(() => {
     if (isMatchFinished) {
       if (!hasSavedResultRef.current) {

@@ -104,6 +104,14 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
+            // Immediately send current SOLO_GAME_STATE (with exact remaining room timer)
+            socket.send(
+              JSON.stringify({
+                type: 'SOLO_GAME_STATE',
+                payload: room.soloGameManager.state,
+              })
+            );
+
             // Broadcast to all clients
             room.broadcast({
               type: 'ROOM_STATE',
@@ -114,6 +122,11 @@ wss.on('connection', (socket: WebSocket) => {
                 teams: room.teams,
                 tournament: room.tournament,
               },
+            });
+
+            room.broadcast({
+              type: 'SOLO_GAME_STATE',
+              payload: room.soloGameManager.state,
             });
           } else {
             // Player Joining Existing Room
@@ -196,6 +209,14 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
+            // Immediately send current SOLO_GAME_STATE (with exact remaining room timer) to joiner
+            socket.send(
+              JSON.stringify({
+                type: 'SOLO_GAME_STATE',
+                payload: room.soloGameManager.state,
+              })
+            );
+
             room.broadcast({
               type: 'ROOM_STATE',
               payload: {
@@ -205,6 +226,11 @@ wss.on('connection', (socket: WebSocket) => {
                 teams: room.teams,
                 tournament: room.tournament,
               },
+            });
+
+            room.broadcast({
+              type: 'SOLO_GAME_STATE',
+              payload: room.soloGameManager.state,
             });
           }
           break;
