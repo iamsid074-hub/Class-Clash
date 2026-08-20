@@ -854,12 +854,12 @@ export const MainMenuScreen: React.FC = () => {
           zIndex: 25,
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '18px',
-          padding: '14px 32px 14px 22px',
+          gap: '12px',
+          padding: '10px 22px 10px 16px',
           background: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: '24px',
+          borderRadius: '18px',
           border: '2px solid #70e1ff',
           boxShadow: `
             0 0 25px rgba(0, 242, 254, 0.6),
@@ -890,32 +890,32 @@ export const MainMenuScreen: React.FC = () => {
             height: '45%',
             background: 'linear-gradient(180deg, rgba(224, 247, 250, 0.4) 0%, rgba(224, 247, 250, 0.0) 100%)',
             pointerEvents: 'none',
-            borderRadius: '24px 24px 0 0',
+            borderRadius: '18px 18px 0 0',
           }}
         />
 
         {/* Icy Snowflake Icon Capsule */}
         <div
           style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '14px',
+            width: '36px',
+            height: '36px',
+            borderRadius: '10px',
             background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 20px rgba(0, 242, 254, 0.9), inset 0 1px 2px #ffffff',
+            boxShadow: '0 0 16px rgba(0, 242, 254, 0.9), inset 0 1px 2px #ffffff',
             position: 'relative',
             zIndex: 2,
           }}
         >
-          <Snowflake size={28} color="#ffffff" strokeWidth={2.5} />
+          <Snowflake size={20} color="#ffffff" strokeWidth={2.5} />
         </div>
 
         <div style={{ textAlign: 'left', position: 'relative', zIndex: 2 }}>
           <h2
             style={{
-              fontSize: '2.6rem',
+              fontSize: '1.5rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
@@ -925,7 +925,7 @@ export const MainMenuScreen: React.FC = () => {
               lineHeight: 1,
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
+              gap: '8px',
               textTransform: 'uppercase',
             }}
           >
@@ -952,18 +952,18 @@ export const MainMenuScreen: React.FC = () => {
           </h2>
           <div
             style={{
-              fontSize: '0.82rem',
+              fontSize: '0.72rem',
               fontWeight: 900,
               color: '#70e1ff',
-              letterSpacing: '0.16em',
-              marginTop: '4px',
+              letterSpacing: '0.14em',
+              marginTop: '2px',
               textTransform: 'uppercase',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '4px',
             }}
           >
-            <Snowflake size={13} color="#70e1ff" strokeWidth={3} />
+            <Snowflake size={11} color="#70e1ff" strokeWidth={3} />
             <span>TOURNAMENT</span>
           </div>
         </div>
