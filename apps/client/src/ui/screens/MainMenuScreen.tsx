@@ -138,18 +138,20 @@ export const MainMenuScreen: React.FC = () => {
         </h1>
       </div>
 
-      {/* 2. RIGHT SIDE EDGE DIAGONAL RECTANGLE BUTTONS (LARGE & BOLD) */}
+      {/* 2. RIGHT SIDE EDGE DIAGONAL RECTANGLE BUTTONS (RESPONSIVE SCALING FOR ALL LAPTOPS) */}
       <div
         style={{
           position: 'absolute',
-          right: '48px',
+          right: 'clamp(16px, 3.5vw, 48px)',
           top: '52%',
           transform: 'translateY(-50%)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '26px',
+          gap: 'clamp(8px, 1.6vh, 22px)',
           alignItems: 'flex-end',
           zIndex: 20,
+          maxHeight: '85vh',
+          justifyContent: 'center',
         }}
       >
         {/* BUTTON 1: CREATE ROOM */}
@@ -159,14 +161,14 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 CREATE ROOM
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+              <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
                 HOST NEW CABIN
               </div>
             </div>
-            <Plus size={34} color="#ffffff" strokeWidth={3.2} />
+            <Plus size={28} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
 
@@ -177,14 +179,14 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 JOIN ROOM
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+              <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
                 ENTER ROOM CODE
               </div>
             </div>
-            <ArrowRight size={34} color="#ffffff" strokeWidth={3.2} />
+            <ArrowRight size={28} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
 
@@ -195,14 +197,14 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 PROFILE
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+              <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
                 {displayName || 'RACER PROFILE'}
               </div>
             </div>
-            <User size={34} color="#ffffff" strokeWidth={3.2} />
+            <User size={28} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
 
@@ -213,14 +215,14 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 LEADERBOARD
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+              <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
                 GLOBAL RANKINGS
               </div>
             </div>
-            <Trophy size={34} color="#ffffff" strokeWidth={3.2} />
+            <Trophy size={28} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
 
@@ -231,14 +233,14 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '1.65rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 SETTINGS
               </div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
+              <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
                 AUDIO & GRAPHICS
               </div>
             </div>
-            <Settings size={34} color="#ffffff" strokeWidth={3.2} />
+            <Settings size={28} color="#ffffff" strokeWidth={3.2} />
           </div>
         </button>
       </div>

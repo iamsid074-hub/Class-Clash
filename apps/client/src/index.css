@@ -20,9 +20,15 @@
   user-select: none;
 }
 
+html {
+  font-size: clamp(13px, 0.95vw + 0.4vh, 16px);
+}
+
 body, html, #root {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   overflow: hidden;
   background-color: var(--bg-main);
   color: var(--text-main);
@@ -108,19 +114,21 @@ h1, h2, h3, h4, .font-heading {
 .custom-pink-card {
   position: relative;
   background: #ffffff;
-  border-radius: 36px;
+  border-radius: clamp(20px, 2.5vw, 36px);
   box-shadow: 0 16px 45px rgba(255, 0, 102, 0.2);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
-  padding: 40px 32px 36px;
+  padding: clamp(20px, 3.5vh, 40px) clamp(16px, 2.5vw, 32px);
   display: flex;
-  flex-direction: column;
+  flexDirection: column;
   align-items: center;
   text-align: center;
+  max-width: 92vw;
+  max-height: 92vh;
 }
 
 .custom-pink-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: 0 22px 55px rgba(255, 0, 102, 0.32);
 }
 
@@ -130,11 +138,11 @@ h1, h2, h3, h4, .font-heading {
   position: absolute;
   top: 0;
   left: 0;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   background: #ff0066;
   clip-path: polygon(0 0, 100% 0, 0 100%);
-  border-top-left-radius: 36px;
+  border-top-left-radius: 28px;
 }
 
 /* Bottom-Right Pink Corner Notch Ribbon */
@@ -143,11 +151,11 @@ h1, h2, h3, h4, .font-heading {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   background: #ff0066;
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
-  border-bottom-right-radius: 36px;
+  border-bottom-right-radius: 28px;
 }
 
 /* Primary Button - Hot Pink Neon Gradient with White Bold Text */
@@ -155,9 +163,9 @@ h1, h2, h3, h4, .font-heading {
   background: linear-gradient(135deg, #ff007f 0%, #ff4da6 50%, #ff80bf 100%);
   color: #ffffff;
   border: none;
-  padding: 16px 32px;
+  padding: clamp(10px, 1.5vh, 16px) clamp(20px, 2vw, 32px);
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
   font-weight: 900;
   border-radius: 12px;
   cursor: pointer;
@@ -170,7 +178,7 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .btn-primary:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   box-shadow: 0 0 35px rgba(255, 0, 127, 0.8), 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
@@ -179,9 +187,9 @@ h1, h2, h3, h4, .font-heading {
   background: #ffffff;
   color: #ff007f;
   border: 2px solid #ff66b3;
-  padding: 16px 32px;
+  padding: clamp(10px, 1.5vh, 16px) clamp(20px, 2vw, 32px);
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
   font-weight: 900;
   border-radius: 12px;
   cursor: pointer;
@@ -193,7 +201,7 @@ h1, h2, h3, h4, .font-heading {
 }
 
 .btn-secondary:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   background: #fff0f5;
   box-shadow: 0 0 30px rgba(255, 102, 179, 0.8);
 }
@@ -203,9 +211,9 @@ h1, h2, h3, h4, .font-heading {
   background: rgba(20, 5, 25, 0.7);
   border: 2px solid var(--border-glass);
   color: #ffffff;
-  padding: 16px 20px;
+  padding: clamp(10px, 1.5vh, 16px) clamp(14px, 1.5vw, 20px);
   border-radius: 12px;
-  font-size: 1.15rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
   font-family: var(--font-heading);
   outline: none;
   transition: all 0.2s ease;
@@ -227,12 +235,15 @@ h1, h2, h3, h4, .font-heading {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
   z-index: 10;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 /* HUD Overlay */
@@ -247,7 +258,7 @@ h1, h2, h3, h4, .font-heading {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
+  padding: clamp(12px, 2vw, 24px);
 }
 
 .hud-interactive {
@@ -297,21 +308,21 @@ h1, h2, h3, h4, .font-heading {
   animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Diagonal Rectangle Parallelogram Menu Buttons (Right Edge - Large & Bold) */
+/* Diagonal Rectangle Parallelogram Menu Buttons (Fluid & Responsive Sizing for all Laptops) */
 .diagonal-menu-btn {
   transform: skewX(-16deg);
   background: linear-gradient(135deg, rgba(255, 0, 102, 0.95) 0%, rgba(220, 0, 90, 0.95) 100%);
   border: 3px solid #ffffff;
-  border-radius: 16px;
-  padding: 22px 38px;
-  width: 420px;
+  border-radius: clamp(10px, 1.2vw, 16px);
+  padding: clamp(12px, 1.8vh, 22px) clamp(20px, 2.4vw, 38px);
+  width: clamp(260px, 28vw, 420px);
   cursor: pointer;
   box-shadow: 0 12px 38px rgba(255, 0, 102, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.6);
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .diagonal-menu-btn:hover {
-  transform: skewX(-16deg) translateX(-18px) scale(1.04);
+  transform: skewX(-16deg) translateX(-12px) scale(1.03);
   background: linear-gradient(135deg, #ff0066 0%, #ff3385 100%);
   box-shadow: 0 16px 50px rgba(255, 0, 102, 0.8), inset 0 0 16px rgba(255, 255, 255, 0.6);
   border-color: #ffffff;
@@ -377,3 +388,26 @@ h1, h2, h3, h4, .font-heading {
   opacity: 0.35;
 }
 
+/* ========================================================== */
+/* RESPONSIVE SCALING MEDIA QUERIES FOR SMALL/MEDIUM LAPTOPS  */
+/* ========================================================== */
+
+@media (max-height: 860px) {
+  .diagonal-menu-btn {
+    padding: clamp(10px, 1.4vh, 16px) clamp(16px, 2vw, 28px);
+    width: clamp(240px, 26vw, 360px);
+  }
+}
+
+@media (max-height: 740px) {
+  .diagonal-menu-btn {
+    padding: clamp(8px, 1.2vh, 12px) clamp(14px, 1.8vw, 22px);
+    width: clamp(220px, 24vw, 320px);
+  }
+}
+
+@media (max-width: 1280px) {
+  .custom-pink-card {
+    padding: 24px 20px;
+  }
+}

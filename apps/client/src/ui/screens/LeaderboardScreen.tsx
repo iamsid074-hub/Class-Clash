@@ -226,15 +226,16 @@ export const LeaderboardScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. FULL WIDTH 2-COLUMN DASHBOARD GRID */}
+      {/* 2. FULL WIDTH RESPONSIVE DASHBOARD GRID */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '360px 1fr',
-          gap: '24px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: 'clamp(14px, 2vw, 24px)',
           flex: 1,
           minHeight: 0,
           width: '100%',
+          overflowY: 'auto',
         }}
       >
         {/* LEFT COLUMN: PODIUM HALL OF FAME + YOUR CARD */}

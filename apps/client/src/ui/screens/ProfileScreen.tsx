@@ -178,10 +178,10 @@ export const ProfileScreen: React.FC = () => {
           maxWidth: '1280px',
           width: '100%',
           margin: '0 auto',
-          padding: '40px 48px',
+          padding: 'clamp(20px, 3vh, 40px) clamp(16px, 3vw, 48px)',
           display: 'grid',
-          gridTemplateColumns: '1fr 1.2fr',
-          gap: '36px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: 'clamp(16px, 2.5vw, 36px)',
           boxSizing: 'border-box',
           alignItems: 'start',
         }}
