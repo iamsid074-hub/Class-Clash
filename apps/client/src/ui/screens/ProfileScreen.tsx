@@ -4,7 +4,6 @@ import {
   User,
   LogOut,
   Lock,
-  Smartphone,
   HelpCircle,
   Info,
   FileText,
@@ -17,8 +16,6 @@ import {
   Mail,
   Send,
   Copy,
-  Clock,
-  MessageSquare,
   ShieldCheck,
   CheckCircle2,
 } from 'lucide-react';
@@ -158,8 +155,8 @@ export const ProfileScreen: React.FC = () => {
           </div>
 
           {/* Section 1: MY ACCOUNT */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '10px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
               MY ACCOUNT
             </div>
 
@@ -178,8 +175,8 @@ export const ProfileScreen: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    padding: '11px 14px',
-                    borderRadius: '12px',
+                    padding: '12px 16px',
+                    borderRadius: '9999px', // Apple iOS Pill Button
                     background: isActive ? '#007aff' : 'transparent',
                     border: 'none',
                     color: isActive ? '#ffffff' : '#1c1c1e',
@@ -187,8 +184,8 @@ export const ProfileScreen: React.FC = () => {
                     fontSize: '0.9rem',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    transition: 'all 0.15s ease',
-                    boxShadow: isActive ? '0 4px 14px rgba(0, 122, 255, 0.25)' : 'none',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: isActive ? '0 6px 16px rgba(0, 122, 255, 0.3)' : 'none',
                   }}
                 >
                   <Icon size={17} color={isActive ? '#ffffff' : '#007aff'} />
@@ -199,8 +196,8 @@ export const ProfileScreen: React.FC = () => {
           </div>
 
           {/* Section 2: ASSISTANCE & LEGAL */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '10px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
               ASSISTANCE & LEGAL
             </div>
 
@@ -221,8 +218,8 @@ export const ProfileScreen: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    padding: '11px 14px',
-                    borderRadius: '12px',
+                    padding: '12px 16px',
+                    borderRadius: '9999px', // Apple iOS Pill Button
                     background: isActive ? '#007aff' : 'transparent',
                     border: 'none',
                     color: isActive ? '#ffffff' : '#1c1c1e',
@@ -230,8 +227,8 @@ export const ProfileScreen: React.FC = () => {
                     fontSize: '0.9rem',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    transition: 'all 0.15s ease',
-                    boxShadow: isActive ? '0 4px 14px rgba(0, 122, 255, 0.25)' : 'none',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: isActive ? '0 6px 16px rgba(0, 122, 255, 0.3)' : 'none',
                   }}
                 >
                   <Icon size={17} color={isActive ? '#ffffff' : '#8e8e93'} />
@@ -248,8 +245,8 @@ export const ProfileScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '12px 14px',
-            borderRadius: '14px',
+            padding: '12px 16px',
+            borderRadius: '24px',
             background: '#f2f2f7',
             border: '1px solid #e5e5ea',
           }}
@@ -257,9 +254,9 @@ export const ProfileScreen: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '10px',
+                width: '38px',
+                height: '38px',
+                borderRadius: '9999px',
                 background: '#007aff',
                 display: 'flex',
                 alignItems: 'center',
@@ -298,7 +295,7 @@ export const ProfileScreen: React.FC = () => {
       </div>
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. MAIN CONTENT AREA (SPANNING FULL 1020px WIDTH TO FILL SPACE) */}
+      {/* 2. MAIN CONTENT AREA (SPANNING FULL 1000px WIDTH TO FILL SPACE) */}
       {/* ------------------------------------------------------------- */}
       <div
         style={{
@@ -321,9 +318,9 @@ export const ProfileScreen: React.FC = () => {
             position: 'absolute',
             top: '28px',
             right: '36px',
-            width: '42px',
-            height: '42px',
-            borderRadius: '50%',
+            width: '44px',
+            height: '44px',
+            borderRadius: '9999px', // Circular Pill
             background: '#ffffff',
             border: '1px solid #e5e5ea',
             color: '#1c1c1e',
@@ -332,13 +329,13 @@ export const ProfileScreen: React.FC = () => {
             justifyContent: 'center',
             cursor: 'pointer',
             boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
-            transition: 'all 0.15s ease',
+            transition: 'all 0.2s ease',
             zIndex: 40,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = '#007aff';
             e.currentTarget.style.color = '#ffffff';
-            e.currentTarget.style.transform = 'scale(1.06)';
+            e.currentTarget.style.transform = 'scale(1.08)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = '#ffffff';
@@ -346,10 +343,10 @@ export const ProfileScreen: React.FC = () => {
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <ArrowLeft size={19} strokeWidth={2.4} />
+          <ArrowLeft size={20} strokeWidth={2.5} />
         </button>
 
-        {/* User Profile Header Banner (Full 1000px Width) */}
+        {/* User Profile Header Banner (Super-Rounded 32px Squircle) */}
         <div
           style={{
             display: 'flex',
@@ -359,49 +356,49 @@ export const ProfileScreen: React.FC = () => {
             maxWidth: '1000px',
             background: '#ffffff',
             border: '1px solid #e5e5ea',
-            borderRadius: '24px',
-            padding: '24px 32px',
+            borderRadius: '32px', // Ultra-smooth Apple squircle
+            padding: '26px 36px',
             boxSizing: 'border-box',
             marginBottom: '28px',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
           }}
         >
           <div
             style={{
-              width: '76px',
-              height: '76px',
-              borderRadius: '22px',
+              width: '80px',
+              height: '80px',
+              borderRadius: '9999px', // Apple Circle Avatar
               background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 8px 22px rgba(0, 122, 255, 0.3)',
+              boxShadow: '0 8px 24px rgba(0, 122, 255, 0.35)',
               flexShrink: 0,
             }}
           >
-            <User size={44} color="#ffffff" strokeWidth={2} />
+            <User size={46} color="#ffffff" strokeWidth={2} />
           </div>
 
           <div style={{ textAlign: 'left' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.03em' }}>
+              <span style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.03em' }}>
                 {profileNameInput || displayName || '2eosV3'}
               </span>
               <div
                 style={{
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '9999px',
                   background: '#007aff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <Check size={12} color="#ffffff" strokeWidth={3} />
+                <Check size={13} color="#ffffff" strokeWidth={3} />
               </div>
             </div>
-            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginTop: '2px', fontWeight: 500 }}>
+            <div style={{ fontSize: '0.9rem', color: '#8e8e93', marginTop: '2px', fontWeight: 500 }}>
               {userEmail}
             </div>
           </div>
@@ -416,7 +413,7 @@ export const ProfileScreen: React.FC = () => {
               Personal details
             </div>
 
-            {/* iOS Grouped 2-Column Grid */}
+            {/* iOS Super-Rounded 2-Column Grid */}
             <div
               style={{
                 display: 'grid',
@@ -427,7 +424,7 @@ export const ProfileScreen: React.FC = () => {
               }}
             >
               {/* FULL NAME */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   FULL NAME
                 </div>
@@ -437,8 +434,8 @@ export const ProfileScreen: React.FC = () => {
                   onChange={(e) => setProfileNameInput(e.target.value)}
                   style={{
                     width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: '10px',
+                    padding: '10px 16px',
+                    borderRadius: '16px', // Rounded input
                     border: '1px solid #d1d1d6',
                     background: '#ffffff',
                     fontSize: '1rem',
@@ -451,7 +448,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* EMAIL */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   EMAIL
                 </div>
@@ -461,7 +458,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* ACCOUNT STATUS */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   ACCOUNT STATUS
                 </div>
@@ -471,7 +468,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* JOINED */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   JOINED
                 </div>
@@ -481,7 +478,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* LEADERBOARD RANKING */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   LEADERBOARD RANKING
                 </div>
@@ -491,7 +488,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* NATIONALITY */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   NATIONALITY
                 </div>
@@ -501,7 +498,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* MATCHES PLAYED */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   MATCHES PLAYED
                 </div>
@@ -511,7 +508,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* LEADERBOARD POINTS */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px 26px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   LEADERBOARD POINTS
                 </div>
@@ -521,22 +518,22 @@ export const ProfileScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* Full Width Save Button */}
+            {/* iOS Full-Width Pill Save Button */}
             <button
               type="button"
               onClick={handleSaveAndReturn}
               style={{
                 width: '100%',
-                padding: '16px 28px',
-                borderRadius: '16px',
+                padding: '18px 36px',
+                borderRadius: '9999px', // Apple Pill Button
                 background: '#007aff',
                 border: 'none',
                 color: '#ffffff',
-                fontWeight: 700,
+                fontWeight: 800,
                 fontSize: '1rem',
                 cursor: 'pointer',
-                boxShadow: '0 6px 20px rgba(0, 122, 255, 0.3)',
-                transition: 'transform 0.15s ease',
+                boxShadow: '0 8px 24px rgba(0, 122, 255, 0.35)',
+                transition: 'all 0.2s ease',
               }}
             >
               {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
@@ -553,7 +550,7 @@ export const ProfileScreen: React.FC = () => {
               Statistics
             </div>
 
-            {/* 4 Cards Row spanning full 1000px */}
+            {/* 4 Super-Rounded Cards Row */}
             <div
               style={{
                 display: 'grid',
@@ -563,7 +560,7 @@ export const ProfileScreen: React.FC = () => {
                 marginBottom: '28px',
               }}
             >
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   MATCHES PLAYED
                 </div>
@@ -572,7 +569,7 @@ export const ProfileScreen: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   TOTAL SCORE
                 </div>
@@ -581,7 +578,7 @@ export const ProfileScreen: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   WIN RATE
                 </div>
@@ -590,7 +587,7 @@ export const ProfileScreen: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '22px' }}>
                 <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   GLOBAL RANKING
                 </div>
@@ -601,7 +598,7 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             {/* Performance Breakdown Card */}
-            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '24px 28px', marginBottom: '28px' }}>
+            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '28px 32px', marginBottom: '28px' }}>
               <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '18px' }}>
                 Performance Metrics
               </div>
@@ -631,8 +628,8 @@ export const ProfileScreen: React.FC = () => {
               onClick={handleBackToMenu}
               style={{
                 width: '100%',
-                padding: '16px 28px',
-                borderRadius: '16px',
+                padding: '18px 36px',
+                borderRadius: '9999px', // Pill Button
                 background: '#ffffff',
                 border: '1px solid #e5e5ea',
                 color: '#1c1c1e',
@@ -655,8 +652,8 @@ export const ProfileScreen: React.FC = () => {
               Tournament Status
             </div>
 
-            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '32px', marginBottom: '28px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '36px', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <div>
                   <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>
                     UPCOMING CHAMPIONSHIP
@@ -670,8 +667,8 @@ export const ProfileScreen: React.FC = () => {
                   style={{
                     background: matchesPlayed >= 10 && points >= 50 ? '#e4f9ec' : '#fff3e0',
                     color: matchesPlayed >= 10 && points >= 50 ? '#34c759' : '#ff9500',
-                    padding: '6px 16px',
-                    borderRadius: '50px',
+                    padding: '8px 20px',
+                    borderRadius: '9999px', // Pill Badge
                     fontSize: '0.82rem',
                     fontWeight: 800,
                   }}
@@ -681,74 +678,74 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* LARGE 10-DAY COUNTDOWN TIMER */}
-              <div style={{ marginBottom: '28px' }}>
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px', textAlign: 'center' }}>
+              <div style={{ marginBottom: '32px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '14px', textAlign: 'center' }}>
                   REGISTRATION UNLOCK COUNTDOWN
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', textAlign: 'center' }}>
-                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
-                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '22px 8px' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.days).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>DAYS</div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '8px' }}>DAYS</div>
                   </div>
 
-                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
-                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '22px 8px' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.hours).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>HOURS</div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '8px' }}>HOURS</div>
                   </div>
 
-                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
-                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '22px 8px' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.minutes).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>MINUTES</div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '8px' }}>MINUTES</div>
                   </div>
 
-                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
-                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#007aff', lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '22px 8px' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#007aff', lineHeight: 1 }}>
                       {String(timeLeft.seconds).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>SECONDS</div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '8px' }}>SECONDS</div>
                   </div>
                 </div>
               </div>
 
               {/* Requirements Checklist */}
-              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '20px', marginBottom: '24px' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '12px' }}>
+              <div style={{ background: '#f2f2f7', borderRadius: '24px', padding: '24px', marginBottom: '28px' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '14px' }}>
                   QUALIFICATION REQUIREMENTS
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', fontWeight: 600, color: '#1c1c1e' }}>
                     <Check size={18} color={matchesPlayed >= 10 ? '#34c759' : '#ff9500'} />
                     <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', fontWeight: 600, color: '#1c1c1e' }}>
                     <Check size={18} color={points >= 50 ? '#34c759' : '#ff9500'} />
                     <span>50+ Leaderboard Points (Current: {points} Points)</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', fontWeight: 600, color: '#1c1c1e' }}>
                     <Check size={18} color="#34c759" />
                     <span>Identity Verification Completed (Status: Verified)</span>
                   </div>
                 </div>
               </div>
 
-              {/* Locked Button */}
+              {/* Locked Pill Button */}
               <button
                 type="button"
                 disabled
                 style={{
                   width: '100%',
-                  padding: '16px 24px',
-                  borderRadius: '14px',
+                  padding: '18px 28px',
+                  borderRadius: '9999px', // Apple Pill Button
                   background: '#e5e5ea',
                   border: 'none',
                   color: '#8e8e93',
@@ -769,7 +766,7 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* TAB 4: SUPPORT (ULTRA-CLEAN 1000px iOS GRID - NO WASTED SPACE) */}
+        {/* TAB 4: SUPPORT (SUPER-ROUNDED iOS 32px CARDS & PILL BUTTONS) */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'support' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
@@ -784,26 +781,26 @@ export const ProfileScreen: React.FC = () => {
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e5e5ea',
-                  borderRadius: '22px',
-                  padding: '24px 28px',
+                  borderRadius: '32px', // Ultra-rounded Apple Card
+                  padding: '26px 32px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <div
                     style={{
-                      width: '52px',
-                      height: '52px',
-                      borderRadius: '16px',
+                      width: '54px',
+                      height: '54px',
+                      borderRadius: '9999px', // Circle icon container
                       background: '#007aff',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       color: '#ffffff',
-                      boxShadow: '0 6px 16px rgba(0, 122, 255, 0.3)',
+                      boxShadow: '0 6px 18px rgba(0, 122, 255, 0.3)',
                       flexShrink: 0,
                     }}
                   >
@@ -814,19 +811,19 @@ export const ProfileScreen: React.FC = () => {
                     <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                       SUPPORT EMAIL
                     </div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1c1c1e', marginTop: '2px' }}>
+                    <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#1c1c1e', marginTop: '2px' }}>
                       clasha@gmail.com
                     </div>
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
                   <button
                     type="button"
                     onClick={handleCopySupportEmail}
                     style={{
-                      padding: '10px 16px',
-                      borderRadius: '12px',
+                      padding: '12px 20px',
+                      borderRadius: '9999px', // Apple Pill Button
                       background: '#f2f2f7',
                       border: '1px solid #e5e5ea',
                       color: '#1c1c1e',
@@ -845,8 +842,8 @@ export const ProfileScreen: React.FC = () => {
                   <a
                     href="mailto:clasha@gmail.com"
                     style={{
-                      padding: '10px 16px',
-                      borderRadius: '12px',
+                      padding: '12px 20px',
+                      borderRadius: '9999px', // Apple Pill Button
                       background: '#007aff',
                       border: 'none',
                       color: '#ffffff',
@@ -857,7 +854,7 @@ export const ProfileScreen: React.FC = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      boxShadow: '0 4px 12px rgba(0, 122, 255, 0.25)',
+                      boxShadow: '0 4px 14px rgba(0, 122, 255, 0.3)',
                     }}
                   >
                     <Send size={15} color="#ffffff" />
@@ -871,20 +868,20 @@ export const ProfileScreen: React.FC = () => {
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e5e5ea',
-                  borderRadius: '22px',
-                  padding: '24px 28px',
+                  borderRadius: '32px', // Ultra-rounded Apple Card
+                  padding: '26px 32px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                   <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#34c759' }} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#34c759' }}>24/7 Support Live</span>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#34c759' }}>24/7 Support Live</span>
                 </div>
                 <div style={{ fontSize: '0.82rem', color: '#8e8e93', fontWeight: 500 }}>
-                  Under 2 hours average ticket resolution time.
+                  Under 2 hours average response time.
                 </div>
               </div>
             </div>
@@ -892,13 +889,13 @@ export const ProfileScreen: React.FC = () => {
             {/* Row 2: 2-Column Grid (Ticket Form Left 55% + FAQ Right 45%) */}
             <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px' }}>
               {/* Left Column: Direct Ticket Form */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '22px', padding: '28px' }}>
-                <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '18px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '32px' }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px' }}>
                   Submit Support Ticket
                 </div>
 
                 {ticketSent ? (
-                  <div style={{ background: '#e4f9ec', border: '1px solid #a7f3d0', borderRadius: '16px', padding: '24px', textAlign: 'center', color: '#15803d', fontWeight: 700 }}>
+                  <div style={{ background: '#e4f9ec', border: '1px solid #a7f3d0', borderRadius: '24px', padding: '24px', textAlign: 'center', color: '#15803d', fontWeight: 700 }}>
                     <Check size={32} color="#34c759" style={{ margin: '0 auto 10px auto', display: 'block' }} />
                     <div style={{ fontSize: '1.1rem' }}>Ticket Submitted!</div>
                     <div style={{ fontSize: '0.85rem', fontWeight: 500, marginTop: '6px', color: '#166534' }}>
@@ -906,10 +903,10 @@ export const ProfileScreen: React.FC = () => {
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleTicketSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                  <form onSubmit={handleTicketSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                       <div>
-                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
                           CATEGORY
                         </label>
                         <select
@@ -917,13 +914,13 @@ export const ProfileScreen: React.FC = () => {
                           onChange={(e) => setSupportCategory(e.target.value)}
                           style={{
                             width: '100%',
-                            padding: '10px 12px',
-                            borderRadius: '10px',
+                            padding: '12px 16px',
+                            borderRadius: '18px', // iOS Rounded select
                             border: '1px solid #d1d1d6',
                             background: '#ffffff',
                             color: '#1c1c1e',
                             fontWeight: 600,
-                            fontSize: '0.88rem',
+                            fontSize: '0.9rem',
                             outline: 'none',
                           }}
                         >
@@ -936,7 +933,7 @@ export const ProfileScreen: React.FC = () => {
                       </div>
 
                       <div>
-                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
                           YOUR EMAIL
                         </label>
                         <input
@@ -945,13 +942,13 @@ export const ProfileScreen: React.FC = () => {
                           value={userEmail}
                           style={{
                             width: '100%',
-                            padding: '10px 12px',
-                            borderRadius: '10px',
+                            padding: '12px 16px',
+                            borderRadius: '18px',
                             border: '1px solid #e5e5ea',
                             background: '#f2f2f7',
                             color: '#8e8e93',
                             fontWeight: 600,
-                            fontSize: '0.88rem',
+                            fontSize: '0.9rem',
                             outline: 'none',
                             boxSizing: 'border-box',
                           }}
@@ -960,7 +957,7 @@ export const ProfileScreen: React.FC = () => {
                     </div>
 
                     <div>
-                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
                         SUBJECT
                       </label>
                       <input
@@ -971,13 +968,13 @@ export const ProfileScreen: React.FC = () => {
                         placeholder="Brief summary of your issue..."
                         style={{
                           width: '100%',
-                          padding: '10px 12px',
-                          borderRadius: '10px',
+                          padding: '12px 16px',
+                          borderRadius: '18px',
                           border: '1px solid #d1d1d6',
                           background: '#ffffff',
                           color: '#1c1c1e',
                           fontWeight: 600,
-                          fontSize: '0.88rem',
+                          fontSize: '0.9rem',
                           outline: 'none',
                           boxSizing: 'border-box',
                         }}
@@ -985,7 +982,7 @@ export const ProfileScreen: React.FC = () => {
                     </div>
 
                     <div>
-                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px', display: 'block' }}>
                         DESCRIPTION
                       </label>
                       <textarea
@@ -996,13 +993,13 @@ export const ProfileScreen: React.FC = () => {
                         placeholder="Describe your request..."
                         style={{
                           width: '100%',
-                          padding: '10px 12px',
-                          borderRadius: '10px',
+                          padding: '14px 16px',
+                          borderRadius: '20px',
                           border: '1px solid #d1d1d6',
                           background: '#ffffff',
                           color: '#1c1c1e',
                           fontWeight: 500,
-                          fontSize: '0.88rem',
+                          fontSize: '0.9rem',
                           outline: 'none',
                           boxSizing: 'border-box',
                           resize: 'vertical',
@@ -1010,18 +1007,19 @@ export const ProfileScreen: React.FC = () => {
                       />
                     </div>
 
+                    {/* Apple iOS Full Pill Submit Button */}
                     <button
                       type="submit"
                       style={{
-                        padding: '14px',
-                        borderRadius: '12px',
+                        padding: '16px 32px',
+                        borderRadius: '9999px', // Pill Button
                         background: '#007aff',
                         border: 'none',
                         color: '#ffffff',
-                        fontWeight: 700,
-                        fontSize: '0.92rem',
+                        fontWeight: 800,
+                        fontSize: '0.95rem',
                         cursor: 'pointer',
-                        boxShadow: '0 4px 14px rgba(0, 122, 255, 0.3)',
+                        boxShadow: '0 6px 20px rgba(0, 122, 255, 0.35)',
                       }}
                     >
                       Submit Ticket
@@ -1031,34 +1029,34 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* Right Column: Quick FAQ List */}
-              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '22px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1c1c1e' }}>
                   Frequently Asked Questions
                 </div>
 
-                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                <div style={{ padding: '16px', borderRadius: '20px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
                     ❓ How to join room?
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                  <div style={{ fontSize: '0.82rem', color: '#8e8e93', lineHeight: 1.4 }}>
                     Main Menu -&gt; Join Room -&gt; Enter Room ID &amp; Password.
                   </div>
                 </div>
 
-                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                <div style={{ padding: '16px', borderRadius: '20px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
                     ❓ How to qualify for Winter Doom?
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                  <div style={{ fontSize: '0.82rem', color: '#8e8e93', lineHeight: 1.4 }}>
                     Complete 10+ rounds and earn 50+ points before 10-day unlock.
                   </div>
                 </div>
 
-                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                <div style={{ padding: '16px', borderRadius: '20px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
                     ❓ Direct Email Contact
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                  <div style={{ fontSize: '0.82rem', color: '#8e8e93', lineHeight: 1.4 }}>
                     Email us anytime at <strong>clasha@gmail.com</strong> for assistance.
                   </div>
                 </div>
@@ -1076,9 +1074,9 @@ export const ProfileScreen: React.FC = () => {
               {activeTab.replace('_', ' ')}
             </div>
 
-            <div style={{ background: '#ffffff', borderRadius: '22px', border: '1px solid #e5e5ea', padding: '36px', textAlign: 'center' }}>
-              <ShieldCheck size={36} color="#007aff" style={{ margin: '0 auto 12px auto', display: 'block' }} />
-              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1c1c1e' }}>CLASHA {activeTab.toUpperCase()} POLICY</div>
+            <div style={{ background: '#ffffff', borderRadius: '32px', border: '1px solid #e5e5ea', padding: '40px', textAlign: 'center' }}>
+              <ShieldCheck size={40} color="#007aff" style={{ margin: '0 auto 14px auto', display: 'block' }} />
+              <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1c1c1e' }}>CLASHA {activeTab.toUpperCase()} POLICY</div>
               <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginTop: '6px', maxWidth: '480px', margin: '6px auto 0 auto' }}>
                 All legal, terms, and privacy guidelines are strictly verified for CLASHA v1.0.4. Contact <strong>clasha@gmail.com</strong> for any inquiries.
               </div>
