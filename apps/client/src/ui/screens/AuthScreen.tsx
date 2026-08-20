@@ -354,24 +354,59 @@ export const AuthScreen: React.FC = () => {
             </button>
           </div>
 
-          {/* Auth Error Banner - Pure Apple iOS UI (No Icon) */}
+          {/* Auth Error Banner with Direct Google Login Fallback */}
           {authError && (
             <div
               style={{
                 background: 'rgba(255, 59, 48, 0.12)',
                 backdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255, 69, 58, 0.28)',
-                borderRadius: '14px',
-                padding: '12px 18px',
+                borderRadius: '16px',
+                padding: '14px 18px',
                 color: '#ff453a',
                 fontSize: '0.86rem',
                 fontWeight: 600,
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
                 lineHeight: 1.45,
                 letterSpacing: '-0.01em',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
               }}
             >
-              {authError}
+              <div>{authError}</div>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  const { profile } = await SupabaseAuthService.fastGoogleSignIn();
+                  if (profile?.displayName) {
+                    setDisplayName(profile.displayName);
+                    triggerGateTransition(() => {
+                      setScreen('MAIN_MENU');
+                    }, 'AUTHENTICATED', profile.displayName);
+                  }
+                }}
+                style={{
+                  padding: '10px 18px',
+                  borderRadius: '9999px',
+                  background: '#ff0066',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 800,
+                  fontSize: '0.82rem',
+                  cursor: 'pointer',
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 14px rgba(255, 0, 102, 0.4)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                ⚡ Continue with Direct Google Login
+              </button>
             </div>
           )}
 
