@@ -18,6 +18,7 @@ import {
   Settings as SettingsIcon,
   Gamepad2,
   Check,
+  ArrowLeft,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -277,6 +278,40 @@ export const ProfileScreen: React.FC = () => {
           position: 'relative',
         }}
       >
+        {/* TOP RIGHT SMALL BACK ARROW BUTTON */}
+        <button
+          onClick={handleBackToMenu}
+          title="Back to Menu"
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            background: '#f1f5f9',
+            border: '1px solid #cbd5e1',
+            color: '#0f172a',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+            transition: 'all 0.15s ease',
+            zIndex: 40,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#e2e8f0';
+            e.currentTarget.style.transform = 'scale(1.08)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = '#f1f5f9';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <ArrowLeft size={18} color="#0f172a" strokeWidth={2.2} />
+        </button>
+
         {/* Top User Header Avatar & Title */}
         <div
           style={{
