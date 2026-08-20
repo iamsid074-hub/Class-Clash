@@ -28,6 +28,10 @@ import {
   EyeOff,
   Scale,
   RefreshCw,
+  Database,
+  Share2,
+  Cookie,
+  FileLock,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -1339,9 +1343,103 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER LEGAL & ASSISTANCE TABS (PRIVACY, FAQ) */}
+        {/* TAB 7: PRIVACY POLICY */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && activeTab !== 'terms' && (
+        {activeTab === 'privacy' && (
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              Privacy Policy
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginBottom: '24px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              How CLASHA Collects, Protects, and Handles User Data &amp; Privacy.
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
+              {/* Section 1: Information We Collect */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Database size={20} color="#007aff" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    1. Minimal Information We Collect
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  CLASHA only collects essential gameplay data required to provide real-time multiplayer cabins: Display Name, Account Email, Leaderboard Scores, and Match Statistics. We <strong>NEVER access, request, or store sensitive identity documents, bank details, device contacts, or location tracking</strong>.
+                </div>
+              </div>
+
+              {/* Section 2: How Data is Used */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <FileLock size={20} color="#34c759" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    2. Purpose &amp; Usage of Your Data
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Your data is strictly utilized for account authentication, party cabin matchmaking, global leaderboard rankings, and resolving support requests submitted to <strong>clasha@gmail.com</strong>. We do NOT build advertising profiles or track user activity across external websites.
+                </div>
+              </div>
+
+              {/* Section 3: Third-Party Selling Disclaimer */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Share2 size={20} color="#ff3b30" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    3. Zero Third-Party Selling or Monetization
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  <strong>We NEVER sell, rent, trade, or monetize your personal data</strong> to any third-party advertisers, marketing agencies, or data brokers. All user data remains confidential and protected under strict access protocols.
+                </div>
+              </div>
+
+              {/* Section 4: Data Encryption & Security */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <ShieldCheck size={20} color="#5856d6" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    4. Cloud Infrastructure &amp; Encryption
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Session authentication and profile records are secured using SSL/TLS encryption and stored on cloud database infrastructure (Supabase &amp; Colyseus). We employ automated security safeguards to prevent unauthorized access.
+                </div>
+              </div>
+
+              {/* Section 5: Cookies & Local Storage */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Cookie size={20} color="#ff9500" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    5. Local Storage &amp; Cookie Usage
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  CLASHA utilizes minimal browser LocalStorage strictly to store local sound settings, session authentication tokens, and user preferences. We do <strong>NOT use tracking cookies or third-party web beacons</strong>.
+                </div>
+              </div>
+
+              {/* Section 6: Data Deletion & User Rights */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Trash2 size={20} color="#ff2d55" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    6. Complete Data Control &amp; Account Deletion Rights
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  You have full rights over your data. If you wish to purge your gameplay records, delete your account, or request a copy of your stored data, email support anytime at <strong>clasha@gmail.com</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER LEGAL & ASSISTANCE TABS (FAQ) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && activeTab !== 'terms' && activeTab !== 'privacy' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '20px', textTransform: 'capitalize', fontFamily: APPLE_FONT }}>
               {activeTab.replace('_', ' ')}
