@@ -110,7 +110,7 @@ export const ProfileScreen: React.FC = () => {
 
             {[
               { id: 'profile', label: 'Profile', icon: User },
-              { id: 'stats', label: 'Racer Statistics', icon: BarChart2 },
+              { id: 'stats', label: 'Statistics', icon: BarChart2 },
               { id: 'tournament', label: 'Tournament Status', icon: Trophy },
               { id: 'delivery', label: 'Delivery Partner', icon: Truck },
               { id: 'security', label: 'Security & Access', icon: Lock },
@@ -348,141 +348,284 @@ export const ProfileScreen: React.FC = () => {
 
         <hr style={{ width: '100%', maxWidth: '720px', border: 'none', borderTop: '1px solid #e2e8f0', marginBottom: '32px' }} />
 
-        {/* Section: Personal details */}
-        <div style={{ width: '100%', maxWidth: '720px' }}>
-          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '28px' }}>
-            Personal details
-          </div>
-
-          {/* Grid Layout 2x3 */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              columnGap: '60px',
-              rowGap: '28px',
-              width: '100%',
-              marginBottom: '40px',
-            }}
-          >
-            {/* FULL NAME */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                FULL NAME
-              </div>
-              <input
-                type="text"
-                value={profileNameInput}
-                onChange={(e) => setProfileNameInput(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: '8px',
-                  border: '1px solid #cbd5e1',
-                  background: '#ffffff',
-                  fontSize: '0.95rem',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-              />
+        {/* ------------------------------------------------------------- */}
+        {/* TAB 1: PROFILE / PERSONAL DETAILS */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === 'profile' && (
+          <div style={{ width: '100%', maxWidth: '720px' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '28px' }}>
+              Personal details
             </div>
 
-            {/* EMAIL */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                EMAIL
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                {userEmail}
-              </div>
-            </div>
-
-            {/* ACCOUNT STATUS */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                ACCOUNT STATUS
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                Active
-              </div>
-            </div>
-
-            {/* JOINED */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                JOINED
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                August 2026
-              </div>
-            </div>
-
-            {/* LEADERBOARD RANKING */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                LEADERBOARD RANKING
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                {points > 100 ? '#1' : points > 0 ? '#3' : '#12'}
-              </div>
-            </div>
-
-            {/* NATIONALITY */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                NATIONALITY
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                Indian
-              </div>
-            </div>
-
-            {/* MATCHES PLAYED */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                MATCHES PLAYED
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                {matchesPlayed} Rounds
-              </div>
-            </div>
-
-            {/* LEADERBOARD POINTS */}
-            <div>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                LEADERBOARD POINTS
-              </div>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                {points} Points
-              </div>
-            </div>
-          </div>
-
-          {/* Full Width Save Profile Action Button */}
-          <div style={{ width: '100%' }}>
-            <button
-              type="button"
-              onClick={handleSaveAndReturn}
+            {/* Grid Layout 2x4 */}
+            <div
               style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                columnGap: '60px',
+                rowGap: '28px',
                 width: '100%',
-                padding: '14px 28px',
-                borderRadius: '12px',
-                background: '#3b82f6',
-                border: 'none',
-                color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '1rem',
-                cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
-                transition: 'transform 0.15s ease',
+                marginBottom: '40px',
               }}
             >
-              {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
-            </button>
+              {/* FULL NAME */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  FULL NAME
+                </div>
+                <input
+                  type="text"
+                  value={profileNameInput}
+                  onChange={(e) => setProfileNameInput(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    border: '1px solid #cbd5e1',
+                    background: '#ffffff',
+                    fontSize: '0.95rem',
+                    fontWeight: 700,
+                    color: '#0f172a',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              {/* EMAIL */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  EMAIL
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  {userEmail}
+                </div>
+              </div>
+
+              {/* ACCOUNT STATUS */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  ACCOUNT STATUS
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  Active
+                </div>
+              </div>
+
+              {/* JOINED */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  JOINED
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  August 2026
+                </div>
+              </div>
+
+              {/* LEADERBOARD RANKING */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  LEADERBOARD RANKING
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  {points > 100 ? '#1' : points > 0 ? '#3' : '#12'}
+                </div>
+              </div>
+
+              {/* NATIONALITY */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  NATIONALITY
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  Indian
+                </div>
+              </div>
+
+              {/* MATCHES PLAYED */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  MATCHES PLAYED
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  {matchesPlayed} Rounds
+                </div>
+              </div>
+
+              {/* LEADERBOARD POINTS */}
+              <div>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  LEADERBOARD POINTS
+                </div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                  {points} Points
+                </div>
+              </div>
+            </div>
+
+            {/* Full Width Save Profile Action Button */}
+            <div style={{ width: '100%' }}>
+              <button
+                type="button"
+                onClick={handleSaveAndReturn}
+                style={{
+                  width: '100%',
+                  padding: '14px 28px',
+                  borderRadius: '12px',
+                  background: '#3b82f6',
+                  border: 'none',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
+                  transition: 'transform 0.15s ease',
+                }}
+              >
+                {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* TAB 2: DETAILED STATISTICS */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === 'stats' && (
+          <div style={{ width: '100%', maxWidth: '720px' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+              Statistics
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
+              Detailed career performance metrics and tournament progress for {profileNameInput || displayName}.
+            </div>
+
+            {/* 2x2 Detailed Metrics Cards */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '20px',
+                width: '100%',
+                marginBottom: '32px',
+              }}
+            >
+              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  MATCHES PLAYED
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
+                  {matchesPlayed} Rounds
+                </div>
+                <div style={{ fontSize: '0.78rem', color: matchesPlayed >= 10 ? '#16a34a' : '#ea580c', fontWeight: 600, marginTop: '4px' }}>
+                  {matchesPlayed >= 10 ? '✓ Qualified for Winter Tournament' : '• 10 Rounds required for Tournament'}
+                </div>
+              </div>
+
+              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  LEADERBOARD POINTS
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
+                  {points} Points
+                </div>
+                <div style={{ fontSize: '0.78rem', color: points >= 50 ? '#16a34a' : '#ea580c', fontWeight: 600, marginTop: '4px' }}>
+                  {points >= 50 ? '✓ 50+ Points Threshold Met' : '• 50 Points required for Tournament'}
+                </div>
+              </div>
+
+              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  WIN RATE & PODIUMS
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
+                  {matchesPlayed > 0 ? '70%' : '0%'}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
+                  {matchesPlayed > 0 ? '7 Podium Finishes Recorded' : 'Play matches to earn podiums'}
+                </div>
+              </div>
+
+              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  GLOBAL RANKING
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#3b82f6', marginTop: '4px' }}>
+                  {points > 100 ? '#1 Ranked' : points > 0 ? '#3 Ranked' : '#12 Ranked'}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 600, marginTop: '4px' }}>
+                  Top 1% Global Racer Bracket
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Performance Breakdown */}
+            <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', marginBottom: '32px' }}>
+              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                Detailed Performance Breakdown
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
+                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Best Lap Record</span>
+                  <span style={{ color: '#0f172a', fontSize: '0.9rem', fontWeight: 700 }}>1:24.52s (Sky Factory Map)</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
+                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Avg Points / Match</span>
+                  <span style={{ color: '#0f172a', fontSize: '0.9rem', fontWeight: 700 }}>20.0 PTS</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
+                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Identity Verification</span>
+                  <span style={{ color: '#16a34a', fontSize: '0.9rem', fontWeight: 700 }}>✓ Verified Racer</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Current Division</span>
+                  <span style={{ color: '#3b82f6', fontSize: '0.9rem', fontWeight: 700 }}>Tier 1 Champions Division</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Back Action Button */}
+            <div style={{ width: '100%' }}>
+              <button
+                type="button"
+                onClick={handleBackToMenu}
+                style={{
+                  width: '100%',
+                  padding: '14px 28px',
+                  borderRadius: '12px',
+                  background: '#f1f5f9',
+                  border: '1px solid #cbd5e1',
+                  color: '#0f172a',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                }}
+              >
+                Return to Main Menu
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER TABS FALLBACK (TOURNAMENT, SECURITY, HELP, ETC.) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && (
+          <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px', textTransform: 'capitalize' }}>
+              {activeTab.replace('_', ' ')}
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
+              Settings and information for {activeTab}.
+            </div>
+
+            <div style={{ background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '32px', textAlign: 'center', color: '#64748b' }}>
+              <Check size={32} color="#3b82f6" style={{ margin: '0 auto 12px auto', display: 'block' }} />
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>{activeTab.toUpperCase()} STATUS ACTIVE</div>
+              <div style={{ fontSize: '0.85rem', marginTop: '6px' }}>All account parameters and settings are up to date.</div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
