@@ -854,12 +854,12 @@ export const MainMenuScreen: React.FC = () => {
           zIndex: 25,
           display: 'inline-flex',
           alignItems: 'center',
-          gap: '12px',
-          padding: '10px 22px 10px 16px',
+          gap: '14px',
+          padding: '12px 26px 12px 18px',
           background: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: '18px',
+          borderRadius: '20px',
           border: '2px solid #70e1ff',
           boxShadow: `
             0 0 25px rgba(0, 242, 254, 0.6),
@@ -890,32 +890,32 @@ export const MainMenuScreen: React.FC = () => {
             height: '45%',
             background: 'linear-gradient(180deg, rgba(224, 247, 250, 0.4) 0%, rgba(224, 247, 250, 0.0) 100%)',
             pointerEvents: 'none',
-            borderRadius: '18px 18px 0 0',
+            borderRadius: '20px 20px 0 0',
           }}
         />
 
         {/* Icy Snowflake Icon Capsule */}
         <div
           style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '10px',
+            width: '42px',
+            height: '42px',
+            borderRadius: '12px',
             background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 16px rgba(0, 242, 254, 0.9), inset 0 1px 2px #ffffff',
+            boxShadow: '0 0 18px rgba(0, 242, 254, 0.9), inset 0 1px 2px #ffffff',
             position: 'relative',
             zIndex: 2,
           }}
         >
-          <Snowflake size={20} color="#ffffff" strokeWidth={2.5} />
+          <Snowflake size={24} color="#ffffff" strokeWidth={2.5} />
         </div>
 
         <div style={{ textAlign: 'left', position: 'relative', zIndex: 2 }}>
           <h2
             style={{
-              fontSize: '1.5rem',
+              fontSize: '2.0rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
