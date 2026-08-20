@@ -193,17 +193,17 @@ export const AuthScreen: React.FC = () => {
         </div>
 
         {/* Bottom Hero Info Box */}
-        <div style={{ position: 'relative', zIndex: 10, maxWidth: '540px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ position: 'relative', zIndex: 10, maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div
             style={{
-              fontSize: '1.35rem',
+              fontSize: 'clamp(1.35rem, 1.8vw, 1.75rem)',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
               color: '#f4ece1',
-              lineHeight: 1.2,
+              lineHeight: 1,
               letterSpacing: '0.02em',
-              opacity: 0.95,
+              whiteSpace: 'nowrap',
             }}
           >
             BORING DAY? LET'S RACE TOGETHER.
