@@ -90,6 +90,13 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
+            socket.send(
+              JSON.stringify({
+                type: 'SOLO_GAME_STATE',
+                payload: room.soloGameManager.state,
+              })
+            );
+
             room.broadcast({
               type: 'ROOM_STATE',
               payload: {
@@ -99,6 +106,11 @@ wss.on('connection', (socket: WebSocket) => {
                 teams: room.teams,
                 tournament: room.tournament,
               },
+            });
+
+            room.broadcast({
+              type: 'SOLO_GAME_STATE',
+              payload: room.soloGameManager.state,
             });
           } else {
             // Player Joining Existing Room
@@ -169,6 +181,13 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
+            socket.send(
+              JSON.stringify({
+                type: 'SOLO_GAME_STATE',
+                payload: room.soloGameManager.state,
+              })
+            );
+
             room.broadcast({
               type: 'ROOM_STATE',
               payload: {
@@ -178,6 +197,11 @@ wss.on('connection', (socket: WebSocket) => {
                 teams: room.teams,
                 tournament: room.tournament,
               },
+            });
+
+            room.broadcast({
+              type: 'SOLO_GAME_STATE',
+              payload: room.soloGameManager.state,
             });
           }
           break;

@@ -6,15 +6,38 @@ import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Pl
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, roomPassword, players, setScreen, triggerGateTransition } = useGameStore();
+  const { playerId, displayName, soloGameState, roomCode, roomPassword, players, setScreen, triggerGateTransition, errorMessage } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [shufflingName, setShufflingName] = useState('');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
-  const allPlayersList = Object.values(players);
-  const localPlayer = players[playerId];
+  const allPlayersList = useMemo(() => {
+    const list = Object.values(players);
+    if (list.length === 0) {
+      return [
+        {
+          id: playerId || 'local_racer',
+          displayName: displayName || 'RACER 01',
+          avatar: 'avatar_cyber',
+          teamId: null,
+          position: { x: 0, y: 0, z: 0 },
+          rotationY: 0,
+          velocity: { x: 0, y: 0, z: 0 },
+          status: 'IDLE',
+          isGrounded: true,
+          isReady: true,
+          connectionStatus: 'CONNECTED',
+          score: 0,
+          ping: 15,
+        },
+      ];
+    }
+    return list;
+  }, [players, playerId, displayName]);
+
+  const localPlayer = players[playerId] || allPlayersList[0];
 
   const state = soloGameState || {
     roomCode: roomCode || 'ROOM1',
@@ -30,6 +53,25 @@ export const SoloPartyCabinScreen: React.FC = () => {
     chatMessages: [],
     championPlayerId: null,
   };
+
+  const [localTimeRemaining, setLocalTimeRemaining] = useState(state.phaseTimeRemaining);
+
+  useEffect(() => {
+    setLocalTimeRemaining(state.phaseTimeRemaining);
+  }, [state.phaseTimeRemaining]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setLocalTimeRemaining((prev: number) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (errorMessage) {
+      setScreen('MAIN_MENU');
+    }
+  }, [errorMessage, setScreen]);
 
   const selectedPlayer = state.selectedPlayerId ? players[state.selectedPlayerId] : null;
   const leaderPlayer = state.leaderPlayerId ? players[state.leaderPlayerId] : null;
@@ -255,7 +297,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
               JOIN WINDOW
             </div>
             <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontFamily: "'Kanit', sans-serif" }}>
-              {Math.floor(state.phaseTimeRemaining / 60)}:{(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
+              {Math.floor(localTimeRemaining / 60)}:{(localTimeRemaining % 60).toString().padStart(2, '0')}
             </div>
           </div>
         </div>
