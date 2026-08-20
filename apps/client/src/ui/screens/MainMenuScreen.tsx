@@ -136,10 +136,10 @@ export const MainMenuScreen: React.FC = () => {
           boxShadow: '0 0 22px rgba(255, 0, 102, 0.55), 0 12px 32px rgba(0, 0, 0, 0.75)',
         }}
       >
-        <ClassClashLogo size={52} />
+        <ClassClashLogo size={32} />
         <h1
           style={{
-            fontSize: '3.2rem',
+            fontSize: '1.6rem',
             fontWeight: 900,
             fontStyle: 'italic',
             fontFamily: "'Kanit', sans-serif",

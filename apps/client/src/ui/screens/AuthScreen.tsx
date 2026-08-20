@@ -192,12 +192,12 @@ export const AuthScreen: React.FC = () => {
         />
 
         {/* Top Left Logo Emblem */}
-        <div style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <ClassClashLogo size={54} />
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <ClassClashLogo size={32} />
           <div>
             <h1
               style={{
-                fontSize: '2.5rem',
+                fontSize: '1.5rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
