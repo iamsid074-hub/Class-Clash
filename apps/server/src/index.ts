@@ -22,10 +22,12 @@ app.get('/api/health', (req, res) => {
 wss.on('connection', (socket: WebSocket) => {
   let currentRoomCode: string | null = null;
   let currentPlayerId: string | null = null;
+  console.log('[Server] New WebSocket connection established');
 
   socket.on('message', (data: string) => {
     try {
       const msg: NetworkMessage = JSON.parse(data.toString());
+      console.log(`[Server] Received message: ${msg.type}`, msg.payload?.roomCode || '');
 
       switch (msg.type) {
         case 'JOIN_ROOM': {
@@ -49,6 +51,15 @@ wss.on('connection', (socket: WebSocket) => {
             const room = RoomManager.getOrCreateRoom(formattedCode);
             room.password = (password || '').trim();
             currentRoomCode = room.code;
+
+            // Clean up stale/disconnected players before adding the host
+            for (const [pid, client] of room.clients.entries()) {
+              if (client.readyState !== WebSocket.OPEN) {
+                console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
+                room.clients.delete(pid);
+                delete room.players[pid];
+              }
+            }
 
             const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
             currentPlayerId = playerId;
@@ -76,6 +87,9 @@ wss.on('connection', (socket: WebSocket) => {
               room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
             }
 
+            console.log(`[Server] HOST joined room ${room.code} as ${playerId} (${newPlayer.displayName}). Total players: ${Object.keys(room.players).length}, Total clients: ${room.clients.size}`);
+
+            // Send ROOM_STATE directly to the host (includes playerId)
             socket.send(
               JSON.stringify({
                 type: 'ROOM_STATE',
@@ -90,13 +104,7 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
-            socket.send(
-              JSON.stringify({
-                type: 'SOLO_GAME_STATE',
-                payload: room.soloGameManager.state,
-              })
-            );
-
+            // Broadcast to all clients
             room.broadcast({
               type: 'ROOM_STATE',
               payload: {
@@ -107,14 +115,10 @@ wss.on('connection', (socket: WebSocket) => {
                 tournament: room.tournament,
               },
             });
-
-            room.broadcast({
-              type: 'SOLO_GAME_STATE',
-              payload: room.soloGameManager.state,
-            });
           } else {
             // Player Joining Existing Room
             if (!existingRoom) {
+              console.warn(`[Server] Room ${formattedCode} not found for joiner`);
               socket.send(
                 JSON.stringify({
                   type: 'ERROR_NOTIFICATION',
@@ -137,6 +141,15 @@ wss.on('connection', (socket: WebSocket) => {
 
             const room = existingRoom;
             currentRoomCode = room.code;
+
+            // Clean up stale/disconnected players before adding the joiner
+            for (const [pid, client] of room.clients.entries()) {
+              if (client.readyState !== WebSocket.OPEN) {
+                console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
+                room.clients.delete(pid);
+                delete room.players[pid];
+              }
+            }
 
             const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
             currentPlayerId = playerId;
@@ -167,6 +180,8 @@ wss.on('connection', (socket: WebSocket) => {
               room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
             }
 
+            console.log(`[Server] JOINER joined room ${room.code} as ${playerId} (${newPlayer.displayName}). Total players: ${Object.keys(room.players).length}, Total clients: ${room.clients.size}`);
+
             socket.send(
               JSON.stringify({
                 type: 'ROOM_STATE',
@@ -181,13 +196,6 @@ wss.on('connection', (socket: WebSocket) => {
               })
             );
 
-            socket.send(
-              JSON.stringify({
-                type: 'SOLO_GAME_STATE',
-                payload: room.soloGameManager.state,
-              })
-            );
-
             room.broadcast({
               type: 'ROOM_STATE',
               payload: {
@@ -197,11 +205,6 @@ wss.on('connection', (socket: WebSocket) => {
                 teams: room.teams,
                 tournament: room.tournament,
               },
-            });
-
-            room.broadcast({
-              type: 'SOLO_GAME_STATE',
-              payload: room.soloGameManager.state,
             });
           }
           break;
@@ -390,14 +393,23 @@ wss.on('connection', (socket: WebSocket) => {
   });
 
   socket.on('close', () => {
+    console.log(`[Server] WebSocket closed. Player: ${currentPlayerId}, Room: ${currentRoomCode}`);
     if (currentRoomCode && currentPlayerId) {
       const room = RoomManager.getRoom(currentRoomCode);
       if (room) {
+        // Remove the player's socket from clients
         room.clients.delete(currentPlayerId);
-        if (room.players[currentPlayerId]) {
-          room.players[currentPlayerId].connectionStatus = 'DISCONNECTED';
-          room.players[currentPlayerId].status = 'DISCONNECTED';
+
+        // Remove from team if in one
+        if (room.players[currentPlayerId]?.teamId) {
+          room.leaveTeam(currentPlayerId);
         }
+
+        // Remove from players entirely to prevent ghost entries
+        delete room.players[currentPlayerId];
+
+        console.log(`[Server] Player ${currentPlayerId} removed from room ${currentRoomCode}. Remaining: ${Object.keys(room.players).length} players, ${room.clients.size} clients`);
+
         room.broadcast({
           type: 'ROOM_STATE',
           payload: {

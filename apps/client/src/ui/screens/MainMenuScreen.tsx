@@ -20,20 +20,20 @@ export const MainMenuScreen: React.FC = () => {
     const finalName = profileNameInput.trim() || displayName || 'HOST RACER';
     setErrorMessage(null);
 
+    // 1. Set store state first
     setRoomCode(finalRoomId);
     setRoomPassword(finalPassword);
 
-    NetworkClient.send({
-      type: 'JOIN_ROOM',
-      payload: {
-        roomCode: finalRoomId,
-        password: finalPassword,
-        isHost: true,
-        displayName: finalName,
-        avatar: 'avatar_cyber',
-      },
+    // 2. Send JOIN_ROOM reliably (queues if socket not ready)
+    NetworkClient.joinRoom({
+      roomCode: finalRoomId,
+      password: finalPassword,
+      isHost: true,
+      displayName: finalName,
+      avatar: 'avatar_cyber',
     });
 
+    // 3. Transition to cabin screen
     triggerGateTransition(() => {
       setScreen('TEAM_CABIN');
       setActiveModal('NONE');
@@ -50,20 +50,20 @@ export const MainMenuScreen: React.FC = () => {
     const finalName = profileNameInput.trim() || displayName || 'GUEST RACER';
     setErrorMessage(null);
 
+    // 1. Set store state first
     setRoomCode(finalRoomId);
     setRoomPassword(finalPassword);
 
-    NetworkClient.send({
-      type: 'JOIN_ROOM',
-      payload: {
-        roomCode: finalRoomId,
-        password: finalPassword,
-        isHost: false,
-        displayName: finalName,
-        avatar: 'avatar_neon',
-      },
+    // 2. Send JOIN_ROOM reliably (queues if socket not ready)
+    NetworkClient.joinRoom({
+      roomCode: finalRoomId,
+      password: finalPassword,
+      isHost: false,
+      displayName: finalName,
+      avatar: 'avatar_neon',
     });
 
+    // 3. Transition to cabin screen
     triggerGateTransition(() => {
       setScreen('TEAM_CABIN');
       setActiveModal('NONE');
