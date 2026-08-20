@@ -1107,32 +1107,8 @@ export const ProfileScreen: React.FC = () => {
                 boxShadow: '0 4px 24px rgba(0, 0, 0, 0.03)',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-                <div
-                  style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '9999px',
-                    background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    boxShadow: '0 6px 18px rgba(0, 122, 255, 0.3)',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Gamepad2 size={28} color="#ffffff" />
-                </div>
-
-                <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                    CLASHA Party Cabin Arena
-                  </div>
-                  <div style={{ fontSize: '0.88rem', color: '#8e8e93', fontWeight: 500, fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                    Version 1.0.4 • Created August 2026
-                  </div>
-                </div>
+              <div style={{ fontSize: '0.88rem', color: '#8e8e93', fontWeight: 600, fontFamily: APPLE_FONT, textTransform: 'none', marginBottom: '12px' }}>
+                Version 1.0.4 • Created August 2026
               </div>
 
               <div style={{ fontSize: '0.95rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
