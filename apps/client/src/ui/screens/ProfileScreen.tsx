@@ -163,10 +163,20 @@ export const ProfileScreen: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Brand Header */}
+          {/* Brand Header with Original Kanit Italic Logo Font (Slightly Smaller) */}
           <div style={{ paddingLeft: '6px' }}>
-            <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#1c1c1e', letterSpacing: '-0.03em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-              CLASHA
+            <div
+              style={{
+                fontSize: '1.18rem',
+                fontWeight: 900,
+                fontStyle: 'italic',
+                fontFamily: "'Kanit', sans-serif",
+                letterSpacing: '0.04em',
+                lineHeight: 1,
+              }}
+            >
+              <span style={{ color: '#1c1c1e' }}>CLA</span>
+              <span style={{ color: '#ff0066' }}>SHA</span>
             </div>
           </div>
 
@@ -681,7 +691,7 @@ export const ProfileScreen: React.FC = () => {
                   <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px', fontFamily: APPLE_FONT }}>
                     UPCOMING CHAMPIONSHIP
                   </div>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  <div style={{ fontSize: '1.28rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
                     Winter Doom Tournament
                   </div>
                 </div>
