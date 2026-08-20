@@ -3,10 +3,8 @@ import { useGameStore } from '../../state/useGameStore';
 import {
   User,
   LogOut,
-  Truck,
   Lock,
   Smartphone,
-  Receipt,
   HelpCircle,
   Info,
   FileText,
@@ -19,6 +17,10 @@ import {
   Mail,
   Send,
   Copy,
+  Clock,
+  MessageSquare,
+  ShieldCheck,
+  CheckCircle2,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -32,7 +34,7 @@ export const ProfileScreen: React.FC = () => {
   // Support ticket state
   const [supportSubject, setSupportSubject] = useState('');
   const [supportMessage, setSupportMessage] = useState('');
-  const [supportCategory, setSupportCategory] = useState('Account / Login Assistance');
+  const [supportCategory, setSupportCategory] = useState('Account & Login');
   const [ticketSent, setTicketSent] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -123,41 +125,41 @@ export const ProfileScreen: React.FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 10,
-        background: '#ffffff',
+        background: '#f2f2f7',
         display: 'flex',
         overflow: 'hidden',
-        color: '#0f172a',
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+        color: '#1c1c1e',
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif",
       }}
     >
       {/* ------------------------------------------------------------- */}
-      {/* 1. LEFT SIDEBAR NAVIGATION */}
+      {/* 1. iOS SIDEBAR NAVIGATION */}
       {/* ------------------------------------------------------------- */}
       <div
         style={{
-          width: '260px',
+          width: '270px',
           height: '100%',
-          borderRight: '1px solid #e2e8f0',
+          borderRight: '1px solid #e5e5ea',
           background: '#ffffff',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '24px 16px',
+          padding: '28px 18px',
           boxSizing: 'border-box',
           flexShrink: 0,
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Logo Brand Header */}
-          <div style={{ paddingLeft: '8px' }}>
-            <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {/* Brand Header */}
+          <div style={{ paddingLeft: '6px' }}>
+            <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#1c1c1e', letterSpacing: '-0.03em' }}>
               CLASHA
             </div>
           </div>
 
           {/* Section 1: MY ACCOUNT */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '10px', marginBottom: '6px' }}>
               MY ACCOUNT
             </div>
 
@@ -176,19 +178,20 @@ export const ProfileScreen: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    padding: '10px 14px',
+                    padding: '11px 14px',
                     borderRadius: '12px',
-                    background: isActive ? '#f1f5f9' : 'transparent',
+                    background: isActive ? '#007aff' : 'transparent',
                     border: 'none',
-                    color: isActive ? '#0f172a' : '#64748b',
+                    color: isActive ? '#ffffff' : '#1c1c1e',
                     fontWeight: isActive ? 700 : 500,
-                    fontSize: '0.88rem',
+                    fontSize: '0.9rem',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s ease',
+                    boxShadow: isActive ? '0 4px 14px rgba(0, 122, 255, 0.25)' : 'none',
                   }}
                 >
-                  <Icon size={16} color={isActive ? '#0f172a' : '#64748b'} />
+                  <Icon size={17} color={isActive ? '#ffffff' : '#007aff'} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -197,7 +200,7 @@ export const ProfileScreen: React.FC = () => {
 
           {/* Section 2: ASSISTANCE & LEGAL */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '10px', marginBottom: '6px' }}>
               ASSISTANCE & LEGAL
             </div>
 
@@ -218,19 +221,20 @@ export const ProfileScreen: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    padding: '10px 14px',
+                    padding: '11px 14px',
                     borderRadius: '12px',
-                    background: isActive ? '#f1f5f9' : 'transparent',
+                    background: isActive ? '#007aff' : 'transparent',
                     border: 'none',
-                    color: isActive ? '#0f172a' : '#64748b',
+                    color: isActive ? '#ffffff' : '#1c1c1e',
                     fontWeight: isActive ? 700 : 500,
-                    fontSize: '0.88rem',
+                    fontSize: '0.9rem',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s ease',
+                    boxShadow: isActive ? '0 4px 14px rgba(0, 122, 255, 0.25)' : 'none',
                   }}
                 >
-                  <Icon size={16} color={isActive ? '#0f172a' : '#64748b'} />
+                  <Icon size={17} color={isActive ? '#ffffff' : '#8e8e93'} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -244,10 +248,10 @@ export const ProfileScreen: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '12px',
+            padding: '12px 14px',
             borderRadius: '14px',
-            background: '#f8fafc',
-            border: '1px solid #e2e8f0',
+            background: '#f2f2f7',
+            border: '1px solid #e5e5ea',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -256,7 +260,7 @@ export const ProfileScreen: React.FC = () => {
                 width: '36px',
                 height: '36px',
                 borderRadius: '10px',
-                background: '#3b82f6',
+                background: '#007aff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -266,10 +270,10 @@ export const ProfileScreen: React.FC = () => {
               <User size={20} />
             </div>
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1c1c1e' }}>
                 {profileNameInput || displayName || '2eosV3'}
               </div>
-              <div style={{ fontSize: '0.72rem', color: '#64748b' }}>
+              <div style={{ fontSize: '0.72rem', color: '#8e8e93' }}>
                 {userEmail}
               </div>
             </div>
@@ -282,7 +286,7 @@ export const ProfileScreen: React.FC = () => {
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
-              color: '#64748b',
+              color: '#8e8e93',
               padding: '6px',
               display: 'flex',
               alignItems: 'center',
@@ -294,14 +298,14 @@ export const ProfileScreen: React.FC = () => {
       </div>
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. MAIN CONTENT AREA */}
+      {/* 2. MAIN CONTENT AREA (SPANNING FULL 1020px WIDTH TO FILL SPACE) */}
       {/* ------------------------------------------------------------- */}
       <div
         style={{
           flex: 1,
           height: '100%',
           overflowY: 'auto',
-          padding: '40px 60px',
+          padding: '36px 48px',
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
@@ -309,70 +313,78 @@ export const ProfileScreen: React.FC = () => {
           position: 'relative',
         }}
       >
-        {/* TOP RIGHT SMALL BACK ARROW BUTTON */}
+        {/* TOP RIGHT iOS CIRCULAR BACK BUTTON */}
         <button
           onClick={handleBackToMenu}
           title="Back to Menu"
           style={{
             position: 'absolute',
-            top: '24px',
-            right: '24px',
-            width: '40px',
-            height: '40px',
+            top: '28px',
+            right: '36px',
+            width: '42px',
+            height: '42px',
             borderRadius: '50%',
-            background: '#f1f5f9',
-            border: '1px solid #cbd5e1',
-            color: '#0f172a',
+            background: '#ffffff',
+            border: '1px solid #e5e5ea',
+            color: '#1c1c1e',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.05)',
             transition: 'all 0.15s ease',
             zIndex: 40,
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = '#e2e8f0';
-            e.currentTarget.style.transform = 'scale(1.08)';
+            e.currentTarget.style.background = '#007aff';
+            e.currentTarget.style.color = '#ffffff';
+            e.currentTarget.style.transform = 'scale(1.06)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = '#f1f5f9';
+            e.currentTarget.style.background = '#ffffff';
+            e.currentTarget.style.color = '#1c1c1e';
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <ArrowLeft size={18} color="#0f172a" strokeWidth={2.2} />
+          <ArrowLeft size={19} strokeWidth={2.4} />
         </button>
 
-        {/* Top User Header Avatar & Title */}
+        {/* User Profile Header Banner (Full 1000px Width) */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
             width: '100%',
-            maxWidth: '720px',
-            marginBottom: '32px',
+            maxWidth: '1000px',
+            background: '#ffffff',
+            border: '1px solid #e5e5ea',
+            borderRadius: '24px',
+            padding: '24px 32px',
+            boxSizing: 'border-box',
+            marginBottom: '28px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
           }}
         >
           <div
             style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: '24px',
-              background: '#60a5fa',
+              width: '76px',
+              height: '76px',
+              borderRadius: '22px',
+              background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 10px 25px rgba(96, 165, 250, 0.3)',
+              boxShadow: '0 8px 22px rgba(0, 122, 255, 0.3)',
               flexShrink: 0,
             }}
           >
-            <User size={48} color="#ffffff" strokeWidth={2} />
+            <User size={44} color="#ffffff" strokeWidth={2} />
           </div>
 
-          <div>
+          <div style={{ textAlign: 'left' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
+              <span style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.03em' }}>
                 {profileNameInput || displayName || '2eosV3'}
               </span>
               <div
@@ -380,7 +392,7 @@ export const ProfileScreen: React.FC = () => {
                   width: '18px',
                   height: '18px',
                   borderRadius: '50%',
-                  background: '#3b82f6',
+                  background: '#007aff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -389,37 +401,34 @@ export const ProfileScreen: React.FC = () => {
                 <Check size={12} color="#ffffff" strokeWidth={3} />
               </div>
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '2px' }}>
+            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginTop: '2px', fontWeight: 500 }}>
               {userEmail}
             </div>
           </div>
         </div>
 
-        <hr style={{ width: '100%', maxWidth: '720px', border: 'none', borderTop: '1px solid #e2e8f0', marginBottom: '32px' }} />
-
         {/* ------------------------------------------------------------- */}
         {/* TAB 1: PROFILE / PERSONAL DETAILS */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'profile' && (
-          <div style={{ width: '100%', maxWidth: '720px' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '28px' }}>
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px', letterSpacing: '-0.02em' }}>
               Personal details
             </div>
 
-            {/* Grid Layout 2x4 */}
+            {/* iOS Grouped 2-Column Grid */}
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
-                columnGap: '60px',
-                rowGap: '28px',
+                gap: '20px',
                 width: '100%',
-                marginBottom: '40px',
+                marginBottom: '28px',
               }}
             >
               {/* FULL NAME */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   FULL NAME
                 </div>
                 <input
@@ -429,12 +438,12 @@ export const ProfileScreen: React.FC = () => {
                   style={{
                     width: '100%',
                     padding: '8px 12px',
-                    borderRadius: '8px',
-                    border: '1px solid #cbd5e1',
+                    borderRadius: '10px',
+                    border: '1px solid #d1d1d6',
                     background: '#ffffff',
-                    fontSize: '0.95rem',
+                    fontSize: '1rem',
                     fontWeight: 700,
-                    color: '#0f172a',
+                    color: '#1c1c1e',
                     outline: 'none',
                     boxSizing: 'border-box',
                   }}
@@ -442,98 +451,96 @@ export const ProfileScreen: React.FC = () => {
               </div>
 
               {/* EMAIL */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   EMAIL
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e' }}>
                   {userEmail}
                 </div>
               </div>
 
               {/* ACCOUNT STATUS */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   ACCOUNT STATUS
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                  Active
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#34c759', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <CheckCircle2 size={18} color="#34c759" /> Active
                 </div>
               </div>
 
               {/* JOINED */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   JOINED
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e' }}>
                   August 2026
                 </div>
               </div>
 
               {/* LEADERBOARD RANKING */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   LEADERBOARD RANKING
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                  {points > 100 ? '#1' : points > 0 ? '#3' : '#12'}
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#007aff' }}>
+                  {points > 100 ? '#1 Ranked' : points > 0 ? '#3 Ranked' : '#12 Ranked'}
                 </div>
               </div>
 
               {/* NATIONALITY */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   NATIONALITY
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e' }}>
                   Indian
                 </div>
               </div>
 
               {/* MATCHES PLAYED */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   MATCHES PLAYED
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e' }}>
                   {matchesPlayed} Rounds
                 </div>
               </div>
 
               {/* LEADERBOARD POINTS */}
-              <div>
-                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '18px 22px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
                   LEADERBOARD POINTS
                 </div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e' }}>
                   {points} Points
                 </div>
               </div>
             </div>
 
-            {/* Full Width Save Profile Action Button */}
-            <div style={{ width: '100%' }}>
-              <button
-                type="button"
-                onClick={handleSaveAndReturn}
-                style={{
-                  width: '100%',
-                  padding: '14px 28px',
-                  borderRadius: '12px',
-                  background: '#3b82f6',
-                  border: 'none',
-                  color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
-                  transition: 'transform 0.15s ease',
-                }}
-              >
-                {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
-              </button>
-            </div>
+            {/* Full Width Save Button */}
+            <button
+              type="button"
+              onClick={handleSaveAndReturn}
+              style={{
+                width: '100%',
+                padding: '16px 28px',
+                borderRadius: '16px',
+                background: '#007aff',
+                border: 'none',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '1rem',
+                cursor: 'pointer',
+                boxShadow: '0 6px 20px rgba(0, 122, 255, 0.3)',
+                transition: 'transform 0.15s ease',
+              }}
+            >
+              {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
+            </button>
           </div>
         )}
 
@@ -541,118 +548,101 @@ export const ProfileScreen: React.FC = () => {
         {/* TAB 2: DETAILED STATISTICS */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'stats' && (
-          <div style={{ width: '100%', maxWidth: '720px' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px', letterSpacing: '-0.02em' }}>
               Statistics
             </div>
-            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              Detailed career performance metrics for {profileNameInput || displayName}.
-            </div>
 
-            {/* 2x2 Detailed Metrics Cards */}
+            {/* 4 Cards Row spanning full 1000px */}
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '20px',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '16px',
                 width: '100%',
-                marginBottom: '32px',
+                marginBottom: '28px',
               }}
             >
-              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   MATCHES PLAYED
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1c1c1e', marginTop: '6px' }}>
                   {matchesPlayed} Rounds
                 </div>
-                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
-                  • Total completed match rounds
+              </div>
+
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  TOTAL SCORE
+                </div>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1c1c1e', marginTop: '6px' }}>
+                  {points} PTS
                 </div>
               </div>
 
-              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  LEADERBOARD POINTS
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  WIN RATE
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
-                  {points} Points
-                </div>
-                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
-                  • Total career leaderboard score
-                </div>
-              </div>
-
-              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  WIN RATE & PODIUMS
-                </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#1c1c1e', marginTop: '6px' }}>
                   {matchesPlayed > 0 ? '70%' : '0%'}
                 </div>
-                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
-                  {matchesPlayed > 0 ? '• 7 Podium Finishes Recorded' : '• Play matches to earn podiums'}
-                </div>
               </div>
 
-              <div style={{ padding: '20px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '20px' }}>
+                <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   GLOBAL RANKING
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#3b82f6', marginTop: '4px' }}>
-                  {points > 100 ? '#1 Ranked' : points > 0 ? '#3 Ranked' : '#12 Ranked'}
-                </div>
-                <div style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 600, marginTop: '4px' }}>
-                  • Top 1% Global Racer Bracket
+                <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#007aff', marginTop: '6px' }}>
+                  {points > 100 ? '#1' : points > 0 ? '#3' : '#12'}
                 </div>
               </div>
             </div>
 
-            {/* Detailed Performance Breakdown */}
-            <div style={{ background: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '24px', marginBottom: '32px' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
-                Detailed Performance Breakdown
+            {/* Performance Breakdown Card */}
+            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '24px 28px', marginBottom: '28px' }}>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '18px' }}>
+                Performance Metrics
               </div>
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Best Lap Record</span>
-                  <span style={{ color: '#0f172a', fontSize: '0.9rem', fontWeight: 700 }}>1:24.52s (Sky Factory Map)</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
+                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500 }}>Best Lap Time</span>
+                  <span style={{ color: '#1c1c1e', fontSize: '0.9rem', fontWeight: 700 }}>1:24.52s (Sky Factory)</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Avg Points / Match</span>
-                  <span style={{ color: '#0f172a', fontSize: '0.9rem', fontWeight: 700 }}>20.0 PTS</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
+                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500 }}>Average Score Per Round</span>
+                  <span style={{ color: '#1c1c1e', fontSize: '0.9rem', fontWeight: 700 }}>20.0 Points</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px', borderBottom: '1px solid #f1f5f9' }}>
-                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Identity Verification</span>
-                  <span style={{ color: '#16a34a', fontSize: '0.9rem', fontWeight: 700 }}>✓ Verified Racer</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: '1px solid #f2f2f7' }}>
+                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500 }}>Identity Verification</span>
+                  <span style={{ color: '#34c759', fontSize: '0.9rem', fontWeight: 700 }}>✓ Verified Racer</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ color: '#64748b', fontSize: '0.9rem', fontWeight: 500 }}>Current Division</span>
-                  <span style={{ color: '#3b82f6', fontSize: '0.9rem', fontWeight: 700 }}>Tier 1 Champions Division</span>
+                  <span style={{ color: '#8e8e93', fontSize: '0.9rem', fontWeight: 500 }}>Division Tier</span>
+                  <span style={{ color: '#007aff', fontSize: '0.9rem', fontWeight: 700 }}>Tier 1 Champions Division</span>
                 </div>
               </div>
             </div>
 
-            {/* Back Action Button */}
-            <div style={{ width: '100%' }}>
-              <button
-                type="button"
-                onClick={handleBackToMenu}
-                style={{
-                  width: '100%',
-                  padding: '14px 28px',
-                  borderRadius: '12px',
-                  background: '#f1f5f9',
-                  border: '1px solid #cbd5e1',
-                  color: '#0f172a',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Return to Main Menu
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={handleBackToMenu}
+              style={{
+                width: '100%',
+                padding: '16px 28px',
+                borderRadius: '16px',
+                background: '#ffffff',
+                border: '1px solid #e5e5ea',
+                color: '#1c1c1e',
+                fontWeight: 700,
+                fontSize: '1rem',
+                cursor: 'pointer',
+              }}
+            >
+              Return to Main Menu
+            </button>
           </div>
         )}
 
@@ -660,324 +650,332 @@ export const ProfileScreen: React.FC = () => {
         {/* TAB 3: TOURNAMENT STATUS */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'tournament' && (
-          <div style={{ width: '100%', maxWidth: '720px' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px', letterSpacing: '-0.02em' }}>
               Tournament Status
             </div>
-            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              Upcoming official championship details, countdown, and registration status.
-            </div>
 
-            {/* Upcoming Tournament Main Card */}
-            <div
-              style={{
-                background: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '20px',
-                padding: '32px',
-                marginBottom: '32px',
-                textAlign: 'left',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
-              }}
-            >
-              {/* Header Badge & Name */}
+            <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '24px', padding: '32px', marginBottom: '28px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <div>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#3b82f6', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '4px' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>
                     UPCOMING CHAMPIONSHIP
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#1c1c1e', letterSpacing: '-0.02em' }}>
                     WINTER DOOM TOURNAMENT
                   </div>
                 </div>
 
                 <div
                   style={{
-                    background: matchesPlayed >= 10 && points >= 50 ? '#dcfce7' : '#ffedd5',
-                    color: matchesPlayed >= 10 && points >= 50 ? '#15803d' : '#c2410c',
+                    background: matchesPlayed >= 10 && points >= 50 ? '#e4f9ec' : '#fff3e0',
+                    color: matchesPlayed >= 10 && points >= 50 ? '#34c759' : '#ff9500',
                     padding: '6px 16px',
                     borderRadius: '50px',
-                    fontSize: '0.8rem',
+                    fontSize: '0.82rem',
                     fontWeight: 800,
-                    letterSpacing: '0.04em',
                   }}
                 >
                   {matchesPlayed >= 10 && points >= 50 ? 'QUALIFIED' : 'IN PROGRESS'}
                 </div>
               </div>
 
-              {/* Description */}
-              <div style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.5, marginBottom: '28px' }}>
-                The ultimate seasonal arena championship. 64 qualified racers will battle for the season crown and exclusive champion rewards.
-              </div>
-
               {/* LARGE 10-DAY COUNTDOWN TIMER */}
-              <div style={{ marginBottom: '32px' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px', textAlign: 'center' }}>
-                  REGISTRATION OPENS IN
+              <div style={{ marginBottom: '28px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px', textAlign: 'center' }}>
+                  REGISTRATION UNLOCK COUNTDOWN
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px', textAlign: 'center' }}>
-                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
-                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', textAlign: 'center' }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.days).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
-                      DAYS
-                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>DAYS</div>
                   </div>
 
-                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
-                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.hours).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
-                      HOURS
-                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>HOURS</div>
                   </div>
 
-                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
-                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#1c1c1e', lineHeight: 1 }}>
                       {String(timeLeft.minutes).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
-                      MINUTES
-                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>MINUTES</div>
                   </div>
 
-                  <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '16px 8px' }}>
-                    <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#3b82f6', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", lineHeight: 1 }}>
+                  <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '16px', padding: '18px 8px' }}>
+                    <div style={{ fontSize: '2.4rem', fontWeight: 900, color: '#007aff', lineHeight: 1 }}>
                       {String(timeLeft.seconds).padStart(2, '0')}
                     </div>
-                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#64748b', marginTop: '6px', letterSpacing: '0.08em' }}>
-                      SECONDS
-                    </div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', marginTop: '6px' }}>SECONDS</div>
                   </div>
                 </div>
               </div>
 
-              {/* Qualification Criteria Checklist */}
-              <div style={{ background: '#ffffff', borderRadius: '14px', border: '1px solid #e2e8f0', padding: '20px', marginBottom: '28px' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0f172a', marginBottom: '14px' }}>
-                  QUALIFICATION CRITERIA
+              {/* Requirements Checklist */}
+              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '20px', marginBottom: '24px' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '12px' }}>
+                  QUALIFICATION REQUIREMENTS
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                    <Check size={18} color={matchesPlayed >= 10 ? '#16a34a' : '#ea580c'} />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                    <Check size={18} color={matchesPlayed >= 10 ? '#34c759' : '#ff9500'} />
                     <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                    <Check size={18} color={points >= 50 ? '#16a34a' : '#ea580c'} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                    <Check size={18} color={points >= 50 ? '#34c759' : '#ff9500'} />
                     <span>50+ Leaderboard Points (Current: {points} Points)</span>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
-                    <Check size={18} color="#16a34a" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#1c1c1e' }}>
+                    <Check size={18} color="#34c759" />
                     <span>Identity Verification Completed (Status: Verified)</span>
                   </div>
                 </div>
               </div>
 
-              {/* LOCKED REGISTRATION BUTTON */}
+              {/* Locked Button */}
               <button
                 type="button"
                 disabled
                 style={{
                   width: '100%',
                   padding: '16px 24px',
-                  borderRadius: '12px',
-                  background: '#e2e8f0',
-                  border: '1px solid #cbd5e1',
-                  color: '#64748b',
+                  borderRadius: '14px',
+                  background: '#e5e5ea',
+                  border: 'none',
+                  color: '#8e8e93',
                   fontWeight: 800,
                   fontSize: '0.95rem',
-                  letterSpacing: '0.04em',
                   cursor: 'not-allowed',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '10px',
-                  boxShadow: 'none',
                 }}
               >
-                <Lock size={18} color="#64748b" />
+                <Lock size={18} color="#8e8e93" />
                 <span>REGISTRATION LOCKED (OPENS IN 10 DAYS)</span>
               </button>
-
-              <div style={{ fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center', marginTop: '10px', fontWeight: 500 }}>
-                Registration unlocks automatically when countdown ends. Complete qualification requirements before launch.
-              </div>
             </div>
           </div>
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* TAB 4: SUPPORT & HELP CENTER */}
+        {/* TAB 4: SUPPORT (ULTRA-CLEAN 1000px iOS GRID - NO WASTED SPACE) */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'support' && (
-          <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
-              Player Support & Help Center
-            </div>
-            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              We're here 24/7 to assist with your CLASHA account, gameplay, and tournament inquiries.
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px', letterSpacing: '-0.02em' }}>
+              Support Center
             </div>
 
-            {/* Official Direct Contact Banner */}
-            <div
-              style={{
-                background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
-                border: '1px solid #bfdbfe',
-                borderRadius: '20px',
-                padding: '24px 28px',
-                marginBottom: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <div
-                  style={{
-                    width: '52px',
-                    height: '52px',
-                    borderRadius: '16px',
-                    background: '#3b82f6',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    boxShadow: '0 8px 18px rgba(59, 130, 246, 0.3)',
-                    flexShrink: 0,
-                  }}
-                >
-                  <Mail size={24} color="#ffffff" />
+            {/* Row 1: Contact Banner + Status Card 2-Column Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '20px', marginBottom: '24px' }}>
+              {/* Left Contact Card */}
+              <div
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e5e5ea',
+                  borderRadius: '22px',
+                  padding: '24px 28px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div
+                    style={{
+                      width: '52px',
+                      height: '52px',
+                      borderRadius: '16px',
+                      background: '#007aff',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#ffffff',
+                      boxShadow: '0 6px 16px rgba(0, 122, 255, 0.3)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Mail size={24} color="#ffffff" />
+                  </div>
+
+                  <div>
+                    <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      SUPPORT EMAIL
+                    </div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1c1c1e', marginTop: '2px' }}>
+                      clasha@gmail.com
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#1d4ed8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                    OFFICIAL SUPPORT EMAIL
-                  </div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", marginTop: '2px' }}>
-                    clasha@gmail.com
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: '#3b82f6', fontWeight: 600, marginTop: '2px' }}>
-                    ⚡ Average response time: Under 2 Hours (24/7 Support)
-                  </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    type="button"
+                    onClick={handleCopySupportEmail}
+                    style={{
+                      padding: '10px 16px',
+                      borderRadius: '12px',
+                      background: '#f2f2f7',
+                      border: '1px solid #e5e5ea',
+                      color: '#1c1c1e',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    {copiedEmail ? <Check size={16} color="#34c759" /> : <Copy size={16} />}
+                    <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                  </button>
+
+                  <a
+                    href="mailto:clasha@gmail.com"
+                    style={{
+                      padding: '10px 16px',
+                      borderRadius: '12px',
+                      background: '#007aff',
+                      border: 'none',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      boxShadow: '0 4px 12px rgba(0, 122, 255, 0.25)',
+                    }}
+                  >
+                    <Send size={15} color="#ffffff" />
+                    <span>Email</span>
+                  </a>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button
-                  type="button"
-                  onClick={handleCopySupportEmail}
-                  style={{
-                    padding: '10px 18px',
-                    borderRadius: '10px',
-                    background: '#ffffff',
-                    border: '1px solid #cbd5e1',
-                    color: '#0f172a',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
-                  }}
-                >
-                  {copiedEmail ? <Check size={16} color="#16a34a" /> : <Copy size={16} />}
-                  <span>{copiedEmail ? 'Copied!' : 'Copy Email'}</span>
-                </button>
-
-                <a
-                  href="mailto:clasha@gmail.com"
-                  style={{
-                    padding: '10px 18px',
-                    borderRadius: '10px',
-                    background: '#3b82f6',
-                    border: 'none',
-                    color: '#ffffff',
-                    fontWeight: 700,
-                    fontSize: '0.85rem',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-                  }}
-                >
-                  <Send size={15} color="#ffffff" />
-                  <span>Send Email</span>
-                </a>
+              {/* Right Support Status Badge */}
+              <div
+                style={{
+                  background: '#ffffff',
+                  border: '1px solid #e5e5ea',
+                  borderRadius: '22px',
+                  padding: '24px 28px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#34c759' }} />
+                  <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#34c759' }}>24/7 Support Live</span>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#8e8e93', fontWeight: 500 }}>
+                  Under 2 hours average ticket resolution time.
+                </div>
               </div>
             </div>
 
-            {/* Direct Ticket Submission Form */}
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '28px', marginBottom: '32px' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
-                Submit a Support Ticket
-              </div>
-              <div style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '20px' }}>
-                Fill out the details below and our team will get back to you directly at your email.
-              </div>
-
-              {ticketSent ? (
-                <div style={{ background: '#dcfce7', border: '1px solid #86efac', borderRadius: '12px', padding: '20px', textAlign: 'center', color: '#15803d', fontWeight: 700 }}>
-                  <Check size={28} color="#16a34a" style={{ margin: '0 auto 8px auto', display: 'block' }} />
-                  <div>Support Ticket Submitted Successfully!</div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 500, marginTop: '4px' }}>
-                    We have received your ticket. A representative will contact you at <strong>clasha@gmail.com</strong> shortly.
-                  </div>
+            {/* Row 2: 2-Column Grid (Ticket Form Left 55% + FAQ Right 45%) */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px' }}>
+              {/* Left Column: Direct Ticket Form */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '22px', padding: '28px' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '18px' }}>
+                  Submit Support Ticket
                 </div>
-              ) : (
-                <form onSubmit={handleTicketSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                    <div>
-                      <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-                        ISSUE CATEGORY
-                      </label>
-                      <select
-                        value={supportCategory}
-                        onChange={(e) => setSupportCategory(e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '10px 14px',
-                          borderRadius: '10px',
-                          border: '1px solid #cbd5e1',
-                          background: '#ffffff',
-                          color: '#0f172a',
-                          fontWeight: 600,
-                          fontSize: '0.88rem',
-                          outline: 'none',
-                        }}
-                      >
-                        <option value="Account / Login Assistance">Account & Login Assistance</option>
-                        <option value="Multiplayer Connection Issue">Multiplayer / Room Connection Issue</option>
-                        <option value="Gameplay / Physics Bug">Gameplay / Physics Bug Report</option>
-                        <option value="Tournament Inquiry">Tournament & Points Inquiry</option>
-                        <option value="General Feedback">General Feedback & Suggestion</option>
-                      </select>
+
+                {ticketSent ? (
+                  <div style={{ background: '#e4f9ec', border: '1px solid #a7f3d0', borderRadius: '16px', padding: '24px', textAlign: 'center', color: '#15803d', fontWeight: 700 }}>
+                    <Check size={32} color="#34c759" style={{ margin: '0 auto 10px auto', display: 'block' }} />
+                    <div style={{ fontSize: '1.1rem' }}>Ticket Submitted!</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 500, marginTop: '6px', color: '#166534' }}>
+                      We will contact you directly at <strong>clasha@gmail.com</strong>.
+                    </div>
+                  </div>
+                ) : (
+                  <form onSubmit={handleTicketSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                      <div>
+                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                          CATEGORY
+                        </label>
+                        <select
+                          value={supportCategory}
+                          onChange={(e) => setSupportCategory(e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '10px',
+                            border: '1px solid #d1d1d6',
+                            background: '#ffffff',
+                            color: '#1c1c1e',
+                            fontWeight: 600,
+                            fontSize: '0.88rem',
+                            outline: 'none',
+                          }}
+                        >
+                          <option value="Account & Login">Account & Login</option>
+                          <option value="Multiplayer Room">Multiplayer Room Issue</option>
+                          <option value="Gameplay Bug">Gameplay Bug</option>
+                          <option value="Tournament Inquiry">Tournament Inquiry</option>
+                          <option value="General Inquiry">General Inquiry</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                          YOUR EMAIL
+                        </label>
+                        <input
+                          type="email"
+                          readOnly
+                          value={userEmail}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            borderRadius: '10px',
+                            border: '1px solid #e5e5ea',
+                            background: '#f2f2f7',
+                            color: '#8e8e93',
+                            fontWeight: 600,
+                            fontSize: '0.88rem',
+                            outline: 'none',
+                            boxSizing: 'border-box',
+                          }}
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-                        YOUR CONTACT EMAIL
+                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        SUBJECT
                       </label>
                       <input
-                        type="email"
-                        readOnly
-                        value={userEmail}
+                        type="text"
+                        required
+                        value={supportSubject}
+                        onChange={(e) => setSupportSubject(e.target.value)}
+                        placeholder="Brief summary of your issue..."
                         style={{
                           width: '100%',
-                          padding: '10px 14px',
+                          padding: '10px 12px',
                           borderRadius: '10px',
-                          border: '1px solid #cbd5e1',
-                          background: '#f1f5f9',
-                          color: '#64748b',
+                          border: '1px solid #d1d1d6',
+                          background: '#ffffff',
+                          color: '#1c1c1e',
                           fontWeight: 600,
                           fontSize: '0.88rem',
                           outline: 'none',
@@ -985,119 +983,83 @@ export const ProfileScreen: React.FC = () => {
                         }}
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-                      SUBJECT
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={supportSubject}
-                      onChange={(e) => setSupportSubject(e.target.value)}
-                      placeholder="Brief summary of your issue..."
+                    <div>
+                      <label style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        DESCRIPTION
+                      </label>
+                      <textarea
+                        required
+                        rows={4}
+                        value={supportMessage}
+                        onChange={(e) => setSupportMessage(e.target.value)}
+                        placeholder="Describe your request..."
+                        style={{
+                          width: '100%',
+                          padding: '10px 12px',
+                          borderRadius: '10px',
+                          border: '1px solid #d1d1d6',
+                          background: '#ffffff',
+                          color: '#1c1c1e',
+                          fontWeight: 500,
+                          fontSize: '0.88rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          resize: 'vertical',
+                        }}
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
                       style={{
-                        width: '100%',
-                        padding: '10px 14px',
-                        borderRadius: '10px',
-                        border: '1px solid #cbd5e1',
-                        background: '#ffffff',
-                        color: '#0f172a',
-                        fontWeight: 600,
-                        fontSize: '0.88rem',
-                        outline: 'none',
-                        boxSizing: 'border-box',
+                        padding: '14px',
+                        borderRadius: '12px',
+                        background: '#007aff',
+                        border: 'none',
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        fontSize: '0.92rem',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 14px rgba(0, 122, 255, 0.3)',
                       }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
-                      DETAILED DESCRIPTION
-                    </label>
-                    <textarea
-                      required
-                      rows={4}
-                      value={supportMessage}
-                      onChange={(e) => setSupportMessage(e.target.value)}
-                      placeholder="Describe what happened or what help you need in detail..."
-                      style={{
-                        width: '100%',
-                        padding: '12px 14px',
-                        borderRadius: '10px',
-                        border: '1px solid #cbd5e1',
-                        background: '#ffffff',
-                        color: '#0f172a',
-                        fontWeight: 500,
-                        fontSize: '0.88rem',
-                        outline: 'none',
-                        boxSizing: 'border-box',
-                        resize: 'vertical',
-                      }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    style={{
-                      padding: '12px 24px',
-                      borderRadius: '10px',
-                      background: '#3b82f6',
-                      border: 'none',
-                      color: '#ffffff',
-                      fontWeight: 700,
-                      fontSize: '0.9rem',
-                      cursor: 'pointer',
-                      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-                    }}
-                  >
-                    Submit Support Ticket
-                  </button>
-                </form>
-              )}
-            </div>
-
-            {/* Quick Self-Help Guides */}
-            <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '28px', marginBottom: '32px' }}>
-              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
-                Frequently Asked Questions & Quick Help
+                    >
+                      Submit Ticket
+                    </button>
+                  </form>
+                )}
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
-                    ❓ How do I join a multiplayer room with friends?
+              {/* Right Column: Quick FAQ List */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '22px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e' }}>
+                  Frequently Asked Questions
+                </div>
+
+                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                    ❓ How to join room?
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
-                    Go to Main Menu -&gt; Join Room -&gt; Enter the Room ID and Password provided by the room host. Once in the cabin, wait for players to join and click Start Match!
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                    Main Menu -&gt; Join Room -&gt; Enter Room ID &amp; Password.
                   </div>
                 </div>
 
-                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
-                    ❓ Why is the timer or countdown stuck on Vercel?
+                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                    ❓ How to qualify for Winter Doom?
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
-                    Our application features built-in client-side fallback timers. If you experience network delays, the timer ticks down automatically in local mode.
-                  </div>
-                </div>
-
-                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
-                    ❓ How do I qualify for the Winter Doom Tournament?
-                  </div>
-                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
-                    Complete 10+ match rounds and earn at least 50 leaderboard points before registration unlocks in 10 days.
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                    Complete 10+ rounds and earn 50+ points before 10-day unlock.
                   </div>
                 </div>
 
-                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
-                    ❓ Need direct support or bug report?
+                <div style={{ padding: '14px', borderRadius: '12px', background: '#f2f2f7' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '4px' }}>
+                    ❓ Direct Email Contact
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
-                    Contact us anytime at <strong>clasha@gmail.com</strong> for quick 24/7 technical support.
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', lineHeight: 1.4 }}>
+                    Email us anytime at <strong>clasha@gmail.com</strong> for assistance.
                   </div>
                 </div>
               </div>
@@ -1106,21 +1068,20 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER TABS FALLBACK (ABOUT, TERMS, PRIVACY, FAQ) */}
+        {/* OTHER LEGAL & ASSISTANCE TABS (ABOUT, TERMS, PRIVACY, FAQ) */}
         {/* ------------------------------------------------------------- */}
         {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && (
-          <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
-            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px', textTransform: 'capitalize' }}>
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '20px', textTransform: 'capitalize' }}>
               {activeTab.replace('_', ' ')}
             </div>
-            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              Settings and information for {activeTab}.
-            </div>
 
-            <div style={{ background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '32px', textAlign: 'center', color: '#64748b' }}>
-              <Check size={32} color="#3b82f6" style={{ margin: '0 auto 12px auto', display: 'block' }} />
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>{activeTab.toUpperCase()} STATUS ACTIVE</div>
-              <div style={{ fontSize: '0.85rem', marginTop: '6px' }}>All account parameters and settings are up to date. Contact clasha@gmail.com for inquiries.</div>
+            <div style={{ background: '#ffffff', borderRadius: '22px', border: '1px solid #e5e5ea', padding: '36px', textAlign: 'center' }}>
+              <ShieldCheck size={36} color="#007aff" style={{ margin: '0 auto 12px auto', display: 'block' }} />
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1c1c1e' }}>CLASHA {activeTab.toUpperCase()} POLICY</div>
+              <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginTop: '6px', maxWidth: '480px', margin: '6px auto 0 auto' }}>
+                All legal, terms, and privacy guidelines are strictly verified for CLASHA v1.0.4. Contact <strong>clasha@gmail.com</strong> for any inquiries.
+              </div>
             </div>
           </div>
         )}
