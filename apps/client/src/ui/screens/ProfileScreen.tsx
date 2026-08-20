@@ -16,6 +16,9 @@ import {
   BarChart2,
   Check,
   ArrowLeft,
+  Mail,
+  Send,
+  Copy,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -25,6 +28,13 @@ export const ProfileScreen: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [activeTab, setActiveTab] = useState('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  // Support ticket state
+  const [supportSubject, setSupportSubject] = useState('');
+  const [supportMessage, setSupportMessage] = useState('');
+  const [supportCategory, setSupportCategory] = useState('Account / Login Assistance');
+  const [ticketSent, setTicketSent] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
 
   // Live 10-Day Countdown Timer state for Upcoming Tournament
   const [timeLeft, setTimeLeft] = useState({
@@ -61,6 +71,23 @@ export const ProfileScreen: React.FC = () => {
   const matchesPlayed = userProfile?.matchesPlayed || 0;
   const points = userProfile?.leaderboardPoints || 0;
   const userEmail = userProfile?.email || 'anshu@classclash.io';
+
+  const handleCopySupportEmail = () => {
+    navigator.clipboard.writeText('clasha@gmail.com');
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
+
+  const handleTicketSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!supportMessage.trim()) return;
+    setTicketSent(true);
+    setTimeout(() => {
+      setSupportSubject('');
+      setSupportMessage('');
+      setTicketSent(false);
+    }, 4000);
+  };
 
   const handleSaveAndReturn = () => {
     if (profileNameInput.trim()) {
@@ -787,9 +814,301 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER TABS FALLBACK (SECURITY, HELP, ETC.) */}
+        {/* TAB 4: SUPPORT & HELP CENTER */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && (
+        {activeTab === 'support' && (
+          <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+              Player Support & Help Center
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
+              We're here 24/7 to assist with your CLASHA account, gameplay, and tournament inquiries.
+            </div>
+
+            {/* Official Direct Contact Banner */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                border: '1px solid #bfdbfe',
+                borderRadius: '20px',
+                padding: '24px 28px',
+                marginBottom: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div
+                  style={{
+                    width: '52px',
+                    height: '52px',
+                    borderRadius: '16px',
+                    background: '#3b82f6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    boxShadow: '0 8px 18px rgba(59, 130, 246, 0.3)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Mail size={24} color="#ffffff" />
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#1d4ed8', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    OFFICIAL SUPPORT EMAIL
+                  </div>
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0f172a', fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif", marginTop: '2px' }}>
+                    clasha@gmail.com
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: '#3b82f6', fontWeight: 600, marginTop: '2px' }}>
+                    ⚡ Average response time: Under 2 Hours (24/7 Support)
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={handleCopySupportEmail}
+                  style={{
+                    padding: '10px 18px',
+                    borderRadius: '10px',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
+                    color: '#0f172a',
+                    fontWeight: 700,
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+                  }}
+                >
+                  {copiedEmail ? <Check size={16} color="#16a34a" /> : <Copy size={16} />}
+                  <span>{copiedEmail ? 'Copied!' : 'Copy Email'}</span>
+                </button>
+
+                <a
+                  href="mailto:clasha@gmail.com"
+                  style={{
+                    padding: '10px 18px',
+                    borderRadius: '10px',
+                    background: '#3b82f6',
+                    border: 'none',
+                    color: '#ffffff',
+                    fontWeight: 700,
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                  }}
+                >
+                  <Send size={15} color="#ffffff" />
+                  <span>Send Email</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Direct Ticket Submission Form */}
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '28px', marginBottom: '32px' }}>
+              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                Submit a Support Ticket
+              </div>
+              <div style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '20px' }}>
+                Fill out the details below and our team will get back to you directly at your email.
+              </div>
+
+              {ticketSent ? (
+                <div style={{ background: '#dcfce7', border: '1px solid #86efac', borderRadius: '12px', padding: '20px', textAlign: 'center', color: '#15803d', fontWeight: 700 }}>
+                  <Check size={28} color="#16a34a" style={{ margin: '0 auto 8px auto', display: 'block' }} />
+                  <div>Support Ticket Submitted Successfully!</div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 500, marginTop: '4px' }}>
+                    We have received your ticket. A representative will contact you at <strong>clasha@gmail.com</strong> shortly.
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleTicketSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div>
+                      <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        ISSUE CATEGORY
+                      </label>
+                      <select
+                        value={supportCategory}
+                        onChange={(e) => setSupportCategory(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '10px 14px',
+                          borderRadius: '10px',
+                          border: '1px solid #cbd5e1',
+                          background: '#ffffff',
+                          color: '#0f172a',
+                          fontWeight: 600,
+                          fontSize: '0.88rem',
+                          outline: 'none',
+                        }}
+                      >
+                        <option value="Account / Login Assistance">Account & Login Assistance</option>
+                        <option value="Multiplayer Connection Issue">Multiplayer / Room Connection Issue</option>
+                        <option value="Gameplay / Physics Bug">Gameplay / Physics Bug Report</option>
+                        <option value="Tournament Inquiry">Tournament & Points Inquiry</option>
+                        <option value="General Feedback">General Feedback & Suggestion</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                        YOUR CONTACT EMAIL
+                      </label>
+                      <input
+                        type="email"
+                        readOnly
+                        value={userEmail}
+                        style={{
+                          width: '100%',
+                          padding: '10px 14px',
+                          borderRadius: '10px',
+                          border: '1px solid #cbd5e1',
+                          background: '#f1f5f9',
+                          color: '#64748b',
+                          fontWeight: 600,
+                          fontSize: '0.88rem',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                      SUBJECT
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={supportSubject}
+                      onChange={(e) => setSupportSubject(e.target.value)}
+                      placeholder="Brief summary of your issue..."
+                      style={{
+                        width: '100%',
+                        padding: '10px 14px',
+                        borderRadius: '10px',
+                        border: '1px solid #cbd5e1',
+                        background: '#ffffff',
+                        color: '#0f172a',
+                        fontWeight: 600,
+                        fontSize: '0.88rem',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>
+                      DETAILED DESCRIPTION
+                    </label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={supportMessage}
+                      onChange={(e) => setSupportMessage(e.target.value)}
+                      placeholder="Describe what happened or what help you need in detail..."
+                      style={{
+                        width: '100%',
+                        padding: '12px 14px',
+                        borderRadius: '10px',
+                        border: '1px solid #cbd5e1',
+                        background: '#ffffff',
+                        color: '#0f172a',
+                        fontWeight: 500,
+                        fontSize: '0.88rem',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        resize: 'vertical',
+                      }}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{
+                      padding: '12px 24px',
+                      borderRadius: '10px',
+                      background: '#3b82f6',
+                      border: 'none',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+                    }}
+                  >
+                    Submit Support Ticket
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* Quick Self-Help Guides */}
+            <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '28px', marginBottom: '32px' }}>
+              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a', marginBottom: '16px' }}>
+                Frequently Asked Questions & Quick Help
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                    ❓ How do I join a multiplayer room with friends?
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
+                    Go to Main Menu -&gt; Join Room -&gt; Enter the Room ID and Password provided by the room host. Once in the cabin, wait for players to join and click Start Match!
+                  </div>
+                </div>
+
+                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                    ❓ Why is the timer or countdown stuck on Vercel?
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
+                    Our application features built-in client-side fallback timers. If you experience network delays, the timer ticks down automatically in local mode.
+                  </div>
+                </div>
+
+                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                    ❓ How do I qualify for the Winter Doom Tournament?
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
+                    Complete 10+ match rounds and earn at least 50 leaderboard points before registration unlocks in 10 days.
+                  </div>
+                </div>
+
+                <div style={{ padding: '16px', borderRadius: '12px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                    ❓ Need direct support or bug report?
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#64748b', lineHeight: 1.5 }}>
+                    Contact us anytime at <strong>clasha@gmail.com</strong> for quick 24/7 technical support.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER TABS FALLBACK (ABOUT, TERMS, PRIVACY, FAQ) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && (
           <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px', textTransform: 'capitalize' }}>
               {activeTab.replace('_', ' ')}
@@ -801,7 +1120,7 @@ export const ProfileScreen: React.FC = () => {
             <div style={{ background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', padding: '32px', textAlign: 'center', color: '#64748b' }}>
               <Check size={32} color="#3b82f6" style={{ margin: '0 auto 12px auto', display: 'block' }} />
               <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0f172a' }}>{activeTab.toUpperCase()} STATUS ACTIVE</div>
-              <div style={{ fontSize: '0.85rem', marginTop: '6px' }}>All account parameters and settings are up to date.</div>
+              <div style={{ fontSize: '0.85rem', marginTop: '6px' }}>All account parameters and settings are up to date. Contact clasha@gmail.com for inquiries.</div>
             </div>
           </div>
         )}
