@@ -1167,25 +1167,57 @@ export const ProfileScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* SIGNATURE CREATOR FOOTER NOTE */}
+            {/* LARGE FREESTANDING SIGNATURE CREATOR FOOTER */}
             <div
               style={{
-                background: '#ffffff',
-                border: '1px solid #e5e5ea',
-                borderRadius: '9999px',
-                padding: '18px 32px',
+                width: '100%',
+                marginTop: '40px',
+                paddingTop: '20px',
+                paddingBottom: '30px',
                 textAlign: 'center',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
               }}
             >
-              <Sparkles size={18} color="#007aff" />
-              <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
-                made by <span style={{ color: '#007aff', fontWeight: 800 }}>ANSHU</span> • crafted byfromheart ❤️
-              </span>
+              <div
+                style={{
+                  fontSize: '1.85rem',
+                  fontWeight: 900,
+                  color: '#1c1c1e',
+                  letterSpacing: '-0.03em',
+                  fontFamily: APPLE_FONT,
+                  textTransform: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span>Made by</span>
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #007aff 0%, #5856d6 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 900,
+                  }}
+                >
+                  ANSHU
+                </span>
+                <span style={{ color: '#c7c7cc', fontWeight: 400 }}>•</span>
+                <span style={{ color: '#48484a', fontWeight: 700, fontSize: '1.65rem' }}>crafted byfromheart</span>
+                <span style={{ fontSize: '1.8rem', display: 'inline-block', filter: 'drop-shadow(0 2px 8px rgba(255, 45, 85, 0.4))' }}>
+                  ❤️
+                </span>
+              </div>
+
+              <div style={{ fontSize: '0.78rem', color: '#8e8e93', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>
+                CLASHA OFFICIAL ARCHITECTURE &amp; DESIGN
+              </div>
             </div>
           </div>
         )}
