@@ -1437,9 +1437,105 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER LEGAL & ASSISTANCE TABS (FAQ) */}
+        {/* TAB 8: CLASHA FAQ */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && activeTab !== 'terms' && activeTab !== 'privacy' && (
+        {activeTab === 'faq' && (
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              CLASHA FAQ &amp; Help
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginBottom: '24px', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+              Frequently Asked Questions to help solve all your gameplay, cabin, and account doubts.
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '32px' }}>
+              {/* FAQ Item 1 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> What is CLASHA and how do I play?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  CLASHA is a real-time multiplayer Party Cabin game. You create or join a Cabin room using a Room Code &amp; Password, propose challenges, vote in rounds, earn points, and climb the leaderboard!
+                </div>
+              </div>
+
+              {/* FAQ Item 2 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> How to create or join a Party Cabin?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  On Main Menu, tap <strong>Create Room</strong> to host a cabin, or tap <strong>Join Room</strong> and enter the Room Code &amp; Password given by your friend.
+                </div>
+              </div>
+
+              {/* FAQ Item 3 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> How are points &amp; ranks calculated?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Points are awarded for winning voting rounds and completing cabin challenges. Your total points automatically update your Global Leaderboard ranking.
+                </div>
+              </div>
+
+              {/* FAQ Item 4 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> What if a player disconnects?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  CLASHA syncs room state automatically. Disconnected players can rejoin using the same Room Code &amp; Password while the cabin round continues.
+                </div>
+              </div>
+
+              {/* FAQ Item 5 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> How do I enter Winter Doom Tournament?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  You need 10+ rounds played and 50+ leaderboard points. Check the <strong>Tournament Status</strong> tab to view your live countdown timer.
+                </div>
+              </div>
+
+              {/* FAQ Item 6 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> Can I play on mobile or tablet?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Yes! CLASHA is fully responsive and optimized for touch devices on Mobile, Tablet, and Desktop web browsers.
+                </div>
+              </div>
+
+              {/* FAQ Item 7 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> How do I change my display name?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Go to <strong>Profile -&gt; Personal Details</strong>, update the Full Name field, and click <strong>Save &amp; Return to Menu</strong>.
+                </div>
+              </div>
+
+              {/* FAQ Item 8 */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px 28px' }}>
+                <div style={{ fontSize: '1.02rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '8px', fontFamily: APPLE_FONT, textTransform: 'none', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <span style={{ color: '#007aff' }}>❓</span> How do I contact official support?
+                </div>
+                <div style={{ fontSize: '0.88rem', color: '#8e8e93', lineHeight: 1.5, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Open the <strong>Support</strong> tab to submit a support ticket or email official support directly at <strong>clasha@gmail.com</strong>.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER LEGAL & ASSISTANCE TABS (FALLBACK) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && activeTab !== 'support' && activeTab !== 'about' && activeTab !== 'terms' && activeTab !== 'privacy' && activeTab !== 'faq' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '20px', textTransform: 'capitalize', fontFamily: APPLE_FONT }}>
               {activeTab.replace('_', ' ')}
