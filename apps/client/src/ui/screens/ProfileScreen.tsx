@@ -138,9 +138,6 @@ export const ProfileScreen: React.FC = () => {
               { id: 'profile', label: 'Profile', icon: User },
               { id: 'stats', label: 'Statistics', icon: BarChart2 },
               { id: 'tournament', label: 'Tournament Status', icon: Trophy },
-              { id: 'delivery', label: 'Delivery Partner', icon: Truck },
-              { id: 'security', label: 'Security & Access', icon: Lock },
-              { id: 'experience', label: 'App Experience', icon: Smartphone },
             ].map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
