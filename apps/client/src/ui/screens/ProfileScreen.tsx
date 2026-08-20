@@ -175,7 +175,6 @@ export const ProfileScreen: React.FC = () => {
             </div>
 
             {[
-              { id: 'transactions', label: 'Transactions', icon: Receipt },
               { id: 'support', label: 'Support', icon: HelpCircle },
               { id: 'about', label: 'About Us', icon: Info },
               { id: 'terms', label: 'Terms & Conditions', icon: FileText },
