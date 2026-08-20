@@ -163,11 +163,11 @@ export const ProfileScreen: React.FC = () => {
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Brand Header with Original Kanit Italic Logo Font (Compact Size) */}
+          {/* Brand Header with Original Kanit Italic Logo Font (Balanced Medium Size) */}
           <div style={{ paddingLeft: '6px' }}>
             <div
               style={{
-                fontSize: '1.05rem',
+                fontSize: '1.25rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
                 fontFamily: "'Kanit', sans-serif",
@@ -691,7 +691,7 @@ export const ProfileScreen: React.FC = () => {
                   <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px', fontFamily: APPLE_FONT }}>
                     UPCOMING CHAMPIONSHIP
                   </div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  <div style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT, textTransform: 'none' }}>
                     Winter Doom Tournament
                   </div>
                 </div>
