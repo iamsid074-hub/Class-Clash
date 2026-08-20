@@ -193,35 +193,17 @@ export const AuthScreen: React.FC = () => {
         </div>
 
         {/* Bottom Hero Info Box */}
-        <div style={{ position: 'relative', zIndex: 10, maxWidth: '540px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ position: 'relative', zIndex: 10, maxWidth: '540px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'rgba(255, 0, 102, 0.15)',
-              border: '1.5px solid #ff0066',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              width: 'fit-content',
-              fontSize: '0.78rem',
-              fontWeight: 900,
-              color: '#ff66a3',
-              letterSpacing: '0.1em',
-            }}
-          >
-            <Trophy size={14} color="#ff0066" /> MULTIPLAYER RACING ARENA
-          </div>
-
-          <div
-            style={{
-              fontSize: '2.4rem',
+              fontSize: '1.35rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'Kanit', sans-serif",
               color: '#f4ece1',
-              lineHeight: 1.15,
+              lineHeight: 1.2,
               letterSpacing: '0.02em',
+              opacity: 0.95,
             }}
           >
             BORING DAY? LET'S RACE TOGETHER.
@@ -262,10 +244,7 @@ export const AuthScreen: React.FC = () => {
         >
           {/* Header */}
           <div>
-            <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#dfb77a', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-              ACCESS YOUR ACCOUNT
-            </div>
-            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'Kanit', sans-serif", marginTop: '2px' }}>
+            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'Kanit', sans-serif" }}>
               {mode === 'LOGIN' ? 'WELCOME BACK' : 'CREATE RACER PROFILE'}
             </div>
           </div>
