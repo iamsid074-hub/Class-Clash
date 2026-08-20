@@ -36,6 +36,26 @@ export const AuthScreen: React.FC = () => {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  React.useEffect(() => {
+    // 1. Check for OAuth callback errors in URL
+    const searchParams = new URLSearchParams(window.location.search);
+    const errorParam = searchParams.get('error_description') || searchParams.get('error');
+    if (errorParam) {
+      setAuthError(`Google Auth Error: ${decodeURIComponent(errorParam)}`);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 2. Check for existing session
+    SupabaseAuthService.getSavedSession().then((profile) => {
+      if (profile?.displayName) {
+        setDisplayName(profile.displayName);
+        triggerGateTransition(() => {
+          setScreen('MAIN_MENU');
+        }, 'AUTHENTICATED', profile.displayName);
+      }
+    });
+  }, []);
+
   const handleGoogleSignIn = async () => {
     setAuthError(null);
     setIsLoading(true);
