@@ -1208,8 +1208,7 @@ export const ProfileScreen: React.FC = () => {
                 >
                   ANSHU
                 </span>
-                <span style={{ color: '#c7c7cc', fontWeight: 400 }}>•</span>
-                <span style={{ color: '#48484a', fontWeight: 700, fontSize: '1.65rem' }}>crafted byfromheart</span>
+                <span>Crafted From</span>
                 <span style={{ fontSize: '1.8rem', display: 'inline-block', filter: 'drop-shadow(0 2px 8px rgba(255, 45, 85, 0.4))' }}>
                   ❤️
                 </span>
