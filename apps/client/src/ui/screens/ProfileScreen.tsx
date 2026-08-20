@@ -497,7 +497,7 @@ export const ProfileScreen: React.FC = () => {
               Statistics
             </div>
             <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
-              Detailed career performance metrics and tournament progress for {profileNameInput || displayName}.
+              Detailed career performance metrics for {profileNameInput || displayName}.
             </div>
 
             {/* 2x2 Detailed Metrics Cards */}
@@ -517,8 +517,8 @@ export const ProfileScreen: React.FC = () => {
                 <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
                   {matchesPlayed} Rounds
                 </div>
-                <div style={{ fontSize: '0.78rem', color: matchesPlayed >= 10 ? '#16a34a' : '#ea580c', fontWeight: 600, marginTop: '4px' }}>
-                  {matchesPlayed >= 10 ? '✓ Qualified for Winter Tournament' : '• 10 Rounds required for Tournament'}
+                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
+                  • Total completed match rounds
                 </div>
               </div>
 
@@ -529,8 +529,8 @@ export const ProfileScreen: React.FC = () => {
                 <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginTop: '4px' }}>
                   {points} Points
                 </div>
-                <div style={{ fontSize: '0.78rem', color: points >= 50 ? '#16a34a' : '#ea580c', fontWeight: 600, marginTop: '4px' }}>
-                  {points >= 50 ? '✓ 50+ Points Threshold Met' : '• 50 Points required for Tournament'}
+                <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
+                  • Total career leaderboard score
                 </div>
               </div>
 
@@ -542,7 +542,7 @@ export const ProfileScreen: React.FC = () => {
                   {matchesPlayed > 0 ? '70%' : '0%'}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: '#64748b', fontWeight: 600, marginTop: '4px' }}>
-                  {matchesPlayed > 0 ? '7 Podium Finishes Recorded' : 'Play matches to earn podiums'}
+                  {matchesPlayed > 0 ? '• 7 Podium Finishes Recorded' : '• Play matches to earn podiums'}
                 </div>
               </div>
 
@@ -554,7 +554,7 @@ export const ProfileScreen: React.FC = () => {
                   {points > 100 ? '#1 Ranked' : points > 0 ? '#3 Ranked' : '#12 Ranked'}
                 </div>
                 <div style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 600, marginTop: '4px' }}>
-                  Top 1% Global Racer Bracket
+                  • Top 1% Global Racer Bracket
                 </div>
               </div>
             </div>
@@ -608,9 +608,68 @@ export const ProfileScreen: React.FC = () => {
         )}
 
         {/* ------------------------------------------------------------- */}
-        {/* OTHER TABS FALLBACK (TOURNAMENT, SECURITY, HELP, ETC.) */}
+        {/* TAB 3: TOURNAMENT STATUS */}
         {/* ------------------------------------------------------------- */}
-        {activeTab !== 'profile' && activeTab !== 'stats' && (
+        {activeTab === 'tournament' && (
+          <div style={{ width: '100%', maxWidth: '720px' }}>
+            <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px' }}>
+              Tournament Status
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#64748b', marginBottom: '28px' }}>
+              Official tournament entry qualification and requirement metrics.
+            </div>
+
+            {/* Tournament Qualification Status Card */}
+            <div
+              style={{
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '16px',
+                padding: '24px',
+                marginBottom: '32px',
+                textAlign: 'left',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <div style={{ fontSize: '1rem', fontWeight: 800, color: '#0f172a' }}>
+                  WINTER DOOM TOURNAMENT
+                </div>
+                <div
+                  style={{
+                    background: matchesPlayed >= 10 && points >= 50 ? '#dcfce7' : '#ffedd5',
+                    color: matchesPlayed >= 10 && points >= 50 ? '#15803d' : '#c2410c',
+                    padding: '6px 14px',
+                    borderRadius: '8px',
+                    fontSize: '0.78rem',
+                    fontWeight: 800,
+                  }}
+                >
+                  {matchesPlayed >= 10 && points >= 50 ? 'QUALIFIED' : 'IN PROGRESS'}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                  <Check size={18} color={matchesPlayed >= 10 ? '#16a34a' : '#ea580c'} />
+                  <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                  <Check size={18} color={points >= 50 ? '#16a34a' : '#ea580c'} />
+                  <span>50+ Leaderboard Points (Current: {points} Points)</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                  <Check size={18} color="#16a34a" />
+                  <span>Identity Verification Completed (Status: Verified)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* OTHER TABS FALLBACK (SECURITY, HELP, ETC.) */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab !== 'profile' && activeTab !== 'stats' && activeTab !== 'tournament' && (
           <div style={{ width: '100%', maxWidth: '720px', textAlign: 'left' }}>
             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '8px', textTransform: 'capitalize' }}>
               {activeTab.replace('_', ' ')}
