@@ -12,11 +12,8 @@ import {
   FileText,
   Shield,
   HelpCircle as FaqIcon,
-  Home,
   Trophy,
   BarChart2,
-  Settings as SettingsIcon,
-  Gamepad2,
   Check,
   ArrowLeft,
 } from 'lucide-react';
@@ -37,6 +34,7 @@ export const ProfileScreen: React.FC = () => {
 
   const matchesPlayed = userProfile?.matchesPlayed || 0;
   const points = userProfile?.leaderboardPoints || 0;
+  const userEmail = userProfile?.email || 'anshu@classclash.io';
 
   const handleSaveAndReturn = () => {
     if (profileNameInput.trim()) {
@@ -223,7 +221,7 @@ export const ProfileScreen: React.FC = () => {
                 {profileNameInput || displayName || '2eosV3'}
               </div>
               <div style={{ fontSize: '0.72rem', color: '#64748b' }}>
-                anshu@classclash.io
+                {userEmail}
               </div>
             </div>
           </div>
@@ -343,7 +341,7 @@ export const ProfileScreen: React.FC = () => {
               </div>
             </div>
             <div style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '2px' }}>
-              anshu@classclash.io
+              {userEmail}
             </div>
           </div>
         </div>
@@ -397,7 +395,7 @@ export const ProfileScreen: React.FC = () => {
                 EMAIL
               </div>
               <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                anshu@classclash.io
+                {userEmail}
               </div>
             </div>
 
@@ -421,13 +419,13 @@ export const ProfileScreen: React.FC = () => {
               </div>
             </div>
 
-            {/* ROLE */}
+            {/* LEADERBOARD RANKING */}
             <div>
               <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                ROLE
+                LEADERBOARD RANKING
               </div>
               <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
-                Racer
+                {points > 100 ? '#1' : points > 0 ? '#3' : '#12'}
               </div>
             </div>
 
@@ -462,101 +460,28 @@ export const ProfileScreen: React.FC = () => {
             </div>
           </div>
 
-          {/* Save Profile Action Button */}
-          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          {/* Full Width Save Profile Action Button */}
+          <div style={{ width: '100%' }}>
             <button
               type="button"
               onClick={handleSaveAndReturn}
               style={{
-                padding: '12px 28px',
+                width: '100%',
+                padding: '14px 28px',
                 borderRadius: '12px',
                 background: '#3b82f6',
                 border: 'none',
                 color: '#ffffff',
                 fontWeight: 700,
-                fontSize: '0.95rem',
+                fontSize: '1rem',
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.3)',
+                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.35)',
                 transition: 'transform 0.15s ease',
               }}
             >
               {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
             </button>
-
-            <button
-              type="button"
-              onClick={handleBackToMenu}
-              style={{
-                padding: '12px 24px',
-                borderRadius: '12px',
-                background: '#f1f5f9',
-                border: '1px solid #cbd5e1',
-                color: '#475569',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-              }}
-            >
-              Back to Menu
-            </button>
           </div>
-        </div>
-
-        {/* ------------------------------------------------------------- */}
-        {/* 3. FLOATING BOTTOM DOCK BAR (IMAGE 1 EXACT FOOTER DOCK) */}
-        {/* ------------------------------------------------------------- */}
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '24px',
-            left: 'calc(50% + 130px)',
-            transform: 'translateX(-50%)',
-            background: 'rgba(215, 220, 230, 0.82)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.8)',
-            borderRadius: '20px',
-            padding: '8px 14px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.12)',
-            zIndex: 50,
-          }}
-        >
-          {[
-            { id: 'menu', icon: Home, label: 'Main Menu', action: handleBackToMenu },
-            { id: 'cabin', icon: Gamepad2, label: 'Cabin', action: () => triggerGateTransition(() => setScreen('TEAM_CABIN'), 'CABIN', 'CLASHA') },
-            { id: 'bracket', icon: Trophy, label: 'Bracket', action: () => triggerGateTransition(() => setScreen('BRACKET'), 'BRACKET', 'CLASHA') },
-            { id: 'leaderboard', icon: BarChart2, label: 'Leaderboard', action: () => triggerGateTransition(() => setScreen('LEADERBOARD'), 'CLASHA', 'LEADERBOARD') },
-            { id: 'profile', icon: User, label: 'Profile', active: true, action: () => {} },
-            { id: 'settings', icon: SettingsIcon, label: 'Settings', action: () => triggerGateTransition(() => setScreen('SETTINGS'), 'SETTINGS', 'CLASHA') },
-          ].map((dock) => {
-            const Icon = dock.icon;
-            return (
-              <button
-                key={dock.id}
-                onClick={dock.action}
-                title={dock.label}
-                style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '12px',
-                  background: dock.active ? '#ffffff' : 'rgba(255, 255, 255, 0.45)',
-                  border: dock.active ? '1px solid rgba(0, 0, 0, 0.15)' : 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: dock.active ? '0 4px 12px rgba(0, 0, 0, 0.1)' : 'none',
-                  transition: 'transform 0.15s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                <Icon size={20} color={dock.active ? '#0f172a' : '#475569'} />
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>
