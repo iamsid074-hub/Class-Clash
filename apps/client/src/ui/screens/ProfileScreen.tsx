@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useGameStore } from '../../state/useGameStore';
-import { User, ShieldCheck, ArrowLeft, CheckCircle2, LogOut } from 'lucide-react';
-import { ClassClashLogo } from '../components/ClassClashLogo';
+import {
+  User,
+  LogOut,
+  Truck,
+  Lock,
+  Smartphone,
+  Receipt,
+  HelpCircle,
+  Info,
+  FileText,
+  Shield,
+  HelpCircle as FaqIcon,
+  Home,
+  Trophy,
+  BarChart2,
+  Settings as SettingsIcon,
+  Gamepad2,
+  Check,
+} from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
 export const ProfileScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, triggerGateTransition } = useGameStore();
-  const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
+  const [profileNameInput, setProfileNameInput] = useState(displayName || '2eosV3');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [savedSuccess, setSavedSuccess] = useState(false);
 
   useEffect(() => {
     SupabaseAuthService.getSavedSession().then((p) => {
@@ -17,16 +36,17 @@ export const ProfileScreen: React.FC = () => {
 
   const matchesPlayed = userProfile?.matchesPlayed || 0;
   const points = userProfile?.leaderboardPoints || 0;
-  const winRate = matchesPlayed > 0 ? '70%' : '0%';
-  const isQualified = matchesPlayed >= 10 && points >= 50;
 
   const handleSaveAndReturn = () => {
     if (profileNameInput.trim()) {
       setDisplayName(profileNameInput.trim());
     }
-    triggerGateTransition(() => {
-      setScreen('MAIN_MENU');
-    }, 'MAIN MENU', 'CLASHA');
+    setSavedSuccess(true);
+    setTimeout(() => {
+      triggerGateTransition(() => {
+        setScreen('MAIN_MENU');
+      }, 'MAIN MENU', 'CLASHA');
+    }, 400);
   };
 
   const handleBackToMenu = () => {
@@ -51,415 +71,473 @@ export const ProfileScreen: React.FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 10,
-        background: 'radial-gradient(circle at 50% 30%, rgba(255, 238, 245, 0.98) 0%, rgba(255, 204, 226, 0.98) 100%)',
+        background: '#ffffff',
         display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'border-box',
-        overflow: 'auto',
-        color: '#2b0017',
-        fontFamily: "'Inter', sans-serif",
+        overflow: 'hidden',
+        color: '#0f172a',
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
       }}
     >
-      {/* 1. TOP HEADER NAVIGATION BAR */}
+      {/* ------------------------------------------------------------- */}
+      {/* 1. LEFT SIDEBAR NAVIGATION */}
+      {/* ------------------------------------------------------------- */}
       <div
         style={{
-          width: '100%',
-          padding: '24px 48px',
+          width: '260px',
+          height: '100%',
+          borderRight: '1px solid #e2e8f0',
+          background: '#ffffff',
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: 'column',
           justifyContent: 'space-between',
+          padding: '24px 16px',
           boxSizing: 'border-box',
-          background: 'rgba(255, 255, 255, 0.6)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '2px solid rgba(255, 102, 163, 0.3)',
+          flexShrink: 0,
         }}
       >
-        {/* Left: Back Button & Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <button
-            type="button"
-            onClick={handleBackToMenu}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '12px 24px',
-              borderRadius: '14px',
-              background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-              border: '2px solid #ffffff',
-              color: '#ffffff',
-              fontWeight: 900,
-              fontSize: '0.95rem',
-              fontStyle: 'italic',
-              fontFamily: "'Kanit', sans-serif",
-              cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(255, 0, 102, 0.4)',
-              transition: 'transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <ArrowLeft size={18} /> BACK TO MENU
-          </button>
-          <ClassClashLogo size={0.7} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Logo Brand Header */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '8px' }}>
+            <div
+              style={{
+                width: '28px',
+                height: '28px',
+                borderRadius: '8px',
+                background: '#3b82f6',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ffffff',
+                fontWeight: 900,
+                fontSize: '0.9rem',
+              }}
+            >
+              CC
+            </div>
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
+              CLASS CLASH
+            </div>
+          </div>
+
+          {/* Section 1: MY ACCOUNT */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
+              MY ACCOUNT
+            </div>
+
+            {[
+              { id: 'profile', label: 'Profile', icon: User },
+              { id: 'stats', label: 'Racer Statistics', icon: BarChart2 },
+              { id: 'tournament', label: 'Tournament Status', icon: Trophy },
+              { id: 'delivery', label: 'Delivery Partner', icon: Truck },
+              { id: 'security', label: 'Security & Access', icon: Lock },
+              { id: 'experience', label: 'App Experience', icon: Smartphone },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    background: isActive ? '#f1f5f9' : 'transparent',
+                    border: 'none',
+                    color: isActive ? '#0f172a' : '#64748b',
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: '0.88rem',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Icon size={16} color={isActive ? '#0f172a' : '#64748b'} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Section 2: ASSISTANCE & LEGAL */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px' }}>
+              ASSISTANCE & LEGAL
+            </div>
+
+            {[
+              { id: 'transactions', label: 'Transactions', icon: Receipt },
+              { id: 'support', label: 'Support', icon: HelpCircle },
+              { id: 'about', label: 'About Us', icon: Info },
+              { id: 'terms', label: 'Terms & Conditions', icon: FileText },
+              { id: 'privacy', label: 'Privacy Policy', icon: Shield },
+              { id: 'faq', label: 'Class Clash FAQ', icon: FaqIcon },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    background: isActive ? '#f1f5f9' : 'transparent',
+                    border: 'none',
+                    color: isActive ? '#0f172a' : '#64748b',
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: '0.88rem',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <Icon size={16} color={isActive ? '#0f172a' : '#64748b'} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Center: Page Title */}
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-            RACER DASHBOARD & ACCOUNT SETTINGS
-          </div>
-          <div
-            style={{
-              fontSize: '2.4rem',
-              fontWeight: 900,
-              fontStyle: 'italic',
-              color: '#2b0017',
-              fontFamily: "'Kanit', sans-serif",
-              lineHeight: 1,
-              marginTop: '2px',
-            }}
-          >
-            PLAYER PROFILE
-          </div>
-        </div>
-
-        {/* Right: Verification Status Badge & Logout Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div
-            style={{
-              background: 'rgba(0, 200, 83, 0.12)',
-              border: '2px solid #00c853',
-              borderRadius: '14px',
-              padding: '10px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              color: '#007029',
-              fontWeight: 900,
-              fontSize: '0.9rem',
-              letterSpacing: '0.08em',
-              boxShadow: '0 4px 16px rgba(0, 200, 83, 0.15)',
-            }}
-          >
-            <ShieldCheck size={20} color="#00c853" />
-            <span>VERIFIED RACER</span>
+        {/* Bottom User Account Footer Card */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px',
+            borderRadius: '14px',
+            background: '#f8fafc',
+            border: '1px solid #e2e8f0',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: '#3b82f6',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ffffff',
+              }}
+            >
+              <User size={20} />
+            </div>
+            <div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0f172a' }}>
+                {profileNameInput || displayName || '2eosV3'}
+              </div>
+              <div style={{ fontSize: '0.72rem', color: '#64748b' }}>
+                anshu@classclash.io
+              </div>
+            </div>
           </div>
 
           <button
-            type="button"
             onClick={handleLogout}
+            title="Log Out"
             style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#64748b',
+              padding: '6px',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '10px 18px',
-              borderRadius: '14px',
-              background: 'rgba(255, 51, 102, 0.15)',
-              border: '2px solid #ff3366',
-              color: '#cc0033',
-              fontWeight: 900,
-              fontSize: '0.9rem',
-              fontStyle: 'italic',
-              fontFamily: "'Kanit', sans-serif",
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
             }}
           >
-            <LogOut size={18} color="#cc0033" /> LOG OUT
+            <LogOut size={16} />
           </button>
         </div>
       </div>
 
-      {/* 2. MAIN PAGE CONTENT BODY */}
+      {/* ------------------------------------------------------------- */}
+      {/* 2. MAIN CONTENT AREA */}
+      {/* ------------------------------------------------------------- */}
       <div
         style={{
           flex: 1,
-          maxWidth: '1280px',
-          width: '100%',
-          margin: '0 auto',
-          padding: 'clamp(20px, 3vh, 40px) clamp(16px, 3vw, 48px)',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: 'clamp(16px, 2.5vw, 36px)',
+          height: '100%',
+          overflowY: 'auto',
+          padding: '40px 60px',
           boxSizing: 'border-box',
-          alignItems: 'start',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
         }}
       >
-        {/* LEFT COLUMN: RACER CUSTOMIZATION & TOURNAMENT ELIGIBILITY */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          {/* Card A: Player Name Edit & Avatar Header */}
+        {/* Top User Header Avatar & Title */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            width: '100%',
+            maxWidth: '720px',
+            marginBottom: '32px',
+          }}
+        >
           <div
             style={{
-              background: '#ffffff',
-              border: '2px solid #ff66a3',
+              width: '80px',
+              height: '80px',
               borderRadius: '24px',
-              padding: '32px',
-              boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
+              background: '#60a5fa',
               display: 'flex',
-              flexDirection: 'column',
-              gap: '20px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 10px 25px rgba(96, 165, 250, 0.3)',
+              flexShrink: 0,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <User size={48} color="#ffffff" strokeWidth={2} />
+          </div>
+
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
+                {profileNameInput || displayName || '2eosV3'}
+              </span>
               <div
                 style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '24px',
-                  background: 'linear-gradient(135deg, #ff0066 0%, #ff66a3 100%)',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '50%',
+                  background: '#3b82f6',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 0 30px rgba(255, 0, 102, 0.5), inset 0 2px 4px #ffffff',
-                  flexShrink: 0,
                 }}
               >
-                <User size={44} color="#ffffff" strokeWidth={2.5} />
-              </div>
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.12em' }}>
-                  OFFICIAL RACER TAG
-                </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
-                  {profileNameInput || 'RACER'}
-                </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#7a003c', opacity: 0.8 }}>
-                  ID: #CC-RACER-948 • REGION: ASIA-NORTH
-                </div>
+                <Check size={12} color="#ffffff" strokeWidth={3} />
               </div>
             </div>
+            <div style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '2px' }}>
+              anshu@classclash.io
+            </div>
+          </div>
+        </div>
 
-            <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />
+        <hr style={{ width: '100%', maxWidth: '720px', border: 'none', borderTop: '1px solid #e2e8f0', marginBottom: '32px' }} />
 
-            {/* Input Field */}
-            <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <label style={{ fontSize: '0.82rem', fontWeight: 900, color: '#7a003c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                EDIT RACER CALLSIGN (DISPLAY NAME)
-              </label>
+        {/* Section: Personal details */}
+        <div style={{ width: '100%', maxWidth: '720px' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0f172a', marginBottom: '28px' }}>
+            Personal details
+          </div>
+
+          {/* Grid Layout 2x3 */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              columnGap: '60px',
+              rowGap: '28px',
+              width: '100%',
+              marginBottom: '40px',
+            }}
+          >
+            {/* FULL NAME */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                FULL NAME
+              </div>
               <input
                 type="text"
                 value={profileNameInput}
                 onChange={(e) => setProfileNameInput(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '16px 20px',
-                  borderRadius: '16px',
-                  border: '2px solid #ff3385',
-                  background: 'rgba(255, 240, 246, 0.5)',
-                  color: '#2b0017',
-                  fontWeight: 900,
-                  fontSize: '1.3rem',
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid #cbd5e1',
+                  background: '#ffffff',
+                  fontSize: '0.95rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
                   outline: 'none',
                   boxSizing: 'border-box',
-                  fontFamily: "'Kanit', sans-serif",
                 }}
-                placeholder="ENTER YOUR NAME"
               />
             </div>
+
+            {/* EMAIL */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                EMAIL
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                anshu@classclash.io
+              </div>
+            </div>
+
+            {/* ACCOUNT STATUS */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                ACCOUNT STATUS
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                Active
+              </div>
+            </div>
+
+            {/* JOINED */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                JOINED
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                August 2026
+              </div>
+            </div>
+
+            {/* ROLE */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                ROLE
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                Racer
+              </div>
+            </div>
+
+            {/* NATIONALITY */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                NATIONALITY
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                Indian
+              </div>
+            </div>
+
+            {/* MATCHES PLAYED */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                MATCHES PLAYED
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                {matchesPlayed} Rounds
+              </div>
+            </div>
+
+            {/* LEADERBOARD POINTS */}
+            <div>
+              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                LEADERBOARD POINTS
+              </div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0f172a' }}>
+                {points} Points
+              </div>
+            </div>
           </div>
 
-          {/* Card B: Tournament Qualification Banner */}
-          <div
-            style={{
-              background: 'linear-gradient(135deg, rgba(0, 200, 83, 0.14) 0%, rgba(0, 230, 118, 0.08) 100%)',
-              border: '2.5px solid #00c853',
-              borderRadius: '24px',
-              padding: '28px 32px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px',
-              textAlign: 'left',
-              boxShadow: '0 8px 28px rgba(0, 200, 83, 0.18)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <CheckCircle2 size={28} color="#00c853" />
-                <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#007029', fontFamily: "'Kanit', sans-serif" }}>
-                  TOURNAMENT QUALIFICATION STATUS
-                </span>
-              </div>
-              <div
-                style={{
-                  background: isQualified ? '#00c853' : '#ff9900',
-                  color: '#ffffff',
-                  padding: '8px 18px',
-                  borderRadius: '12px',
-                  fontWeight: 900,
-                  fontSize: '0.85rem',
-                  letterSpacing: '0.08em',
-                  boxShadow: isQualified ? '0 4px 12px rgba(0, 200, 83, 0.35)' : '0 4px 12px rgba(255, 153, 0, 0.35)',
-                }}
-              >
-                {isQualified ? 'QUALIFIED' : 'IN PROGRESS'}
-              </div>
-            </div>
-
-            <div style={{ color: '#008e3b', fontSize: '0.92rem', fontWeight: 800, lineHeight: 1.5 }}>
-              Your profile satisfies all mandatory entry criteria for the <strong>WINTER DOOM TOURNAMENT</strong>:
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
-                <CheckCircle2 size={18} color={matchesPlayed >= 10 ? "#00c853" : "#ff9900"} />
-                <span>10+ Matches Played (Current: {matchesPlayed} Rounds)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
-                <CheckCircle2 size={18} color={points >= 50 ? "#00c853" : "#ff9900"} />
-                <span>50+ Leaderboard Points (Current: {points} Points)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.88rem', fontWeight: 800, color: '#007029' }}>
-                <CheckCircle2 size={18} color="#00c853" />
-                <span>Identity Verification Completed (Status: Verified)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: CAREER STATS DASHBOARD GRID */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-          <div
-            style={{
-              background: '#ffffff',
-              border: '2px solid #ff66a3',
-              borderRadius: '24px',
-              padding: '32px',
-              boxShadow: '0 12px 36px rgba(255, 102, 163, 0.18)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '24px',
-            }}
-          >
-            <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                CAREER PERFORMANCE METRICS
-              </div>
-              <div style={{ fontSize: '2rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
-                RACER STATISTICS
-              </div>
-            </div>
-
-            {/* 2x2 Clean Stats Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-              {/* Stat 1: Matches Played */}
-              <div
-                style={{
-                  background: 'rgba(255, 240, 246, 0.6)',
-                  border: '1.5px solid rgba(255, 102, 163, 0.4)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  MATCHES PLAYED
-                </div>
-                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  {matchesPlayed} Rounds
-                </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: matchesPlayed >= 10 ? '#008e3b' : '#ff9900', marginTop: '4px' }}>
-                  {matchesPlayed >= 10 ? '✓ 10+ Rounds (Qualified)' : '• Progressing'}
-                </div>
-              </div>
-
-              {/* Stat 2: Leaderboard Score */}
-              <div
-                style={{
-                  background: 'rgba(255, 240, 246, 0.6)',
-                  border: '1.5px solid rgba(255, 102, 163, 0.4)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  LEADERBOARD POINTS
-                </div>
-                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  {points} Points
-                </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: points >= 50 ? '#008e3b' : '#ff9900', marginTop: '4px' }}>
-                  {points >= 50 ? '✓ 50+ Points (Qualified)' : '• Progressing'}
-                </div>
-              </div>
-
-              {/* Stat 3: Win Rate */}
-              <div
-                style={{
-                  background: 'rgba(255, 240, 246, 0.6)',
-                  border: '1.5px solid rgba(255, 102, 163, 0.4)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  WIN RATE
-                </div>
-                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#2b0017', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  {winRate}
-                </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#e6005c', marginTop: '4px' }}>
-                  {matchesPlayed} Podiums Recorded
-                </div>
-              </div>
-
-              {/* Stat 4: Account Status */}
-              <div
-                style={{
-                  background: 'rgba(255, 240, 246, 0.6)',
-                  border: '1.5px solid rgba(255, 102, 163, 0.4)',
-                  borderRadius: '20px',
-                  padding: '24px',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#e6005c', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  ACCOUNT STATUS
-                </div>
-                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#008e3b', fontFamily: "'Kanit', sans-serif", marginTop: '4px' }}>
-                  VERIFIED
-                </div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#008e3b', marginTop: '4px' }}>
-                  ✓ Identity Verified
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Save Action Button */}
+          {/* Save Profile Action Button */}
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
             <button
               type="button"
               onClick={handleSaveAndReturn}
               style={{
-                width: '100%',
-                height: '60px',
-                borderRadius: '18px',
-                background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-                border: '2px solid #ffffff',
+                padding: '12px 28px',
+                borderRadius: '12px',
+                background: '#3b82f6',
+                border: 'none',
                 color: '#ffffff',
-                fontWeight: 900,
-                fontSize: '1.3rem',
-                fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontWeight: 700,
+                fontSize: '0.95rem',
                 cursor: 'pointer',
-                boxShadow: '0 8px 30px rgba(255, 0, 102, 0.5)',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                transition: 'transform 0.2s ease, boxShadow 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 12px 36px rgba(255, 0, 102, 0.65)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(255, 0, 102, 0.5)';
+                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.3)',
+                transition: 'transform 0.15s ease',
               }}
             >
-              SAVE PROFILE & RETURN TO MENU
+              {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleBackToMenu}
+              style={{
+                padding: '12px 24px',
+                borderRadius: '12px',
+                background: '#f1f5f9',
+                border: '1px solid #cbd5e1',
+                color: '#475569',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+              }}
+            >
+              Back to Menu
             </button>
           </div>
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* 3. FLOATING BOTTOM DOCK BAR (IMAGE 1 EXACT FOOTER DOCK) */}
+        {/* ------------------------------------------------------------- */}
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            left: 'calc(50% + 130px)',
+            transform: 'translateX(-50%)',
+            background: 'rgba(215, 220, 230, 0.82)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.8)',
+            borderRadius: '20px',
+            padding: '8px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.12)',
+            zIndex: 50,
+          }}
+        >
+          {[
+            { id: 'menu', icon: Home, label: 'Main Menu', action: handleBackToMenu },
+            { id: 'cabin', icon: Gamepad2, label: 'Cabin', action: () => triggerGateTransition(() => setScreen('TEAM_CABIN'), 'CABIN', 'CLASHA') },
+            { id: 'bracket', icon: Trophy, label: 'Bracket', action: () => triggerGateTransition(() => setScreen('BRACKET'), 'BRACKET', 'CLASHA') },
+            { id: 'leaderboard', icon: BarChart2, label: 'Leaderboard', action: () => triggerGateTransition(() => setScreen('LEADERBOARD'), 'CLASHA', 'LEADERBOARD') },
+            { id: 'profile', icon: User, label: 'Profile', active: true, action: () => {} },
+            { id: 'settings', icon: SettingsIcon, label: 'Settings', action: () => triggerGateTransition(() => setScreen('SETTINGS'), 'SETTINGS', 'CLASHA') },
+          ].map((dock) => {
+            const Icon = dock.icon;
+            return (
+              <button
+                key={dock.id}
+                onClick={dock.action}
+                title={dock.label}
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '12px',
+                  background: dock.active ? '#ffffff' : 'rgba(255, 255, 255, 0.45)',
+                  border: dock.active ? '1px solid rgba(0, 0, 0, 0.15)' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  boxShadow: dock.active ? '0 4px 12px rgba(0, 0, 0, 0.1)' : 'none',
+                  transition: 'transform 0.15s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.1)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              >
+                <Icon size={20} color={dock.active ? '#0f172a' : '#475569'} />
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
