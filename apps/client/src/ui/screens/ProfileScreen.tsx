@@ -24,6 +24,10 @@ import {
   ShieldAlert,
   Trash2,
   UserCheck,
+  Activity,
+  EyeOff,
+  Scale,
+  RefreshCw,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -1276,6 +1280,58 @@ export const ProfileScreen: React.FC = () => {
                 </div>
                 <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
                   Players must maintain respectful behavior in party cabin chats and lobbies. Harassment, toxic behavior, exploiting glitches, or manipulating leaderboard points will result in an immediate account ban.
+                </div>
+              </div>
+
+              {/* Section 6: Physical Safety & Health Disclaimer */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Activity size={20} color="#ff2d55" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    6. Health, Physical Safety &amp; Non-Hazard Disclaimer
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  CLASHA is strictly a virtual digital application. Users must <strong>NEVER attempt any physically dangerous, harmful, or illegal acts</strong> in real life. The Game Owner is <strong>100% immune and free from any liability</strong> regarding personal injury, health conditions, or property damage.
+                </div>
+              </div>
+
+              {/* Section 7: Personal Data Security & Chat Privacy */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <EyeOff size={20} color="#af52de" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    7. Personal Data Security &amp; Chat Privacy Warning
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  Players are strongly advised <strong>NEVER to share passwords, phone numbers, bank details, or private credentials</strong> in multiplayer cabin chats. The Game Owner is not responsible for any information voluntarily disclosed by users to third parties in chat rooms.
+                </div>
+              </div>
+
+              {/* Section 8: Full Legal Indemnification */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <Scale size={20} color="#007aff" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    8. Complete Legal Indemnification of Game Owner
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  By accessing or playing CLASHA, all users explicitly agree to <strong>indemnify, defend, and hold completely harmless the Game Owner (ANSHU)</strong> from any claims, legal suits, losses, liabilities, damages, or costs resulting from the user's access or misuse of the app.
+                </div>
+              </div>
+
+              {/* Section 9: Agreement Modifications */}
+              <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '26px 30px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                  <RefreshCw size={20} color="#8e8e93" />
+                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                    9. Agreement Updates &amp; Support Contact
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.9rem', color: '#3a3a3c', lineHeight: 1.6, fontFamily: APPLE_FONT, textTransform: 'none' }}>
+                  The Game Owner reserves the right to modify these terms at any time. Continued use of CLASHA constitutes full acceptance of the updated terms. For legal inquiries or support, contact <strong>clasha@gmail.com</strong>.
                 </div>
               </div>
             </div>
