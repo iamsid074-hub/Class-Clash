@@ -98,24 +98,8 @@ export const ProfileScreen: React.FC = () => {
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Logo Brand Header */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', paddingLeft: '8px' }}>
-            <div
-              style={{
-                width: '28px',
-                height: '28px',
-                borderRadius: '8px',
-                background: '#3b82f6',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                fontWeight: 900,
-                fontSize: '0.9rem',
-              }}
-            >
-              C
-            </div>
-            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
+          <div style={{ paddingLeft: '8px' }}>
+            <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0f172a', letterSpacing: '-0.02em' }}>
               CLASHA
             </div>
           </div>
