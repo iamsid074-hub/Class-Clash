@@ -113,10 +113,10 @@ export const ProfileScreen: React.FC = () => {
                 fontSize: '0.9rem',
               }}
             >
-              CC
+              C
             </div>
             <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>
-              CLASS CLASH
+              CLASHA
             </div>
           </div>
 
@@ -175,7 +175,7 @@ export const ProfileScreen: React.FC = () => {
               { id: 'about', label: 'About Us', icon: Info },
               { id: 'terms', label: 'Terms & Conditions', icon: FileText },
               { id: 'privacy', label: 'Privacy Policy', icon: Shield },
-              { id: 'faq', label: 'Class Clash FAQ', icon: FaqIcon },
+              { id: 'faq', label: 'CLASHA FAQ', icon: FaqIcon },
             ].map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
