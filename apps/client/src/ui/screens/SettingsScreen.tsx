@@ -153,7 +153,7 @@ export const SettingsScreen: React.FC = () => {
               fontWeight: 900,
               fontSize: '0.95rem',
               fontStyle: 'italic',
-              fontFamily: "'Kanit', sans-serif",
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
               cursor: 'pointer',
               boxShadow: '0 6px 20px rgba(255, 0, 102, 0.4)',
               transition: 'all 0.2s ease',
@@ -173,7 +173,7 @@ export const SettingsScreen: React.FC = () => {
               fontWeight: 900,
               fontStyle: 'italic',
               color: '#2b0017',
-              fontFamily: "'Kanit', sans-serif",
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
               lineHeight: 1,
             }}
           >
@@ -258,7 +258,7 @@ export const SettingsScreen: React.FC = () => {
                     <Volume2 size={22} color="#ff0066" />
                   </div>
                   <div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
                       SOUND
                     </div>
                     <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
@@ -292,7 +292,7 @@ export const SettingsScreen: React.FC = () => {
                     <Info size={22} color="#ff0066" />
                   </div>
                   <div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
                       ABOUT
                     </div>
                     <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
@@ -325,7 +325,7 @@ export const SettingsScreen: React.FC = () => {
                     <Tag size={22} color="#ff0066" />
                   </div>
                   <div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'Kanit', sans-serif" }}>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#2b0017', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
                       VERSION
                     </div>
                     <div style={{ fontSize: '0.82rem', color: '#7a003c', fontWeight: 700, opacity: 0.8 }}>
@@ -376,7 +376,7 @@ export const SettingsScreen: React.FC = () => {
                     fontWeight: 900,
                     fontSize: '0.95rem',
                     fontStyle: 'italic',
-                    fontFamily: "'Kanit', sans-serif",
+                    fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -470,7 +470,7 @@ export const SettingsScreen: React.FC = () => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: '0.9rem', color: '#7a003c', fontWeight: 800 }}>GAME TITLE</span>
-                <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#2b0017', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif" }}>CLASHA</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#2b0017', fontStyle: 'italic', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>CLASHA</span>
               </div>
 
               <hr style={{ border: 'none', borderTop: '1px solid rgba(255, 102, 163, 0.2)', margin: 0 }} />

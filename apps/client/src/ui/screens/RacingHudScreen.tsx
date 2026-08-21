@@ -182,7 +182,7 @@ export const RacingHudScreen: React.FC = () => {
             fontSize: countdownText === 'GO!' ? '5rem' : '7rem',
             fontWeight: 900,
             fontStyle: 'italic',
-            fontFamily: "'Kanit', sans-serif",
+            fontFamily: "'QUARTZO', 'Kanit', sans-serif",
             color: '#ffffff',
             textShadow: '0 0 40px #ff007f, 0 0 80px #ff007f',
             pointerEvents: 'none',
@@ -212,7 +212,7 @@ export const RacingHudScreen: React.FC = () => {
           }}
         >
           <Pause size={48} color="#ff007f" style={{ margin: '0 auto 12px' }} />
-          <h2 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', sans-serif" }}>
+          <h2 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
             GAME PAUSED
           </h2>
           <p style={{ color: '#ff99cc', fontSize: '0.9rem', marginBottom: '24px', fontWeight: 700 }}>

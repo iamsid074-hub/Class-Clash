@@ -345,7 +345,7 @@ export const TeamCabinScreen: React.FC = () => {
                 fontSize: '1.45rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', 'Outfit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', 'Outfit', sans-serif",
                 color: '#ffffff',
                 letterSpacing: '0.04em',
                 userSelect: 'none',

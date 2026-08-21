@@ -200,7 +200,7 @@ export const AuthScreen: React.FC = () => {
                 fontSize: '2.0rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                 letterSpacing: '0.04em',
                 margin: 0,
                 lineHeight: 1,
@@ -223,7 +223,7 @@ export const AuthScreen: React.FC = () => {
               fontSize: 'clamp(1.35rem, 1.8vw, 1.75rem)',
               fontWeight: 900,
               fontStyle: 'italic',
-              fontFamily: "'Kanit', sans-serif",
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
               color: '#f4ece1',
               lineHeight: 1,
               letterSpacing: '0.02em',
@@ -268,7 +268,7 @@ export const AuthScreen: React.FC = () => {
         >
           {/* Header */}
           <div>
-            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'Kanit', sans-serif" }}>
+            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
               {mode === 'LOGIN' ? 'WELCOME BACK' : 'CREATE RACER PROFILE'}
             </div>
           </div>
@@ -319,7 +319,7 @@ export const AuthScreen: React.FC = () => {
                 fontWeight: 900,
                 fontSize: '0.92rem',
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
                 transition: 'color 0.3s ease',
@@ -344,7 +344,7 @@ export const AuthScreen: React.FC = () => {
                 fontWeight: 900,
                 fontSize: '0.92rem',
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                 letterSpacing: '0.06em',
                 cursor: 'pointer',
                 transition: 'color 0.3s ease',
@@ -516,7 +516,7 @@ export const AuthScreen: React.FC = () => {
                 fontWeight: 900,
                 fontSize: '1.2rem',
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                 cursor: isLoading ? 'wait' : 'pointer',
                 boxShadow: isLoading
                   ? '0 0 15px rgba(255, 0, 102, 0.3)'

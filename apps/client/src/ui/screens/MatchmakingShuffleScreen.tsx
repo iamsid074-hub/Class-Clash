@@ -74,7 +74,7 @@ export const MatchmakingShuffleScreen: React.FC = () => {
         <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#ff66b3', letterSpacing: '0.2em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', textShadow: '0 0 10px #ff007f' }}>
           <Zap size={20} color="#ff66b3" /> {hasTwoCustomTeams ? 'DIRECT CUSTOM MATCHUP' : 'MATCHMAKING LOBBY'}
         </div>
-        <h2 style={{ fontSize: '3.2rem', color: '#ffffff', fontWeight: 900, marginTop: '6px', fontStyle: 'italic', textShadow: '0 0 25px rgba(255, 0, 127, 0.6)', fontFamily: "'Kanit', 'Outfit', sans-serif" }}>
+        <h2 style={{ fontSize: '3.2rem', color: '#ffffff', fontWeight: 900, marginTop: '6px', fontStyle: 'italic', textShadow: '0 0 25px rgba(255, 0, 127, 0.6)', fontFamily: "'QUARTZO', 'Kanit', 'Outfit', sans-serif" }}>
           {isLocked ? `MATCH LOCKED • STARTING IN ${countdown}S` : 'MATCHING OPPONENTS...'}
         </h2>
       </div>
@@ -97,7 +97,7 @@ export const MatchmakingShuffleScreen: React.FC = () => {
           }}
         >
           <div style={{ fontSize: '3.5rem', marginBottom: '12px' }}>🛡️</div>
-          <h3 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', 'Outfit', sans-serif" }}>
+          <h3 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'QUARTZO', 'Kanit', 'Outfit', sans-serif" }}>
             {isLocked ? team1.name : shufflingName1}
           </h3>
           <p style={{ color: '#ff99cc', fontSize: '0.9rem', marginTop: '8px', fontWeight: 800 }}>HOST SQUAD • 4 PLAYERS READY</p>
@@ -141,7 +141,7 @@ export const MatchmakingShuffleScreen: React.FC = () => {
           }}
         >
           <div style={{ fontSize: '3.5rem', marginBottom: '12px' }}>⚔️</div>
-          <h3 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Kanit', 'Outfit', sans-serif" }}>
+          <h3 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'QUARTZO', 'Kanit', 'Outfit', sans-serif" }}>
             {isLocked ? team2.name : shufflingName2}
           </h3>
           <p style={{ color: '#ff99cc', fontSize: '0.9rem', marginTop: '8px', fontWeight: 800 }}>CHALLENGER SQUAD • 4 PLAYERS READY</p>

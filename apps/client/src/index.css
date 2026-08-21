@@ -1,3 +1,23 @@
+@font-face {
+  font-family: 'QUARTZO';
+  font-style: normal;
+  font-weight: 700;
+  src: local('QUARTZO'),
+       url('./assets/fonts/QUARTZO-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'QUARTZO';
+  font-style: normal;
+  font-weight: 400;
+  src: local('QUARTZO'),
+       url('./assets/fonts/QUARTZO-regular.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-regular.woff') format('woff');
+  font-display: swap;
+}
+
 :root {
   --bg-main: #0c0410;
   --bg-card: rgba(26, 8, 30, 0.88);
@@ -9,7 +29,8 @@
   --accent-white: #ffffff;
   --text-main: #ffffff;
   --text-muted: #e6b8d4;
-  --font-heading: 'Outfit', sans-serif;
+  --font-logo: 'QUARTZO', 'Kanit', sans-serif;
+  --font-heading: 'QUARTZO', 'Kanit', 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
 

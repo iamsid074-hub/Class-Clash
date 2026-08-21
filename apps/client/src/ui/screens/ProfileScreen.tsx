@@ -170,7 +170,7 @@ export const ProfileScreen: React.FC = () => {
                 fontSize: '1.25rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
-                fontFamily: "'Kanit', sans-serif",
+                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
                 letterSpacing: '0.04em',
                 lineHeight: 1,
               }}
