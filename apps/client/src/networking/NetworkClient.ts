@@ -17,7 +17,7 @@ export class NetworkClient {
     }
 
     // Production: connect to Render-hosted game server
-    return 'wss://clasha-server.onrender.com';
+    return 'wss://class-clash.onrender.com';
   }
 
   public static isConnected(): boolean {
