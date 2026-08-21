@@ -84,15 +84,15 @@ export class NetworkClient {
         }
       };
 
-      this.socket.onclose = () => {
-        console.warn('[NetworkClient] Disconnected from server');
+      this.socket.onclose = (event) => {
+        console.warn(`[NetworkClient] Disconnected from server. Code: ${event.code}, Reason: ${event.reason}, Clean: ${event.wasClean}`);
         useGameStore.getState().setIsConnected(false);
         this.socket = null;
         this.scheduleReconnect();
       };
 
       this.socket.onerror = (err) => {
-        console.error('[NetworkClient] WebSocket error:', err);
+        console.error('[NetworkClient] WebSocket error — server may be unreachable:', err);
       };
     } catch (e) {
       console.error('[NetworkClient] Failed to create WebSocket:', e);

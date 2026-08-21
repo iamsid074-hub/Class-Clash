@@ -6,7 +6,7 @@ import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Pl
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, roomPassword, players, setScreen, triggerGateTransition } = useGameStore();
+  const { playerId, soloGameState, roomCode, roomPassword, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
@@ -439,7 +439,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 <Users size={14} color="#ffffff" /> CABIN PLAYERS ROSTER
               </div>
               <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#ffffff' }}>
-                {allPlayersList.length} / 8 JOINED
+                {allPlayersList.length} / 8 JOINED {!isConnected && '⚠️ OFFLINE'}
               </div>
             </div>
 
