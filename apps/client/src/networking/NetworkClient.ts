@@ -7,8 +7,15 @@ export class NetworkClient {
   private static pendingJoinRoom: NetworkMessage | null = null;
 
   private static getWsUrl(): string {
-    const customUrl = (import.meta as any).env?.VITE_WS_URL;
-    if (customUrl) return customUrl;
+    let customUrl = (import.meta as any).env?.VITE_WS_URL;
+    if (customUrl && typeof customUrl === 'string') {
+      customUrl = customUrl.trim();
+      // Fix bad env var pointing to non-existent class-clash-server.onrender.com
+      if (customUrl.includes('class-clash-server.onrender.com') || customUrl.includes('clasha-server.onrender.com')) {
+        customUrl = 'wss://class-clash.onrender.com';
+      }
+      if (customUrl) return customUrl;
+    }
 
     const host = window.location.hostname || 'localhost';
     if (host === 'localhost' || host === '127.0.0.1') {
@@ -16,7 +23,7 @@ export class NetworkClient {
       return `${protocol}//${host}:3001`;
     }
 
-    // Production: connect to Render-hosted game server (class-clash.onrender.com)
+    // Production: connect to verified Render-hosted game server
     return 'wss://class-clash.onrender.com';
   }
 

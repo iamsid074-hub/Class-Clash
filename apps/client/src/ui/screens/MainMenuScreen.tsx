@@ -24,8 +24,7 @@ export const MainMenuScreen: React.FC = () => {
     setErrorMessage(null);
     setIsJoiningCabin(true);
 
-    // Send CREATE_CABIN to server — navigation happens automatically
-    // when server responds with ROOM_STATE via updateRoomState()
+    // Send CREATE_CABIN to server
     NetworkClient.createCabin({
       cabinId: finalCabinId,
       cabinName: finalCabinName,
@@ -33,6 +32,14 @@ export const MainMenuScreen: React.FC = () => {
       displayName: finalName,
       avatar: 'avatar_cyber',
     });
+
+    // Safety timeout: reset loading if server response takes more than 6s
+    setTimeout(() => {
+      if (useGameStore.getState().isJoiningCabin) {
+        useGameStore.getState().setIsJoiningCabin(false);
+        useGameStore.getState().setErrorMessage('SERVER RESPONSE TIMED OUT! PLEASE RETRY.');
+      }
+    }, 6000);
   };
 
   const handleJoinRoom = () => {
@@ -47,15 +54,21 @@ export const MainMenuScreen: React.FC = () => {
     setErrorMessage(null);
     setIsJoiningCabin(true);
 
-    // Send JOIN_CABIN to server — navigation happens automatically
-    // when server responds with ROOM_STATE via updateRoomState()
-    // If server sends CABIN_JOIN_ERROR, error shows inline & loading stops
+    // Send JOIN_CABIN to server
     NetworkClient.joinCabin({
       cabinId: finalCabinId,
       password: finalPassword,
       displayName: finalName,
       avatar: 'avatar_neon',
     });
+
+    // Safety timeout: reset loading if server response takes more than 6s
+    setTimeout(() => {
+      if (useGameStore.getState().isJoiningCabin) {
+        useGameStore.getState().setIsJoiningCabin(false);
+        useGameStore.getState().setErrorMessage('SERVER RESPONSE TIMED OUT! PLEASE RETRY.');
+      }
+    }, 6000);
   };
 
   const handleSaveProfile = () => {
