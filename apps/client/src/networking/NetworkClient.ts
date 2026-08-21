@@ -16,7 +16,7 @@ export class NetworkClient {
       return `${protocol}//${host}:3001`;
     }
 
-    // Production: connect to Render-hosted game server
+    // Production: connect to Render-hosted game server (class-clash.onrender.com)
     return 'wss://class-clash.onrender.com';
   }
 
