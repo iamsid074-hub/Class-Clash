@@ -1,4 +1,58 @@
 @font-face {
+  font-family: 'Misery';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Misery';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Misery';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Misery';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Misery';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Misery';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/Misery.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/63207/MiseryRegular-eZ4Bn.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'QUARTZO';
   font-style: normal;
   font-weight: 400;
@@ -54,8 +108,8 @@
   --accent-white: #ffffff;
   --text-main: #ffffff;
   --text-muted: #e6b8d4;
-  --font-logo: 'QUARTZO', 'Kanit', sans-serif;
-  --font-heading: 'QUARTZO', 'Kanit', 'Outfit', sans-serif;
+  --font-logo: 'Misery', 'QUARTZO', 'Kanit', sans-serif;
+  --font-heading: 'Misery', 'QUARTZO', 'Kanit', 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
 

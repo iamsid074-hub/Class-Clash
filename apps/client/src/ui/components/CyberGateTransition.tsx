@@ -171,7 +171,7 @@ export const CyberGateTransition: React.FC = () => {
                 fontSize: '1.95rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
-                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
                 color: '#ffffff',
                 lineHeight: 1.1,
                 letterSpacing: '0.05em',
