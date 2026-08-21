@@ -31,11 +31,17 @@ interface GameStore {
   isConnected: boolean;
   setIsConnected: (connected: boolean) => void;
 
+  isJoiningCabin: boolean;
+  setIsJoiningCabin: (joining: boolean) => void;
+
   roomCode: string;
   setRoomCode: (code: string) => void;
 
   roomPassword: string;
   setRoomPassword: (pass: string) => void;
+
+  cabinName: string;
+  setCabinName: (name: string) => void;
 
   playerId: string;
   setPlayerId: (id: string) => void;
@@ -61,6 +67,7 @@ interface GameStore {
   updateRoomState: (data: {
     roomCode: string;
     roomPassword?: string;
+    cabinName?: string;
     playerId?: string;
     players: Record<string, PlayerState>;
     teams: Record<string, Team>;
@@ -118,11 +125,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isConnected: false,
   setIsConnected: (isConnected) => set({ isConnected }),
 
+  isJoiningCabin: false,
+  setIsJoiningCabin: (isJoiningCabin) => set({ isJoiningCabin }),
+
   roomCode: '',
   setRoomCode: (roomCode) => set({ roomCode }),
 
   roomPassword: '',
   setRoomPassword: (roomPassword) => set({ roomPassword }),
+
+  cabinName: '',
+  setCabinName: (cabinName) => set({ cabinName }),
 
   playerId: '',
   setPlayerId: (playerId) => set({ playerId }),
@@ -147,55 +160,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
     })),
 
   initializeLocalRoom: (data) => {
-    const localId = get().playerId || `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-    const newPlayer: PlayerState = {
-      id: localId,
-      displayName: data.displayName || 'Racer',
-      avatar: data.isHost ? 'avatar_cyber' : 'avatar_neon',
-      teamId: null,
-      position: { x: 0, y: 1.5, z: 0 },
-      rotationY: 0,
-      velocity: { x: 0, y: 0, z: 0 },
-      status: 'IDLE',
-      isGrounded: true,
-      isReady: false,
-      connectionStatus: 'CONNECTED',
-      score: 0,
-      ping: 20,
-    };
-
-    set((state) => ({
+    // Lightweight placeholder — real state comes from server ROOM_STATE
+    set({
       roomCode: data.roomCode,
-      roomPassword: data.roomPassword || state.roomPassword,
-      playerId: localId,
-      players: Object.keys(state.players).length > 0 ? state.players : { [localId]: newPlayer },
-      teams: state.teams,
-      soloGameState: state.soloGameState || {
-        roomCode: data.roomCode,
-        isLocked: false,
-        currentRound: 1,
-        totalRounds: 3,
-        phase: 'LOBBY',
-        phaseTimeRemaining: 180,
-        selectedPlayerId: null,
-        leaderPlayerId: null,
-        proposals: [],
-        winningProposal: null,
-        chatMessages: [],
-        championPlayerId: null,
-      },
-    }));
+      roomPassword: data.roomPassword || '',
+    });
   },
 
   updateRoomState: (data) =>
     set((state) => ({
       roomCode: data.roomCode,
       roomPassword: data.roomPassword || state.roomPassword,
+      cabinName: data.cabinName || state.cabinName,
       playerId: data.playerId || state.playerId,
       players: data.players,
       teams: data.teams,
       tournament: data.tournament || state.tournament,
       errorMessage: null,
+      isJoiningCabin: false,
       screen:
         data.tournament?.stage === 'CHAMPION'
           ? 'CHAMPION'

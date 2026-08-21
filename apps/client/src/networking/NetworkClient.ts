@@ -136,6 +136,9 @@ export class NetworkClient {
    * Join or create a room. Ensures connection is established first,
    * then sends the JOIN_ROOM message reliably.
    */
+  /**
+   * Legacy: Join or create a room (backward compat).
+   */
   public static joinRoom(payload: {
     roomCode: string;
     password: string;
@@ -149,13 +152,60 @@ export class NetworkClient {
     };
 
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      // Socket is open — send immediately
       console.log('[NetworkClient] Sending JOIN_ROOM immediately');
       this.sendDirect(joinMsg);
     } else {
-      // Socket not ready — store as pending and (re)connect
       console.log('[NetworkClient] Socket not ready. Storing JOIN_ROOM as pending');
       this.pendingJoinRoom = joinMsg;
+      this.connect();
+    }
+  }
+
+  /**
+   * Create a new cabin. ONLY this method can create cabins.
+   */
+  public static createCabin(payload: {
+    cabinId: string;
+    cabinName: string;
+    password: string;
+    displayName: string;
+    avatar?: string;
+  }): void {
+    const msg: NetworkMessage = {
+      type: 'CREATE_CABIN',
+      payload,
+    };
+
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      console.log('[NetworkClient] Sending CREATE_CABIN immediately');
+      this.sendDirect(msg);
+    } else {
+      console.log('[NetworkClient] Socket not ready. Storing CREATE_CABIN as pending');
+      this.pendingJoinRoom = msg;
+      this.connect();
+    }
+  }
+
+  /**
+   * Join an EXISTING cabin. NEVER creates one.
+   */
+  public static joinCabin(payload: {
+    cabinId: string;
+    password: string;
+    displayName: string;
+    avatar?: string;
+  }): void {
+    const msg: NetworkMessage = {
+      type: 'JOIN_CABIN',
+      payload,
+    };
+
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      console.log('[NetworkClient] Sending JOIN_CABIN immediately');
+      this.sendDirect(msg);
+    } else {
+      console.log('[NetworkClient] Socket not ready. Storing JOIN_CABIN as pending');
+      this.pendingJoinRoom = msg;
       this.connect();
     }
   }
@@ -191,16 +241,31 @@ export class NetworkClient {
       case 'ROOM_STATE':
         console.log('[NetworkClient] Received ROOM_STATE', {
           roomCode: msg.payload?.roomCode,
+          cabinName: msg.payload?.cabinName,
           playerId: msg.payload?.playerId,
           playerCount: msg.payload?.players ? Object.keys(msg.payload.players).length : 0,
         });
         store.updateRoomState(msg.payload);
         break;
 
+      case 'CABIN_CREATED':
+        console.log('[NetworkClient] Cabin created successfully:', msg.payload?.cabinId);
+        // ROOM_STATE follows immediately from server, which handles navigation
+        break;
+
+      case 'CABIN_JOIN_ERROR':
+        console.warn('[NetworkClient] Cabin join error:', msg.payload?.message);
+        if (msg.payload?.message) {
+          store.setErrorMessage(msg.payload.message);
+          store.setIsJoiningCabin(false);
+        }
+        break;
+
       case 'ERROR_NOTIFICATION':
         console.warn('[NetworkClient] Server error:', msg.payload?.message);
         if (msg.payload?.message) {
           store.setErrorMessage(msg.payload.message);
+          store.setIsJoiningCabin(false);
         }
         break;
 

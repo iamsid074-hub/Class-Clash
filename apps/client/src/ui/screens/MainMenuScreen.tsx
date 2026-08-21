@@ -6,7 +6,8 @@ import { PinkNeonFrame } from '../components/PinkNeonFrame';
 import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
-  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
+  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
+  const [createCabinNameInput, setCreateCabinNameInput] = useState('');
   const [createRoomIdInput, setCreateRoomIdInput] = useState('ARENA' + Math.floor(Math.random() * 899 + 100));
   const [createPasswordInput, setCreatePasswordInput] = useState('1234');
   const [joinRoomIdInput, setJoinRoomIdInput] = useState('');
@@ -15,71 +16,46 @@ export const MainMenuScreen: React.FC = () => {
   const [activeModal, setActiveModal] = useState<'NONE' | 'CREATE' | 'JOIN' | 'TOURNAMENT'>('NONE');
 
   const handleCreateRoom = () => {
-    const finalRoomId = createRoomIdInput.trim().toUpperCase() || ('ROOM_' + Math.floor(Math.random() * 899 + 100));
+    if (isJoiningCabin) return; // Prevent double-submit
+    const finalCabinId = createRoomIdInput.trim().toUpperCase() || ('ROOM_' + Math.floor(Math.random() * 899 + 100));
     const finalPassword = createPasswordInput.trim();
     const finalName = profileNameInput.trim() || displayName || 'HOST RACER';
+    const finalCabinName = createCabinNameInput.trim() || `${finalName}'s Cabin`;
     setErrorMessage(null);
+    setIsJoiningCabin(true);
 
-    // 1. Set store state & initialize local player state
-    setRoomCode(finalRoomId);
-    setRoomPassword(finalPassword);
-    initializeLocalRoom({
-      roomCode: finalRoomId,
-      roomPassword: finalPassword,
-      displayName: finalName,
-      isHost: true,
-    });
-
-    // 2. Send JOIN_ROOM reliably (queues if socket not ready)
-    NetworkClient.joinRoom({
-      roomCode: finalRoomId,
+    // Send CREATE_CABIN to server — navigation happens automatically
+    // when server responds with ROOM_STATE via updateRoomState()
+    NetworkClient.createCabin({
+      cabinId: finalCabinId,
+      cabinName: finalCabinName,
       password: finalPassword,
-      isHost: true,
       displayName: finalName,
       avatar: 'avatar_cyber',
     });
-
-    // 3. Transition to cabin screen
-    triggerGateTransition(() => {
-      setScreen('TEAM_CABIN');
-      setActiveModal('NONE');
-    }, 'ENTERING CABIN', 'CREATING PRIVATE ROOM');
   };
 
   const handleJoinRoom = () => {
+    if (isJoiningCabin) return; // Prevent double-submit
     if (!joinRoomIdInput.trim()) {
-      setErrorMessage('PLEASE ENTER A VALID ROOM ID!');
+      setErrorMessage('PLEASE ENTER A VALID CABIN ID!');
       return;
     }
-    const finalRoomId = joinRoomIdInput.trim().toUpperCase();
+    const finalCabinId = joinRoomIdInput.trim().toUpperCase();
     const finalPassword = joinPasswordInput.trim();
     const finalName = profileNameInput.trim() || displayName || 'GUEST RACER';
     setErrorMessage(null);
+    setIsJoiningCabin(true);
 
-    // 1. Set store state & initialize local player state
-    setRoomCode(finalRoomId);
-    setRoomPassword(finalPassword);
-    initializeLocalRoom({
-      roomCode: finalRoomId,
-      roomPassword: finalPassword,
-      displayName: finalName,
-      isHost: false,
-    });
-
-    // 2. Send JOIN_ROOM reliably (queues if socket not ready)
-    NetworkClient.joinRoom({
-      roomCode: finalRoomId,
+    // Send JOIN_CABIN to server — navigation happens automatically
+    // when server responds with ROOM_STATE via updateRoomState()
+    // If server sends CABIN_JOIN_ERROR, error shows inline & loading stops
+    NetworkClient.joinCabin({
+      cabinId: finalCabinId,
       password: finalPassword,
-      isHost: false,
       displayName: finalName,
       avatar: 'avatar_neon',
     });
-
-    // 3. Transition to cabin screen
-    triggerGateTransition(() => {
-      setScreen('TEAM_CABIN');
-      setActiveModal('NONE');
-    }, 'ENTERING CABIN', 'JOINING PRIVATE ROOM');
   };
 
   const handleSaveProfile = () => {
@@ -413,19 +389,63 @@ export const MainMenuScreen: React.FC = () => {
                       HOST A NEW MATCH
                     </div>
                     <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", marginTop: '2px' }}>
-                      CREATE ROOM
+                      CREATE CABIN
                     </div>
                   </div>
+
+                  {errorMessage && (
+                    <div
+                      style={{
+                        background: 'rgba(255, 51, 102, 0.15)',
+                        border: '1.5px solid #ff3366',
+                        borderRadius: '10px',
+                        padding: '10px 14px',
+                        color: '#ff6688',
+                        fontSize: '0.85rem',
+                        fontWeight: 800,
+                      }}
+                    >
+                      ⚠️ {errorMessage}
+                    </div>
+                  )}
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div>
                       <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
-                        CREATE ROOM ID
+                        CABIN NAME
+                      </label>
+                      <input
+                        type="text"
+                        value={createCabinNameInput}
+                        onChange={(e) => setCreateCabinNameInput(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          border: '1.5px solid rgba(255, 255, 255, 0.2)',
+                          background: 'rgba(0, 0, 0, 0.4)',
+                          color: '#ffffff',
+                          fontWeight: 900,
+                          fontSize: '1.15rem',
+                          outline: 'none',
+                          marginTop: '4px',
+                          boxSizing: 'border-box',
+                        }}
+                        placeholder="ANSHU'S CABIN"
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
+                        CREATE CABIN ID
                       </label>
                       <input
                         type="text"
                         value={createRoomIdInput}
-                        onChange={(e) => setCreateRoomIdInput(e.target.value.toUpperCase())}
+                        onChange={(e) => {
+                          setCreateRoomIdInput(e.target.value.toUpperCase());
+                          if (errorMessage) setErrorMessage(null);
+                        }}
                         style={{
                           width: '100%',
                           padding: '12px 16px',
@@ -440,13 +460,13 @@ export const MainMenuScreen: React.FC = () => {
                           boxSizing: 'border-box',
                           letterSpacing: '0.08em',
                         }}
-                        placeholder="ENTER ROOM ID"
+                        placeholder="ENTER CABIN ID"
                       />
                     </div>
 
                     <div>
                       <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
-                        SET ROOM PASSWORD
+                        SET CABIN PASSWORD
                       </label>
                       <input
                         type="text"
@@ -473,38 +493,40 @@ export const MainMenuScreen: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleCreateRoom}
+                    disabled={isJoiningCabin}
                     style={{
                       width: '100%',
                       height: '52px',
                       borderRadius: '14px',
-                      background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+                      background: isJoiningCabin ? 'rgba(255, 0, 102, 0.5)' : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
                       border: 'none',
                       color: '#ffffff',
                       fontWeight: 900,
                       fontSize: '1.15rem',
                       fontStyle: 'italic',
                       fontFamily: "'Kanit', sans-serif",
-                      cursor: 'pointer',
+                      cursor: isJoiningCabin ? 'wait' : 'pointer',
                       letterSpacing: '0.06em',
+                      opacity: isJoiningCabin ? 0.7 : 1,
                     }}
                   >
-                    START ROOM NOW
+                    {isJoiningCabin ? 'CREATING...' : 'CREATE CABIN NOW'}
                   </button>
                 </div>
               </div>
             )}
 
             {/* ====================================================================== */}
-            {/* MODAL 2: JOIN ROOM (CLEAN COMPACT CARD - NO CABIN IMAGE AT ALL)       */}
+            {/* MODAL 2: JOIN CABIN (CLEAN COMPACT CARD)                              */}
             {/* ====================================================================== */}
             {activeModal === 'JOIN' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'left' }}>
                 <div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.14em' }}>
-                    CONNECT TO ARENA
+                    CONNECT TO CABIN
                   </div>
                   <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Kanit', sans-serif", marginTop: '2px' }}>
-                    JOIN ROOM
+                    JOIN CABIN
                   </div>
                 </div>
 
@@ -527,7 +549,7 @@ export const MainMenuScreen: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   <div>
                     <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
-                      ENTER ROOM ID
+                      ENTER CABIN ID
                     </label>
                     <input
                       type="text"
@@ -550,13 +572,13 @@ export const MainMenuScreen: React.FC = () => {
                         marginTop: '4px',
                         boxSizing: 'border-box',
                       }}
-                      placeholder="ENTER ROOM ID"
+                      placeholder="ENTER CABIN ID"
                     />
                   </div>
 
                   <div>
                     <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
-                      ENTER ROOM PASSWORD
+                      ENTER CABIN PASSWORD
                     </label>
                     <input
                       type="text"
@@ -586,23 +608,25 @@ export const MainMenuScreen: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleJoinRoom}
+                  disabled={isJoiningCabin}
                   style={{
                     width: '100%',
                     height: '52px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+                    background: isJoiningCabin ? 'rgba(255, 0, 102, 0.5)' : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
                     border: 'none',
                     color: '#ffffff',
                     fontWeight: 900,
                     fontSize: '1.15rem',
                     fontStyle: 'italic',
                     fontFamily: "'Kanit', sans-serif",
-                    cursor: 'pointer',
+                    cursor: isJoiningCabin ? 'wait' : 'pointer',
                     letterSpacing: '0.06em',
                     marginTop: '4px',
+                    opacity: isJoiningCabin ? 0.7 : 1,
                   }}
                 >
-                  JOIN ROOM NOW
+                  {isJoiningCabin ? 'JOINING...' : 'JOIN CABIN NOW'}
                 </button>
               </div>
             )}

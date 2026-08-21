@@ -220,6 +220,8 @@ export interface MatchSnapshot {
 export type ClientMessageType =
   | 'JOIN_ROOM'
   | 'LEAVE_ROOM'
+  | 'CREATE_CABIN'
+  | 'JOIN_CABIN'
   | 'CREATE_TEAM'
   | 'JOIN_TEAM'
   | 'LEAVE_TEAM'
@@ -240,6 +242,8 @@ export type ClientMessageType =
 export type ServerMessageType =
   | 'ROOM_STATE'
   | 'SOLO_GAME_STATE'
+  | 'CABIN_CREATED'
+  | 'CABIN_JOIN_ERROR'
   | 'TEAM_UPDATED'
   | 'TOURNAMENT_UPDATED'
   | 'MATCH_FOUND'

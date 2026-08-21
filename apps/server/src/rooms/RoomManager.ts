@@ -22,6 +22,8 @@ export interface RoomClient {
 
 export class Room {
   public code: string;
+  public cabinName: string = '';
+  public ownerId: string = '';
   public password?: string;
   public players: Record<string, PlayerState> = {};
   public teams: Record<string, Team> = {};
@@ -328,5 +330,9 @@ export class RoomManager {
 
   public static getRoom(code: string): Room | null {
     return this.rooms[code.trim().toUpperCase()] || null;
+  }
+
+  public static hasRoom(code: string): boolean {
+    return !!this.rooms[code.trim().toUpperCase()];
   }
 }

@@ -30,6 +30,213 @@ wss.on('connection', (socket: WebSocket) => {
       console.log(`[Server] Received message: ${msg.type}`, msg.payload?.roomCode || '');
 
       switch (msg.type) {
+        // ============================================================
+        // CREATE_CABIN — Only this can create a new cabin/room
+        // ============================================================
+        case 'CREATE_CABIN': {
+          const { cabinId, cabinName, password, displayName, avatar } = msg.payload;
+          const formattedCode = (cabinId || '').trim().toUpperCase();
+
+          if (!formattedCode) {
+            socket.send(JSON.stringify({
+              type: 'ERROR_NOTIFICATION',
+              payload: { message: 'PLEASE ENTER A VALID CABIN ID!' },
+            }));
+            break;
+          }
+
+          // Check if cabin already exists — reject if so
+          if (RoomManager.hasRoom(formattedCode)) {
+            socket.send(JSON.stringify({
+              type: 'CABIN_JOIN_ERROR',
+              payload: { message: 'THIS CABIN ID IS ALREADY TAKEN! PLEASE CHOOSE ANOTHER ID.' },
+            }));
+            break;
+          }
+
+          // Create the room
+          const room = RoomManager.getOrCreateRoom(formattedCode);
+          room.password = (password || '').trim();
+          room.cabinName = (cabinName || '').trim() || `${displayName || 'Host'}'s Cabin`;
+
+          currentRoomCode = room.code;
+
+          const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+          currentPlayerId = playerId;
+          room.ownerId = playerId;
+
+          const newPlayer: PlayerState = {
+            id: playerId,
+            displayName: displayName || `Racer ${Math.floor(Math.random() * 900 + 100)}`,
+            avatar: avatar || 'avatar_default',
+            teamId: null,
+            position: { x: 0, y: 1.5, z: 0 },
+            rotationY: 0,
+            velocity: { x: 0, y: 0, z: 0 },
+            status: 'IDLE',
+            isGrounded: true,
+            isReady: false,
+            connectionStatus: 'CONNECTED',
+            score: 0,
+            ping: 20,
+          };
+
+          room.players[playerId] = newPlayer;
+          room.clients.set(playerId, socket);
+
+          // Auto-create first team for the host
+          room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
+
+          console.log(`[Server] CREATE_CABIN: ${newPlayer.displayName} (${playerId}) created cabin ${room.code} "${room.cabinName}". Total players: ${Object.keys(room.players).length}`);
+
+          // Send confirmation + room state to creator
+          socket.send(JSON.stringify({
+            type: 'CABIN_CREATED',
+            payload: { cabinId: room.code, cabinName: room.cabinName },
+          }));
+
+          socket.send(JSON.stringify({
+            type: 'ROOM_STATE',
+            payload: {
+              playerId,
+              roomCode: room.code,
+              cabinName: room.cabinName,
+              roomPassword: room.password || '',
+              players: room.players,
+              teams: room.teams,
+              tournament: room.tournament,
+            },
+          }));
+
+          socket.send(JSON.stringify({
+            type: 'SOLO_GAME_STATE',
+            payload: room.soloGameManager.state,
+          }));
+
+          break;
+        }
+
+        // ============================================================
+        // JOIN_CABIN — Joins an EXISTING cabin. NEVER creates one.
+        // ============================================================
+        case 'JOIN_CABIN': {
+          const { cabinId, password, displayName, avatar } = msg.payload;
+          const formattedCode = (cabinId || '').trim().toUpperCase();
+
+          if (!formattedCode) {
+            socket.send(JSON.stringify({
+              type: 'CABIN_JOIN_ERROR',
+              payload: { message: 'PLEASE ENTER A VALID CABIN ID!' },
+            }));
+            break;
+          }
+
+          // Check if cabin exists
+          const room = RoomManager.getRoom(formattedCode);
+          if (!room) {
+            socket.send(JSON.stringify({
+              type: 'CABIN_JOIN_ERROR',
+              payload: { message: 'CABIN NOT FOUND! PLEASE CHECK THE CABIN ID.' },
+            }));
+            break;
+          }
+
+          // Validate password
+          const inputPassword = (password || '').trim();
+          if (room.password && room.password !== inputPassword) {
+            socket.send(JSON.stringify({
+              type: 'CABIN_JOIN_ERROR',
+              payload: { message: 'INCORRECT CABIN PASSWORD!' },
+            }));
+            break;
+          }
+
+          currentRoomCode = room.code;
+
+          // Clean up stale/disconnected players
+          for (const [pid, client] of room.clients.entries()) {
+            if (client.readyState !== WebSocket.OPEN) {
+              console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
+              room.clients.delete(pid);
+              delete room.players[pid];
+            }
+          }
+
+          const playerId = `player_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+          currentPlayerId = playerId;
+
+          const newPlayer: PlayerState = {
+            id: playerId,
+            displayName: displayName || `Racer ${Math.floor(Math.random() * 900 + 100)}`,
+            avatar: avatar || 'avatar_default',
+            teamId: null,
+            position: { x: 0, y: 1.5, z: 0 },
+            rotationY: 0,
+            velocity: { x: 0, y: 0, z: 0 },
+            status: 'IDLE',
+            isGrounded: true,
+            isReady: false,
+            connectionStatus: 'CONNECTED',
+            score: 0,
+            ping: 20,
+          };
+
+          room.players[playerId] = newPlayer;
+          room.clients.set(playerId, socket);
+
+          // Join existing team (first one) or create one
+          const firstTeamId = Object.keys(room.teams)[0];
+          if (firstTeamId) {
+            room.joinTeam(playerId, firstTeamId);
+          } else {
+            room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
+          }
+
+          console.log(`[Server] JOIN_CABIN: ${newPlayer.displayName} (${playerId}) joined cabin ${room.code} "${room.cabinName}". Total players: ${Object.keys(room.players).length}`);
+
+          // Send initial state to the newly joined player
+          socket.send(JSON.stringify({
+            type: 'ROOM_STATE',
+            payload: {
+              playerId,
+              roomCode: room.code,
+              cabinName: room.cabinName,
+              roomPassword: room.password || '',
+              players: room.players,
+              teams: room.teams,
+              tournament: room.tournament,
+            },
+          }));
+
+          socket.send(JSON.stringify({
+            type: 'SOLO_GAME_STATE',
+            payload: room.soloGameManager.state,
+          }));
+
+          // Broadcast updated room state to ALL clients in the room
+          room.broadcast({
+            type: 'ROOM_STATE',
+            payload: {
+              roomCode: room.code,
+              cabinName: room.cabinName,
+              roomPassword: room.password || '',
+              players: room.players,
+              teams: room.teams,
+              tournament: room.tournament,
+            },
+          });
+
+          room.broadcast({
+            type: 'SOLO_GAME_STATE',
+            payload: room.soloGameManager.state,
+          });
+
+          break;
+        }
+
+        // ============================================================
+        // JOIN_ROOM — Legacy handler (backward compat, auto-creates)
+        // ============================================================
         case 'JOIN_ROOM': {
           const { roomCode, password, isHost, displayName, avatar } = msg.payload;
           const formattedCode = (roomCode || '').trim().toUpperCase();
@@ -48,7 +255,6 @@ wss.on('connection', (socket: WebSocket) => {
           const inputPassword = (password || '').trim();
 
           if (room) {
-            // Room already exists! Verify password strictly
             if (room.password && room.password !== inputPassword) {
               socket.send(
                 JSON.stringify({
@@ -59,7 +265,6 @@ wss.on('connection', (socket: WebSocket) => {
               break;
             }
           } else {
-            // Room does not exist yet! First player creates the room as Host
             room = RoomManager.getOrCreateRoom(formattedCode);
             room.password = inputPassword;
           }
@@ -69,7 +274,6 @@ wss.on('connection', (socket: WebSocket) => {
           // Clean up stale/disconnected players
           for (const [pid, client] of room.clients.entries()) {
             if (client.readyState !== WebSocket.OPEN) {
-              console.log(`[Server] Cleaning up stale player ${pid} from room ${room.code}`);
               room.clients.delete(pid);
               delete room.players[pid];
             }
@@ -106,13 +310,13 @@ wss.on('connection', (socket: WebSocket) => {
 
           console.log(`[Server] Player ${newPlayer.displayName} (${playerId}) joined room ${room.code}. Total players: ${Object.keys(room.players).length}`);
 
-          // Send initial state to the newly joined player
           socket.send(
             JSON.stringify({
               type: 'ROOM_STATE',
               payload: {
                 playerId,
                 roomCode: room.code,
+                cabinName: room.cabinName || '',
                 roomPassword: room.password || '',
                 players: room.players,
                 teams: room.teams,
@@ -128,11 +332,11 @@ wss.on('connection', (socket: WebSocket) => {
             })
           );
 
-          // Broadcast updated room state & timer to ALL clients in the room!
           room.broadcast({
             type: 'ROOM_STATE',
             payload: {
               roomCode: room.code,
+              cabinName: room.cabinName || '',
               roomPassword: room.password || '',
               players: room.players,
               teams: room.teams,

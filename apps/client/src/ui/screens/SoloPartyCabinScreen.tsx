@@ -6,7 +6,7 @@ import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Pl
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, roomPassword, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
+  const { playerId, soloGameState, roomCode, roomPassword, cabinName, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
@@ -44,29 +44,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
     (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds);
 
   const hasSavedResultRef = useRef(false);
-  const hasAttemptedRejoinRef = useRef(false);
-
-  // Safety net: If soloGameState is still null after entering cabin, resend JOIN_ROOM
-  useEffect(() => {
-    if (soloGameState || hasAttemptedRejoinRef.current) return;
-
-    const timer = setTimeout(() => {
-      if (!useGameStore.getState().soloGameState && !hasAttemptedRejoinRef.current) {
-        hasAttemptedRejoinRef.current = true;
-        const store = useGameStore.getState();
-        console.warn('[SoloPartyCabinScreen] No SOLO_GAME_STATE received after 3s — re-sending JOIN_ROOM');
-        NetworkClient.joinRoom({
-          roomCode: store.roomCode,
-          password: store.roomPassword,
-          isHost: false,
-          displayName: store.displayName || 'RACER',
-          avatar: 'avatar_cyber',
-        });
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [soloGameState]);
 
   useEffect(() => {
     if (isMatchFinished) {
@@ -436,7 +413,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
               }}
             >
               <div style={{ fontSize: '0.78rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.12em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Users size={14} color="#ffffff" /> CABIN PLAYERS ROSTER
+                <Users size={14} color="#ffffff" /> {cabinName ? cabinName.toUpperCase() : 'CABIN PLAYERS ROSTER'}
               </div>
               <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#ffffff' }}>
                 {allPlayersList.length} / 8 JOINED {!isConnected && '⚠️ OFFLINE'}
