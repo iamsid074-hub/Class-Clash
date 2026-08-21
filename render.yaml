@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: clasha-server
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build --prefix packages/shared && npm run build --prefix apps/server
+    startCommand: node apps/server/dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production

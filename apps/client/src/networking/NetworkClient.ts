@@ -10,12 +10,14 @@ export class NetworkClient {
     const customUrl = (import.meta as any).env?.VITE_WS_URL;
     if (customUrl) return customUrl;
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = window.location.hostname || 'localhost';
     if (host === 'localhost' || host === '127.0.0.1') {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
       return `${protocol}//${host}:3001`;
     }
-    return `${protocol}//${window.location.host}`;
+
+    // Production: connect to Render-hosted game server
+    return 'wss://clasha-server.onrender.com';
   }
 
   public static isConnected(): boolean {
