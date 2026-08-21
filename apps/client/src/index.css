@@ -1,9 +1,26 @@
 @font-face {
   font-family: 'QUARTZO';
   font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/QUARTZO-regular.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'QUARTZO';
+  font-style: normal;
   font-weight: 700;
-  src: local('QUARTZO'),
-       url('./assets/fonts/QUARTZO-Bold.woff') format('woff'),
+  src: url('/fonts/QUARTZO-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'QUARTZO';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/fonts/QUARTZO-Bold.woff') format('woff'),
        url('https://fonts.cdnfonts.com/s/16239/QUARTZO-Bold.woff') format('woff');
   font-display: swap;
 }
@@ -11,10 +28,18 @@
 @font-face {
   font-family: 'QUARTZO';
   font-style: normal;
-  font-weight: 400;
-  src: local('QUARTZO'),
-       url('./assets/fonts/QUARTZO-regular.woff') format('woff'),
-       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-regular.woff') format('woff');
+  font-weight: 900;
+  src: url('/fonts/QUARTZO-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-Bold.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'QUARTZO';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/QUARTZO-Bold.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/16239/QUARTZO-Bold.woff') format('woff');
   font-display: swap;
 }
 
