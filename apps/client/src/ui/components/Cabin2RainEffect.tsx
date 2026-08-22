@@ -134,8 +134,8 @@ export const Cabin2RainEffect: React.FC = () => {
       style={{
         position: 'absolute',
         top: '0%',
-        left: '18.5%',
-        width: '63.0%',
+        left: '38.0%',
+        width: '31.0%',
         height: '53.5%',
         pointerEvents: 'none',
         zIndex: 5,
