@@ -10,17 +10,95 @@ import {
   ArrowLeft,
   Camera,
   CheckCircle2,
+  Home,
+  Sparkles,
+  Flame,
+  Zap,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
 const APPLE_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Plus Jakarta Sans', sans-serif";
 
+export interface CabinOption {
+  id: string;
+  name: string;
+  theme: string;
+  badge: string;
+  badgeColor: string;
+  previewImg: string;
+  description: string;
+  features: string[];
+}
+
+export const AVAILABLE_CABINS: CabinOption[] = [
+  {
+    id: 'cyber_cabin',
+    name: 'Cyberpunk Neon Cabin',
+    theme: 'Neon Synthwave',
+    badge: 'DEFAULT',
+    badgeColor: '#007aff',
+    previewImg: '/cabin1.png',
+    description: 'High-tech cyberpunk cabin with glowing neon aesthetics & synthwave ambient beats.',
+    features: ['2X XP Multiplier', 'Custom LED Lighting', 'Synthwave Soundtrack'],
+  },
+  {
+    id: 'luxury_palace',
+    name: 'Golden Luxury Cabin',
+    theme: 'Gold & Velvet',
+    badge: 'POPULAR',
+    badgeColor: '#ff9500',
+    previewImg: '/cabin.png',
+    description: 'Premium VIP gold cabin with velvet seating & high-stakes tournament ambiance.',
+    features: ['VIP Crown Badge', 'Golden Particle FX', 'Luxury Lounge Audio'],
+  },
+  {
+    id: 'frost_haven',
+    name: 'Frost Haven Arena',
+    theme: 'Sub-Zero Ice',
+    badge: 'EXCLUSIVE',
+    badgeColor: '#00f2fe',
+    previewImg: '/homepage.jpg',
+    description: 'Sub-zero icy fortress cabin with howling arctic wind ambiance & glacial neon trim.',
+    features: ['Frost Shimmer FX', 'Winter Doom Theme', 'Arctic Ambiance'],
+  },
+  {
+    id: 'volcanic_doom',
+    name: 'Volcanic Inferno Cabin',
+    theme: 'Magma & Ember',
+    badge: 'PRO RACER',
+    badgeColor: '#ff3b30',
+    previewImg: '/auth_bg.jpg',
+    description: 'Fiery magma lair cabin with ember glow lighting & aggressive battle soundtrack.',
+    features: ['Ember Particle FX', 'Fire Aura Badge', 'Magma Soundscape'],
+  },
+];
+
 export const ProfileScreen: React.FC = () => {
-  const { displayName, setDisplayName, setScreen, triggerGateTransition } = useGameStore();
+  const { displayName, setDisplayName, setScreen, setCabinName, triggerGateTransition } = useGameStore();
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'Anshu yadav');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [activeTab, setActiveTab] = useState('profile');
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  // Selected Cabin State (Saved to localStorage)
+  const [selectedCabinId, setSelectedCabinId] = useState<string>(() => {
+    try {
+      return localStorage.getItem('clasha_selected_cabin') || 'cyber_cabin';
+    } catch {
+      return 'cyber_cabin';
+    }
+  });
+
+  const handleSelectCabin = (cabin: CabinOption) => {
+    setSelectedCabinId(cabin.id);
+    try {
+      localStorage.setItem('clasha_selected_cabin', cabin.id);
+      localStorage.setItem('clasha_selected_cabin_name', cabin.name);
+      setCabinName(cabin.name);
+    } catch {
+      // ignore
+    }
+  };
 
   // Avatar Image Upload State
   const [avatarUrl, setAvatarUrl] = useState<string | null>(() => {
@@ -185,6 +263,7 @@ export const ProfileScreen: React.FC = () => {
 
             {[
               { id: 'profile', label: 'Profile', icon: User },
+              { id: 'cabins', label: 'Cabin Selection', icon: Home },
               { id: 'stats', label: 'Statistics', icon: BarChart2 },
               { id: 'tournament', label: 'Tournament Status', icon: Trophy },
             ].map((item) => {
@@ -530,6 +609,122 @@ export const ProfileScreen: React.FC = () => {
               </div>
             </div>
 
+            {/* SELECTED CABIN PREVIEW CARD IN PROFILE TAB */}
+            <div style={{ width: '100%', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
+                  Default Cabin for Room Creation
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('cabins')}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#007aff',
+                    fontWeight: 700,
+                    fontSize: '0.88rem',
+                    cursor: 'pointer',
+                    fontFamily: APPLE_FONT,
+                  }}
+                >
+                  Change Cabin →
+                </button>
+              </div>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '16px',
+                }}
+              >
+                {AVAILABLE_CABINS.map((cabin) => {
+                  const isSelected = selectedCabinId === cabin.id;
+                  return (
+                    <div
+                      key={cabin.id}
+                      onClick={() => handleSelectCabin(cabin)}
+                      style={{
+                        background: '#ffffff',
+                        border: isSelected ? '2px solid #007aff' : '1px solid #e5e5ea',
+                        borderRadius: '24px',
+                        padding: '16px',
+                        boxSizing: 'border-box',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isSelected ? '0 8px 24px rgba(0, 122, 255, 0.18)' : '0 4px 16px rgba(0,0,0,0.02)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {/* Top Thumbnail Image */}
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '110px',
+                          borderRadius: '16px',
+                          overflow: 'hidden',
+                          marginBottom: '12px',
+                          position: 'relative',
+                        }}
+                      >
+                        <img
+                          src={cabin.previewImg}
+                          alt={cabin.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '8px',
+                            left: '8px',
+                            background: `${cabin.badgeColor}dd`,
+                            color: '#ffffff',
+                            padding: '3px 10px',
+                            borderRadius: '50px',
+                            fontSize: '0.62rem',
+                            fontWeight: 900,
+                            letterSpacing: '0.06em',
+                          }}
+                        >
+                          {cabin.badge}
+                        </div>
+                      </div>
+
+                      {/* Info & Radio Check */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                          <div style={{ fontSize: '0.98rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
+                            {cabin.name}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: '#8e8e93', fontWeight: 600, fontFamily: APPLE_FONT, marginTop: '2px' }}>
+                            {cabin.theme}
+                          </div>
+                        </div>
+
+                        <div
+                          style={{
+                            width: '22px',
+                            height: '22px',
+                            borderRadius: '50%',
+                            background: isSelected ? '#007aff' : '#e5e5ea',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#ffffff',
+                            flexShrink: 0,
+                          }}
+                        >
+                          {isSelected && <Check size={14} strokeWidth={3} />}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             <button
               type="button"
               onClick={handleSaveAndReturn}
@@ -549,6 +744,155 @@ export const ProfileScreen: React.FC = () => {
               }}
             >
               {savedSuccess ? 'Saved!' : 'Save & Return to Menu'}
+            </button>
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* TAB 1.5: DEDICATED CABIN SELECTION PAGE                       */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === 'cabins' && (
+          <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#1c1c1e', marginBottom: '6px', letterSpacing: '-0.02em', fontFamily: APPLE_FONT }}>
+              Select Default Cabin
+            </div>
+            <div style={{ fontSize: '0.88rem', color: '#8e8e93', marginBottom: '24px', fontWeight: 500, fontFamily: APPLE_FONT }}>
+              Whichever cabin is selected here will automatically be applied when creating or entering a room!
+            </div>
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '20px',
+                width: '100%',
+                marginBottom: '28px',
+              }}
+            >
+              {AVAILABLE_CABINS.map((cabin) => {
+                const isSelected = selectedCabinId === cabin.id;
+                return (
+                  <div
+                    key={cabin.id}
+                    onClick={() => handleSelectCabin(cabin)}
+                    style={{
+                      background: '#ffffff',
+                      border: isSelected ? '2.5px solid #007aff' : '1px solid #e5e5ea',
+                      borderRadius: '28px',
+                      padding: '20px',
+                      boxSizing: 'border-box',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSelected ? '0 8px 28px rgba(0, 122, 255, 0.22)' : '0 4px 20px rgba(0,0,0,0.02)',
+                    }}
+                  >
+                    {/* Cabin Image Thumbnail */}
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '140px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        marginBottom: '16px',
+                        position: 'relative',
+                      }}
+                    >
+                      <img
+                        src={cabin.previewImg}
+                        alt={cabin.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          left: '10px',
+                          background: `${cabin.badgeColor}`,
+                          color: '#ffffff',
+                          padding: '4px 12px',
+                          borderRadius: '50px',
+                          fontSize: '0.65rem',
+                          fontWeight: 900,
+                          letterSpacing: '0.08em',
+                        }}
+                      >
+                        {cabin.badge}
+                      </div>
+
+                      {isSelected && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '10px',
+                            right: '10px',
+                            background: '#34c759',
+                            color: '#ffffff',
+                            padding: '4px 12px',
+                            borderRadius: '50px',
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                          }}
+                        >
+                          <CheckCircle2 size={14} /> APPLIED
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
+                      {cabin.name}
+                    </div>
+                    <div style={{ fontSize: '0.82rem', color: '#8e8e93', fontWeight: 600, fontFamily: APPLE_FONT, marginTop: '2px', marginBottom: '10px' }}>
+                      {cabin.theme}
+                    </div>
+                    <div style={{ fontSize: '0.85rem', color: '#636366', fontFamily: APPLE_FONT, lineHeight: 1.4, marginBottom: '14px' }}>
+                      {cabin.description}
+                    </div>
+
+                    {/* Features list */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {cabin.features.map((feat, fIdx) => (
+                        <span
+                          key={fIdx}
+                          style={{
+                            background: '#f2f2f7',
+                            color: '#1c1c1e',
+                            fontSize: '0.7rem',
+                            fontWeight: 700,
+                            padding: '4px 10px',
+                            borderRadius: '50px',
+                            fontFamily: APPLE_FONT,
+                          }}
+                        >
+                          ⚡ {feat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={handleSaveAndReturn}
+              style={{
+                width: '100%',
+                padding: '18px 36px',
+                borderRadius: '9999px',
+                background: '#007aff',
+                border: 'none',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '1rem',
+                cursor: 'pointer',
+                fontFamily: APPLE_FONT,
+                boxShadow: '0 8px 24px rgba(0, 122, 255, 0.35)',
+              }}
+            >
+              Apply & Save Cabin
             </button>
           </div>
         )}

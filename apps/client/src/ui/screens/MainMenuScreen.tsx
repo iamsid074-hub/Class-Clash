@@ -7,7 +7,13 @@ import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, Shiel
 
 export const MainMenuScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
-  const [createCabinNameInput, setCreateCabinNameInput] = useState('');
+  const [createCabinNameInput, setCreateCabinNameInput] = useState(() => {
+    try {
+      return localStorage.getItem('clasha_selected_cabin_name') || 'Cyberpunk Neon Cabin';
+    } catch {
+      return 'Cyberpunk Neon Cabin';
+    }
+  });
   const [createRoomIdInput, setCreateRoomIdInput] = useState('ARENA' + Math.floor(Math.random() * 899 + 100));
   const [createPasswordInput, setCreatePasswordInput] = useState('1234');
   const [joinRoomIdInput, setJoinRoomIdInput] = useState('');
