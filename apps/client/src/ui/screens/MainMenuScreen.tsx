@@ -1050,7 +1050,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - CENTERED TEXT WITH SUBTLE FOG) */}
+      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - 100% DEAD CENTERED TEXT) */}
       <div
         onClick={() => setActiveModal('TOURNAMENT')}
         style={{
@@ -1064,7 +1064,6 @@ export const MainMenuScreen: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '14px',
           padding: '0 20px',
           background: 'linear-gradient(135deg, rgba(14, 20, 32, 0.94) 0%, rgba(8, 12, 20, 0.96) 100%)',
           backdropFilter: 'blur(20px)',
@@ -1098,6 +1097,7 @@ export const MainMenuScreen: React.FC = () => {
           }}
         />
 
+        {/* 100% Dead-Centered Title */}
         <h2
           style={{
             fontSize: '1.85rem',
@@ -1110,18 +1110,34 @@ export const MainMenuScreen: React.FC = () => {
             lineHeight: 1,
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: '8px',
             textTransform: 'uppercase',
             position: 'relative',
             zIndex: 2,
+            width: '100%',
+            textAlign: 'center',
           }}
         >
           <span style={{ color: '#ffffff' }}>WINTER</span>
           <span style={{ color: '#70e1ff' }}>DOOM</span>
         </h2>
 
-        {/* Right Arrow Icon */}
-        <ArrowRight size={22} color="#70e1ff" strokeWidth={2.5} style={{ position: 'relative', zIndex: 2 }} />
+        {/* Right Arrow Icon Positioned Absolutely */}
+        <div
+          style={{
+            position: 'absolute',
+            right: '20px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3,
+          }}
+        >
+          <ArrowRight size={22} color="#70e1ff" strokeWidth={2.5} />
+        </div>
       </div>
     </div>
   );
