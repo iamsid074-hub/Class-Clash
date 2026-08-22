@@ -203,7 +203,7 @@ export const MainMenuScreen: React.FC = () => {
           left: '-20px',
           right: '-20px',
           bottom: '-20px',
-          backgroundImage: "url('/homepage.png')",
+          backgroundImage: "url('/homepage.png?v=2')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
