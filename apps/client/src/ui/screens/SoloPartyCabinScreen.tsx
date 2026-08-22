@@ -371,23 +371,43 @@ export const SoloPartyCabinScreen: React.FC = () => {
       {/* 2. REAL TV SCREEN WITH SMOOTH PHASE ANIMATIONS & TV SCANLINES */}
       {/* ------------------------------------------------------------- */}
       <div
-        style={{
-          position: 'absolute',
-          top: '23.0%',
-          left: '33.0%',
-          width: '41.0%',
-          height: '32.5%',
-          background: 'radial-gradient(circle at 50% 30%, #0d1527 0%, #050811 100%)',
-          border: '4px solid #1e293b',
-          borderRadius: '12px',
-          boxShadow: '0 0 35px rgba(0, 240, 255, 0.15), inset 0 0 40px rgba(0, 0, 0, 0.95)',
-          boxSizing: 'border-box',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+        style={
+          isCabin2
+            ? {
+                position: 'absolute',
+                top: '12.5%',
+                left: '34.5%',
+                width: '31.0%',
+                height: '27.5%',
+                background: 'radial-gradient(circle at 50% 30%, #090c15 0%, #030408 100%)',
+                border: '6px solid #0a0a0d',
+                borderRadius: '6px',
+                boxShadow: '0 12px 30px rgba(0, 0, 0, 0.9), inset 0 0 35px rgba(0, 0, 0, 0.95)',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }
+            : {
+                position: 'absolute',
+                top: '23.0%',
+                left: '33.0%',
+                width: '41.0%',
+                height: '32.5%',
+                background: 'radial-gradient(circle at 50% 30%, #0d1527 0%, #050811 100%)',
+                border: '4px solid #1e293b',
+                borderRadius: '12px',
+                boxShadow: '0 0 35px rgba(0, 240, 255, 0.15), inset 0 0 40px rgba(0, 0, 0, 0.95)',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }
+        }
       >
         {/* Authentic Digital OLED/CRT TV Monitor Scanlines Overlay */}
         <div className="tv-scanlines-overlay" />
