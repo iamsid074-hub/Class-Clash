@@ -1022,161 +1022,32 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENTS SLIDING CAROUSEL BANNER CARD (CLEAN SIMPLE BLACK RECTANGLE) */}
-      {(() => {
-        const slide = eventSlides[currentSlideIndex];
-        const IconComponent = slide.icon;
-        return (
-          <div
-            onClick={slide.action}
-            style={{
-              position: 'absolute',
-              bottom: '104px',
-              left: '36px',
-              width: '380px',
-              height: '145px',
-              zIndex: 25,
-              background: 'rgba(15, 15, 20, 0.92)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              borderRadius: '20px',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
-              boxShadow: '0 10px 32px rgba(0, 0, 0, 0.65)',
-              cursor: 'pointer',
-              padding: '18px 20px',
-              boxSizing: 'border-box',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              transition: 'all 0.2s ease',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Top Tag Row */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  borderRadius: '50px',
-                  padding: '3px 10px',
-                  fontSize: '0.65rem',
-                  fontWeight: 900,
-                  color: '#ffffff',
-                  letterSpacing: '0.08em',
-                  fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-                }}
-              >
-                <Sparkles size={11} color="#ffffff" />
-                <span>{slide.tag}</span>
-              </div>
-
-              {/* Prev / Next Arrows */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={(e) => e.stopPropagation()}>
-                <button
-                  type="button"
-                  onClick={() => setCurrentSlideIndex((prev) => (prev - 1 + eventSlides.length) % eventSlides.length)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '50%',
-                    width: '22px',
-                    height: '22px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <ChevronLeft size={13} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % eventSlides.length)}
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '50%',
-                    width: '22px',
-                    height: '22px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#ffffff',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <ChevronRight size={13} />
-                </button>
-              </div>
-            </div>
-
-            {/* Title & Subtitle */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '12px',
-                  background: '#24242e',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  flexShrink: 0,
-                }}
-              >
-                <IconComponent size={19} color="#ffffff" />
-              </div>
-
-              <div>
-                <div
-                  style={{
-                    fontSize: '1.02rem',
-                    fontWeight: 900,
-                    fontStyle: 'italic',
-                    fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-                    color: '#ffffff',
-                    letterSpacing: '0.02em',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  {slide.title}
-                </div>
-                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.65)', marginTop: '3px' }}>
-                  {slide.subtitle}
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Pagination Dots */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '5px', marginTop: '2px' }}>
-              {eventSlides.map((_, idx) => (
-                <div
-                  key={idx}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentSlideIndex(idx);
-                  }}
-                  style={{
-                    width: idx === currentSlideIndex ? '14px' : '5px',
-                    height: '5px',
-                    borderRadius: '50px',
-                    background: idx === currentSlideIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.25)',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        );
-      })()}
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (EXACT MATCH USER RECTANGLE) */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '108px',
+          left: '36px',
+          width: '410px',
+          height: '190px',
+          zIndex: 25,
+          background: 'rgba(20, 20, 26, 0.92)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderRadius: '16px',
+          border: '1.5px solid rgba(255, 255, 255, 0.15)',
+          boxShadow: '0 10px 36px rgba(0, 0, 0, 0.7)',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {/* Placeholder ready for User's Event Banner Image */}
+        <div style={{ color: 'rgba(255, 255, 255, 0.3)', fontSize: '0.85rem', fontWeight: 700, fontFamily: "'Kanit', sans-serif" }}>
+          EVENT BANNER SPACE
+        </div>
+      </div>
 
       {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM TOURNAMENT - CLICKABLE) */}
       <div
