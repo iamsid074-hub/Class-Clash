@@ -650,34 +650,36 @@ export const ProfileScreen: React.FC = () => {
                       boxShadow: isSelected ? '0 8px 28px rgba(0, 122, 255, 0.22)' : '0 4px 20px rgba(0,0,0,0.02)',
                     }}
                   >
-                    {/* Cabin Image Thumbnail */}
+                    {/* Cabin Full Image Container */}
                     <div
                       style={{
                         width: '100%',
-                        height: '140px',
+                        height: '260px',
                         borderRadius: '20px',
                         overflow: 'hidden',
-                        marginBottom: '16px',
+                        marginBottom: '14px',
                         position: 'relative',
+                        background: '#111115',
                       }}
                     >
                       <img
                         src={cabin.previewImg}
                         alt={cabin.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                       />
                       <div
                         style={{
                           position: 'absolute',
-                          top: '10px',
-                          left: '10px',
+                          top: '12px',
+                          left: '12px',
                           background: `${cabin.badgeColor}`,
                           color: '#ffffff',
-                          padding: '4px 12px',
+                          padding: '4px 14px',
                           borderRadius: '50px',
-                          fontSize: '0.65rem',
+                          fontSize: '0.7rem',
                           fontWeight: 900,
                           letterSpacing: '0.08em',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                         }}
                       >
                         {cabin.badge}
@@ -687,52 +689,44 @@ export const ProfileScreen: React.FC = () => {
                         <div
                           style={{
                             position: 'absolute',
-                            top: '10px',
-                            right: '10px',
+                            top: '12px',
+                            right: '12px',
                             background: '#34c759',
                             color: '#ffffff',
-                            padding: '4px 12px',
+                            padding: '4px 14px',
                             borderRadius: '50px',
-                            fontSize: '0.72rem',
+                            fontSize: '0.75rem',
                             fontWeight: 800,
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '4px',
+                            gap: '5px',
+                            boxShadow: '0 4px 12px rgba(52, 199, 89, 0.4)',
                           }}
                         >
-                          <CheckCircle2 size={14} /> APPLIED
+                          <CheckCircle2 size={15} /> APPLIED
                         </div>
                       )}
                     </div>
 
-                    <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
-                      {cabin.name}
-                    </div>
-                    <div style={{ fontSize: '0.82rem', color: '#8e8e93', fontWeight: 600, fontFamily: APPLE_FONT, marginTop: '2px', marginBottom: '10px' }}>
-                      {cabin.theme}
-                    </div>
-                    <div style={{ fontSize: '0.85rem', color: '#636366', fontFamily: APPLE_FONT, lineHeight: 1.4, marginBottom: '14px' }}>
-                      {cabin.description}
-                    </div>
-
-                    {/* Features list */}
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                      {cabin.features.map((feat, fIdx) => (
-                        <span
-                          key={fIdx}
-                          style={{
-                            background: '#f2f2f7',
-                            color: '#1c1c1e',
-                            fontSize: '0.7rem',
-                            fontWeight: 700,
-                            padding: '4px 10px',
-                            borderRadius: '50px',
-                            fontFamily: APPLE_FONT,
-                          }}
-                        >
-                          ⚡ {feat}
-                        </span>
-                      ))}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px' }}>
+                      <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
+                        {cabin.name}
+                      </div>
+                      <div
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          background: isSelected ? '#007aff' : '#e5e5ea',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#ffffff',
+                          flexShrink: 0,
+                        }}
+                      >
+                        {isSelected && <Check size={15} strokeWidth={3} />}
+                      </div>
                     </div>
                   </div>
                 );
