@@ -1065,55 +1065,27 @@ export const MainMenuScreen: React.FC = () => {
           alignItems: 'center',
           gap: '14px',
           padding: '12px 18px',
-          background: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
+          background: 'rgba(20, 20, 26, 0.92)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '20px',
-          border: '2px solid #70e1ff',
-          boxShadow: `
-            0 0 25px rgba(0, 242, 254, 0.6),
-            0 12px 36px rgba(0, 0, 0, 0.8),
-            inset 0 2px 4px rgba(255, 255, 255, 0.8),
-            inset 0 -2px 12px rgba(0, 180, 216, 0.3)
-          `,
+          border: '1.5px solid rgba(255, 255, 255, 0.15)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.65)',
           cursor: 'pointer',
-          transition: 'transform 0.2s ease, boxShadow 0.2s ease',
+          transition: 'all 0.2s ease',
           overflow: 'hidden',
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.05)';
-          e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 242, 254, 0.9), 0 16px 40px rgba(0, 0, 0, 0.9)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 242, 254, 0.6), 0 12px 36px rgba(0, 0, 0, 0.8)';
-        }}
       >
-        {/* Frost / Ice Shimmer Top Highlight */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '45%',
-            background: 'linear-gradient(180deg, rgba(224, 247, 250, 0.4) 0%, rgba(224, 247, 250, 0.0) 100%)',
-            pointerEvents: 'none',
-            borderRadius: '20px 20px 0 0',
-          }}
-        />
-
         {/* Icy Snowflake Icon Capsule */}
         <div
           style={{
             width: '42px',
             height: '42px',
             borderRadius: '12px',
-            background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
+            background: '#007aff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 18px rgba(0, 242, 254, 0.9), inset 0 1px 2px #ffffff',
             position: 'relative',
             zIndex: 2,
           }}
@@ -1138,24 +1110,10 @@ export const MainMenuScreen: React.FC = () => {
               textTransform: 'uppercase',
             }}
           >
-            <span
-              style={{
-                background: 'linear-gradient(180deg, #ffffff 0%, #cff4fc 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))',
-              }}
-            >
+            <span style={{ color: '#ffffff' }}>
               WINTER
             </span>
-            <span
-              style={{
-                background: 'linear-gradient(180deg, #70e1ff 0%, #00b4d8 60%, #0077b6 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                filter: 'drop-shadow(0 0 16px rgba(0, 242, 254, 0.9))',
-              }}
-            >
+            <span style={{ color: '#70e1ff' }}>
               DOOM
             </span>
           </h2>
