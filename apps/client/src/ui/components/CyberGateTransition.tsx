@@ -120,172 +120,170 @@ export const CyberGateTransition: React.FC = () => {
         )}
       </div>
 
-      {/* 3. DIAGONAL SEAM GLOWING WHITE/CYAN LINE OVERLAY */}
-      <svg
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 15,
-          opacity: isClosed ? 1 : 0,
-          transition: 'opacity 0.35s cubic-bezier(0.77, 0, 0.175, 1)',
-        }}
-      >
-        <line
-          x1="64vw"
-          y1="0"
-          x2="36vw"
-          y2="100vh"
-          stroke={isWinterDoom ? '#00f2fe' : '#ffffff'}
-          strokeWidth="3.5"
-          style={{ filter: `drop-shadow(0 0 10px ${isWinterDoom ? 'rgba(0, 242, 254, 0.95)' : 'rgba(255, 255, 255, 0.95)'})` }}
-        />
-      </svg>
+      {/* 3. DIAGONAL SEAM GLOWING WHITE LINE OVERLAY (DEFAULT SHUTTER ONLY) */}
+      {!isWinterDoom && (
+        <svg
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 15,
+            opacity: isClosed ? 1 : 0,
+            transition: 'opacity 0.35s cubic-bezier(0.77, 0, 0.175, 1)',
+          }}
+        >
+          <line
+            x1="64vw"
+            y1="0"
+            x2="36vw"
+            y2="100vh"
+            stroke="#ffffff"
+            strokeWidth="3.5"
+            style={{ filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.95))' }}
+          />
+        </svg>
+      )}
 
-      {/* 4. CENTER FLOATING BADGE CARD WITH HORIZONTAL SPEED TRAILS */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 25,
-          opacity: isClosed ? 1 : 0,
-          scale: isClosed ? '1' : '0.7',
-          transition: 'all 0.3s cubic-bezier(0.77, 0, 0.175, 1)',
-        }}
-      >
-        {/* Soft Radial Ambient Glow */}
+      {/* 4. CENTER FLOATING BADGE CARD WITH HORIZONTAL SPEED TRAILS (DEFAULT SHUTTER ONLY) */}
+      {!isWinterDoom && (
         <div
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '520px',
-            height: '180px',
-            background: isWinterDoom
-              ? 'radial-gradient(circle, rgba(0, 242, 254, 0.7) 0%, transparent 75%)'
-              : 'radial-gradient(circle, rgba(255, 0, 102, 0.65) 0%, transparent 75%)',
-            borderRadius: '50%',
-            filter: 'blur(30px)',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Horizontal Speed Lines (Left Side) */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '-60px',
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-            opacity: 0.8,
-            pointerEvents: 'none',
+            zIndex: 25,
+            opacity: isClosed ? 1 : 0,
+            scale: isClosed ? '1' : '0.7',
+            transition: 'all 0.3s cubic-bezier(0.77, 0, 0.175, 1)',
           }}
         >
-          <div style={{ width: '45px', height: '2px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #00f2fe)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
-          <div style={{ width: '60px', height: '3px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #ffffff)' : 'linear-gradient(90deg, transparent, #ffffff)' }} />
-          <div style={{ width: '35px', height: '2px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #70e1ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
-        </div>
-
-        {/* Horizontal Speed Lines (Right Side) */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            right: '-60px',
-            transform: 'translateY(-50%)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '5px',
-            opacity: 0.8,
-            pointerEvents: 'none',
-          }}
-        >
-          <div style={{ width: '45px', height: '2px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #00f2fe)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
-          <div style={{ width: '60px', height: '3px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #ffffff)' : 'linear-gradient(-90deg, transparent, #ffffff)' }} />
-          <div style={{ width: '35px', height: '2px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #70e1ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
-        </div>
-
-        {/* Main Floating Pill Badge Container */}
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            padding: '12px 28px 12px 14px',
-            background: isWinterDoom ? 'rgba(5, 17, 38, 0.92)' : '#0f0817',
-            border: isWinterDoom ? '2px solid #00f2fe' : '2px solid #ff3385',
-            borderRadius: '26px',
-            boxShadow: isWinterDoom
-              ? '0 0 35px rgba(0, 242, 254, 0.65), 0 12px 40px rgba(0, 0, 0, 0.85)'
-              : '0 0 35px rgba(255, 0, 102, 0.55), 0 12px 40px rgba(0, 0, 0, 0.85)',
-          }}
-        >
-          {/* White Squircle Icon Box */}
+          {/* Soft Radial Ambient Glow */}
           <div
             style={{
-              width: '54px',
-              height: '54px',
-              borderRadius: '16px',
-              background: '#ffffff',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '480px',
+              height: '160px',
+              background: 'radial-gradient(circle, rgba(255, 0, 102, 0.65) 0%, transparent 75%)',
+              borderRadius: '50%',
+              filter: 'blur(30px)',
+              pointerEvents: 'none',
+            }}
+          />
+
+          {/* Horizontal Speed Lines (Left Side) */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '-60px',
+              transform: 'translateY(-50%)',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: isWinterDoom ? '0 0 24px rgba(0, 242, 254, 0.9)' : '0 0 20px rgba(255, 255, 255, 0.85)',
-              flexShrink: 0,
+              flexDirection: 'column',
+              gap: '5px',
+              opacity: 0.8,
+              pointerEvents: 'none',
             }}
           >
-            <Trophy size={32} color={isWinterDoom ? '#0074d9' : '#ff0066'} fill={isWinterDoom ? '#0074d9' : '#ff0066'} strokeWidth={1.5} />
+            <div style={{ width: '45px', height: '2px', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
+            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(90deg, transparent, #ffffff)' }} />
+            <div style={{ width: '35px', height: '2px', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
           </div>
 
-          {/* Text Section */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', textAlign: 'left' }}>
-            {/* Subhead */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: isWinterDoom ? '#00f2fe' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
-              <span
-                style={{
-                  fontSize: '0.68rem',
-                  fontWeight: 900,
-                  color: isWinterDoom ? '#70e1ff' : 'rgba(255, 255, 255, 0.9)',
-                  letterSpacing: '0.14em',
-                  fontFamily: 'Outfit, sans-serif',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {displaySubhead}
-              </span>
-              <span style={{ color: isWinterDoom ? '#00f2fe' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
-            </div>
+          {/* Horizontal Speed Lines (Right Side) */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '-60px',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+              opacity: 0.8,
+              pointerEvents: 'none',
+            }}
+          >
+            <div style={{ width: '45px', height: '2px', background: 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
+            <div style={{ width: '60px', height: '3px', background: 'linear-gradient(-90deg, transparent, #ffffff)' }} />
+            <div style={{ width: '35px', height: '2px', background: 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
+          </div>
 
-            {/* Main Title */}
+          {/* Main Floating Pill Badge Container */}
+          <div
+            style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              padding: '12px 28px 12px 14px',
+              background: '#0f0817',
+              border: '2px solid #ff3385',
+              borderRadius: '26px',
+              boxShadow: '0 0 35px rgba(255, 0, 102, 0.55), 0 12px 40px rgba(0, 0, 0, 0.85)',
+            }}
+          >
+            {/* White Squircle Icon Box */}
             <div
               style={{
-                fontSize: '1.9rem',
-                fontWeight: 900,
-                fontStyle: 'italic',
-                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-                color: '#ffffff',
-                lineHeight: 1.05,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                borderBottom: isWinterDoom ? '2.5px solid #00f2fe' : '2.5px solid #ff0066',
-                paddingBottom: '3px',
+                width: '54px',
+                height: '54px',
+                borderRadius: '16px',
+                background: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 0 20px rgba(255, 255, 255, 0.85)',
+                flexShrink: 0,
               }}
             >
-              {displayTitle}
+              <Trophy size={32} color="#ff0066" fill="#ff0066" strokeWidth={1.5} />
+            </div>
+
+            {/* Text Section */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ color: '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
+                <span
+                  style={{
+                    fontSize: '0.68rem',
+                    fontWeight: 900,
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    letterSpacing: '0.14em',
+                    fontFamily: 'Outfit, sans-serif',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {displaySubhead}
+                </span>
+                <span style={{ color: '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
+              </div>
+
+              <div
+                style={{
+                  fontSize: '1.9rem',
+                  fontWeight: 900,
+                  fontStyle: 'italic',
+                  fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                  color: '#ffffff',
+                  lineHeight: 1.05,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  borderBottom: '2.5px solid #ff0066',
+                  paddingBottom: '3px',
+                }}
+              >
+                {displayTitle}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
