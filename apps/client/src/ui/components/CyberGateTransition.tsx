@@ -23,18 +23,18 @@ export const CyberGateTransition: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      {/* 1. LEFT SHUTTER DOOR */}
+      {/* 1. LEFT DIAGONAL SHUTTER DOOR */}
       <div
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
-          width: gateShutterBg ? '50vw' : '100vw',
+          width: '100vw',
           height: '100vh',
           background: gateShutterBg
-            ? `url('${gateShutterBg}') left center/cover no-repeat`
+            ? `url('${gateShutterBg}') center/cover no-repeat`
             : 'linear-gradient(135deg, #d60050 0%, #e6005c 50%, #ff0066 100%)',
-          clipPath: gateShutterBg ? undefined : 'polygon(0 0, 64vw 0, 36vw 100%, 0 100%)',
+          clipPath: 'polygon(0 0, 64vw 0, 36vw 100%, 0 100%)',
           transform: isClosed ? 'translateX(0%)' : 'translateX(-105vw)',
           transition: 'transform 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
           zIndex: 1,
@@ -57,18 +57,18 @@ export const CyberGateTransition: React.FC = () => {
         )}
       </div>
 
-      {/* 2. RIGHT SHUTTER DOOR */}
+      {/* 2. RIGHT DIAGONAL SHUTTER DOOR */}
       <div
         style={{
           position: 'absolute',
           top: 0,
-          left: gateShutterBg ? '50vw' : 0,
-          width: gateShutterBg ? '50vw' : '100vw',
+          left: 0,
+          width: '100vw',
           height: '100vh',
           background: gateShutterBg
-            ? `url('${gateShutterBg}') right center/cover no-repeat`
+            ? `url('${gateShutterBg}') center/cover no-repeat`
             : 'linear-gradient(135deg, #ff0066 0%, #e6005c 50%, #d60050 100%)',
-          clipPath: gateShutterBg ? undefined : 'polygon(64vw 0, 100vw 0, 100vw 100%, 36vw 100%)',
+          clipPath: 'polygon(64vw 0, 100vw 0, 100vw 100%, 36vw 100%)',
           transform: isClosed ? 'translateX(0%)' : 'translateX(105vw)',
           transition: 'transform 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
           zIndex: 2,
