@@ -33,6 +33,7 @@ export const MainMenuScreen: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // Atmospheric Sky Bird Flock + Floating Petal Canvas Engine
     const particles: Array<{
       x: number;
       y: number;
@@ -47,23 +48,92 @@ export const MainMenuScreen: React.FC = () => {
 
     const colors = ['#ff0066', '#ff66b3', '#ffffff', '#ff99cc', '#ff1a75'];
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < 35; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 5 + 2,
-        speedX: (Math.random() - 0.5) * 0.8 + 0.3,
-        speedY: (Math.random() - 0.5) * 0.6 - 0.4,
+        size: Math.random() * 4 + 2,
+        speedX: (Math.random() - 0.5) * 0.6 + 0.2,
+        speedY: (Math.random() - 0.5) * 0.5 - 0.3,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
-        opacity: Math.random() * 0.7 + 0.3,
+        opacity: Math.random() * 0.6 + 0.3,
         color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    // Realistic Flying Sky Birds (Restricted to Upper Sky Region: Top 5% to 32% Height)
+    const birdColors = ['#3b0a1d', '#4d0e26', '#2d0617', '#591230', '#420b21'];
+    const birds: Array<{
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      wingPhase: number;
+      wingSpeed: number;
+      opacity: number;
+      color: string;
+    }> = [];
+
+    // Create 10 Sky Birds flying across sunset sky
+    for (let b = 0; b < 10; b++) {
+      birds.push({
+        x: Math.random() * (width * 1.2) - width * 0.1,
+        y: Math.random() * (height * 0.26) + height * 0.04,
+        size: Math.random() * 8 + 7, // 7px to 15px wing span
+        speedX: -(Math.random() * 0.45 + 0.45), // Smooth right-to-left flight path
+        speedY: (Math.random() - 0.5) * 0.08,
+        wingPhase: Math.random() * Math.PI * 2,
+        wingSpeed: Math.random() * 0.06 + 0.07,
+        opacity: Math.random() * 0.35 + 0.4, // Atmospheric dusk haze opacity
+        color: birdColors[Math.floor(Math.random() * birdColors.length)],
       });
     }
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      // 1. Draw Sky Birds (Flying across upper sky with smooth wing flap bezier curves)
+      birds.forEach((bird) => {
+        bird.x += bird.speedX;
+        bird.y += bird.speedY;
+        bird.wingPhase += bird.wingSpeed;
+
+        // Loop bird position smoothly when it flies off left screen edge
+        if (bird.x < -40) {
+          bird.x = width + Math.random() * 60 + 20;
+          bird.y = Math.random() * (height * 0.26) + height * 0.04;
+        }
+
+        ctx.save();
+        ctx.translate(bird.x, bird.y);
+        ctx.globalAlpha = bird.opacity;
+        ctx.strokeStyle = bird.color;
+        ctx.fillStyle = bird.color;
+        ctx.lineWidth = Math.max(1.2, bird.size * 0.15);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const span = bird.size;
+        const flap = Math.sin(bird.wingPhase) * (span * 0.42);
+
+        // Draw realistic curved wings using bezier curves
+        ctx.beginPath();
+        ctx.moveTo(-span, flap);
+        ctx.quadraticCurveTo(-span * 0.5, -span * 0.3 + flap * 0.5, 0, 0);
+        ctx.quadraticCurveTo(span * 0.5, -span * 0.3 + flap * 0.5, span, flap);
+        ctx.stroke();
+
+        // Sleek central bird body
+        ctx.beginPath();
+        ctx.ellipse(0, flap * 0.08, span * 0.22, span * 0.07, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      // 2. Draw Floating Petals
       particles.forEach((p) => {
         p.x += p.speedX;
         p.y += p.speedY;
