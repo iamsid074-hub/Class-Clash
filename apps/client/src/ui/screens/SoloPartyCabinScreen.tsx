@@ -376,7 +376,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             ? {
                 position: 'absolute',
                 top: '12.5%',
-                left: '34.5%',
+                left: '38.0%',
                 width: '31.0%',
                 height: '27.5%',
                 background: 'radial-gradient(circle at 50% 30%, #090c15 0%, #030408 100%)',
