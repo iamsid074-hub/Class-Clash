@@ -14,22 +14,7 @@ export const MainMenuScreen: React.FC = () => {
   const [joinPasswordInput, setJoinPasswordInput] = useState('');
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
   const [activeModal, setActiveModal] = useState<'NONE' | 'CREATE' | 'JOIN' | 'TOURNAMENT'>('NONE');
-
-  // Mouse 3D Parallax & Floor Cursor Spotlight state
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0, rawX: window.innerWidth / 2, rawY: window.innerHeight / 2 });
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-
-  React.useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      setMousePos({ x, y, rawX: e.clientX, rawY: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   // Ambient 60fps Floating Petal / Ember Canvas Particle Engine
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -195,52 +180,19 @@ export const MainMenuScreen: React.FC = () => {
         background: '#0a0a0f',
       }}
     >
-      {/* 3D PARALLAX BACKGROUND LAYER (homepage.png) */}
+      {/* FULL UNTOUCHED ORIGINAL RAW BACKGROUND IMAGE */}
       <div
-        style={{
-          position: 'absolute',
-          top: '-20px',
-          left: '-20px',
-          right: '-20px',
-          bottom: '-20px',
-          backgroundImage: "url('/homepage.jpg?v=3')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          transform: `scale(1.05) translate(${-mousePos.x}px, ${-mousePos.y}px)`,
-          transition: 'transform 0.12s ease-out',
-          zIndex: 1,
-        }}
-      />
-
-      {/* AMBIENT FLOATING EMBERS/PETALS CANVAS LAYER */}
-      <canvas
-        ref={canvasRef}
         style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          pointerEvents: 'none',
-          zIndex: 2,
-        }}
-      />
-
-      {/* INTERACTIVE FLOOR CURSOR SPOTLIGHT REFLECTION */}
-      <div
-        style={{
-          position: 'absolute',
-          top: `${mousePos.rawY - 200}px`,
-          left: `${mousePos.rawX - 200}px`,
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(255, 0, 102, 0.15) 0%, rgba(255, 0, 102, 0) 70%)',
-          pointerEvents: 'none',
-          zIndex: 3,
-          mixBlendMode: 'screen',
-          transition: 'top 0.05s ease-out, left 0.05s ease-out',
+          backgroundImage: "url('/homepage.jpg?v=10')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 1,
         }}
       />
       {/* Pink Neon Architectural LED Strip Light Beam */}
