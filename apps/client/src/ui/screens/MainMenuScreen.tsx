@@ -3,7 +3,6 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { DynamicGameBackground } from '../components/DynamicGameBackground';
 import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
@@ -15,6 +14,104 @@ export const MainMenuScreen: React.FC = () => {
   const [joinPasswordInput, setJoinPasswordInput] = useState('');
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
   const [activeModal, setActiveModal] = useState<'NONE' | 'CREATE' | 'JOIN' | 'TOURNAMENT'>('NONE');
+
+  // Mouse 3D Parallax & Floor Cursor Spotlight state
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0, rawX: window.innerWidth / 2, rawY: window.innerHeight / 2 });
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  React.useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      setMousePos({ x, y, rawX: e.clientX, rawY: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Ambient 60fps Floating Petal / Ember Canvas Particle Engine
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      rotation: number;
+      rotationSpeed: number;
+      opacity: number;
+      color: string;
+    }> = [];
+
+    const colors = ['#ff0066', '#ff66b3', '#ffffff', '#ff99cc', '#ff1a75'];
+
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 5 + 2,
+        speedX: (Math.random() - 0.5) * 0.8 + 0.3,
+        speedY: (Math.random() - 0.5) * 0.6 - 0.4,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.02,
+        opacity: Math.random() * 0.7 + 0.3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach((p) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotationSpeed;
+
+        if (p.x > width + 20) p.x = -20;
+        if (p.x < -20) p.x = width + 20;
+        if (p.y > height + 20) p.y = -20;
+        if (p.y < -20) p.y = height + 20;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   const handleCreateRoom = () => {
     if (isJoiningCabin) return; // Prevent double-submit
@@ -88,7 +185,6 @@ export const MainMenuScreen: React.FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        background: '#0a000e',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -96,10 +192,57 @@ export const MainMenuScreen: React.FC = () => {
         boxSizing: 'border-box',
         zIndex: 10,
         overflow: 'hidden',
+        background: '#0a0a0f',
       }}
     >
-      {/* Real Live Interactive Dynamic Game Background (3 Modes) */}
-      <DynamicGameBackground />
+      {/* 3D PARALLAX BACKGROUND LAYER (homepage.png) */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-20px',
+          left: '-20px',
+          right: '-20px',
+          bottom: '-20px',
+          backgroundImage: "url('/homepage.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          transform: `scale(1.05) translate(${-mousePos.x}px, ${-mousePos.y}px)`,
+          transition: 'transform 0.12s ease-out',
+          zIndex: 1,
+        }}
+      />
+
+      {/* AMBIENT FLOATING EMBERS/PETALS CANVAS LAYER */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
+      />
+
+      {/* INTERACTIVE FLOOR CURSOR SPOTLIGHT REFLECTION */}
+      <div
+        style={{
+          position: 'absolute',
+          top: `${mousePos.rawY - 200}px`,
+          left: `${mousePos.rawX - 200}px`,
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255, 0, 102, 0.15) 0%, rgba(255, 0, 102, 0) 70%)',
+          pointerEvents: 'none',
+          zIndex: 3,
+          mixBlendMode: 'screen',
+          transition: 'top 0.05s ease-out, left 0.05s ease-out',
+        }}
+      />
       {/* Pink Neon Architectural LED Strip Light Beam */}
       <PinkNeonFrame />
 
