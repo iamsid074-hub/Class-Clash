@@ -3,7 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
+import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
@@ -15,6 +15,52 @@ export const MainMenuScreen: React.FC = () => {
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
   const [activeModal, setActiveModal] = useState<'NONE' | 'CREATE' | 'JOIN' | 'TOURNAMENT'>('NONE');
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  // Interactive Event Announcements Carousel State
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  const eventSlides = [
+    {
+      id: 'winter_doom',
+      tag: 'FEATURED EVENT',
+      title: 'WINTER DOOM CHAMPIONSHIP',
+      subtitle: '$10,000 Prize Pool • Enrollment Open Now!',
+      badgeColor: '#70e1ff',
+      borderColor: '#70e1ff',
+      bgGradient: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
+      icon: Snowflake,
+      action: () => setActiveModal('TOURNAMENT'),
+    },
+    {
+      id: 'cyber_season',
+      tag: 'NEW SEASON 1',
+      title: 'CYBER SPEEDWAY RACE',
+      subtitle: '2X XP Double Reward Event • Unlock Karts!',
+      badgeColor: '#ff0066',
+      borderColor: '#ff0066',
+      bgGradient: 'linear-gradient(135deg, rgba(40, 10, 30, 0.94) 0%, rgba(20, 5, 15, 0.96) 100%)',
+      icon: Flame,
+      action: () => setScreen('LEADERBOARD'),
+    },
+    {
+      id: 'global_clash',
+      tag: 'WEEKLY LEADERBOARD',
+      title: 'GLOBAL RACERS CHAMPIONSHIP',
+      subtitle: 'Compete for #1 Rank & Exclusive Badges!',
+      badgeColor: '#ff9500',
+      borderColor: '#ff9500',
+      bgGradient: 'linear-gradient(135deg, rgba(38, 24, 6, 0.94) 0%, rgba(18, 10, 2, 0.96) 100%)',
+      icon: Trophy,
+      action: () => setScreen('LEADERBOARD'),
+    },
+  ];
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % eventSlides.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [eventSlides.length]);
   // Ambient 60fps Floating Petal / Ember Canvas Particle Engine
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -33,7 +79,6 @@ export const MainMenuScreen: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Atmospheric Sky Bird Flock + Floating Petal Canvas Engine
     const particles: Array<{
       x: number;
       y: number;
@@ -48,92 +93,23 @@ export const MainMenuScreen: React.FC = () => {
 
     const colors = ['#ff0066', '#ff66b3', '#ffffff', '#ff99cc', '#ff1a75'];
 
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 45; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 4 + 2,
-        speedX: (Math.random() - 0.5) * 0.6 + 0.2,
-        speedY: (Math.random() - 0.5) * 0.5 - 0.3,
+        size: Math.random() * 5 + 2,
+        speedX: (Math.random() - 0.5) * 0.8 + 0.3,
+        speedY: (Math.random() - 0.5) * 0.6 - 0.4,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.02,
-        opacity: Math.random() * 0.6 + 0.3,
+        opacity: Math.random() * 0.7 + 0.3,
         color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-
-    // Realistic Flying Sky Birds (Restricted to Upper Sky Region: Top 5% to 32% Height)
-    const birdColors = ['#3b0a1d', '#4d0e26', '#2d0617', '#591230', '#420b21'];
-    const birds: Array<{
-      x: number;
-      y: number;
-      size: number;
-      speedX: number;
-      speedY: number;
-      wingPhase: number;
-      wingSpeed: number;
-      opacity: number;
-      color: string;
-    }> = [];
-
-    // Create 10 Sky Birds flying across sunset sky
-    for (let b = 0; b < 10; b++) {
-      birds.push({
-        x: Math.random() * (width * 1.2) - width * 0.1,
-        y: Math.random() * (height * 0.26) + height * 0.04,
-        size: Math.random() * 8 + 7, // 7px to 15px wing span
-        speedX: -(Math.random() * 0.45 + 0.45), // Smooth right-to-left flight path
-        speedY: (Math.random() - 0.5) * 0.08,
-        wingPhase: Math.random() * Math.PI * 2,
-        wingSpeed: Math.random() * 0.06 + 0.07,
-        opacity: Math.random() * 0.35 + 0.4, // Atmospheric dusk haze opacity
-        color: birdColors[Math.floor(Math.random() * birdColors.length)],
       });
     }
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Draw Sky Birds (Flying across upper sky with smooth wing flap bezier curves)
-      birds.forEach((bird) => {
-        bird.x += bird.speedX;
-        bird.y += bird.speedY;
-        bird.wingPhase += bird.wingSpeed;
-
-        // Loop bird position smoothly when it flies off left screen edge
-        if (bird.x < -40) {
-          bird.x = width + Math.random() * 60 + 20;
-          bird.y = Math.random() * (height * 0.26) + height * 0.04;
-        }
-
-        ctx.save();
-        ctx.translate(bird.x, bird.y);
-        ctx.globalAlpha = bird.opacity;
-        ctx.strokeStyle = bird.color;
-        ctx.fillStyle = bird.color;
-        ctx.lineWidth = Math.max(1.2, bird.size * 0.15);
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-
-        const span = bird.size;
-        const flap = Math.sin(bird.wingPhase) * (span * 0.42);
-
-        // Draw realistic curved wings using bezier curves
-        ctx.beginPath();
-        ctx.moveTo(-span, flap);
-        ctx.quadraticCurveTo(-span * 0.5, -span * 0.3 + flap * 0.5, 0, 0);
-        ctx.quadraticCurveTo(span * 0.5, -span * 0.3 + flap * 0.5, span, flap);
-        ctx.stroke();
-
-        // Sleek central bird body
-        ctx.beginPath();
-        ctx.ellipse(0, flap * 0.08, span * 0.22, span * 0.07, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-      });
-
-      // 2. Draw Floating Petals
       particles.forEach((p) => {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -1045,6 +1021,168 @@ export const MainMenuScreen: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* 2.5 EVENT ANNOUNCEMENTS SLIDING CAROUSEL BANNER CARD (RECTANGLE ABOVE WINTER DOOM) */}
+      {(() => {
+        const slide = eventSlides[currentSlideIndex];
+        const IconComponent = slide.icon;
+        return (
+          <div
+            onClick={slide.action}
+            style={{
+              position: 'absolute',
+              bottom: '104px',
+              left: '36px',
+              width: '380px',
+              height: '145px',
+              zIndex: 25,
+              background: slide.bgGradient,
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              borderRadius: '24px',
+              border: `2px solid ${slide.borderColor}`,
+              boxShadow: `0 8px 32px rgba(0, 0, 0, 0.7), 0 0 25px ${slide.borderColor}55`,
+              cursor: 'pointer',
+              padding: '18px 20px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              overflow: 'hidden',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'none';
+            }}
+          >
+            {/* Top Tag Row */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: `${slide.badgeColor}22`,
+                  border: `1px solid ${slide.badgeColor}`,
+                  borderRadius: '50px',
+                  padding: '3px 10px',
+                  fontSize: '0.65rem',
+                  fontWeight: 900,
+                  color: slide.badgeColor,
+                  letterSpacing: '0.08em',
+                  fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                }}
+              >
+                <Sparkles size={11} color={slide.badgeColor} />
+                <span>{slide.tag}</span>
+              </div>
+
+              {/* Prev / Next Arrows */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  onClick={() => setCurrentSlideIndex((prev) => (prev - 1 + eventSlides.length) % eventSlides.length)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '50%',
+                    width: '22px',
+                    height: '22px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <ChevronLeft size={13} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % eventSlides.length)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '50%',
+                    width: '22px',
+                    height: '22px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#ffffff',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <ChevronRight size={13} />
+                </button>
+              </div>
+            </div>
+
+            {/* Title & Subtitle */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
+              <div
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '12px',
+                  background: slide.badgeColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  boxShadow: `0 0 16px ${slide.badgeColor}aa`,
+                  flexShrink: 0,
+                }}
+              >
+                <IconComponent size={19} />
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    fontSize: '1.02rem',
+                    fontWeight: 900,
+                    fontStyle: 'italic',
+                    fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                    color: '#ffffff',
+                    letterSpacing: '0.02em',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {slide.title}
+                </div>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.7)', marginTop: '3px' }}>
+                  {slide.subtitle}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Pagination Dots */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '5px', marginTop: '2px' }}>
+              {eventSlides.map((_, idx) => (
+                <div
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentSlideIndex(idx);
+                  }}
+                  style={{
+                    width: idx === currentSlideIndex ? '14px' : '5px',
+                    height: '5px',
+                    borderRadius: '50px',
+                    background: idx === currentSlideIndex ? slide.badgeColor : 'rgba(255, 255, 255, 0.25)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM TOURNAMENT - CLICKABLE) */}
       <div
