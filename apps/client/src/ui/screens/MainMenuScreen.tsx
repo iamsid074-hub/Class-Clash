@@ -1050,7 +1050,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - 100% DEAD CENTERED TEXT) */}
+      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (SKY BLUE WINTER DOOM BUTTON) */}
       <div
         onClick={() => setActiveModal('TOURNAMENT')}
         style={{
@@ -1065,39 +1065,39 @@ export const MainMenuScreen: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '0 20px',
-          background: 'linear-gradient(135deg, rgba(14, 20, 32, 0.94) 0%, rgba(8, 12, 20, 0.96) 100%)',
+          background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '20px',
-          border: '1.5px solid rgba(0, 198, 255, 0.35)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.65)',
+          border: '2px solid #ffffff',
+          boxShadow: '0 8px 25px rgba(0, 242, 254, 0.45), 0 10px 32px rgba(0, 0, 0, 0.6)',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
           overflow: 'hidden',
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'scale(1.03)';
-          e.currentTarget.style.borderColor = '#00c6ff';
+          e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 242, 254, 0.65), 0 12px 36px rgba(0, 0, 0, 0.7)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.borderColor = 'rgba(0, 198, 255, 0.35)';
+          e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 242, 254, 0.45), 0 10px 32px rgba(0, 0, 0, 0.6)';
         }}
       >
-        {/* Subtle Ambient Fog / Mist Layer */}
+        {/* Sky Blue Highlight Overlay */}
         <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0,
-            background: 'radial-gradient(ellipse at center, rgba(112, 225, 255, 0.15) 0%, rgba(0, 0, 0, 0) 75%)',
+            height: '45%',
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%)',
             pointerEvents: 'none',
           }}
         />
 
-        {/* 100% Dead-Centered Title */}
+        {/* 100% Dead-Centered Title (Shifted Slightly Downwards) */}
         <h2
           style={{
             fontSize: '1.85rem',
@@ -1117,10 +1117,12 @@ export const MainMenuScreen: React.FC = () => {
             zIndex: 2,
             width: '100%',
             textAlign: 'center',
+            marginTop: '4px',
+            textShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
           }}
         >
           <span style={{ color: '#ffffff' }}>WINTER</span>
-          <span style={{ color: '#70e1ff' }}>DOOM</span>
+          <span style={{ color: '#091b2c' }}>DOOM</span>
         </h2>
 
         {/* Right Arrow Icon Positioned Absolutely */}
@@ -1134,9 +1136,10 @@ export const MainMenuScreen: React.FC = () => {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 3,
+            marginTop: '2px',
           }}
         >
-          <ArrowRight size={22} color="#70e1ff" strokeWidth={2.5} />
+          <ArrowRight size={22} color="#ffffff" strokeWidth={3} />
         </div>
       </div>
     </div>
