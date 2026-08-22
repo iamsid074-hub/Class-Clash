@@ -1022,51 +1022,145 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (REFER A FRIEND PROMO IMAGE) */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '104px',
-          left: '36px',
-          width: '340px',
-          height: '165px',
-          zIndex: 25,
-          background: 'rgba(20, 20, 26, 0.92)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          borderRadius: '20px',
-          border: '1.5px solid rgba(255, 255, 255, 0.2)',
-          boxShadow: '0 10px 36px rgba(0, 0, 0, 0.7)',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxSizing: 'border-box',
-          cursor: 'pointer',
-          transition: 'transform 0.2s ease, boxShadow 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.02)';
-          e.currentTarget.style.boxShadow = '0 14px 40px rgba(0, 242, 254, 0.35)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 10px 36px rgba(0, 0, 0, 0.7)';
-        }}
-        onClick={() => alert('Referral Link Copied! Share with friends to earn ₹10 for every player who joins.')}
-      >
-        {/* Banner Image */}
-        <img
-          src="/refer_banner.png?v=1"
-          alt="Refer a Friend to Get Rs 10"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-          }}
-        />
-      </div>
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER CAROUSEL (BOX1.JPEG & BOX2.JPEG SLIDES) */}
+      {(() => {
+        const boxImages = ['/box1.jpeg', '/box2.jpeg'];
+        const activeImg = boxImages[currentSlideIndex % boxImages.length];
+        return (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '104px',
+              left: '36px',
+              width: '340px',
+              height: '165px',
+              zIndex: 25,
+              background: 'rgba(20, 20, 26, 0.92)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              borderRadius: '20px',
+              border: '1.5px solid rgba(255, 255, 255, 0.25)',
+              boxShadow: '0 10px 36px rgba(0, 0, 0, 0.7)',
+              overflow: 'hidden',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxSizing: 'border-box',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease, boxShadow 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.02)';
+              e.currentTarget.style.boxShadow = '0 14px 40px rgba(0, 242, 254, 0.35)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 10px 36px rgba(0, 0, 0, 0.7)';
+            }}
+          >
+            {/* Slide Image */}
+            <img
+              key={activeImg}
+              src={`${activeImg}?v=2`}
+              alt="Event Announcement Banner"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+                transition: 'opacity 0.4s ease',
+              }}
+            />
+
+            {/* Manual Slide Navigation Arrows (Top-Right) */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                zIndex: 5,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setCurrentSlideIndex((prev) => (prev - 1 + boxImages.length) % boxImages.length)}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.55)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '50%',
+                  width: '24px',
+                  height: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  cursor: 'pointer',
+                }}
+              >
+                <ChevronLeft size={14} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % boxImages.length)}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.55)',
+                  backdropFilter: 'blur(8px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '50%',
+                  width: '24px',
+                  height: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  cursor: 'pointer',
+                }}
+              >
+                <ChevronRight size={14} />
+              </button>
+            </div>
+
+            {/* Pagination Indicator Dots (Bottom-Right) */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                right: '12px',
+                display: 'flex',
+                gap: '5px',
+                zIndex: 5,
+                background: 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(6px)',
+                padding: '3px 8px',
+                borderRadius: '50px',
+              }}
+            >
+              {boxImages.map((_, idx) => (
+                <div
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentSlideIndex(idx);
+                  }}
+                  style={{
+                    width: idx === currentSlideIndex % boxImages.length ? '14px' : '5px',
+                    height: '5px',
+                    borderRadius: '50px',
+                    background: idx === currentSlideIndex % boxImages.length ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (SKY BLUE WINTER DOOM BUTTON) */}
       <div
