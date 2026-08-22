@@ -18,39 +18,41 @@ interface Splash {
 }
 
 export const Cabin2RainEffect: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!container || !canvas) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let animFrameId: number;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let width = (canvas.width = container.clientWidth);
+    let height = (canvas.height = container.clientHeight);
 
     const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (!container || !canvas) return;
+      width = canvas.width = container.clientWidth;
+      height = canvas.height = container.clientHeight;
     };
     window.addEventListener('resize', handleResize);
 
-    // Initialize 220 physics-based falling raindrops
-    const dropsCount = 220;
+    // Initialize 160 physics-based falling raindrops strictly inside the window frame
+    const dropsCount = 160;
     const drops: Drop[] = [];
     const splashes: Splash[] = [];
 
     for (let i = 0; i < dropsCount; i++) {
       drops.push({
-        x: Math.random() * width * 1.3 - width * 0.15,
+        x: Math.random() * width * 1.2 - width * 0.1,
         y: Math.random() * height,
-        length: Math.random() * 28 + 14,
-        speed: Math.random() * 14 + 18,
+        length: Math.random() * 22 + 12,
+        speed: Math.random() * 12 + 14,
         opacity: Math.random() * 0.45 + 0.25,
-        width: Math.random() * 1.3 + 0.7,
+        width: Math.random() * 1.2 + 0.7,
       });
     }
 
@@ -64,7 +66,7 @@ export const Cabin2RainEffect: React.FC = () => {
         const d = drops[i];
 
         // Draw raindrop streak with smooth gradient for realistic motion blur
-        const gradient = ctx.createLinearGradient(d.x, d.y, d.x - 4, d.y + d.length);
+        const gradient = ctx.createLinearGradient(d.x, d.y, d.x - 3, d.y + d.length);
         gradient.addColorStop(0, `rgba(180, 215, 255, 0)`);
         gradient.addColorStop(0.4, `rgba(200, 230, 255, ${d.opacity * 0.6})`);
         gradient.addColorStop(1, `rgba(255, 255, 255, ${d.opacity})`);
@@ -73,32 +75,32 @@ export const Cabin2RainEffect: React.FC = () => {
         ctx.strokeStyle = gradient;
         ctx.lineWidth = d.width;
         ctx.moveTo(d.x, d.y);
-        ctx.lineTo(d.x - 5, d.y + d.length);
+        ctx.lineTo(d.x - 4, d.y + d.length);
         ctx.stroke();
 
         // Update positions with natural wind angle
         d.y += d.speed;
-        d.x -= d.speed * 0.12;
+        d.x -= d.speed * 0.1;
 
-        // Reset drop when hitting bottom
+        // Reset drop when hitting window sill bottom
         if (d.y > height) {
-          if (Math.random() < 0.25) {
+          if (Math.random() < 0.2) {
             splashes.push({
               x: d.x,
-              y: height - Math.random() * 120,
+              y: height - Math.random() * 25,
               r: 1,
-              maxR: Math.random() * 5 + 3,
-              opacity: 0.6,
+              maxR: Math.random() * 4 + 2,
+              opacity: 0.5,
             });
           }
 
-          d.y = -d.length - Math.random() * 40;
-          d.x = Math.random() * width * 1.3 - width * 0.15;
-          d.speed = Math.random() * 14 + 18;
+          d.y = -d.length - Math.random() * 30;
+          d.x = Math.random() * width * 1.2 - width * 0.1;
+          d.speed = Math.random() * 12 + 14;
         }
       }
 
-      // Render Rain Splash Ripples on glass/sill
+      // Render Rain Splash Ripples on balcony window sill
       for (let i = splashes.length - 1; i >= 0; i--) {
         const s = splashes[i];
         ctx.beginPath();
@@ -107,8 +109,8 @@ export const Cabin2RainEffect: React.FC = () => {
         ctx.lineWidth = 0.8;
         ctx.stroke();
 
-        s.r += 0.45;
-        s.opacity -= 0.035;
+        s.r += 0.4;
+        s.opacity -= 0.04;
 
         if (s.opacity <= 0 || s.r >= s.maxR) {
           splashes.splice(i, 1);
@@ -128,15 +130,17 @@ export const Cabin2RainEffect: React.FC = () => {
 
   return (
     <div
+      ref={containerRef}
       style={{
         position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
+        top: '0%',
+        left: '11.5%',
+        width: '78.5%',
+        height: '71.5%',
         pointerEvents: 'none',
         zIndex: 2,
         overflow: 'hidden',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}
     >
       {/* Dynamic Falling Rain Canvas */}
@@ -163,14 +167,14 @@ export const Cabin2RainEffect: React.FC = () => {
           height: 100%;
           pointer-events: none;
           background-image: 
-            radial-gradient(circle at 15% 30%, rgba(255,255,255,0.45) 1px, transparent 2px),
-            radial-gradient(circle at 42% 60%, rgba(255,255,255,0.35) 1.5px, transparent 3px),
-            radial-gradient(circle at 70% 22%, rgba(255,255,255,0.55) 1px, transparent 2.5px),
-            radial-gradient(circle at 88% 68%, rgba(255,255,255,0.4) 2px, transparent 4px),
-            radial-gradient(circle at 32% 78%, rgba(255,255,255,0.4) 1px, transparent 2px),
-            radial-gradient(circle at 58% 12%, rgba(255,255,255,0.5) 1.8px, transparent 3px);
-          background-size: 220px 220px;
-          opacity: 0.75;
+            radial-gradient(circle at 15% 30%, rgba(255,255,255,0.4) 1px, transparent 2px),
+            radial-gradient(circle at 42% 60%, rgba(255,255,255,0.3) 1.5px, transparent 3px),
+            radial-gradient(circle at 70% 22%, rgba(255,255,255,0.5) 1px, transparent 2.5px),
+            radial-gradient(circle at 88% 68%, rgba(255,255,255,0.35) 2px, transparent 4px),
+            radial-gradient(circle at 32% 78%, rgba(255,255,255,0.35) 1px, transparent 2px),
+            radial-gradient(circle at 58% 12%, rgba(255,255,255,0.45) 1.8px, transparent 3px);
+          background-size: 200px 200px;
+          opacity: 0.7;
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
           animation: cabin2GlassSlide 9s linear infinite;
         }
@@ -180,7 +184,7 @@ export const Cabin2RainEffect: React.FC = () => {
             background-position: 0px 0px;
           }
           100% {
-            background-position: -25px 440px;
+            background-position: -20px 400px;
           }
         }
       `}</style>
