@@ -1072,58 +1072,7 @@ export const MainMenuScreen: React.FC = () => {
               }}
             />
 
-            {/* Manual Slide Navigation Arrows (Top-Right) */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                zIndex: 5,
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={() => setCurrentSlideIndex((prev) => (prev - 1 + boxImages.length) % boxImages.length)}
-                style={{
-                  background: 'rgba(0, 0, 0, 0.55)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '50%',
-                  width: '24px',
-                  height: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  cursor: 'pointer',
-                }}
-              >
-                <ChevronLeft size={14} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setCurrentSlideIndex((prev) => (prev + 1) % boxImages.length)}
-                style={{
-                  background: 'rgba(0, 0, 0, 0.55)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '50%',
-                  width: '24px',
-                  height: '24px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: '#ffffff',
-                  cursor: 'pointer',
-                }}
-              >
-                <ChevronRight size={14} />
-              </button>
-            </div>
+
 
             {/* Pagination Indicator Dots (Bottom-Right) */}
             <div
