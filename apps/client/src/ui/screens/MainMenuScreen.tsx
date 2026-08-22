@@ -460,13 +460,13 @@ export const MainMenuScreen: React.FC = () => {
             {/* ====================================================================== */}
             {activeModal === 'CREATE' && (
               <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: '28px', width: '100%' }}>
-                {/* LEFT CARD: CABIN ARENA LARGE IMAGE PREVIEW */}
+                {/* LEFT CARD: CABIN PREVIEW FRAME (DYNAMICAL FROM PROFILE SELECTION) */}
                 <div
                   style={{
                     background: '#181224',
                     border: '1.5px solid rgba(255, 255, 255, 0.15)',
                     borderRadius: '28px',
-                    padding: '20px',
+                    padding: '24px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
@@ -475,58 +475,59 @@ export const MainMenuScreen: React.FC = () => {
                     textAlign: 'left',
                   }}
                 >
-                  <div
-                    style={{
-                      width: '100%',
-                      height: '275px',
-                      borderRadius: '22px',
-                      overflow: 'hidden',
-                      border: '2px solid rgba(255, 0, 102, 0.45)',
-                      position: 'relative',
-                      boxShadow: '0 10px 25px rgba(0, 0, 0, 0.65)',
-                    }}
-                  >
-                    <img
-                      src="/cabin.png"
-                      alt="Neon Cyber Cabin Arena"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: '12px',
-                        left: '12px',
-                        background: 'rgba(0, 0, 0, 0.8)',
-                        backdropFilter: 'blur(8px)',
-                        border: '1.5px solid #ff0066',
-                        borderRadius: '10px',
-                        padding: '6px 14px',
-                        fontSize: '0.78rem',
-                        fontWeight: 900,
-                        color: '#ffffff',
-                        letterSpacing: '0.08em',
-                      }}
-                    >
-                      COZY CABIN 01
-                    </div>
-                  </div>
+                  {(() => {
+                    const selectedCabin = (() => {
+                      try {
+                        const id = localStorage.getItem('clasha_selected_cabin');
+                        if (id === 'neon_arena_2') {
+                          return { name: 'NEON SPEEDWAY ARENA', img: '/cabin2.jpeg' };
+                        }
+                      } catch {
+                        // ignore
+                      }
+                      return { name: 'CYBERPUNK NEON CABIN', img: '/cabin1.png' };
+                    })();
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 4px' }}>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.12em' }}>
-                      CABIN SELECTION
-                    </div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
-                      LUXURY CABIN ARENA
-                    </div>
-                    <div style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.65)', fontWeight: 600 }}>
-                      Selected for host & guest players.
-                    </div>
-                  </div>
+                    return (
+                      <>
+                        <div
+                          style={{
+                            width: '100%',
+                            height: '275px',
+                            borderRadius: '22px',
+                            overflow: 'hidden',
+                            border: '2px solid rgba(255, 0, 102, 0.45)',
+                            position: 'relative',
+                            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.65)',
+                            background: '#0d0714',
+                          }}
+                        >
+                          <img
+                            src={selectedCabin.img}
+                            alt={selectedCabin.name}
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              display: 'block',
+                            }}
+                          />
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 4px' }}>
+                          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.12em' }}>
+                            SELECTED CABIN
+                          </div>
+                          <div style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                            {selectedCabin.name}
+                          </div>
+                          <div style={{ fontSize: '0.92rem', color: '#34c759', fontWeight: 900, letterSpacing: '0.08em', marginTop: '2px' }}>
+                            FREE
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
 
                 {/* RIGHT CARD: ROOM DETAILS INPUT FORM */}
