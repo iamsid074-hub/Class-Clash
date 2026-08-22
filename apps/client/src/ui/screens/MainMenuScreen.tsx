@@ -1022,7 +1022,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENT BANNER CAROUSEL (BOX1.JPEG & BOX2.JPEG SLIDES) */}
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER CAROUSEL (BOX MATCHING EXACT IMAGE ASPECT RATIO) */}
       {(() => {
         const boxImages = ['/box1.jpeg', '/box2.jpeg'];
         const activeImg = boxImages[currentSlideIndex % boxImages.length];
@@ -1030,10 +1030,10 @@ export const MainMenuScreen: React.FC = () => {
           <div
             style={{
               position: 'absolute',
-              bottom: '104px',
+              bottom: '100px',
               left: '36px',
               width: '340px',
-              height: '165px',
+              height: '215px',
               zIndex: 25,
               background: 'rgba(20, 20, 26, 0.92)',
               backdropFilter: 'blur(16px)',
@@ -1058,15 +1058,15 @@ export const MainMenuScreen: React.FC = () => {
               e.currentTarget.style.boxShadow = '0 10px 36px rgba(0, 0, 0, 0.7)';
             }}
           >
-            {/* Slide Image (100% Full Uncropped View) */}
+            {/* Slide Image (Full 100% Image Size Fit) */}
             <img
               key={activeImg}
-              src={`${activeImg}?v=3`}
+              src={`${activeImg}?v=4`}
               alt="Event Announcement Banner"
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'contain',
+                objectFit: 'fill',
                 display: 'block',
                 transition: 'opacity 0.4s ease',
               }}
