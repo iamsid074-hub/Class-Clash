@@ -3,6 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
+import { DynamicGameBackground } from '../components/DynamicGameBackground';
 import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
@@ -87,10 +88,7 @@ export const MainMenuScreen: React.FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        backgroundImage: "url('/homepage.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        background: '#0a000e',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -100,6 +98,8 @@ export const MainMenuScreen: React.FC = () => {
         overflow: 'hidden',
       }}
     >
+      {/* Real Live Interactive Dynamic Game Background (3 Modes) */}
+      <DynamicGameBackground />
       {/* Pink Neon Architectural LED Strip Light Beam */}
       <PinkNeonFrame />
 

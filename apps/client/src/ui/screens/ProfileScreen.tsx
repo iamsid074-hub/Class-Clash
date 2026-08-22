@@ -10,7 +10,6 @@ import {
   ArrowLeft,
   Camera,
   CheckCircle2,
-  ChevronRight,
 } from 'lucide-react';
 import { SupabaseAuthService, UserProfile } from '../../networking/supabaseClient';
 
@@ -144,7 +143,7 @@ export const ProfileScreen: React.FC = () => {
       />
 
       {/* ------------------------------------------------------------- */}
-      {/* 1. LEFT SIDEBAR NAVIGATION (EXACT DESIGN MATCHING IMAGE)       */}
+      {/* 1. iOS SIDEBAR NAVIGATION                                      */}
       {/* ------------------------------------------------------------- */}
       <div
         style={{
@@ -155,190 +154,130 @@ export const ProfileScreen: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          padding: '32px 20px',
+          padding: '28px 18px',
           boxSizing: 'border-box',
           flexShrink: 0,
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          
-          {/* Top User Info Card Header (Exact Match to Image Top) */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', paddingLeft: '4px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {/* Brand Header */}
+          <div style={{ paddingLeft: '6px' }}>
             <div
               style={{
-                width: '46px',
-                height: '46px',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+                fontSize: '1.25rem',
+                fontWeight: 900,
+                fontStyle: 'italic',
+                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                letterSpacing: '0.04em',
+                lineHeight: 1,
+              }}
+            >
+              <span style={{ color: '#1c1c1e' }}>CLA</span>
+              <span style={{ color: '#ff0066' }}>SHA</span>
+            </div>
+          </div>
+
+          {/* Section 1: MY ACCOUNT */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.08em', paddingLeft: '12px', marginBottom: '4px', fontFamily: APPLE_FONT }}>
+              MY ACCOUNT
+            </div>
+
+            {[
+              { id: 'profile', label: 'Profile', icon: User },
+              { id: 'stats', label: 'Statistics', icon: BarChart2 },
+              { id: 'tournament', label: 'Tournament Status', icon: Trophy },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveTab(item.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 16px',
+                    borderRadius: '9999px',
+                    background: isActive ? '#007aff' : 'transparent',
+                    border: 'none',
+                    color: isActive ? '#ffffff' : '#1c1c1e',
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    fontFamily: APPLE_FONT,
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: isActive ? '0 6px 16px rgba(0, 122, 255, 0.3)' : 'none',
+                  }}
+                >
+                  <Icon size={17} color={isActive ? '#ffffff' : '#007aff'} />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Bottom User Account Footer Card */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            borderRadius: '24px',
+            background: '#f2f2f7',
+            border: '1px solid #e5e5ea',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div
+              style={{
+                width: '38px',
+                height: '38px',
+                borderRadius: '9999px',
+                background: '#007aff',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#ffffff',
                 overflow: 'hidden',
-                flexShrink: 0,
-                boxShadow: '0 4px 12px rgba(79, 70, 229, 0.25)',
               }}
             >
               {avatarUrl ? (
-                <img src={avatarUrl} alt="User Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <User size={22} color="#ffffff" />
+                <User size={20} />
               )}
             </div>
             <div>
-              <div style={{ fontSize: '0.98rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT, lineHeight: 1.2 }}>
-                {profileNameInput || displayName || 'Admin'}
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
+                {profileNameInput || displayName || 'Anshu yadav'}
               </div>
-              <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#635bff', letterSpacing: '0.06em', textTransform: 'uppercase', marginTop: '2px', fontFamily: APPLE_FONT }}>
-                RACER
+              <div style={{ fontSize: '0.72rem', color: '#8e8e93', fontFamily: APPLE_FONT }}>
+                {userEmail}
               </div>
             </div>
           </div>
-
-          {/* Section 1: GENERAL */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#9ca3af', letterSpacing: '0.12em', paddingLeft: '12px', marginBottom: '6px', fontFamily: APPLE_FONT }}>
-              GENERAL
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab('profile')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '13px 18px',
-                borderRadius: '20px',
-                background: activeTab === 'profile' ? '#eeeffe' : 'transparent',
-                border: 'none',
-                color: activeTab === 'profile' ? '#4f46e5' : '#1c1c1e',
-                fontWeight: activeTab === 'profile' ? 800 : 600,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: APPLE_FONT,
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <User size={19} color={activeTab === 'profile' ? '#4f46e5' : '#8e8e93'} />
-              <span>Profile</span>
-              {activeTab === 'profile' && (
-                <ChevronRight size={16} color="#4f46e5" style={{ marginLeft: 'auto' }} />
-              )}
-            </button>
-          </div>
-
-          {/* Section 2: YOUR ACTIVITY */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#9ca3af', letterSpacing: '0.12em', paddingLeft: '12px', marginBottom: '6px', fontFamily: APPLE_FONT }}>
-              YOUR ACTIVITY
-            </div>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab('stats')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '13px 18px',
-                borderRadius: '20px',
-                background: activeTab === 'stats' ? '#eeeffe' : 'transparent',
-                border: 'none',
-                color: activeTab === 'stats' ? '#4f46e5' : '#1c1c1e',
-                fontWeight: activeTab === 'stats' ? 800 : 600,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: APPLE_FONT,
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <BarChart2 size={19} color={activeTab === 'stats' ? '#4f46e5' : '#8e8e93'} />
-              <span>Statistics</span>
-              {activeTab === 'stats' && (
-                <ChevronRight size={16} color="#4f46e5" style={{ marginLeft: 'auto' }} />
-              )}
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab('tournament')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '13px 18px',
-                borderRadius: '20px',
-                background: activeTab === 'tournament' ? '#eeeffe' : 'transparent',
-                border: 'none',
-                color: activeTab === 'tournament' ? '#4f46e5' : '#1c1c1e',
-                fontWeight: activeTab === 'tournament' ? 800 : 600,
-                fontSize: '0.95rem',
-                cursor: 'pointer',
-                textAlign: 'left',
-                fontFamily: APPLE_FONT,
-                transition: 'all 0.15s ease',
-              }}
-            >
-              <Trophy size={19} color={activeTab === 'tournament' ? '#4f46e5' : '#8e8e93'} />
-              <span>Tournament Status</span>
-              {activeTab === 'tournament' && (
-                <ChevronRight size={16} color="#4f46e5" style={{ marginLeft: 'auto' }} />
-              )}
-            </button>
-          </div>
-
-        </div>
-
-        {/* Bottom Back Button & Logout */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <button
-            type="button"
-            onClick={handleBackToMenu}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              width: '100%',
-              padding: '12px 14px',
-              borderRadius: '16px',
-              background: '#f2f2f7',
-              color: '#1c1c1e',
-              border: 'none',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              cursor: 'pointer',
-              transition: 'background 0.15s ease',
-              fontFamily: APPLE_FONT,
-            }}
-          >
-            <ArrowLeft size={16} color="#8e8e93" />
-            <span>Back to Game</span>
-          </button>
 
           <button
             type="button"
             onClick={handleLogout}
+            title="Log Out"
             style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#8e8e93',
+              padding: '6px',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              width: '100%',
-              padding: '10px 14px',
-              borderRadius: '16px',
-              background: 'transparent',
-              color: '#ff3b30',
-              border: 'none',
-              fontWeight: 600,
-              fontSize: '0.85rem',
-              cursor: 'pointer',
-              fontFamily: APPLE_FONT,
             }}
           >
-            <LogOut size={15} color="#ff3b30" />
-            <span>Log Out</span>
+            <LogOut size={16} />
           </button>
         </div>
       </div>
@@ -478,7 +417,7 @@ export const ProfileScreen: React.FC = () => {
         </div>
 
         {/* ------------------------------------------------------------- */}
-        {/* TAB 1: PERSONAL DETAILS                                        */}
+        {/* TAB 1: PERSONAL DETAILS (EXACT 8-CARD GRID LAYOUT FROM IMAGE) */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'profile' && (
           <div style={{ width: '100%', maxWidth: '1000px', textAlign: 'left' }}>
