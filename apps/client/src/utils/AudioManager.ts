@@ -181,4 +181,98 @@ export class AudioManager {
   public static getSfxVolume(): number {
     return this.sfxVolume;
   }
+
+  private static cabin2Audio: HTMLAudioElement | null = null;
+  private static cabin2FadeInterval: NodeJS.Timeout | null = null;
+
+  /**
+   * Play Cabin 2 Ambient Sound with smooth Fade-In and turn OFF main homepage background music
+   */
+  public static playCabin2Sound(): void {
+    // Stop/Fade out main BG music first
+    this.fadeOut(600);
+
+    if (this.cabin2FadeInterval) {
+      clearInterval(this.cabin2FadeInterval);
+      this.cabin2FadeInterval = null;
+    }
+
+    try {
+      if (!this.cabin2Audio) {
+        this.cabin2Audio = new Audio('/sounds/cabin2sound.mp3');
+        this.cabin2Audio.loop = true;
+      }
+
+      this.cabin2Audio.volume = 0;
+      this.cabin2Audio.play().catch(() => {
+        // Audio autoplay policy fallback
+      });
+
+      const targetVol = Math.max(0, Math.min(1, this.musicVolume));
+      const durationMs = 1200;
+      const stepMs = 30;
+      const totalSteps = Math.max(1, durationMs / stepMs);
+      const volumeStep = targetVol / totalSteps;
+      let currentStep = 0;
+
+      this.cabin2FadeInterval = setInterval(() => {
+        currentStep++;
+        if (!this.cabin2Audio) {
+          if (this.cabin2FadeInterval) clearInterval(this.cabin2FadeInterval);
+          return;
+        }
+
+        const nextVol = Math.min(targetVol, currentStep * volumeStep);
+        this.cabin2Audio.volume = nextVol;
+
+        if (currentStep >= totalSteps) {
+          if (this.cabin2FadeInterval) clearInterval(this.cabin2FadeInterval);
+          this.cabin2Audio.volume = targetVol;
+        }
+      }, stepMs);
+    } catch (err) {
+      console.warn('Failed to play Cabin 2 ambient sound:', err);
+    }
+  }
+
+  /**
+   * Stop Cabin 2 Ambient Sound with smooth Fade-Out and restore main background music
+   */
+  public static stopCabin2Sound(): void {
+    if (this.cabin2FadeInterval) {
+      clearInterval(this.cabin2FadeInterval);
+      this.cabin2FadeInterval = null;
+    }
+
+    if (!this.cabin2Audio || this.cabin2Audio.paused) {
+      this.fadeIn(1200);
+      return;
+    }
+
+    const startVol = this.cabin2Audio.volume;
+    const durationMs = 800;
+    const stepMs = 30;
+    const totalSteps = Math.max(1, durationMs / stepMs);
+    const volumeStep = startVol / totalSteps;
+    let currentStep = 0;
+
+    this.cabin2FadeInterval = setInterval(() => {
+      currentStep++;
+      if (!this.cabin2Audio) {
+        if (this.cabin2FadeInterval) clearInterval(this.cabin2FadeInterval);
+        return;
+      }
+
+      const nextVol = Math.max(0, startVol - currentStep * volumeStep);
+      this.cabin2Audio.volume = nextVol;
+
+      if (currentStep >= totalSteps) {
+        if (this.cabin2FadeInterval) clearInterval(this.cabin2FadeInterval);
+        this.cabin2Audio.pause();
+        this.cabin2Audio.currentTime = 0;
+        // Resume main BG music
+        this.fadeIn(1200);
+      }
+    }, stepMs);
+  }
 }

@@ -4,6 +4,7 @@ import { NetworkClient } from '../../networking/NetworkClient';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
 import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
+import { AudioManager } from '../../utils/AudioManager';
 
 export const SoloPartyCabinScreen: React.FC = () => {
   const { playerId, soloGameState, roomCode, roomPassword, cabinName, cabinTemplate, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
@@ -17,6 +18,16 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const activeCabinTemplate = cabinTemplate || soloGameState?.cabinTemplate || 'cabin_1';
   const isCabin2 = activeCabinTemplate === 'cabin_2' || activeCabinTemplate === 'neon_arena_2';
   const cabinBgImage = isCabin2 ? '/cabin2.jpeg' : '/cabin1.png';
+
+  // Cabin 2 Ambient Audio Trigger with Smooth Fade In/Out
+  useEffect(() => {
+    if (isCabin2) {
+      AudioManager.playCabin2Sound();
+      return () => {
+        AudioManager.stopCabin2Sound();
+      };
+    }
+  }, [isCabin2]);
 
   const allPlayersList = Object.values(players);
   const localPlayer = players[playerId];
