@@ -1129,97 +1129,196 @@ export const MainMenuScreen: React.FC = () => {
         );
       })()}
 
-      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (SKY BLUE WINTER DOOM BUTTON) */}
+      {/* 3. BOTTOM-LEFT FUTURISTIC TECH WINTER DOOM BUTTON (EXACT IMAGE 2 DESIGN WITH LASER SHUTTER WINGS) */}
       <div
         onClick={() => setActiveModal('TOURNAMENT')}
         style={{
           position: 'absolute',
           bottom: '28px',
           left: '36px',
-          width: '340px',
-          height: '60px',
-          boxSizing: 'border-box',
           zIndex: 25,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '0 20px',
-          background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: '20px',
-          border: '2px solid #ffffff',
-          boxShadow: '0 8px 25px rgba(0, 242, 254, 0.45), 0 10px 32px rgba(0, 0, 0, 0.6)',
           cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          overflow: 'hidden',
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.03)';
-          e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 242, 254, 0.65), 0 12px 36px rgba(0, 0, 0, 0.7)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 242, 254, 0.45), 0 10px 32px rgba(0, 0, 0, 0.6)';
         }}
       >
-        {/* Sky Blue Highlight Overlay */}
+        {/* Left Horizontal Laser Wing Lines */}
         <div
           style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: '45%',
-            background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            marginRight: '-10px',
             pointerEvents: 'none',
           }}
-        />
+        >
+          {[0.35, 0.7, 1, 0.7, 0.35].map((op, i) => (
+            <div
+              key={i}
+              style={{
+                width: `${36 - Math.abs(2 - i) * 6}px`,
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent 0%, #00f0ff 100%)',
+                opacity: op,
+                boxShadow: '0 0 8px #00f0ff',
+              }}
+            />
+          ))}
+        </div>
 
-        {/* 100% Dead-Centered Title (Shifted Slightly Downwards) */}
-        <h2
+        {/* Center Tech Card Button */}
+        <div
+          className="winter-doom-tech-btn"
           style={{
-            fontSize: '1.85rem',
-            fontWeight: 900,
-            fontStyle: 'italic',
-            fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-            letterSpacing: '0.04em',
-            margin: 0,
-            color: '#ffffff',
-            lineHeight: 1,
+            position: 'relative',
+            height: '62px',
+            padding: '0 28px 0 12px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            textTransform: 'uppercase',
-            position: 'relative',
-            zIndex: 2,
-            width: '100%',
-            textAlign: 'center',
-            marginTop: '4px',
-            textShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+            gap: '14px',
+            background: 'linear-gradient(135deg, rgba(6, 16, 35, 0.95) 0%, rgba(10, 26, 54, 0.95) 100%)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderRadius: '20px',
+            border: '2px solid #00f0ff',
+            boxShadow: '0 0 22px rgba(0, 240, 255, 0.8), 0 0 45px rgba(0, 150, 255, 0.4), inset 0 0 15px rgba(0, 240, 255, 0.25)',
+            transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            overflow: 'hidden',
           }}
         >
-          <span style={{ color: '#ffffff' }}>WINTER</span>
-          <span style={{ color: '#091b2c' }}>DOOM</span>
-        </h2>
+          {/* Shutter Laser Scan Effect Overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: '-100%',
+              width: '50%',
+              height: '100%',
+              background: 'linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.35) 50%, transparent 100%)',
+              transform: 'skewX(-25deg)',
+              pointerEvents: 'none',
+              animation: 'shutterLaserScan 3s infinite ease-in-out',
+            }}
+          />
 
-        {/* Right Arrow Icon Positioned Absolutely */}
+          {/* Left White Squircle Trophy Icon Badge */}
+          <div
+            style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: '12px',
+              background: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4), inset 0 -2px 4px rgba(0, 0, 0, 0.1)',
+              flexShrink: 0,
+              position: 'relative',
+              zIndex: 2,
+            }}
+          >
+            <Trophy size={24} color="#0055ff" style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 85, 255, 0.4))' }} />
+          </div>
+
+          {/* Center Text Stack */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              position: 'relative',
+              zIndex: 2,
+            }}
+          >
+            {/* Top Subtitle Header */}
+            <div
+              style={{
+                fontSize: '0.62rem',
+                fontWeight: 800,
+                color: '#00f0ff',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                lineHeight: 1,
+                marginBottom: '3px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+            >
+              <span style={{ color: '#00f0ff' }}>✦</span> SPECIAL TOURNAMENT <span style={{ color: '#00f0ff' }}>✦</span>
+            </div>
+
+            {/* Main Title Text */}
+            <div
+              style={{
+                fontSize: '1.45rem',
+                fontWeight: 900,
+                fontStyle: 'italic',
+                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                color: '#ffffff',
+                letterSpacing: '0.08em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                textShadow: '0 2px 10px rgba(0, 240, 255, 0.6)',
+              }}
+            >
+              WINTER DOOM
+            </div>
+
+            {/* Blue Underline Accent Bar */}
+            <div
+              style={{
+                width: '100%',
+                height: '2px',
+                background: 'linear-gradient(90deg, #00f0ff 0%, #0066ff 100%)',
+                marginTop: '3px',
+                borderRadius: '2px',
+                boxShadow: '0 0 6px #00f0ff',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Right Horizontal Laser Wing Lines */}
         <div
           style={{
-            position: 'absolute',
-            right: '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 3,
-            marginTop: '2px',
+            flexDirection: 'column',
+            gap: '4px',
+            marginLeft: '-10px',
+            pointerEvents: 'none',
           }}
         >
-          <ArrowRight size={22} color="#ffffff" strokeWidth={3} />
+          {[0.35, 0.7, 1, 0.7, 0.35].map((op, i) => (
+            <div
+              key={i}
+              style={{
+                width: `${36 - Math.abs(2 - i) * 6}px`,
+                height: '2px',
+                background: 'linear-gradient(270deg, transparent 0%, #00f0ff 100%)',
+                opacity: op,
+                boxShadow: '0 0 8px #00f0ff',
+              }}
+            />
+          ))}
         </div>
+
+        <style>{`
+          .winter-doom-tech-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 1), 0 0 70px rgba(0, 150, 255, 0.7), inset 0 0 25px rgba(0, 240, 255, 0.4) !important;
+          }
+
+          @keyframes shutterLaserScan {
+            0% {
+              left: -100%;
+            }
+            40%, 100% {
+              left: 200%;
+            }
+          }
+        `}</style>
       </div>
     </div>
   );
