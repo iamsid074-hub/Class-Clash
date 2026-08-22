@@ -35,7 +35,13 @@ export const MainMenuScreen: React.FC = () => {
       borderColor: '#70e1ff',
       bgGradient: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
       icon: Snowflake,
-      action: () => setActiveModal('TOURNAMENT'),
+      action: () =>
+        triggerGateTransition(
+          () => setActiveModal('TOURNAMENT'),
+          'WINTER DOOM',
+          'SPECIAL TOURNAMENT',
+          'WINTER_DOOM'
+        ),
     },
     {
       id: 'cyber_season',
@@ -1131,14 +1137,14 @@ export const MainMenuScreen: React.FC = () => {
 
       {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (SKY BLUE WINTER DOOM BUTTON) */}
       <div
-        onClick={() => {
+        onClick={() =>
           triggerGateTransition(
             () => setActiveModal('TOURNAMENT'),
             'WINTER DOOM',
             'SPECIAL TOURNAMENT',
-            'tournament'
-          );
-        }}
+            'WINTER_DOOM'
+          )
+        }
         style={{
           position: 'absolute',
           bottom: '28px',

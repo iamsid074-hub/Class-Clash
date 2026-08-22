@@ -85,10 +85,10 @@ interface GameStore {
   isGateClosed: boolean;
   gateTitle: string;
   gateSubhead: string;
-  gateStyle: 'default' | 'tournament';
+  gateVariant: string;
   errorMessage: string | null;
   setErrorMessage: (msg: string | null) => void;
-  triggerGateTransition: (onMidpoint?: () => void, title?: string, subhead?: string, style?: 'default' | 'tournament') => void;
+  triggerGateTransition: (onMidpoint?: () => void, title?: string, subhead?: string, variant?: string) => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -99,13 +99,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isGateClosed: false,
   gateTitle: 'ENTER ARENA',
   gateSubhead: 'CLASHA',
-  gateStyle: 'default',
+  gateVariant: 'DEFAULT',
   errorMessage: null,
   setErrorMessage: (errorMessage) => set({ errorMessage }),
 
-  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASHA', style = 'default') => {
-    // Step 0: Mount gates off-screen in open position with locked title, subhead & style
-    set({ isGateActive: true, isGateClosed: false, gateTitle: title, gateSubhead: subhead, gateStyle: style });
+  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASHA', variant = 'DEFAULT') => {
+    // Step 0: Mount gates off-screen in open position with locked title & subhead
+    set({ isGateActive: true, isGateClosed: false, gateTitle: title, gateSubhead: subhead, gateVariant: variant });
 
     // Step 1: Slam gates shut into center (30ms -> 450ms)
     setTimeout(() => {

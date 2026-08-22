@@ -1,44 +1,15 @@
 import React from 'react';
 import { useGameStore } from '../../state/useGameStore';
-import { Trophy } from 'lucide-react';
+import { Trophy, Zap, Shield, Crown, Settings as SettingsIcon, User } from 'lucide-react';
 
 export const CyberGateTransition: React.FC = () => {
-  const { isGateActive: isActive, isGateClosed: isClosed, gateTitle, gateSubhead, gateStyle } = useGameStore();
+  const { isGateActive: isActive, isGateClosed: isClosed, gateTitle, gateSubhead, gateVariant } = useGameStore();
 
-  const isTournamentStyle = gateStyle === 'tournament';
-  const displayTitle = gateTitle || (isTournamentStyle ? 'WINTER DOOM' : 'LEADERBOARD');
-  const displaySubhead = gateSubhead || (isTournamentStyle ? 'SPECIAL TOURNAMENT' : 'GLOBAL STANDINGS');
+  const displayTitle = gateTitle || 'LEADERBOARD';
+  const displaySubhead = gateSubhead || 'GLOBAL STANDINGS';
+  const isWinterDoom = gateVariant === 'WINTER_DOOM' || (gateTitle && gateTitle.toUpperCase().includes('WINTER DOOM'));
 
   if (!isActive) return null;
-
-  // COLOR THEMES BASED ON TOURNAMENT VS DEFAULT
-  const doorGradientLeft = isTournamentStyle
-    ? 'linear-gradient(135deg, #02123d 0%, #0044cc 50%, #0066ff 100%)'
-    : 'linear-gradient(135deg, #d60050 0%, #e6005c 50%, #ff0066 100%)';
-
-  const doorGradientRight = isTournamentStyle
-    ? 'linear-gradient(135deg, #0066ff 0%, #0044cc 50%, #02123d 100%)'
-    : 'linear-gradient(135deg, #ff0066 0%, #e6005c 50%, #d60050 100%)';
-
-  const seamColor = isTournamentStyle ? '#ffffff' : '#ffffff';
-  const seamGlow = isTournamentStyle ? '0 0 16px #00f0ff, 0 0 30px #0066ff' : '0 0 10px rgba(255, 255, 255, 0.95)';
-
-  const pillBorder = isTournamentStyle ? '2px solid #00f0ff' : '2px solid #ff3385';
-  const pillShadow = isTournamentStyle
-    ? '0 0 35px rgba(0, 240, 255, 0.85), 0 0 75px rgba(0, 102, 255, 0.6), 0 12px 40px rgba(0, 0, 0, 0.9)'
-    : '0 0 35px rgba(255, 0, 102, 0.55), 0 12px 40px rgba(0, 0, 0, 0.85)';
-
-  const ambientGlow = isTournamentStyle
-    ? 'radial-gradient(circle, rgba(0, 240, 255, 0.8) 0%, rgba(0, 102, 255, 0.5) 40%, transparent 75%)'
-    : 'radial-gradient(circle, rgba(255, 0, 102, 0.65) 0%, transparent 75%)';
-
-  const trophyColor = isTournamentStyle ? '#0055ff' : '#ff0066';
-  const titleUnderline = isTournamentStyle ? '2.5px solid #00f0ff' : '2.5px solid #ff0066';
-  const subheadColor = isTournamentStyle ? '#00f0ff' : 'rgba(255, 255, 255, 0.9)';
-
-  const titleFont = isTournamentStyle
-    ? "-apple-system, BlinkMacSystemFont, 'Kanit', 'Outfit', 'Inter', 'SF Pro Display', sans-serif"
-    : "'Misery', 'QUARTZO', 'Kanit', sans-serif";
 
   return (
     <div
@@ -53,7 +24,7 @@ export const CyberGateTransition: React.FC = () => {
         overflow: 'hidden',
       }}
     >
-      {/* 1. LEFT DIAGONAL SHUTTER DOOR */}
+      {/* 1. LEFT DIAGONAL SHUTTER DOOR WITH HALFTONE DOT PATTERN OR WINTER DOOM SHUTTER DESIGN */}
       <div
         style={{
           position: 'absolute',
@@ -61,15 +32,31 @@ export const CyberGateTransition: React.FC = () => {
           left: 0,
           width: '100vw',
           height: '100vh',
-          background: isTournamentStyle ? "url('/shutterdesign.png') center/cover no-repeat" : doorGradientLeft,
-          clipPath: 'polygon(0 0, 60vw 0, 35vw 100%, 0 100%)',
+          background: isWinterDoom
+            ? '#050f24'
+            : 'linear-gradient(135deg, #d60050 0%, #e6005c 50%, #ff0066 100%)',
+          clipPath: 'polygon(0 0, 64vw 0, 36vw 100%, 0 100%)',
           transform: isClosed ? 'translateX(0%)' : 'translateX(-105vw)',
           transition: 'transform 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
           zIndex: 1,
+          overflow: 'hidden',
         }}
       >
-        {/* Halftone Dot Overlay Pattern (Default mode only) */}
-        {!isTournamentStyle && (
+        {isWinterDoom ? (
+          <img
+            src="/shutterdesign.png"
+            alt="Winter Doom Shutter"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              objectFit: 'cover',
+              pointerEvents: 'none',
+            }}
+          />
+        ) : (
           <div
             style={{
               position: 'absolute',
@@ -77,7 +64,7 @@ export const CyberGateTransition: React.FC = () => {
               left: 0,
               width: '100%',
               height: '100%',
-              backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.3) 1.5px, transparent 1.5px)',
+              backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.22) 1.5px, transparent 1.5px)',
               backgroundSize: '14px 14px',
               opacity: 0.75,
             }}
@@ -85,7 +72,7 @@ export const CyberGateTransition: React.FC = () => {
         )}
       </div>
 
-      {/* 2. RIGHT DIAGONAL SHUTTER DOOR */}
+      {/* 2. RIGHT DIAGONAL SHUTTER DOOR WITH HALFTONE DOT PATTERN OR WINTER DOOM SHUTTER DESIGN */}
       <div
         style={{
           position: 'absolute',
@@ -93,15 +80,31 @@ export const CyberGateTransition: React.FC = () => {
           left: 0,
           width: '100vw',
           height: '100vh',
-          background: isTournamentStyle ? "url('/shutterdesign.png') center/cover no-repeat" : doorGradientRight,
-          clipPath: 'polygon(60vw 0, 100vw 0, 100vw 100%, 36vw 100%)',
+          background: isWinterDoom
+            ? '#050f24'
+            : 'linear-gradient(135deg, #ff0066 0%, #e6005c 50%, #d60050 100%)',
+          clipPath: 'polygon(64vw 0, 100vw 0, 100vw 100%, 36vw 100%)',
           transform: isClosed ? 'translateX(0%)' : 'translateX(105vw)',
           transition: 'transform 0.45s cubic-bezier(0.77, 0, 0.175, 1)',
           zIndex: 2,
+          overflow: 'hidden',
         }}
       >
-        {/* Halftone Dot Overlay Pattern (Default mode only) */}
-        {!isTournamentStyle && (
+        {isWinterDoom ? (
+          <img
+            src="/shutterdesign.png"
+            alt="Winter Doom Shutter"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              objectFit: 'cover',
+              pointerEvents: 'none',
+            }}
+          />
+        ) : (
           <div
             style={{
               position: 'absolute',
@@ -109,7 +112,7 @@ export const CyberGateTransition: React.FC = () => {
               left: 0,
               width: '100%',
               height: '100%',
-              backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.3) 1.5px, transparent 1.5px)',
+              backgroundImage: 'radial-gradient(rgba(0, 0, 0, 0.22) 1.5px, transparent 1.5px)',
               backgroundSize: '14px 14px',
               opacity: 0.75,
             }}
@@ -117,7 +120,7 @@ export const CyberGateTransition: React.FC = () => {
         )}
       </div>
 
-      {/* 3. DIAGONAL SEAM GLOWING LINE OVERLAY */}
+      {/* 3. DIAGONAL SEAM GLOWING WHITE/CYAN LINE OVERLAY */}
       <svg
         style={{
           position: 'absolute',
@@ -131,13 +134,13 @@ export const CyberGateTransition: React.FC = () => {
         }}
       >
         <line
-          x1="60vw"
+          x1="64vw"
           y1="0"
-          x2="35vw"
+          x2="36vw"
           y2="100vh"
-          stroke={seamColor}
-          strokeWidth="2.5"
-          style={{ filter: `drop-shadow(${seamGlow})` }}
+          stroke={isWinterDoom ? '#00f2fe' : '#ffffff'}
+          strokeWidth="3.5"
+          style={{ filter: `drop-shadow(0 0 10px ${isWinterDoom ? 'rgba(0, 242, 254, 0.95)' : 'rgba(255, 255, 255, 0.95)'})` }}
         />
       </svg>
 
@@ -161,55 +164,53 @@ export const CyberGateTransition: React.FC = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '540px',
-            height: '190px',
-            background: ambientGlow,
+            width: '520px',
+            height: '180px',
+            background: isWinterDoom
+              ? 'radial-gradient(circle, rgba(0, 242, 254, 0.7) 0%, transparent 75%)'
+              : 'radial-gradient(circle, rgba(255, 0, 102, 0.65) 0%, transparent 75%)',
             borderRadius: '50%',
-            filter: 'blur(35px)',
+            filter: 'blur(30px)',
             pointerEvents: 'none',
           }}
         />
 
-        {/* Horizontal Speed Beams (Left Side - 5 Glowing Lines) */}
+        {/* Horizontal Speed Lines (Left Side) */}
         <div
           style={{
             position: 'absolute',
             top: '50%',
-            left: '-130px',
+            left: '-60px',
             transform: 'translateY(-50%)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px',
-            opacity: 0.95,
+            gap: '5px',
+            opacity: 0.8,
             pointerEvents: 'none',
           }}
         >
-          <div style={{ width: '90px', height: '2px', background: isTournamentStyle ? 'linear-gradient(90deg, transparent, #00f0ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '110px', height: '2px', background: isTournamentStyle ? 'linear-gradient(90deg, transparent, #00f0ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '140px', height: '3px', background: isTournamentStyle ? 'linear-gradient(90deg, transparent, #ffffff)' : 'linear-gradient(90deg, transparent, #ffffff)', boxShadow: isTournamentStyle ? '0 0 10px #ffffff' : 'none' }} />
-          <div style={{ width: '110px', height: '2px', background: isTournamentStyle ? 'linear-gradient(90deg, transparent, #00f0ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '90px', height: '2px', background: isTournamentStyle ? 'linear-gradient(90deg, transparent, #00f0ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
+          <div style={{ width: '45px', height: '2px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #00f2fe)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
+          <div style={{ width: '60px', height: '3px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #ffffff)' : 'linear-gradient(90deg, transparent, #ffffff)' }} />
+          <div style={{ width: '35px', height: '2px', background: isWinterDoom ? 'linear-gradient(90deg, transparent, #70e1ff)' : 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
         </div>
 
-        {/* Horizontal Speed Beams (Right Side - 5 Glowing Lines) */}
+        {/* Horizontal Speed Lines (Right Side) */}
         <div
           style={{
             position: 'absolute',
             top: '50%',
-            right: '-130px',
+            right: '-60px',
             transform: 'translateY(-50%)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px',
-            opacity: 0.95,
+            gap: '5px',
+            opacity: 0.8,
             pointerEvents: 'none',
           }}
         >
-          <div style={{ width: '90px', height: '2px', background: isTournamentStyle ? 'linear-gradient(-90deg, transparent, #00f0ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '110px', height: '2px', background: isTournamentStyle ? 'linear-gradient(-90deg, transparent, #00f0ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '140px', height: '3px', background: isTournamentStyle ? 'linear-gradient(-90deg, transparent, #ffffff)' : 'linear-gradient(-90deg, transparent, #ffffff)', boxShadow: isTournamentStyle ? '0 0 10px #ffffff' : 'none' }} />
-          <div style={{ width: '110px', height: '2px', background: isTournamentStyle ? 'linear-gradient(-90deg, transparent, #00f0ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
-          <div style={{ width: '90px', height: '2px', background: isTournamentStyle ? 'linear-gradient(-90deg, transparent, #00f0ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.7))', boxShadow: isTournamentStyle ? '0 0 6px #00f0ff' : 'none' }} />
+          <div style={{ width: '45px', height: '2px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #00f2fe)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.9))' }} />
+          <div style={{ width: '60px', height: '3px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #ffffff)' : 'linear-gradient(-90deg, transparent, #ffffff)' }} />
+          <div style={{ width: '35px', height: '2px', background: isWinterDoom ? 'linear-gradient(-90deg, transparent, #70e1ff)' : 'linear-gradient(-90deg, transparent, rgba(255, 255, 255, 0.7))' }} />
         </div>
 
         {/* Main Floating Pill Badge Container */}
@@ -218,12 +219,14 @@ export const CyberGateTransition: React.FC = () => {
             position: 'relative',
             display: 'flex',
             alignItems: 'center',
-            gap: '18px',
-            padding: '12px 34px 12px 14px',
-            background: isTournamentStyle ? '#040b1e' : '#0f0817',
-            border: pillBorder,
+            gap: '16px',
+            padding: '12px 28px 12px 14px',
+            background: isWinterDoom ? 'rgba(5, 17, 38, 0.92)' : '#0f0817',
+            border: isWinterDoom ? '2px solid #00f2fe' : '2px solid #ff3385',
             borderRadius: '26px',
-            boxShadow: pillShadow,
+            boxShadow: isWinterDoom
+              ? '0 0 35px rgba(0, 242, 254, 0.65), 0 12px 40px rgba(0, 0, 0, 0.85)'
+              : '0 0 35px rgba(255, 0, 102, 0.55), 0 12px 40px rgba(0, 0, 0, 0.85)',
           }}
         >
           {/* White Squircle Icon Box */}
@@ -236,47 +239,46 @@ export const CyberGateTransition: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: isTournamentStyle ? '0 0 22px rgba(0, 240, 255, 0.9)' : '0 0 20px rgba(255, 255, 255, 0.85)',
+              boxShadow: isWinterDoom ? '0 0 24px rgba(0, 242, 254, 0.9)' : '0 0 20px rgba(255, 255, 255, 0.85)',
               flexShrink: 0,
             }}
           >
-            <Trophy size={32} color={trophyColor} fill={trophyColor} strokeWidth={1.5} />
+            <Trophy size={32} color={isWinterDoom ? '#0074d9' : '#ff0066'} fill={isWinterDoom ? '#0074d9' : '#ff0066'} strokeWidth={1.5} />
           </div>
 
           {/* Text Section */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', textAlign: 'left' }}>
-            {/* Subhead with small cyan diamond sparkles */}
+            {/* Subhead */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ color: isTournamentStyle ? '#00f0ff' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
+              <span style={{ color: isWinterDoom ? '#00f2fe' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
               <span
                 style={{
-                  fontSize: '0.7rem',
+                  fontSize: '0.68rem',
                   fontWeight: 900,
-                  color: subheadColor,
-                  letterSpacing: '0.18em',
+                  color: isWinterDoom ? '#70e1ff' : 'rgba(255, 255, 255, 0.9)',
+                  letterSpacing: '0.14em',
                   fontFamily: 'Outfit, sans-serif',
                   textTransform: 'uppercase',
                 }}
               >
                 {displaySubhead}
               </span>
-              <span style={{ color: isTournamentStyle ? '#00f0ff' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
+              <span style={{ color: isWinterDoom ? '#00f2fe' : '#ff3385', fontSize: '0.75rem', fontWeight: 900 }}>✦</span>
             </div>
 
-            {/* Main Bold Italic Title (Clean Solid White Font) */}
+            {/* Main Title */}
             <div
               style={{
-                fontSize: '1.95rem',
+                fontSize: '1.9rem',
                 fontWeight: 900,
                 fontStyle: 'italic',
-                fontFamily: titleFont,
+                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
                 color: '#ffffff',
                 lineHeight: 1.05,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
-                borderBottom: titleUnderline,
+                borderBottom: isWinterDoom ? '2.5px solid #00f2fe' : '2.5px solid #ff0066',
                 paddingBottom: '3px',
-                textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
               }}
             >
               {displayTitle}
@@ -287,3 +289,4 @@ export const CyberGateTransition: React.FC = () => {
     </div>
   );
 };
+
