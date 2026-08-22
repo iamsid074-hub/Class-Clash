@@ -1050,7 +1050,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM TOURNAMENT - CLICKABLE) */}
+      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - CLICKABLE WITH RIGHT ARROW) */}
       <div
         onClick={() => setActiveModal('TOURNAMENT')}
         style={{
@@ -1058,13 +1058,13 @@ export const MainMenuScreen: React.FC = () => {
           bottom: '28px',
           left: '36px',
           width: '340px',
-          height: '66px',
+          height: '60px',
           boxSizing: 'border-box',
           zIndex: 25,
-          display: 'inline-flex',
+          display: 'flex',
           alignItems: 'center',
-          gap: '14px',
-          padding: '12px 18px',
+          justifyContent: 'space-between',
+          padding: '0 24px',
           background: 'rgba(20, 20, 26, 0.92)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
@@ -1075,66 +1075,37 @@ export const MainMenuScreen: React.FC = () => {
           transition: 'all 0.2s ease',
           overflow: 'hidden',
         }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.03)';
+          e.currentTarget.style.borderColor = '#00c6ff';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.borderColor = 'rgba(0, 198, 255, 0.4)';
+        }}
       >
-        {/* Icy Snowflake Icon Capsule */}
-        <div
+        <h2
           style={{
-            width: '44px',
-            height: '44px',
-            borderRadius: '14px',
-            background: 'linear-gradient(135deg, #007aff 0%, #00c6ff 100%)',
+            fontSize: '1.8rem',
+            fontWeight: 900,
+            fontStyle: 'italic',
+            fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+            letterSpacing: '0.04em',
+            margin: 0,
+            color: '#ffffff',
+            lineHeight: 1,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            zIndex: 2,
-            boxShadow: '0 4px 14px rgba(0, 122, 255, 0.4)',
+            gap: '8px',
+            textTransform: 'uppercase',
           }}
         >
-          <Snowflake size={25} color="#ffffff" strokeWidth={2.5} />
-        </div>
+          <span style={{ color: '#ffffff' }}>WINTER</span>
+          <span style={{ color: '#70e1ff' }}>DOOM</span>
+        </h2>
 
-        <div style={{ textAlign: 'left', position: 'relative', zIndex: 2 }}>
-          <h2
-            style={{
-              fontSize: '2.0rem',
-              fontWeight: 900,
-              fontStyle: 'italic',
-              fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-              letterSpacing: '0.04em',
-              margin: 0,
-              color: '#ffffff',
-              lineHeight: 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              textTransform: 'uppercase',
-            }}
-          >
-            <span style={{ color: '#ffffff' }}>
-              WINTER
-            </span>
-            <span style={{ color: '#70e1ff' }}>
-              DOOM
-            </span>
-          </h2>
-          <div
-            style={{
-              fontSize: '0.72rem',
-              fontWeight: 900,
-              color: '#70e1ff',
-              letterSpacing: '0.14em',
-              marginTop: '2px',
-              textTransform: 'uppercase',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-          >
-            <Snowflake size={11} color="#70e1ff" strokeWidth={3} />
-            <span>TOURNAMENT</span>
-          </div>
-        </div>
+        {/* Right Arrow Icon */}
+        <ArrowRight size={22} color="#ffffff" strokeWidth={2.5} />
       </div>
     </div>
   );
