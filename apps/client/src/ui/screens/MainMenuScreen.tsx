@@ -1022,7 +1022,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENTS SLIDING CAROUSEL BANNER CARD (RECTANGLE ABOVE WINTER DOOM) */}
+      {/* 2.5 EVENT ANNOUNCEMENTS SLIDING CAROUSEL BANNER CARD (CLEAN SIMPLE BLACK RECTANGLE) */}
       {(() => {
         const slide = eventSlides[currentSlideIndex];
         const IconComponent = slide.icon;
@@ -1036,26 +1036,20 @@ export const MainMenuScreen: React.FC = () => {
               width: '380px',
               height: '145px',
               zIndex: 25,
-              background: slide.bgGradient,
+              background: 'rgba(15, 15, 20, 0.92)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              border: `2px solid ${slide.borderColor}`,
-              boxShadow: `0 8px 32px rgba(0, 0, 0, 0.7), 0 0 25px ${slide.borderColor}55`,
+              borderRadius: '20px',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              boxShadow: '0 10px 32px rgba(0, 0, 0, 0.65)',
               cursor: 'pointer',
               padding: '18px 20px',
               boxSizing: 'border-box',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all 0.2s ease',
               overflow: 'hidden',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'none';
             }}
           >
             {/* Top Tag Row */}
@@ -1065,18 +1059,18 @@ export const MainMenuScreen: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: `${slide.badgeColor}22`,
-                  border: `1px solid ${slide.badgeColor}`,
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
                   borderRadius: '50px',
                   padding: '3px 10px',
                   fontSize: '0.65rem',
                   fontWeight: 900,
-                  color: slide.badgeColor,
+                  color: '#ffffff',
                   letterSpacing: '0.08em',
                   fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
                 }}
               >
-                <Sparkles size={11} color={slide.badgeColor} />
+                <Sparkles size={11} color="#ffffff" />
                 <span>{slide.tag}</span>
               </div>
 
@@ -1128,16 +1122,16 @@ export const MainMenuScreen: React.FC = () => {
                   width: '36px',
                   height: '36px',
                   borderRadius: '12px',
-                  background: slide.badgeColor,
+                  background: '#24242e',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#ffffff',
-                  boxShadow: `0 0 16px ${slide.badgeColor}aa`,
                   flexShrink: 0,
                 }}
               >
-                <IconComponent size={19} />
+                <IconComponent size={19} color="#ffffff" />
               </div>
 
               <div>
@@ -1154,7 +1148,7 @@ export const MainMenuScreen: React.FC = () => {
                 >
                   {slide.title}
                 </div>
-                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.7)', marginTop: '3px' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.65)', marginTop: '3px' }}>
                   {slide.subtitle}
                 </div>
               </div>
@@ -1173,7 +1167,7 @@ export const MainMenuScreen: React.FC = () => {
                     width: idx === currentSlideIndex ? '14px' : '5px',
                     height: '5px',
                     borderRadius: '50px',
-                    background: idx === currentSlideIndex ? slide.badgeColor : 'rgba(255, 255, 255, 0.25)',
+                    background: idx === currentSlideIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.25)',
                     transition: 'all 0.3s ease',
                     cursor: 'pointer',
                   }}
