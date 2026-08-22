@@ -22,7 +22,8 @@ export type GameScreen =
   | 'CHAMPION'
   | 'LEADERBOARD'
   | 'PROFILE'
-  | 'SETTINGS';
+  | 'SETTINGS'
+  | 'WINTER_DOOM';
 
 interface GameStore {
   screen: GameScreen;
@@ -86,6 +87,9 @@ interface GameStore {
   gateTitle: string;
   gateSubhead: string;
   gateShutterBg: string | null;
+  activeFullscreenVideo: { src: string; title: string; onComplete?: () => void } | null;
+  playFullscreenVideo: (src: string, title?: string, onComplete?: () => void) => void;
+  stopFullscreenVideo: () => void;
   errorMessage: string | null;
   setErrorMessage: (msg: string | null) => void;
   triggerGateTransition: (onMidpoint?: () => void, title?: string, subhead?: string, shutterBg?: string | null) => void;
@@ -100,6 +104,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gateTitle: 'ENTER ARENA',
   gateSubhead: 'CLASHA',
   gateShutterBg: null,
+  activeFullscreenVideo: null,
+
+  playFullscreenVideo: (src, title = 'CLASHA EXPLAINER', onComplete) => {
+    set({
+      activeFullscreenVideo: { src, title, onComplete },
+    });
+  },
+
+  stopFullscreenVideo: () => {
+    const current = get().activeFullscreenVideo;
+    set({ activeFullscreenVideo: null });
+    if (current?.onComplete) {
+      current.onComplete();
+    }
+  },
+
   errorMessage: null,
   setErrorMessage: (errorMessage) => set({ errorMessage }),
 

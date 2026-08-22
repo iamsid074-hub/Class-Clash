@@ -6,7 +6,7 @@ import { PinkNeonFrame } from '../components/PinkNeonFrame';
 import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
-  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, errorMessage, setErrorMessage } = useGameStore();
+  const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, playFullscreenVideo, errorMessage, setErrorMessage } = useGameStore();
   const [createCabinNameInput, setCreateCabinNameInput] = useState(() => {
     try {
       return localStorage.getItem('clasha_selected_cabin_name') || 'Cyberpunk Neon Cabin';
@@ -37,7 +37,12 @@ export const MainMenuScreen: React.FC = () => {
       icon: Snowflake,
       action: () => {
         triggerGateTransition(
-          () => setActiveModal('TOURNAMENT'),
+          () => {
+            setActiveModal('NONE');
+            playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
+              setScreen('WINTER_DOOM');
+            });
+          },
           'WINTER DOOM',
           'TOURNAMENT CHAMPIONSHIP',
           '/shutterdesign.png'
@@ -809,240 +814,6 @@ export const MainMenuScreen: React.FC = () => {
                 </button>
               </div>
             )}
-
-            {/* MODAL 4: TOURNAMENT DETAILS (WIDE SPACIOUS ESPORT CARD) */}
-            {activeModal === 'TOURNAMENT' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'left' }}>
-                {/* Header Title Section */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
-                  <div
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                      borderRadius: '18px',
-                      background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      boxShadow: '0 0 24px rgba(0, 242, 254, 0.85), inset 0 1px 2px #ffffff',
-                    }}
-                  >
-                    <Snowflake size={34} color="#ffffff" strokeWidth={2.5} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 900, color: '#70e1ff', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                      OFFICIAL CLASHA CHAMPIONSHIP • SEASON 1
-                    </div>
-                    <div style={{ fontSize: '2.5rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", lineHeight: 1.1, marginTop: '2px' }}>
-                      WINTER DOOM TOURNAMENT
-                    </div>
-                  </div>
-                </div>
-
-                {/* Main 2-Column Wide Grid Layout */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  {/* LEFT COLUMN: CHAMPIONSHIP INFO & SCHEDULE */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {/* Card 1: Schedule */}
-                    <div
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(112, 225, 255, 0.35)',
-                        borderRadius: '16px',
-                        padding: '16px 20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '14px',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '42px',
-                          height: '42px',
-                          borderRadius: '12px',
-                          background: 'rgba(0, 242, 254, 0.15)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Calendar size={22} color="#70e1ff" />
-                      </div>
-                      <div>
-                        <div style={{ color: '#70e1ff', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                          SCHEDULED DATE
-                        </div>
-                        <div style={{ color: '#ffffff', fontWeight: 900, fontSize: '1.15rem', marginTop: '2px', lineHeight: 1.2 }}>
-                          First week of SEPTEMBER
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card 2: Teams */}
-                    <div
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(112, 225, 255, 0.35)',
-                        borderRadius: '16px',
-                        padding: '16px 20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '14px',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '42px',
-                          height: '42px',
-                          borderRadius: '12px',
-                          background: 'rgba(0, 242, 254, 0.15)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <User size={22} color="#70e1ff" />
-                      </div>
-                      <div>
-                        <div style={{ color: '#70e1ff', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                          TEAM CAPACITY
-                        </div>
-                        <div style={{ color: '#ffffff', fontWeight: 900, fontSize: '1.15rem', marginTop: '2px', lineHeight: 1.2 }}>
-                          10 Teams Only
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card 3: Prizes */}
-                    <div
-                      style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(112, 225, 255, 0.35)',
-                        borderRadius: '16px',
-                        padding: '16px 20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '14px',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '42px',
-                          height: '42px',
-                          borderRadius: '12px',
-                          background: 'rgba(0, 242, 254, 0.15)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Trophy size={22} color="#70e1ff" />
-                      </div>
-                      <div>
-                        <div style={{ color: '#70e1ff', fontSize: '0.75rem', fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                          REWARDS & PRIZES
-                        </div>
-                        <div style={{ color: '#ffffff', fontWeight: 900, fontSize: '1.15rem', marginTop: '2px', lineHeight: 1.2 }}>
-                          Top 1 Will Get Prizes
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* RIGHT COLUMN: REQUIREMENTS TO ENROLL */}
-                  <div
-                    style={{
-                      background: 'rgba(0, 242, 254, 0.05)',
-                      border: '1.5px solid rgba(112, 225, 255, 0.4)',
-                      borderRadius: '20px',
-                      padding: '20px 22px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      gap: '14px',
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#70e1ff', letterSpacing: '0.14em', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <ShieldCheck size={20} /> TO ENROLL (REQUIREMENTS)
-                      </div>
-                      <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.6)', marginTop: '4px', fontWeight: 700 }}>
-                        Must satisfy all criteria to qualify for entry:
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                      {/* Req 1 */}
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(112, 225, 255, 0.15)' }}>
-                        <CheckCircle2 size={20} color="#70e1ff" style={{ flexShrink: 0, marginTop: '2px' }} />
-                        <div>
-                          <div style={{ color: '#ffffff', fontSize: '0.95rem', fontWeight: 900, lineHeight: 1.2 }}>
-                            Play at least 10 rounds on Clasha
-                          </div>
-                          <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', marginTop: '2px', fontWeight: 700 }}>
-                            Minimum match participation requirement
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Req 2 */}
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(112, 225, 255, 0.15)' }}>
-                        <CheckCircle2 size={20} color="#70e1ff" style={{ flexShrink: 0, marginTop: '2px' }} />
-                        <div>
-                          <div style={{ color: '#ffffff', fontSize: '0.95rem', fontWeight: 900, lineHeight: 1.2 }}>
-                            Points on leaderboard should be more than 50
-                          </div>
-                          <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', marginTop: '2px', fontWeight: 700 }}>
-                            Global skill ranking score cutoff
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Req 3 */}
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: '12px', border: '1px solid rgba(112, 225, 255, 0.15)' }}>
-                        <CheckCircle2 size={20} color="#70e1ff" style={{ flexShrink: 0, marginTop: '2px' }} />
-                        <div>
-                          <div style={{ color: '#ffffff', fontSize: '0.95rem', fontWeight: 900, lineHeight: 1.2 }}>
-                            Your profile should be verified
-                          </div>
-                          <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.75rem', marginTop: '2px', fontWeight: 700 }}>
-                            Official account authentication check
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom Full Width Enroll Button */}
-                <button
-                  type="button"
-                  onClick={() => alert('Registration for September Tournament is Open! Make sure your profile meets all requirements.')}
-                  style={{
-                    width: '100%',
-                    height: '56px',
-                    borderRadius: '16px',
-                    background: 'linear-gradient(135deg, #00f2fe 0%, #4facfe 100%)',
-                    border: '2px solid #ffffff',
-                    color: '#ffffff',
-                    fontWeight: 900,
-                    fontSize: '1.25rem',
-                    fontStyle: 'italic',
-                    fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 32px rgba(0, 242, 254, 0.65)',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    marginTop: '4px',
-                  }}
-                >
-                  ENROLL NOW
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -1140,7 +911,12 @@ export const MainMenuScreen: React.FC = () => {
       <div
         onClick={() => {
           triggerGateTransition(
-            () => setActiveModal('TOURNAMENT'),
+            () => {
+              setActiveModal('NONE');
+              playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
+                setScreen('WINTER_DOOM');
+              });
+            },
             'WINTER DOOM',
             'TOURNAMENT CHAMPIONSHIP',
             '/shutterdesign.png'

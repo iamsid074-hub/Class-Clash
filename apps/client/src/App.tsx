@@ -26,9 +26,11 @@ import { SupabaseAuthService } from './networking/supabaseClient';
 import { AudioManager } from './utils/AudioManager';
 
 import { SoloPartyCabinScreen } from './ui/screens/SoloPartyCabinScreen';
+import { WinterDoomScreen } from './ui/screens/WinterDoomScreen';
+import { FullscreenVideoModal } from './ui/components/FullscreenVideoModal';
 
 export const App: React.FC = () => {
-  const { screen, setScreen, setDisplayName, playerId, latestSnapshot, players, teams } = useGameStore();
+  const { screen, setScreen, setDisplayName, playerId, latestSnapshot, players, teams, activeFullscreenVideo, stopFullscreenVideo } = useGameStore();
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
@@ -103,6 +105,16 @@ export const App: React.FC = () => {
       {screen === 'LEADERBOARD' && <LeaderboardScreen />}
       {screen === 'PROFILE' && <ProfileScreen />}
       {screen === 'SETTINGS' && <SettingsScreen />}
+      {screen === 'WINTER_DOOM' && <WinterDoomScreen />}
+
+      {/* Global Fullscreen Video Modal (t1 & t2 videos) */}
+      {activeFullscreenVideo && (
+        <FullscreenVideoModal
+          videoSrc={activeFullscreenVideo.src}
+          title={activeFullscreenVideo.title}
+          onComplete={() => stopFullscreenVideo()}
+        />
+      )}
     </div>
   );
 };
