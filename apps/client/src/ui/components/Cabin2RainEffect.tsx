@@ -135,12 +135,11 @@ export const Cabin2RainEffect: React.FC = () => {
         position: 'absolute',
         top: '0%',
         left: '11.5%',
-        width: '78.5%',
-        height: '71.5%',
+        width: '80.0%',
+        height: '53.5%',
         pointerEvents: 'none',
-        zIndex: 2,
+        zIndex: 5,
         overflow: 'hidden',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}
     >
       {/* Dynamic Falling Rain Canvas */}
