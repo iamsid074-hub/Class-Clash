@@ -1058,15 +1058,15 @@ export const MainMenuScreen: React.FC = () => {
               e.currentTarget.style.boxShadow = '0 10px 36px rgba(0, 0, 0, 0.7)';
             }}
           >
-            {/* Slide Image */}
+            {/* Slide Image (100% Full Uncropped View) */}
             <img
               key={activeImg}
-              src={`${activeImg}?v=2`}
+              src={`${activeImg}?v=3`}
               alt="Event Announcement Banner"
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                objectFit: 'contain',
                 display: 'block',
                 transition: 'opacity 0.4s ease',
               }}
