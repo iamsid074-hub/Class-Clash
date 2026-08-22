@@ -462,7 +462,7 @@ export const SettingsScreen: React.FC = () => {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <Radio size={20} color="#ffffff" />
-                      <span>CLASHA OFFICIAL NEON CUTE THEME</span>
+                      <span>HOME SOUND 1</span>
                     </div>
                     <span style={{ fontSize: '0.72rem', background: 'rgba(255, 255, 255, 0.25)', padding: '3px 10px', borderRadius: '50px', fontWeight: 700 }}>
                       ACTIVE
@@ -531,20 +531,80 @@ export const SettingsScreen: React.FC = () => {
             </div>
           )}
 
-          {/* TAB 2: MUSIC TRACKS */}
+          {/* TAB 2: MUSIC TRACKS (DIVIDED INTO HOME SOUNDS & CABIN SOUNDS) */}
           {activeTab === 'tracks' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {[
-                { id: 'CLASHA_THEME', name: 'CLASHA Official Neon Theme', genre: 'Synthwave / Cyberpop', duration: '2:45', active: true },
-                { id: 'CYBER_RUNNER', name: 'Cyber Runner Hype Arena', genre: 'Dnb / Electro', duration: '3:12', active: false },
-                { id: 'MIDNIGHT_CABIN', name: 'Midnight Cabin Chill', genre: 'Lo-Fi Chill Hop', duration: '2:20', active: false },
-              ].map((track) => (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* SECTION 1: HOME SOUNDS */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#8e8e93', letterSpacing: '0.1em', textTransform: 'uppercase', paddingLeft: '4px' }}>
+                  HOME SOUNDS
+                </div>
+
                 <div
-                  key={track.id}
                   style={{
                     background: '#ffffff',
                     borderRadius: '20px',
-                    border: track.active ? '2px solid #ff0066' : '1px solid #e5e5ea',
+                    border: '2px solid #ff0066',
+                    boxShadow: '0 4px 16px rgba(255, 0, 102, 0.08)',
+                    padding: '20px 24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div
+                      style={{
+                        width: '46px',
+                        height: '46px',
+                        borderRadius: '12px',
+                        background: '#ff0066',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Music size={22} color="#ffffff" />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1c1c1e' }}>HOME SOUND 1</div>
+                      <div style={{ fontSize: '0.8rem', color: '#8e8e93', fontWeight: 500, marginTop: '2px' }}>
+                        Main Menu & Lobby Theme • 2:45
+                      </div>
+                    </div>
+                  </div>
+
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      color: '#ff0066',
+                      background: 'rgba(255, 0, 102, 0.08)',
+                      padding: '6px 14px',
+                      borderRadius: '50px',
+                      border: '1px solid rgba(255, 0, 102, 0.2)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <Check size={14} /> Active Track
+                  </span>
+                </div>
+              </div>
+
+              {/* SECTION 2: CABIN SOUNDS */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#8e8e93', letterSpacing: '0.1em', textTransform: 'uppercase', paddingLeft: '4px' }}>
+                  CABIN SOUNDS
+                </div>
+
+                <div
+                  style={{
+                    background: '#ffffff',
+                    borderRadius: '20px',
+                    border: '1px solid #e5e5ea',
                     boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)',
                     padding: '20px 24px',
                     display: 'flex',
@@ -558,61 +618,41 @@ export const SettingsScreen: React.FC = () => {
                         width: '46px',
                         height: '46px',
                         borderRadius: '12px',
-                        background: track.active ? '#ff0066' : '#f2f2f7',
+                        background: '#007aff',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                       }}
                     >
-                      <Music size={22} color={track.active ? '#ffffff' : '#8e8e93'} />
+                      <Volume2 size={22} color="#ffffff" />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.98rem', fontWeight: 800, color: '#1c1c1e' }}>{track.name}</div>
+                      <div style={{ fontSize: '1rem', fontWeight: 800, color: '#1c1c1e' }}>CABIN SOUND 2</div>
                       <div style={{ fontSize: '0.8rem', color: '#8e8e93', fontWeight: 500, marginTop: '2px' }}>
-                        {track.genre} • {track.duration}
+                        Rainy Speedway Ambient • 3:15
                       </div>
                     </div>
                   </div>
 
-                  {track.active ? (
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        color: '#ff0066',
-                        background: 'rgba(255, 0, 102, 0.08)',
-                        padding: '6px 14px',
-                        borderRadius: '50px',
-                        border: '1px solid rgba(255, 0, 102, 0.2)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px',
-                      }}
-                    >
-                      <Check size={14} /> Active Track
-                    </span>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => updateSetting('bgMusicTrack', track.id)}
-                      style={{
-                        padding: '8px 16px',
-                        borderRadius: '10px',
-                        background: '#f2f2f7',
-                        color: '#1c1c1e',
-                        border: 'none',
-                        fontWeight: 700,
-                        fontSize: '0.82rem',
-                        cursor: 'pointer',
-                        fontFamily: APPLE_FONT,
-                      }}
-                    >
-                      Select
-                    </button>
-                  )}
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      color: '#007aff',
+                      background: 'rgba(0, 122, 255, 0.08)',
+                      padding: '6px 14px',
+                      borderRadius: '50px',
+                      border: '1px solid rgba(0, 122, 255, 0.2)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                    }}
+                  >
+                    <Radio size={14} /> Auto-Plays in Cabin 2
+                  </span>
                 </div>
-              ))}
+              </div>
             </div>
           )}
 
