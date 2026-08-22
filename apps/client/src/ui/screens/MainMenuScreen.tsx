@@ -1069,7 +1069,7 @@ export const MainMenuScreen: React.FC = () => {
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '20px',
-          border: '1.5px solid rgba(255, 255, 255, 0.15)',
+          border: '1.5px solid rgba(0, 198, 255, 0.4)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.65)',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
@@ -1079,18 +1079,19 @@ export const MainMenuScreen: React.FC = () => {
         {/* Icy Snowflake Icon Capsule */}
         <div
           style={{
-            width: '42px',
-            height: '42px',
-            borderRadius: '12px',
-            background: '#007aff',
+            width: '44px',
+            height: '44px',
+            borderRadius: '14px',
+            background: 'linear-gradient(135deg, #007aff 0%, #00c6ff 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             position: 'relative',
             zIndex: 2,
+            boxShadow: '0 4px 14px rgba(0, 122, 255, 0.4)',
           }}
         >
-          <Snowflake size={24} color="#ffffff" strokeWidth={2.5} />
+          <Snowflake size={25} color="#ffffff" strokeWidth={2.5} />
         </div>
 
         <div style={{ textAlign: 'left', position: 'relative', zIndex: 2 }}>
