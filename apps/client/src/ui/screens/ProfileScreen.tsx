@@ -51,26 +51,6 @@ export const AVAILABLE_CABINS: CabinOption[] = [
     description: 'Ultra-modern neon racing arena cabin with dynamic lighting & custom battle audio.',
     features: ['Speedway Arena', 'Battle Soundtrack', 'Neon Lighting'],
   },
-  {
-    id: 'luxury_palace',
-    name: 'Golden Luxury Cabin',
-    theme: 'Gold & Velvet',
-    badge: 'VIP PALACE',
-    badgeColor: '#ff9500',
-    previewImg: '/cabin.png',
-    description: 'Premium VIP gold cabin with velvet seating & high-stakes tournament ambiance.',
-    features: ['VIP Crown Badge', 'Golden Particle FX', 'Luxury Lounge Audio'],
-  },
-  {
-    id: 'frost_haven',
-    name: 'Frost Haven Arena',
-    theme: 'Sub-Zero Ice',
-    badge: 'EXCLUSIVE',
-    badgeColor: '#00f2fe',
-    previewImg: '/homepage.jpg',
-    description: 'Sub-zero icy fortress cabin with howling arctic wind ambiance & glacial neon trim.',
-    features: ['Frost Shimmer FX', 'Winter Doom Theme', 'Arctic Ambiance'],
-  },
 ];
 
 export const ProfileScreen: React.FC = () => {
