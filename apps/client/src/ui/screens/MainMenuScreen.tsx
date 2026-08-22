@@ -1022,29 +1022,30 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (EXACT MATCH USER RECTANGLE) */}
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (EXACT MATCH WINTER DOOM WIDTH) */}
       <div
         style={{
           position: 'absolute',
-          bottom: '108px',
+          bottom: '104px',
           left: '36px',
-          width: '410px',
-          height: '190px',
+          width: '340px',
+          height: '165px',
           zIndex: 25,
           background: 'rgba(20, 20, 26, 0.92)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          borderRadius: '16px',
+          borderRadius: '20px',
           border: '1.5px solid rgba(255, 255, 255, 0.15)',
           boxShadow: '0 10px 36px rgba(0, 0, 0, 0.7)',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          boxSizing: 'border-box',
         }}
       >
         {/* Placeholder ready for User's Event Banner Image */}
-        <div style={{ color: 'rgba(255, 255, 255, 0.3)', fontSize: '0.85rem', fontWeight: 700, fontFamily: "'Kanit', sans-serif" }}>
+        <div style={{ color: 'rgba(255, 255, 255, 0.35)', fontSize: '0.8rem', fontWeight: 700, fontFamily: "'Kanit', sans-serif" }}>
           EVENT BANNER SPACE
         </div>
       </div>
@@ -1056,11 +1057,14 @@ export const MainMenuScreen: React.FC = () => {
           position: 'absolute',
           bottom: '28px',
           left: '36px',
+          width: '340px',
+          height: '66px',
+          boxSizing: 'border-box',
           zIndex: 25,
           display: 'inline-flex',
           alignItems: 'center',
           gap: '14px',
-          padding: '12px 26px 12px 18px',
+          padding: '12px 18px',
           background: 'linear-gradient(135deg, rgba(12, 28, 48, 0.94) 0%, rgba(6, 18, 32, 0.96) 100%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
