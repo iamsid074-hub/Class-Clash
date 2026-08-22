@@ -1134,7 +1134,7 @@ export const MainMenuScreen: React.FC = () => {
         onClick={() => {
           triggerGateTransition(
             () => setActiveModal('TOURNAMENT'),
-            'LEADERBOARD',
+            'WINTER DOOM',
             'SPECIAL TOURNAMENT',
             'tournament'
           );
