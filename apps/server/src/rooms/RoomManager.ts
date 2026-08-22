@@ -23,6 +23,7 @@ export interface RoomClient {
 export class Room {
   public code: string;
   public cabinName: string = '';
+  public cabinTemplate: string = 'cabin_1';
   public ownerId: string = '';
   public password?: string;
   public players: Record<string, PlayerState> = {};

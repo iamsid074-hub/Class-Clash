@@ -72,6 +72,7 @@ export interface ChatMessage {
 
 export interface SoloGameState {
   roomCode: string;
+  cabinTemplate?: string; // 'cabin_1' | 'cabin_2' | 'cyber_cabin' | 'neon_arena_2'
   isLocked: boolean;
   currentRound: number; // 1, 2, 3
   totalRounds: number; // 3

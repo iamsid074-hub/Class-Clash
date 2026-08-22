@@ -43,6 +43,9 @@ interface GameStore {
   cabinName: string;
   setCabinName: (name: string) => void;
 
+  cabinTemplate: string;
+  setCabinTemplate: (template: string) => void;
+
   playerId: string;
   setPlayerId: (id: string) => void;
 
@@ -68,6 +71,7 @@ interface GameStore {
     roomCode: string;
     roomPassword?: string;
     cabinName?: string;
+    cabinTemplate?: string;
     playerId?: string;
     players: Record<string, PlayerState>;
     teams: Record<string, Team>;
@@ -137,6 +141,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   cabinName: '',
   setCabinName: (cabinName) => set({ cabinName }),
 
+  cabinTemplate: 'cabin_1',
+  setCabinTemplate: (cabinTemplate) => set({ cabinTemplate }),
+
   playerId: '',
   setPlayerId: (playerId) => set({ playerId }),
 
@@ -172,6 +179,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       roomCode: data.roomCode,
       roomPassword: data.roomPassword || state.roomPassword,
       cabinName: data.cabinName || state.cabinName,
+      cabinTemplate: data.cabinTemplate || state.cabinTemplate || 'cabin_1',
       playerId: data.playerId || state.playerId,
       players: data.players,
       teams: data.teams,

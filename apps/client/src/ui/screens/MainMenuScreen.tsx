@@ -159,6 +159,16 @@ export const MainMenuScreen: React.FC = () => {
     setErrorMessage(null);
     setIsJoiningCabin(true);
 
+    const selectedTemplate = (() => {
+      try {
+        const id = localStorage.getItem('clasha_selected_cabin');
+        if (id === 'neon_arena_2' || id === 'cabin_2') return 'cabin_2';
+      } catch {
+        // ignore
+      }
+      return 'cabin_1';
+    })();
+
     // Send CREATE_CABIN to server
     NetworkClient.createCabin({
       cabinId: finalCabinId,
@@ -166,6 +176,7 @@ export const MainMenuScreen: React.FC = () => {
       password: finalPassword,
       displayName: finalName,
       avatar: 'avatar_cyber',
+      cabinTemplate: selectedTemplate,
     });
 
     // Safety timeout: reset loading if server response takes more than 6s

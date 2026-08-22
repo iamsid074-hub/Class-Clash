@@ -6,12 +6,17 @@ import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Pl
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, roomPassword, cabinName, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
+  const { playerId, soloGameState, roomCode, roomPassword, cabinName, cabinTemplate, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [shufflingName, setShufflingName] = useState('');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+
+  // Dynamic Cabin Template Background Visual Renderer
+  const activeCabinTemplate = cabinTemplate || soloGameState?.cabinTemplate || 'cabin_1';
+  const isCabin2 = activeCabinTemplate === 'cabin_2' || activeCabinTemplate === 'neon_arena_2';
+  const cabinBgImage = isCabin2 ? '/cabin2.jpeg' : '/cabin1.png';
 
   const allPlayersList = Object.values(players);
   const localPlayer = players[playerId];
@@ -289,7 +294,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
         pointerEvents: 'auto',
         zIndex: 10,
         boxSizing: 'border-box',
-        backgroundImage: "url('/cabin1.png')",
+        backgroundImage: `url('${cabinBgImage}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

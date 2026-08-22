@@ -34,7 +34,7 @@ wss.on('connection', (socket: WebSocket) => {
         // CREATE_CABIN — Only this can create a new cabin/room
         // ============================================================
         case 'CREATE_CABIN': {
-          const { cabinId, cabinName, password, displayName, avatar } = msg.payload;
+          const { cabinId, cabinName, password, displayName, avatar, cabinTemplate } = msg.payload;
           const formattedCode = (cabinId || '').trim().toUpperCase();
 
           if (!formattedCode) {
@@ -58,6 +58,8 @@ wss.on('connection', (socket: WebSocket) => {
           const room = RoomManager.getOrCreateRoom(formattedCode);
           room.password = (password || '').trim();
           room.cabinName = (cabinName || '').trim() || `${displayName || 'Host'}'s Cabin`;
+          room.cabinTemplate = cabinTemplate || 'cabin_1';
+          room.soloGameManager.state.cabinTemplate = room.cabinTemplate;
 
           currentRoomCode = room.code;
 
@@ -87,12 +89,12 @@ wss.on('connection', (socket: WebSocket) => {
           // Auto-create first team for the host
           room.createTeam(playerId, `${newPlayer.displayName}'S SQUAD`);
 
-          console.log(`[Server] CREATE_CABIN: ${newPlayer.displayName} (${playerId}) created cabin ${room.code} "${room.cabinName}". Total players: ${Object.keys(room.players).length}`);
+          console.log(`[Server] CREATE_CABIN: ${newPlayer.displayName} (${playerId}) created cabin ${room.code} "${room.cabinName}" (Template: ${room.cabinTemplate}). Total players: ${Object.keys(room.players).length}`);
 
           // Send confirmation + room state to creator
           socket.send(JSON.stringify({
             type: 'CABIN_CREATED',
-            payload: { cabinId: room.code, cabinName: room.cabinName },
+            payload: { cabinId: room.code, cabinName: room.cabinName, cabinTemplate: room.cabinTemplate },
           }));
 
           socket.send(JSON.stringify({
@@ -101,6 +103,7 @@ wss.on('connection', (socket: WebSocket) => {
               playerId,
               roomCode: room.code,
               cabinName: room.cabinName,
+              cabinTemplate: room.cabinTemplate,
               roomPassword: room.password || '',
               players: room.players,
               teams: room.teams,
@@ -201,6 +204,7 @@ wss.on('connection', (socket: WebSocket) => {
               playerId,
               roomCode: room.code,
               cabinName: room.cabinName,
+              cabinTemplate: room.cabinTemplate || 'cabin_1',
               roomPassword: room.password || '',
               players: room.players,
               teams: room.teams,
@@ -219,6 +223,7 @@ wss.on('connection', (socket: WebSocket) => {
             payload: {
               roomCode: room.code,
               cabinName: room.cabinName,
+              cabinTemplate: room.cabinTemplate || 'cabin_1',
               roomPassword: room.password || '',
               players: room.players,
               teams: room.teams,

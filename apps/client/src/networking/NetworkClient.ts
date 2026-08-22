@@ -177,6 +177,7 @@ export class NetworkClient {
     password: string;
     displayName: string;
     avatar?: string;
+    cabinTemplate?: string;
   }): void {
     const msg: NetworkMessage = {
       type: 'CREATE_CABIN',
