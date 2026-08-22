@@ -1050,7 +1050,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - CLICKABLE WITH RIGHT ARROW) */}
+      {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (WINTER DOOM - CENTERED TEXT WITH SUBTLE FOG) */}
       <div
         onClick={() => setActiveModal('TOURNAMENT')}
         style={{
@@ -1063,13 +1063,14 @@ export const MainMenuScreen: React.FC = () => {
           zIndex: 25,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 24px',
-          background: 'rgba(20, 20, 26, 0.92)',
+          justifyContent: 'center',
+          gap: '14px',
+          padding: '0 20px',
+          background: 'linear-gradient(135deg, rgba(14, 20, 32, 0.94) 0%, rgba(8, 12, 20, 0.96) 100%)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '20px',
-          border: '1.5px solid rgba(0, 198, 255, 0.4)',
+          border: '1.5px solid rgba(0, 198, 255, 0.35)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.65)',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
@@ -1081,12 +1082,25 @@ export const MainMenuScreen: React.FC = () => {
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.borderColor = 'rgba(0, 198, 255, 0.4)';
+          e.currentTarget.style.borderColor = 'rgba(0, 198, 255, 0.35)';
         }}
       >
+        {/* Subtle Ambient Fog / Mist Layer */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'radial-gradient(ellipse at center, rgba(112, 225, 255, 0.15) 0%, rgba(0, 0, 0, 0) 75%)',
+            pointerEvents: 'none',
+          }}
+        />
+
         <h2
           style={{
-            fontSize: '1.8rem',
+            fontSize: '1.85rem',
             fontWeight: 900,
             fontStyle: 'italic',
             fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
@@ -1098,6 +1112,8 @@ export const MainMenuScreen: React.FC = () => {
             alignItems: 'center',
             gap: '8px',
             textTransform: 'uppercase',
+            position: 'relative',
+            zIndex: 2,
           }}
         >
           <span style={{ color: '#ffffff' }}>WINTER</span>
@@ -1105,7 +1121,7 @@ export const MainMenuScreen: React.FC = () => {
         </h2>
 
         {/* Right Arrow Icon */}
-        <ArrowRight size={22} color="#ffffff" strokeWidth={2.5} />
+        <ArrowRight size={22} color="#70e1ff" strokeWidth={2.5} style={{ position: 'relative', zIndex: 2 }} />
       </div>
     </div>
   );
