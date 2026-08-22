@@ -5,6 +5,7 @@ import { SupabaseAuthService } from '../../networking/supabaseClient';
 import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 import { AudioManager } from '../../utils/AudioManager';
+import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
 
 export const SoloPartyCabinScreen: React.FC = () => {
   const { playerId, soloGameState, roomCode, roomPassword, cabinName, cabinTemplate, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
@@ -312,6 +313,9 @@ export const SoloPartyCabinScreen: React.FC = () => {
         overflow: 'hidden',
       }}
     >
+      {/* 0. DYNAMIC CABIN 2 REAL ANIMATED RAIN & SLIDING GLASS DROPLETS LAYER */}
+      {isCabin2 && <Cabin2RainEffect />}
+
       {/* ------------------------------------------------------------- */}
       {/* 1. TOP CORNER ROOM ID, PASS & TIMER BADGES (LOBBY ONLY) */}
       {/* ------------------------------------------------------------- */}
