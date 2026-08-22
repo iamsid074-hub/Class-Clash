@@ -184,11 +184,21 @@ export class AudioManager {
 
   private static cabin2Audio: HTMLAudioElement | null = null;
   private static cabin2FadeInterval: NodeJS.Timeout | null = null;
+  private static isCabin2SoundEnabled = true;
+
+  public static setCabin2SoundEnabled(enabled: boolean): void {
+    this.isCabin2SoundEnabled = enabled;
+    if (!enabled && this.cabin2Audio && !this.cabin2Audio.paused) {
+      this.stopCabin2Sound();
+    }
+  }
 
   /**
    * Play Cabin 2 Ambient Sound with smooth Fade-In and turn OFF main homepage background music
    */
   public static playCabin2Sound(): void {
+    if (!this.isCabin2SoundEnabled) return;
+
     // Stop/Fade out main BG music first
     this.fadeOut(600);
 

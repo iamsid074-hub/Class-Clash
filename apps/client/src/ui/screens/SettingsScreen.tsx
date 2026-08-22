@@ -42,6 +42,7 @@ const APPLE_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro
 export interface GameSettings {
   bgMusicTrack: string;
   isBgMusicEnabled: boolean;
+  isCabin2SoundEnabled: boolean;
   musicVolume: number;
   sfxVolume: number;
 }
@@ -49,6 +50,7 @@ export interface GameSettings {
 const DEFAULT_SETTINGS: GameSettings = {
   bgMusicTrack: 'CLASHA_THEME',
   isBgMusicEnabled: true,
+  isCabin2SoundEnabled: true,
   musicVolume: 75,
   sfxVolume: 90,
 };
@@ -575,22 +577,35 @@ export const SettingsScreen: React.FC = () => {
                     </div>
                   </div>
 
-                  <span
-                    style={{
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      color: '#ff0066',
-                      background: 'rgba(255, 0, 102, 0.08)',
-                      padding: '6px 14px',
-                      borderRadius: '50px',
-                      border: '1px solid rgba(255, 0, 102, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    <Check size={14} /> Active Track
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <span
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: settings.isBgMusicEnabled ? '#ff0066' : '#8e8e93',
+                        background: settings.isBgMusicEnabled ? 'rgba(255, 0, 102, 0.08)' : '#f2f2f7',
+                        padding: '6px 14px',
+                        borderRadius: '50px',
+                        border: settings.isBgMusicEnabled ? '1px solid rgba(255, 0, 102, 0.2)' : '1px solid #e5e5ea',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      {settings.isBgMusicEnabled ? (
+                        <>
+                          <Check size={14} /> Active Track
+                        </>
+                      ) : (
+                        'Muted'
+                      )}
+                    </span>
+
+                    <Ios26Toggle
+                      checked={settings.isBgMusicEnabled}
+                      onChange={(val) => updateSetting('isBgMusicEnabled', val)}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -635,22 +650,38 @@ export const SettingsScreen: React.FC = () => {
                     </div>
                   </div>
 
-                  <span
-                    style={{
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      color: '#007aff',
-                      background: 'rgba(0, 122, 255, 0.08)',
-                      padding: '6px 14px',
-                      borderRadius: '50px',
-                      border: '1px solid rgba(0, 122, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                    }}
-                  >
-                    <Radio size={14} /> Auto-Plays in Cabin 2
-                  </span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <span
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: settings.isCabin2SoundEnabled ? '#007aff' : '#8e8e93',
+                        background: settings.isCabin2SoundEnabled ? 'rgba(0, 122, 255, 0.08)' : '#f2f2f7',
+                        padding: '6px 14px',
+                        borderRadius: '50px',
+                        border: settings.isCabin2SoundEnabled ? '1px solid rgba(0, 122, 255, 0.2)' : '1px solid #e5e5ea',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      {settings.isCabin2SoundEnabled ? (
+                        <>
+                          <Radio size={14} /> Auto-Plays in Cabin 2
+                        </>
+                      ) : (
+                        'Muted'
+                      )}
+                    </span>
+
+                    <Ios26Toggle
+                      checked={settings.isCabin2SoundEnabled}
+                      onChange={(val) => {
+                        updateSetting('isCabin2SoundEnabled', val);
+                        AudioManager.setCabin2SoundEnabled(val);
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
