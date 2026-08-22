@@ -49,9 +49,7 @@ export const AuthScreen: React.FC = () => {
     SupabaseAuthService.getSavedSession().then((profile) => {
       if (profile?.displayName) {
         setDisplayName(profile.displayName);
-        triggerGateTransition(() => {
-          setScreen('MAIN_MENU');
-        }, 'AUTHENTICATED', profile.displayName);
+        setScreen('MAIN_MENU');
       }
     });
   }, []);
@@ -72,9 +70,7 @@ export const AuthScreen: React.FC = () => {
       }
       if (profile?.displayName) {
         setDisplayName(profile.displayName);
-        triggerGateTransition(() => {
-          setScreen('MAIN_MENU');
-        }, 'AUTHENTICATED', profile.displayName);
+        setScreen('MAIN_MENU');
       }
     } catch (err: any) {
       setAuthError('Google sign in failed. Please try again.');
@@ -106,9 +102,7 @@ export const AuthScreen: React.FC = () => {
           setDisplayName(profile.displayName);
         }
 
-        triggerGateTransition(() => {
-          setScreen('MAIN_MENU');
-        }, 'AUTHENTICATED', profile?.displayName || 'CLASHA');
+        setScreen('MAIN_MENU');
       } else {
         if (!nameInput.trim()) {
           setAuthError('Please enter a display username.');
@@ -132,9 +126,7 @@ export const AuthScreen: React.FC = () => {
           setDisplayName(profile.displayName);
         }
 
-        triggerGateTransition(() => {
-          setScreen('MAIN_MENU');
-        }, 'RACER REGISTERED', nameInput.trim().toUpperCase());
+        setScreen('MAIN_MENU');
       }
     } catch (err: any) {
       setAuthError('Authentication failed. Please try again.');
@@ -382,9 +374,7 @@ export const AuthScreen: React.FC = () => {
                   const { profile } = await SupabaseAuthService.fastGoogleSignIn();
                   if (profile?.displayName) {
                     setDisplayName(profile.displayName);
-                    triggerGateTransition(() => {
-                      setScreen('MAIN_MENU');
-                    }, 'AUTHENTICATED', profile.displayName);
+                    setScreen('MAIN_MENU');
                   }
                 }}
                 style={{
