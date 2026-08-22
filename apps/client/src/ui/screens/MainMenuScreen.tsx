@@ -1022,7 +1022,7 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (EXACT MATCH WINTER DOOM WIDTH) */}
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER FRAME (REFER A FRIEND PROMO IMAGE) */}
       <div
         style={{
           position: 'absolute',
@@ -1035,19 +1035,37 @@ export const MainMenuScreen: React.FC = () => {
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           borderRadius: '20px',
-          border: '1.5px solid rgba(255, 255, 255, 0.15)',
+          border: '1.5px solid rgba(255, 255, 255, 0.2)',
           boxShadow: '0 10px 36px rgba(0, 0, 0, 0.7)',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           boxSizing: 'border-box',
+          cursor: 'pointer',
+          transition: 'transform 0.2s ease, boxShadow 0.2s ease',
         }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.02)';
+          e.currentTarget.style.boxShadow = '0 14px 40px rgba(0, 242, 254, 0.35)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 10px 36px rgba(0, 0, 0, 0.7)';
+        }}
+        onClick={() => alert('Referral Link Copied! Share with friends to earn ₹10 for every player who joins.')}
       >
-        {/* Placeholder ready for User's Event Banner Image */}
-        <div style={{ color: 'rgba(255, 255, 255, 0.35)', fontSize: '0.8rem', fontWeight: 700, fontFamily: "'Kanit', sans-serif" }}>
-          EVENT BANNER SPACE
-        </div>
+        {/* Banner Image */}
+        <img
+          src="/refer_banner.png?v=1"
+          alt="Refer a Friend to Get Rs 10"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
       </div>
 
       {/* 3. BOTTOM-LEFT ICE & FROST WINTER BADGE (SKY BLUE WINTER DOOM BUTTON) */}
