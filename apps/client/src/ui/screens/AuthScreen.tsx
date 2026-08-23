@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { ClassClashLogo } from '../components/ClassClashLogo';
-import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { SupabaseAuthService, isSupabaseConfigured } from '../../networking/supabaseClient';
-import { Lock, Mail, User, ArrowRight, Sparkles, Database, ShieldCheck, Trophy, Loader2 } from 'lucide-react';
+import { SupabaseAuthService } from '../../networking/supabaseClient';
+import { Lock, Mail, User, ArrowRight, Sparkles, Loader2, Zap } from 'lucide-react';
 
 const GoogleIcon: React.FC = () => (
   <svg width="20" height="20" viewBox="0 0 24 24">
@@ -27,9 +26,9 @@ const GoogleIcon: React.FC = () => (
 );
 
 export const AuthScreen: React.FC = () => {
-  const { setDisplayName, setScreen, triggerGateTransition } = useGameStore();
+  const { setDisplayName, setScreen } = useGameStore();
 
-  const [mode, setMode] = useState<'LOGIN' | 'REGISTER'>('REGISTER');
+  const [mode, setMode] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [nameInput, setNameInput] = useState('');
@@ -52,12 +51,11 @@ export const AuthScreen: React.FC = () => {
         setScreen('MAIN_MENU');
       }
     });
-  }, []);
+  }, [setDisplayName, setScreen]);
 
   const handleGoogleSignIn = async () => {
     setAuthError(null);
     setIsLoading(true);
-    // Clean any old OAuth query params/hashes before launching new OAuth flow
     if (window.location.search || window.location.hash) {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -142,277 +140,242 @@ export const AuthScreen: React.FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        background: 'linear-gradient(135deg, #181416 0%, #0d0a0b 100%)',
+        backgroundImage: "url('/loginpage.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '40px 8% 40px 40px',
+        boxSizing: 'border-box',
         overflow: 'hidden',
         zIndex: 50,
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
       }}
     >
-      <PinkNeonFrame />
-
-      {/* ====================================================================== */}
-      {/* LEFT SPLIT (50%): HERO ARTWORK & BRANDING BANNER                       */}
-      {/* ====================================================================== */}
+      {/* Dark Ambient Vignette Backdrop Overlay */}
       <div
         style={{
-          flex: '1.1',
-          position: 'relative',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
           height: '100%',
+          background: 'radial-gradient(circle at 75% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.75) 100%)',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Top Left Logo Emblem */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '32px',
+          left: '40px',
+          zIndex: 10,
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          padding: '48px 56px',
-          boxSizing: 'border-box',
-          backgroundImage: "url('/cabin.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          overflow: 'hidden',
+          alignItems: 'center',
+          gap: '14px',
         }}
       >
-        {/* Dark Cream Vignette Gradient Overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'linear-gradient(180deg, rgba(24, 20, 22, 0.75) 0%, rgba(18, 14, 16, 0.92) 70%, rgba(13, 10, 11, 0.98) 100%)',
-            zIndex: 1,
-          }}
-        />
-
-        {/* Top Left Logo Emblem */}
-        <div style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <ClassClashLogo size={42} />
-          <div>
-            <h1
-              style={{
-                fontSize: '2.0rem',
-                fontWeight: 900,
-                fontStyle: 'italic',
-                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-                letterSpacing: '0.04em',
-                margin: 0,
-                lineHeight: 1,
-                textTransform: 'uppercase',
-              }}
-            >
-              <span style={{ color: '#f4ece1' }}>CLA</span>
-              <span style={{ color: '#ff0066' }}>SHA</span>
-            </h1>
-            <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#e4ceaf', letterSpacing: '0.18em', marginTop: '2px' }}>
-              ULTRALIGHT ESPORTS LOBBY
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Hero Info Box */}
-        <div style={{ position: 'relative', zIndex: 10, maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div
+        <ClassClashLogo size={44} />
+        <div>
+          <h1
             style={{
-              fontSize: 'clamp(1.35rem, 1.8vw, 1.75rem)',
+              fontSize: '2.2rem',
               fontWeight: 900,
               fontStyle: 'italic',
               fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-              color: '#f4ece1',
+              letterSpacing: '0.04em',
+              margin: 0,
               lineHeight: 1,
-              letterSpacing: '0.02em',
-              whiteSpace: 'nowrap',
+              textTransform: 'uppercase',
             }}
           >
-            BORING DAY? LET'S RACE TOGETHER.
+            <span style={{ color: '#ffffff' }}>CLA</span>
+            <span style={{ color: '#ff0066' }}>SHA</span>
+          </h1>
+          <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.2em', marginTop: '3px' }}>
+            OFFICIAL ESPORTS ARENA
           </div>
         </div>
       </div>
 
-      {/* ====================================================================== */}
-      {/* RIGHT SPLIT (50%): CREAM DARK LOGIN & REGISTER FORM                   */}
-      {/* ====================================================================== */}
+      {/* Modern High-Glass Frosted Login Card */}
       <div
         style={{
-          flex: '1',
-          height: '100%',
-          backgroundImage: "url('/auth_right_bg.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          borderLeft: '2px solid rgba(255, 0, 102, 0.25)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '40px',
-          boxSizing: 'border-box',
           position: 'relative',
+          zIndex: 10,
+          width: '460px',
+          maxWidth: '100%',
+          background: 'rgba(14, 12, 18, 0.86)',
+          backdropFilter: 'blur(35px) saturate(190%)',
+          WebkitBackdropFilter: 'blur(35px) saturate(190%)',
+          border: '1.5px solid rgba(255, 0, 102, 0.35)',
+          borderRadius: '26px',
+          padding: '36px 36px',
+          boxSizing: 'border-box',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 0, 102, 0.2)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '22px',
         }}
       >
-        {/* Form Container Card */}
-        <div
-          style={{
-            width: '460px',
-            maxWidth: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '24px',
-            textAlign: 'left',
-          }}
-        >
-          {/* Header */}
-          <div>
-            <div style={{ fontSize: '2.4rem', fontWeight: 900, fontStyle: 'italic', color: '#f4ece1', fontFamily: "'QUARTZO', 'Kanit', sans-serif" }}>
-              {mode === 'LOGIN' ? 'WELCOME BACK' : 'CREATE RACER PROFILE'}
-            </div>
-          </div>
-
-          {/* Mode Switcher Tabs with Sliding Indicator Pill */}
+        {/* Card Title & Subtitle */}
+        <div>
           <div
             style={{
-              position: 'relative',
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              background: '#120e10',
-              padding: '4px',
-              borderRadius: '16px',
-              border: '1px solid rgba(228, 206, 175, 0.18)',
-              overflow: 'hidden',
+              fontSize: '2.0rem',
+              fontWeight: 900,
+              fontStyle: 'italic',
+              color: '#ffffff',
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+              letterSpacing: '0.02em',
             }}
           >
-            {/* Sliding Pill Indicator */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '4px',
-                bottom: '4px',
-                left: mode === 'LOGIN' ? '4px' : 'calc(50% + 2px)',
-                width: 'calc(50% - 6px)',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: '0 4px 15px rgba(255, 0, 102, 0.4)',
-                zIndex: 1,
-              }}
-            />
+            {mode === 'LOGIN' ? 'RACER LOGIN' : 'CREATE ACCOUNT'}
+          </div>
+          <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '4px', fontWeight: 500 }}>
+            {mode === 'LOGIN' ? 'Enter your credentials to access live matches' : 'Register your racer profile & start competing'}
+          </div>
+        </div>
 
+        {/* Mode Switcher Tabs */}
+        <div
+          style={{
+            position: 'relative',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            background: 'rgba(0, 0, 0, 0.5)',
+            padding: '4px',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '4px',
+              bottom: '4px',
+              left: mode === 'LOGIN' ? '4px' : 'calc(50% + 2px)',
+              width: 'calc(50% - 6px)',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+              transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+              boxShadow: '0 4px 15px rgba(255, 0, 102, 0.4)',
+              zIndex: 1,
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={() => {
+              setMode('LOGIN');
+              setAuthError(null);
+            }}
+            style={{
+              position: 'relative',
+              zIndex: 2,
+              padding: '11px',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'transparent',
+              color: '#ffffff',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              fontStyle: 'italic',
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+              letterSpacing: '0.06em',
+              cursor: 'pointer',
+              transition: 'color 0.3s ease',
+            }}
+          >
+            SIGN IN
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setMode('REGISTER');
+              setAuthError(null);
+            }}
+            style={{
+              position: 'relative',
+              zIndex: 2,
+              padding: '11px',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'transparent',
+              color: '#ffffff',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              fontStyle: 'italic',
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+              letterSpacing: '0.06em',
+              cursor: 'pointer',
+              transition: 'color 0.3s ease',
+            }}
+          >
+            REGISTER
+          </button>
+        </div>
+
+        {/* Error Banner */}
+        {authError && (
+          <div
+            style={{
+              background: 'rgba(255, 59, 48, 0.15)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255, 69, 58, 0.35)',
+              borderRadius: '14px',
+              padding: '12px 16px',
+              color: '#ff453a',
+              fontSize: '0.84rem',
+              fontWeight: 600,
+              lineHeight: 1.4,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}
+          >
+            <div>{authError}</div>
             <button
               type="button"
-              onClick={() => {
-                setMode('LOGIN');
-                setAuthError(null);
+              onClick={async () => {
+                const { profile } = await SupabaseAuthService.fastGoogleSignIn();
+                if (profile?.displayName) {
+                  setDisplayName(profile.displayName);
+                  setScreen('MAIN_MENU');
+                }
               }}
               style={{
-                position: 'relative',
-                zIndex: 2,
-                padding: '12px',
-                borderRadius: '12px',
+                padding: '8px 14px',
+                borderRadius: '50px',
+                background: '#ff0066',
                 border: 'none',
-                background: 'transparent',
                 color: '#ffffff',
-                fontWeight: 900,
-                fontSize: '0.92rem',
-                fontStyle: 'italic',
-                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-                letterSpacing: '0.06em',
+                fontWeight: 800,
+                fontSize: '0.78rem',
                 cursor: 'pointer',
-                transition: 'color 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
               }}
             >
-              SIGN IN
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setMode('REGISTER');
-                setAuthError(null);
-              }}
-              style={{
-                position: 'relative',
-                zIndex: 2,
-                padding: '12px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'transparent',
-                color: '#ffffff',
-                fontWeight: 900,
-                fontSize: '0.92rem',
-                fontStyle: 'italic',
-                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-                letterSpacing: '0.06em',
-                cursor: 'pointer',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              CREATE ACCOUNT
+              <Zap size={14} /> Continue with Direct Google Login
             </button>
           </div>
+        )}
 
-          {/* Auth Error Banner with Direct Google Login Fallback */}
-          {authError && (
-            <div
-              style={{
-                background: 'rgba(255, 59, 48, 0.12)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 69, 58, 0.28)',
-                borderRadius: '16px',
-                padding: '14px 18px',
-                color: '#ff453a',
-                fontSize: '0.86rem',
-                fontWeight: 600,
-                fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
-                lineHeight: 1.45,
-                letterSpacing: '-0.01em',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px',
-              }}
-            >
-              <div>{authError}</div>
-
-              <button
-                type="button"
-                onClick={async () => {
-                  const { profile } = await SupabaseAuthService.fastGoogleSignIn();
-                  if (profile?.displayName) {
-                    setDisplayName(profile.displayName);
-                    setScreen('MAIN_MENU');
-                  }
-                }}
-                style={{
-                  padding: '10px 18px',
-                  borderRadius: '9999px',
-                  background: '#ff0066',
-                  border: 'none',
-                  color: '#ffffff',
-                  fontWeight: 800,
-                  fontSize: '0.82rem',
-                  cursor: 'pointer',
-                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '6px',
-                  boxShadow: '0 4px 14px rgba(255, 0, 102, 0.4)',
-                  transition: 'all 0.2s ease',
-                }}
-              >
-                ⚡ Continue with Direct Google Login
-              </button>
-            </div>
-          )}
-
-          {/* Form Fields with Smooth Swipe Expansion */}
-          <form style={{ display: 'flex', flexDirection: 'column', gap: '18px' }} onSubmit={handleAuthSubmit}>
-            <div
-              style={{
-                maxHeight: mode === 'REGISTER' ? '120px' : '0px',
-                opacity: mode === 'REGISTER' ? 1 : 0,
-                transform: mode === 'REGISTER' ? 'translateY(0px)' : 'translateY(-12px)',
-                overflow: 'hidden',
-                transition: 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-                marginBottom: mode === 'REGISTER' ? '0px' : '-18px',
-              }}
-            >
-              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* Input Form */}
+        <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handleAuthSubmit}>
+          {mode === 'REGISTER' && (
+            <div>
+              <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
               </label>
               <input
@@ -421,162 +384,155 @@ export const AuthScreen: React.FC = () => {
                 onChange={(e) => setNameInput(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                  background: '#261f22',
-                  color: '#f4ece1',
-                  fontWeight: 900,
-                  fontSize: '1.1rem',
+                  padding: '13px 16px',
+                  borderRadius: '12px',
+                  border: '1.5px solid rgba(255, 255, 255, 0.15)',
+                  background: 'rgba(0, 0, 0, 0.45)',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: '1rem',
                   outline: 'none',
                   marginTop: '6px',
                   boxSizing: 'border-box',
                 }}
                 placeholder="Enter Username"
-                required={mode === 'REGISTER'}
-              />
-            </div>
-
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Mail size={14} color="#ff0066" /> EMAIL ADDRESS
-              </label>
-              <input
-                type="email"
-                value={emailInput}
-                onChange={(e) => setEmailInput(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                  background: '#261f22',
-                  color: '#f4ece1',
-                  fontWeight: 900,
-                  fontSize: '1.1rem',
-                  outline: 'none',
-                  marginTop: '6px',
-                  boxSizing: 'border-box',
-                }}
-                placeholder="Enter Email Address"
                 required
               />
             </div>
+          )}
 
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 900, color: '#e6d7c3', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Lock size={14} color="#ff0066" /> PASSWORD
-              </label>
-              <input
-                type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '14px 18px',
-                  borderRadius: '14px',
-                  border: '1.5px solid rgba(244, 236, 225, 0.2)',
-                  background: '#261f22',
-                  color: '#f4ece1',
-                  fontWeight: 900,
-                  fontSize: '1.1rem',
-                  outline: 'none',
-                  marginTop: '6px',
-                  boxSizing: 'border-box',
-                }}
-                placeholder="Enter Password"
-                required
-              />
-            </div>
-
-            {/* Submit Action Button with Tactile Active Press Feedback & Spinning Loader */}
-            <button
-              type="submit"
-              className="hud-interactive btn-press-effect"
-              disabled={isLoading}
+          <div>
+            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Mail size={14} color="#ff0066" /> EMAIL ADDRESS
+            </label>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
               style={{
                 width: '100%',
-                height: '56px',
-                borderRadius: '16px',
-                background: isLoading
-                  ? 'linear-gradient(135deg, #cc0052 0%, #e6005c 100%)'
-                  : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-                border: '2px solid #ffffff',
+                padding: '13px 16px',
+                borderRadius: '12px',
+                border: '1.5px solid rgba(255, 255, 255, 0.15)',
+                background: 'rgba(0, 0, 0, 0.45)',
                 color: '#ffffff',
-                fontWeight: 900,
-                fontSize: '1.2rem',
-                fontStyle: 'italic',
-                fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-                cursor: isLoading ? 'wait' : 'pointer',
-                boxShadow: isLoading
-                  ? '0 0 15px rgba(255, 0, 102, 0.3)'
-                  : '0 8px 25px rgba(255, 0, 102, 0.55)',
-                letterSpacing: '0.06em',
-                marginTop: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '12px',
-                transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
-                opacity: isLoading ? 0.85 : 1,
+                fontWeight: 700,
+                fontSize: '1rem',
+                outline: 'none',
+                marginTop: '6px',
+                boxSizing: 'border-box',
               }}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 size={24} color="#ffffff" className="spin-icon" />
-                  <span>{mode === 'LOGIN' ? 'LOGGING IN...' : 'CREATING PROFILE...'}</span>
-                </>
-              ) : mode === 'LOGIN' ? (
-                <>
-                  <span>ENTER ARENA LOBBY</span> <ArrowRight size={20} />
-                </>
-              ) : (
-                <>
-                  <span>CREATE PROFILE & ENTER ARENA</span> <Sparkles size={20} />
-                </>
-              )}
-            </button>
-          </form>
-
-          {/* Divider Line */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '2px 0' }}>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.45)', letterSpacing: '0.08em' }}>
-              OR CONTINUE WITH
-            </span>
-            <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
+              placeholder="Enter Email Address"
+              required
+            />
           </div>
 
-          {/* Google Sign In Button - Apple iOS UI Style */}
+          <div>
+            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Lock size={14} color="#ff0066" /> PASSWORD
+            </label>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '13px 16px',
+                borderRadius: '12px',
+                border: '1.5px solid rgba(255, 255, 255, 0.15)',
+                background: 'rgba(0, 0, 0, 0.45)',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '1rem',
+                outline: 'none',
+                marginTop: '6px',
+                boxSizing: 'border-box',
+              }}
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
           <button
-            type="button"
+            type="submit"
             className="hud-interactive btn-press-effect"
-            onClick={handleGoogleSignIn}
             disabled={isLoading}
             style={{
               width: '100%',
-              padding: '13px 20px',
+              height: '52px',
               borderRadius: '14px',
-              background: 'rgba(255, 255, 255, 0.08)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
+              background: isLoading
+                ? 'linear-gradient(135deg, #cc0052 0%, #e6005c 100%)'
+                : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
+              border: '2px solid #ffffff',
               color: '#ffffff',
-              fontWeight: 600,
-              fontSize: '0.95rem',
-              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+              fontWeight: 900,
+              fontSize: '1.1rem',
+              fontStyle: 'italic',
+              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+              cursor: isLoading ? 'wait' : 'pointer',
+              boxShadow: '0 8px 25px rgba(255, 0, 102, 0.5)',
+              letterSpacing: '0.06em',
+              marginTop: '8px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '12px',
-              cursor: isLoading ? 'not-allowed' : 'pointer',
-              transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxSizing: 'border-box',
+              gap: '10px',
             }}
           >
-            <GoogleIcon />
-            <span>Continue with Google</span>
+            {isLoading ? (
+              <>
+                <Loader2 size={22} color="#ffffff" className="spin-icon" />
+                <span>{mode === 'LOGIN' ? 'LOGGING IN...' : 'CREATING PROFILE...'}</span>
+              </>
+            ) : mode === 'LOGIN' ? (
+              <>
+                <span>ENTER ARENA LOBBY</span> <ArrowRight size={18} />
+              </>
+            ) : (
+              <>
+                <span>CREATE PROFILE & ENTER ARENA</span> <Sparkles size={18} />
+              </>
+            )}
           </button>
+        </form>
+
+        {/* Divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '2px 0' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.08em' }}>
+            OR CONTINUE WITH
+          </span>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
         </div>
+
+        {/* Google Sign In Button */}
+        <button
+          type="button"
+          className="hud-interactive btn-press-effect"
+          onClick={handleGoogleSignIn}
+          disabled={isLoading}
+          style={{
+            width: '100%',
+            padding: '12px 18px',
+            borderRadius: '14px',
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.18)',
+            color: '#ffffff',
+            fontWeight: 600,
+            fontSize: '0.92rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            cursor: isLoading ? 'not-allowed' : 'pointer',
+          }}
+        >
+          <GoogleIcon />
+          <span>Continue with Google</span>
+        </button>
       </div>
     </div>
   );
