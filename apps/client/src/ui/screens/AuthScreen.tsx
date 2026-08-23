@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../state/useGameStore';
-import { ClassClashLogo } from '../components/ClassClashLogo';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
 import { Lock, Mail, User, ArrowRight, Sparkles, Loader2, Zap } from 'lucide-react';
 
@@ -146,81 +145,32 @@ export const AuthScreen: React.FC = () => {
         backgroundRepeat: 'no-repeat',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '40px 8% 40px 40px',
+        justifyContent: 'flex-start',
+        padding: '40px 40px 40px 8%',
         boxSizing: 'border-box',
         overflow: 'hidden',
         zIndex: 50,
         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
       }}
     >
-      {/* Dark Ambient Vignette Backdrop Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'radial-gradient(circle at 75% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.75) 100%)',
-          zIndex: 1,
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Top Left Logo Emblem */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '32px',
-          left: '40px',
-          zIndex: 10,
-          display: 'flex',
-          alignItems: 'center',
-          gap: '14px',
-        }}
-      >
-        <ClassClashLogo size={44} />
-        <div>
-          <h1
-            style={{
-              fontSize: '2.2rem',
-              fontWeight: 900,
-              fontStyle: 'italic',
-              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-              letterSpacing: '0.04em',
-              margin: 0,
-              lineHeight: 1,
-              textTransform: 'uppercase',
-            }}
-          >
-            <span style={{ color: '#ffffff' }}>CLA</span>
-            <span style={{ color: '#ff0066' }}>SHA</span>
-          </h1>
-          <div style={{ fontSize: '0.75rem', fontWeight: 800, color: '#00f0ff', letterSpacing: '0.2em', marginTop: '3px' }}>
-            OFFICIAL ESPORTS ARENA
-          </div>
-        </div>
-      </div>
-
-      {/* Modern High-Glass Frosted Login Card */}
+      {/* Sleek Deep-Navy Frosted Glass Login Card matching loginpage.png theme */}
       <div
         style={{
           position: 'relative',
           zIndex: 10,
-          width: '460px',
+          width: '440px',
           maxWidth: '100%',
-          background: 'rgba(14, 12, 18, 0.86)',
-          backdropFilter: 'blur(35px) saturate(190%)',
-          WebkitBackdropFilter: 'blur(35px) saturate(190%)',
-          border: '1.5px solid rgba(255, 0, 102, 0.35)',
+          background: 'rgba(5, 15, 36, 0.78)',
+          backdropFilter: 'blur(25px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(25px) saturate(180%)',
+          border: '1.5px solid rgba(255, 0, 102, 0.4)',
           borderRadius: '26px',
           padding: '36px 36px',
           boxSizing: 'border-box',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 0, 102, 0.2)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(255, 0, 102, 0.25)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '22px',
+          gap: '20px',
         }}
       >
         {/* Card Title & Subtitle */}
@@ -237,7 +187,7 @@ export const AuthScreen: React.FC = () => {
           >
             {mode === 'LOGIN' ? 'RACER LOGIN' : 'CREATE ACCOUNT'}
           </div>
-          <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.65)', marginTop: '4px', fontWeight: 500 }}>
+          <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginTop: '4px', fontWeight: 500 }}>
             {mode === 'LOGIN' ? 'Enter your credentials to access live matches' : 'Register your racer profile & start competing'}
           </div>
         </div>
@@ -248,7 +198,7 @@ export const AuthScreen: React.FC = () => {
             position: 'relative',
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            background: 'rgba(0, 0, 0, 0.5)',
+            background: 'rgba(3, 9, 22, 0.65)',
             padding: '4px',
             borderRadius: '16px',
             border: '1px solid rgba(255, 255, 255, 0.12)',
@@ -265,7 +215,7 @@ export const AuthScreen: React.FC = () => {
               borderRadius: '12px',
               background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
               transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 4px 15px rgba(255, 0, 102, 0.4)',
+              boxShadow: '0 4px 15px rgba(255, 0, 102, 0.45)',
               zIndex: 1,
             }}
           />
@@ -327,7 +277,7 @@ export const AuthScreen: React.FC = () => {
         {authError && (
           <div
             style={{
-              background: 'rgba(255, 59, 48, 0.15)',
+              background: 'rgba(255, 59, 48, 0.18)',
               backdropFilter: 'blur(16px)',
               border: '1px solid rgba(255, 69, 58, 0.35)',
               borderRadius: '14px',
@@ -375,7 +325,7 @@ export const AuthScreen: React.FC = () => {
         <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handleAuthSubmit}>
           {mode === 'REGISTER' && (
             <div>
-              <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
               </label>
               <input
@@ -386,8 +336,8 @@ export const AuthScreen: React.FC = () => {
                   width: '100%',
                   padding: '13px 16px',
                   borderRadius: '12px',
-                  border: '1.5px solid rgba(255, 255, 255, 0.15)',
-                  background: 'rgba(0, 0, 0, 0.45)',
+                  border: '1.5px solid rgba(255, 255, 255, 0.18)',
+                  background: 'rgba(2, 8, 20, 0.55)',
                   color: '#ffffff',
                   fontWeight: 700,
                   fontSize: '1rem',
@@ -402,7 +352,7 @@ export const AuthScreen: React.FC = () => {
           )}
 
           <div>
-            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Mail size={14} color="#ff0066" /> EMAIL ADDRESS
             </label>
             <input
@@ -413,8 +363,8 @@ export const AuthScreen: React.FC = () => {
                 width: '100%',
                 padding: '13px 16px',
                 borderRadius: '12px',
-                border: '1.5px solid rgba(255, 255, 255, 0.15)',
-                background: 'rgba(0, 0, 0, 0.45)',
+                border: '1.5px solid rgba(255, 255, 255, 0.18)',
+                background: 'rgba(2, 8, 20, 0.55)',
                 color: '#ffffff',
                 fontWeight: 700,
                 fontSize: '1rem',
@@ -428,7 +378,7 @@ export const AuthScreen: React.FC = () => {
           </div>
 
           <div>
-            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.75)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Lock size={14} color="#ff0066" /> PASSWORD
             </label>
             <input
@@ -439,8 +389,8 @@ export const AuthScreen: React.FC = () => {
                 width: '100%',
                 padding: '13px 16px',
                 borderRadius: '12px',
-                border: '1.5px solid rgba(255, 255, 255, 0.15)',
-                background: 'rgba(0, 0, 0, 0.45)',
+                border: '1.5px solid rgba(255, 255, 255, 0.18)',
+                background: 'rgba(2, 8, 20, 0.55)',
                 color: '#ffffff',
                 fontWeight: 700,
                 fontSize: '1rem',
@@ -472,7 +422,7 @@ export const AuthScreen: React.FC = () => {
               fontStyle: 'italic',
               fontFamily: "'QUARTZO', 'Kanit', sans-serif",
               cursor: isLoading ? 'wait' : 'pointer',
-              boxShadow: '0 8px 25px rgba(255, 0, 102, 0.5)',
+              boxShadow: '0 8px 25px rgba(255, 0, 102, 0.55)',
               letterSpacing: '0.06em',
               marginTop: '8px',
               display: 'flex',
@@ -500,11 +450,11 @@ export const AuthScreen: React.FC = () => {
 
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '2px 0' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
-          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.5)', letterSpacing: '0.08em' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.15)' }} />
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.55)', letterSpacing: '0.08em' }}>
             OR CONTINUE WITH
           </span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.15)' }} />
         </div>
 
         {/* Google Sign In Button */}
@@ -519,7 +469,7 @@ export const AuthScreen: React.FC = () => {
             borderRadius: '14px',
             background: 'rgba(255, 255, 255, 0.08)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
             color: '#ffffff',
             fontWeight: 600,
             fontSize: '0.92rem',
