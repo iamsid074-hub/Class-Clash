@@ -336,10 +336,96 @@ export const AuthScreen: React.FC = () => {
 
         {/* Input Form */}
         <form style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} onSubmit={handleAuthSubmit}>
-          {/* Animated Container for Registration Fields (Username, Invitation Code, T&C Checkbox) */}
+          {/* Username Field (Only in REGISTER mode) */}
           <div
             style={{
-              maxHeight: mode === 'REGISTER' ? '300px' : '0px',
+              maxHeight: mode === 'REGISTER' ? '90px' : '0px',
+              opacity: mode === 'REGISTER' ? 1 : 0,
+              transform: mode === 'REGISTER' ? 'translateY(0px)' : 'translateY(-6px)',
+              overflow: 'hidden',
+              transition: 'max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <User size={15} color="#007aff" /> Username / Display Name
+            </label>
+            <input
+              type="text"
+              value={nameInput}
+              onChange={(e) => setNameInput(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '13px 18px',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#ffffff',
+                fontWeight: 500,
+                fontSize: '0.96rem',
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+              placeholder="Enter Username"
+              required={mode === 'REGISTER'}
+            />
+          </div>
+
+          {/* Email Address Field */}
+          <div>
+            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Mail size={15} color="#007aff" /> Email Address
+            </label>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '13px 18px',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#ffffff',
+                fontWeight: 500,
+                fontSize: '0.96rem',
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+              placeholder="Enter Email Address"
+              required
+            />
+          </div>
+
+          {/* Password Field */}
+          <div>
+            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Lock size={15} color="#007aff" /> Password
+            </label>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '13px 18px',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#ffffff',
+                fontWeight: 500,
+                fontSize: '0.96rem',
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+              placeholder="Enter Password"
+              required
+            />
+          </div>
+
+          {/* Invitation Code & T&C Checkbox (BELOW PASSWORD!) */}
+          <div
+            style={{
+              maxHeight: mode === 'REGISTER' ? '180px' : '0px',
               opacity: mode === 'REGISTER' ? 1 : 0,
               transform: mode === 'REGISTER' ? 'translateY(0px)' : 'translateY(-10px)',
               overflow: 'hidden',
@@ -349,32 +435,6 @@ export const AuthScreen: React.FC = () => {
               gap: '14px',
             }}
           >
-            {/* Username */}
-            <div>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-                <User size={15} color="#007aff" /> Username / Display Name
-              </label>
-              <input
-                type="text"
-                value={nameInput}
-                onChange={(e) => setNameInput(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '13px 18px',
-                  borderRadius: '18px',
-                  border: '1px solid rgba(255, 255, 255, 0.16)',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  color: '#ffffff',
-                  fontWeight: 500,
-                  fontSize: '0.96rem',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-                placeholder="Enter Username"
-                required={mode === 'REGISTER'}
-              />
-            </div>
-
             {/* Invitation Code Field */}
             <div>
               <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
@@ -443,56 +503,6 @@ export const AuthScreen: React.FC = () => {
                 and Fair Play Rules
               </div>
             </div>
-          </div>
-
-          <div>
-            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-              <Mail size={15} color="#007aff" /> Email Address
-            </label>
-            <input
-              type="email"
-              value={emailInput}
-              onChange={(e) => setEmailInput(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '13px 18px',
-                borderRadius: '18px',
-                border: '1px solid rgba(255, 255, 255, 0.16)',
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#ffffff',
-                fontWeight: 500,
-                fontSize: '0.96rem',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-              placeholder="Enter Email Address"
-              required
-            />
-          </div>
-
-          <div>
-            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-              <Lock size={15} color="#007aff" /> Password
-            </label>
-            <input
-              type="password"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '13px 18px',
-                borderRadius: '18px',
-                border: '1px solid rgba(255, 255, 255, 0.16)',
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: '#ffffff',
-                fontWeight: 500,
-                fontSize: '0.96rem',
-                outline: 'none',
-                boxSizing: 'border-box',
-              }}
-              placeholder="Enter Password"
-              required
-            />
           </div>
 
           {/* Apple iOS Pill Action Button */}
