@@ -147,83 +147,79 @@ export const SoloPartyCabinScreen: React.FC = () => {
     }
   }, [state.phase, allPlayersList.length]);
 
-  // Local fallback timer decrement & auto-phase progression (works seamlessly online & offline/Vercel)
+  // Local timer decrement & auto-phase progression (works seamlessly online & offline/Vercel)
   useEffect(() => {
     const interval = setInterval(() => {
-      const isConnected = useGameStore.getState().isConnected;
       const storeState = useGameStore.getState().soloGameState || state;
 
       if (storeState) {
-        if (!isConnected) {
-          // If offline / disconnected on Vercel, decrement timer locally
-          if (storeState.phaseTimeRemaining > 0) {
+        if (storeState.phaseTimeRemaining > 0) {
+          useGameStore.getState().updateSoloGameState({
+            ...storeState,
+            phaseTimeRemaining: storeState.phaseTimeRemaining - 1,
+          });
+        } else {
+          // Auto advance phases locally if time expires
+          if (storeState.phase === 'LOBBY') {
             useGameStore.getState().updateSoloGameState({
               ...storeState,
-              phaseTimeRemaining: storeState.phaseTimeRemaining - 1,
+              isLocked: true,
+              phase: 'PLAYER_SELECTION',
+              phaseTimeRemaining: 5,
+              selectedPlayerId: playerId,
             });
-          } else {
-            // Auto advance phases locally if time expires offline
-            if (storeState.phase === 'LOBBY') {
+          } else if (storeState.phase === 'PLAYER_SELECTION') {
+            useGameStore.getState().updateSoloGameState({
+              ...storeState,
+              phase: 'DISCUSSION_AND_VOTING',
+              phaseTimeRemaining: 120,
+            });
+          } else if (storeState.phase === 'DISCUSSION_AND_VOTING') {
+            const winningProp = (storeState.proposals && storeState.proposals.length > 0)
+              ? [...storeState.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+              : {
+                  id: 'fallback_dare',
+                  proposerId: 'system',
+                  proposerName: 'SYSTEM',
+                  text: 'Do 10 Pushups or Sing a Song live on mic!',
+                  votesCount: 1,
+                  voterIds: [],
+                };
+            useGameStore.getState().updateSoloGameState({
+              ...storeState,
+              winningProposal: winningProp,
+              leaderPlayerId: playerId,
+              phase: 'CHALLENGE_EXECUTION',
+              phaseTimeRemaining: 180,
+            });
+          } else if (storeState.phase === 'LEADER_CONFIRMATION') {
+            useGameStore.getState().updateSoloGameState({
+              ...storeState,
+              phase: 'CHALLENGE_EXECUTION',
+              phaseTimeRemaining: 180,
+            });
+          } else if (storeState.phase === 'CHALLENGE_EXECUTION') {
+            useGameStore.getState().updateSoloGameState({
+              ...storeState,
+              phase: 'ROUND_RESULT',
+              phaseTimeRemaining: 8,
+            });
+          } else if (storeState.phase === 'ROUND_RESULT') {
+            if ((storeState.currentRound || 1) < (storeState.totalRounds || 3)) {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
-                isLocked: true,
+                currentRound: (storeState.currentRound || 1) + 1,
                 phase: 'PLAYER_SELECTION',
                 phaseTimeRemaining: 5,
                 selectedPlayerId: playerId,
               });
-            } else if (storeState.phase === 'PLAYER_SELECTION') {
+            } else {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
-                phase: 'DISCUSSION_AND_VOTING',
-                phaseTimeRemaining: 120,
+                phase: 'GAME_OVER_CHAMPION',
+                phaseTimeRemaining: 999,
+                championPlayerId: playerId,
               });
-            } else if (storeState.phase === 'DISCUSSION_AND_VOTING') {
-              const winningProp = (storeState.proposals && storeState.proposals.length > 0)
-                ? [...storeState.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
-                : {
-                    id: 'fallback_dare',
-                    proposerId: 'system',
-                    proposerName: 'SYSTEM',
-                    text: 'Do 10 Pushups or Sing a Song live on mic!',
-                    votesCount: 0,
-                    voterIds: [],
-                  };
-              useGameStore.getState().updateSoloGameState({
-                ...storeState,
-                winningProposal: winningProp,
-                leaderPlayerId: playerId,
-                phase: 'LEADER_CONFIRMATION',
-                phaseTimeRemaining: 12,
-              });
-            } else if (storeState.phase === 'LEADER_CONFIRMATION') {
-              useGameStore.getState().updateSoloGameState({
-                ...storeState,
-                phase: 'CHALLENGE_EXECUTION',
-                phaseTimeRemaining: 180,
-              });
-            } else if (storeState.phase === 'CHALLENGE_EXECUTION') {
-              useGameStore.getState().updateSoloGameState({
-                ...storeState,
-                phase: 'ROUND_RESULT',
-                phaseTimeRemaining: 8,
-              });
-            } else if (storeState.phase === 'ROUND_RESULT') {
-              if ((storeState.currentRound || 1) < (storeState.totalRounds || 3)) {
-                useGameStore.getState().updateSoloGameState({
-                  ...storeState,
-                  currentRound: (storeState.currentRound || 1) + 1,
-                  phase: 'PLAYER_SELECTION',
-                  phaseTimeRemaining: 5,
-                  selectedPlayerId: playerId,
-                });
-              } else {
-                useGameStore.getState().updateSoloGameState({
-                  ...storeState,
-                  phase: 'GAME_OVER_CHAMPION',
-                  phaseTimeRemaining: 999,
-                  championPlayerId: playerId,
-                });
-              }
             }
           }
         }
