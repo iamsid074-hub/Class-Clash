@@ -269,70 +269,82 @@ export const WinterDoomScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* COLUMN 2: GUIDELINES & ROADMAP BUTTONS HUB */}
-        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '18px', justifyContent: 'center' }}>
+        {/* COLUMN 2: GUIDELINES & ROADMAP BUTTONS HUB (SHIFTED TO TOP WITH IOS PRESS EFFECT) */}
+        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', justifyContent: 'flex-start' }}>
           <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <Calendar size={20} color="#007aff" />
-            <span>Tournament Details & Hub</span>
+            <span>Championship Details & Hub</span>
           </div>
 
           {/* BUTTON 1: ROADMAP & 3 PHASES */}
-          <div
+          <button
+            type="button"
             onClick={() => setShowRoadmapModal(true)}
+            className="btn-press-effect"
             style={{
+              width: '100%',
               background: '#f2f2f7',
               border: '1px solid #e5e5ea',
-              borderRadius: '22px',
-              padding: '20px 22px',
+              borderRadius: '20px',
+              padding: '16px 20px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              outline: 'none',
+              textAlign: 'left',
+              transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
+              fontFamily: APPLE_FONT,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: '#007aff', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Zap size={22} color="#ffffff" />
+              <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#007aff', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Zap size={20} color="#ffffff" />
               </div>
               <div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1c1c1e' }}>Roadmap & 3 Phases</div>
-                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '2px' }}>View Phase 1, Phase 2 & Grand Finals timeline</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Roadmap & 3 Phases</div>
+                <div style={{ fontSize: '0.76rem', color: '#8e8e93', marginTop: '2px' }}>View Phase 1, Phase 2 & Grand Finals timeline</div>
               </div>
             </div>
-            <div style={{ background: '#007aff', color: '#ffffff', padding: '8px 16px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.78rem' }}>
+            <div style={{ background: '#007aff', color: '#ffffff', padding: '6px 14px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.76rem' }}>
               View
             </div>
-          </div>
+          </button>
 
           {/* BUTTON 2: OFFICIAL TOURNAMENT RULES */}
-          <div
+          <button
+            type="button"
             onClick={() => setShowRulesModal(true)}
+            className="btn-press-effect"
             style={{
+              width: '100%',
               background: '#f2f2f7',
               border: '1px solid #e5e5ea',
-              borderRadius: '22px',
-              padding: '20px 22px',
+              borderRadius: '20px',
+              padding: '16px 20px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               cursor: 'pointer',
-              transition: 'all 0.2s ease',
+              outline: 'none',
+              textAlign: 'left',
+              transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
+              fontFamily: APPLE_FONT,
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: '#e5f1ff', color: '#007aff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <FileText size={22} color="#007aff" />
+              <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#e5f1ff', color: '#007aff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <FileText size={20} color="#007aff" />
               </div>
               <div>
-                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1c1c1e' }}>Official Tournament Rules</div>
-                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '2px' }}>View player guidelines, conduct & match policies</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Official Tournament Rules</div>
+                <div style={{ fontSize: '0.76rem', color: '#8e8e93', marginTop: '2px' }}>View player guidelines, conduct & match policies</div>
               </div>
             </div>
-            <div style={{ background: '#1c1c1e', color: '#ffffff', padding: '8px 16px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.78rem' }}>
+            <div style={{ background: '#1c1c1e', color: '#ffffff', padding: '6px 14px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.76rem' }}>
               Read
             </div>
-          </div>
+          </button>
         </div>
 
         {/* COLUMN 3: QUALIFICATION REQUIREMENTS & ENROLLMENT */}
