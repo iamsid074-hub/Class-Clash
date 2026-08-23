@@ -119,6 +119,38 @@ export const SoloPartyCabinScreen: React.FC = () => {
     }
   }, [isMatchFinished, playerId, players]);
 
+  // 10-Second Auto-Redirect to Main Menu when Winner is Announced
+  const [redirectCountdown, setRedirectCountdown] = useState(10);
+  const hasTriggeredRedirectRef = useRef(false);
+
+  useEffect(() => {
+    if (isMatchFinished) {
+      setRedirectCountdown(10);
+      hasTriggeredRedirectRef.current = false;
+
+      const interval = setInterval(() => {
+        setRedirectCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            if (!hasTriggeredRedirectRef.current) {
+              hasTriggeredRedirectRef.current = true;
+              if (NetworkClient.isConnected()) {
+                NetworkClient.send({ type: 'LEAVE_ROOM', payload: {} });
+              }
+              triggerGateTransition(() => {
+                setScreen('MAIN_MENU');
+              }, 'MAIN MENU', 'CLASHA');
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isMatchFinished, setScreen, triggerGateTransition]);
+
   const [isTvGateClosed, setIsTvGateClosed] = useState(state.phase === 'ROUND_RESULT');
 
   // Seamless shutter sequence: Shutters start CLOSED on phase entry, hold card, then slide OPEN smoothly!
@@ -531,6 +563,52 @@ export const SoloPartyCabinScreen: React.FC = () => {
               {copied ? <Check size={18} color="#34c759" /> : <Copy size={18} color="rgba(255, 255, 255, 0.8)" />}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* 🍎 APPLE STYLE TOP REDIRECT CAPSULE WHEN WINNER IS ANNOUNCED */}
+      {isMatchFinished && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '24px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            padding: '8px 20px',
+            background: 'rgba(28, 28, 30, 0.88)',
+            backdropFilter: 'blur(25px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(25px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.18)',
+            borderRadius: '50px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            style={{
+              width: '14px',
+              height: '14px',
+              borderRadius: '50%',
+              border: '2px solid rgba(255, 255, 255, 0.25)',
+              borderTopColor: '#00f0ff',
+              animation: 'spin 0.8s linear infinite',
+            }}
+          />
+          <span
+            style={{
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              color: '#ffffff',
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', sans-serif",
+              letterSpacing: '-0.01em',
+            }}
+          >
+            Redirecting to home page in <span style={{ fontWeight: 800, color: '#00f0ff' }}>{redirectCountdown} sec</span>
+          </span>
         </div>
       )}
 
@@ -1437,39 +1515,8 @@ export const SoloPartyCabinScreen: React.FC = () => {
         </div>
       )}
 
-      {/* BOTTOM LEFT CORNER EXIT ARROW / BACK TO MAIN MENU BUTTON */}
-      {isMatchFinished ? (
-        <button
-          className="hud-interactive btn-press-effect"
-          onClick={() => setShowExitConfirm(true)}
-          style={{
-            position: 'absolute',
-            bottom: '24px',
-            left: '24px',
-            padding: '12px 26px',
-            borderRadius: '16px',
-            background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-            border: '2px solid #ffffff',
-            color: '#ffffff',
-            fontWeight: 900,
-            fontSize: '1rem',
-            fontStyle: 'italic',
-            fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
-            letterSpacing: '0.06em',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            cursor: 'pointer',
-            boxShadow: '0 8px 25px rgba(255, 0, 102, 0.55)',
-            zIndex: 40,
-            pointerEvents: 'auto',
-            transition: 'all 0.2s ease',
-          }}
-        >
-          <ArrowLeft size={20} color="#ffffff" strokeWidth={2.5} />
-          <span>BACK TO MAIN MENU</span>
-        </button>
-      ) : (
+      {/* BOTTOM LEFT CORNER EXIT ARROW (HIDDEN WHEN MATCH IS FINISHED AND REDIRECTING) */}
+      {!isMatchFinished && (
         <button
           className="hud-interactive btn-press-effect"
           onClick={() => setShowExitConfirm(true)}
