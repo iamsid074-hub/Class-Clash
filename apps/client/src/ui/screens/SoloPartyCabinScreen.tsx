@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
-import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
+import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft, SkipForward } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 import { AudioManager } from '../../utils/AudioManager';
 import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
@@ -266,6 +266,27 @@ export const SoloPartyCabinScreen: React.FC = () => {
         phaseTimeRemaining: 5,
         selectedPlayerId: playerId,
       });
+    });
+  };
+
+  const handleSkipDiscussionTimer = () => {
+    AudioManager.playClick();
+    const winningProp = (state.proposals && state.proposals.length > 0)
+      ? [...state.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+      : {
+          id: 'fallback_dare',
+          proposerId: 'system',
+          proposerName: 'SYSTEM',
+          text: 'Do 10 Pushups or Sing a Song live on mic!',
+          votesCount: 0,
+          voterIds: [],
+        };
+    useGameStore.getState().updateSoloGameState({
+      ...state,
+      winningProposal: winningProp,
+      leaderPlayerId: playerId,
+      phase: 'LEADER_CONFIRMATION',
+      phaseTimeRemaining: 12,
     });
   };
 
@@ -692,6 +713,36 @@ export const SoloPartyCabinScreen: React.FC = () => {
               >
                 {Math.floor(state.phaseTimeRemaining / 60)} : {(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
               </div>
+
+              {/* ADMIN SKIP TIMER BUTTON */}
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={handleSkipDiscussionTimer}
+                  className="btn-press-effect"
+                  style={{
+                    marginTop: '12px',
+                    padding: '8px 22px',
+                    borderRadius: '9999px',
+                    background: 'rgba(255, 42, 95, 0.25)',
+                    border: '1px solid rgba(255, 42, 95, 0.6)',
+                    color: '#ffffff',
+                    fontWeight: 800,
+                    fontSize: '0.82rem',
+                    letterSpacing: '0.06em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 15px rgba(255, 42, 95, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <SkipForward size={16} color="#ffffff" fill="#ffffff" />
+                  <span>SKIP 2-MIN TIMER</span>
+                </button>
+              )}
             </div>
           </div>
         )}
