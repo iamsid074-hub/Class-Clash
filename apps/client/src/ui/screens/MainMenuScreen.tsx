@@ -3,7 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap } from 'lucide-react';
+import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap, Lock } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, playFullscreenVideo, errorMessage, setErrorMessage } = useGameStore();
@@ -14,8 +14,8 @@ export const MainMenuScreen: React.FC = () => {
       return 'Cyberpunk Neon Cabin';
     }
   });
-  const [createRoomIdInput, setCreateRoomIdInput] = useState('ARENA' + Math.floor(Math.random() * 899 + 100));
-  const [createPasswordInput, setCreatePasswordInput] = useState('1234');
+  const [createRoomIdInput, setCreateRoomIdInput] = useState('');
+  const [createPasswordInput, setCreatePasswordInput] = useState('');
   const [joinRoomIdInput, setJoinRoomIdInput] = useState('');
   const [joinPasswordInput, setJoinPasswordInput] = useState('');
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
@@ -595,28 +595,35 @@ export const MainMenuScreen: React.FC = () => {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div>
-                      <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
-                        CABIN NAME
-                      </label>
-                      <input
-                        type="text"
-                        value={createCabinNameInput}
-                        onChange={(e) => setCreateCabinNameInput(e.target.value)}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <label style={{ fontSize: '0.75rem', fontWeight: 900, color: 'rgba(255, 255, 255, 0.7)', letterSpacing: '0.06em' }}>
+                          CABIN NAME
+                        </label>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.7rem', fontWeight: 800, color: '#ff3366' }}>
+                          <Lock size={12} color="#ff3366" />
+                          <span>LOCKED</span>
+                        </div>
+                      </div>
+                      <div
                         style={{
                           width: '100%',
                           padding: '12px 16px',
                           borderRadius: '12px',
-                          border: '1.5px solid rgba(255, 255, 255, 0.2)',
-                          background: 'rgba(0, 0, 0, 0.4)',
-                          color: '#ffffff',
+                          border: '1.5px solid rgba(255, 255, 255, 0.12)',
+                          background: 'rgba(255, 255, 255, 0.06)',
+                          color: 'rgba(255, 255, 255, 0.65)',
                           fontWeight: 900,
-                          fontSize: '1.15rem',
-                          outline: 'none',
-                          marginTop: '4px',
+                          fontSize: '1.05rem',
+                          cursor: 'not-allowed',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                           boxSizing: 'border-box',
                         }}
-                        placeholder="ANSHU'S CABIN"
-                      />
+                      >
+                        <span>{createCabinNameInput}</span>
+                        <Lock size={16} color="rgba(255, 255, 255, 0.4)" />
+                      </div>
                     </div>
 
                     <div>
