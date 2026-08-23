@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
-import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
+import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft, User } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 import { AudioManager } from '../../utils/AudioManager';
 import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
@@ -1073,30 +1073,90 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 display: 'block',
               }}
             />
-            {/* Top Victory Badge Overlay */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '12px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '4px 16px',
-                background: 'rgba(0, 0, 0, 0.65)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255, 215, 0, 0.4)',
-                borderRadius: '50px',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
-                zIndex: 2,
-              }}
-            >
-              <Trophy size={14} color="#ffd700" />
-              <span style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.14em' }}>
-                MATCH FINISHED • VICTORY
-              </span>
-            </div>
+            {/* Pill Capsule Overlay with Left Circular Profile Icon & Right Winner Name */}
+            {(() => {
+              const winnerPlayer = championPlayer || sortedPodiumPlayers[0] || (allPlayersList.length > 0 ? allPlayersList[0] : null);
+              const winnerName = (winnerPlayer?.displayName || displayName || 'WINNER').toUpperCase();
+
+              return (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '16px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: '#ffffff',
+                    borderRadius: '50px',
+                    padding: '4px 18px 4px 4px',
+                    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.75), 0 0 20px rgba(220, 38, 38, 0.5)',
+                    border: '2.5px solid #dc2626',
+                    zIndex: 10,
+                  }}
+                >
+                  {/* Left Circular Profile Icon */}
+                  <div
+                    style={{
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      boxShadow: '0 2px 8px rgba(185, 28, 28, 0.6)',
+                      flexShrink: 0,
+                      border: '1.5px solid #ffffff',
+                    }}
+                  >
+                    {winnerPlayer?.avatar && (winnerPlayer.avatar.startsWith('data:') || winnerPlayer.avatar.startsWith('http') || winnerPlayer.avatar.startsWith('/')) ? (
+                      <img src={winnerPlayer.avatar} alt="Winner Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <User size={22} color="#ffffff" strokeWidth={2.5} />
+                    )}
+                  </div>
+
+                  {/* Right Side Winner Name */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      marginLeft: '10px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: '0.6rem',
+                        fontWeight: 900,
+                        color: '#dc2626',
+                        letterSpacing: '0.12em',
+                        lineHeight: 1,
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      1ST CHAMPION 👑
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '1.15rem',
+                        fontWeight: 900,
+                        fontStyle: 'italic',
+                        color: '#0f172a',
+                        letterSpacing: '0.04em',
+                        fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                        lineHeight: 1.1,
+                        marginTop: '1px',
+                      }}
+                    >
+                      {winnerName}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>
