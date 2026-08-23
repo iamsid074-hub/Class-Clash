@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SkipForward } from 'lucide-react';
 import { AudioManager } from '../../utils/AudioManager';
+import { useGameStore } from '../../state/useGameStore';
 
 interface FullscreenVideoModalProps {
   videoSrc: string;
@@ -12,14 +13,20 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [opacity, setOpacity] = useState(0);
   const isExitingRef = useRef(false);
+  const { triggerGateTransition } = useGameStore();
 
   const handleFinish = () => {
     if (isExitingRef.current) return;
     isExitingRef.current = true;
-    setOpacity(0);
-    setTimeout(() => {
-      onComplete();
-    }, 350);
+
+    triggerGateTransition(
+      () => {
+        onComplete();
+      },
+      'WINTER DOOM',
+      'TOURNAMENT CHAMPIONSHIP',
+      '/shutterdesign.png'
+    );
   };
 
   useEffect(() => {

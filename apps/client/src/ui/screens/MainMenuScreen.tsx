@@ -39,9 +39,8 @@ export const MainMenuScreen: React.FC = () => {
         triggerGateTransition(
           () => {
             setActiveModal('NONE');
-            playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
-              setScreen('WINTER_DOOM');
-            });
+            setScreen('WINTER_DOOM');
+            playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)');
           },
           'WINTER DOOM',
           'TOURNAMENT CHAMPIONSHIP',
@@ -920,9 +919,8 @@ export const MainMenuScreen: React.FC = () => {
           triggerGateTransition(
             () => {
               setActiveModal('NONE');
-              playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
-                setScreen('WINTER_DOOM');
-              });
+              setScreen('WINTER_DOOM');
+              playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)');
             },
             'WINTER DOOM',
             'TOURNAMENT CHAMPIONSHIP',
