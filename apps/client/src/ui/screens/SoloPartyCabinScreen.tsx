@@ -1104,7 +1104,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 transition: 'opacity 0.3s ease-in-out',
               }}
             >
-              {/* WINNER NAME */}
+              {/* WINNER NAME INSIDE VIDEO PILL */}
               <div
                 style={{
                   fontSize: 'clamp(0.95rem, 2.2vw, 1.4rem)',
@@ -1120,24 +1120,41 @@ export const SoloPartyCabinScreen: React.FC = () => {
               >
                 {(sortedPodiumPlayers[0]?.displayName || championPlayer?.displayName || 'VIRAT').toUpperCase()}
               </div>
+            </div>
 
-              {/* EARNED POINTS BADGE */}
-              <div
+            {/* EARNED POINTS BADGE AT THE BOTTOM OF THE LED SCREEN */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '12px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'linear-gradient(135deg, #ff0066 0%, #d90429 100%)',
+                border: '1.5px solid #ffffff',
+                boxShadow: '0 0 15px rgba(255, 0, 102, 0.6)',
+                padding: '4px 14px',
+                borderRadius: '50px',
+                pointerEvents: 'none',
+                zIndex: 10,
+                opacity: isWinnerTextVisible ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
+              }}
+            >
+              <Trophy size={14} color="#ffffff" />
+              <span
                 style={{
-                  fontSize: 'clamp(0.65rem, 1.4vw, 0.85rem)',
+                  fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
                   fontWeight: 900,
-                  color: '#ffffff',
-                  background: 'linear-gradient(135deg, #ff0066 0%, #d90429 100%)',
-                  padding: '2px 10px',
-                  borderRadius: '50px',
-                  marginTop: '3px',
-                  boxShadow: '0 2px 8px rgba(255, 0, 102, 0.4)',
-                  letterSpacing: '0.06em',
                   fontStyle: 'italic',
+                  color: '#ffffff',
+                  letterSpacing: '0.08em',
                 }}
               >
                 {sortedPodiumPlayers[0]?.score || championPlayer?.score || 150} PTS EARNED
-              </div>
+              </span>
             </div>
           </div>
         )}
