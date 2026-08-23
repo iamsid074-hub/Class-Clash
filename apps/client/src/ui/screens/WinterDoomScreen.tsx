@@ -18,6 +18,7 @@ import {
   Globe2,
   FileText,
   CheckCircle2,
+  ChevronRight,
 } from 'lucide-react';
 import { FullscreenVideoModal } from '../components/FullscreenVideoModal';
 
@@ -518,33 +519,66 @@ export const WinterDoomScreen: React.FC = () => {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setIsPlayingFormatVideo(true)}
-            className="btn-press-effect"
-            style={{
-              padding: '16px 36px',
-              minWidth: '240px',
-              borderRadius: '9999px',
-              background: '#1c1c1e',
-              color: '#ffffff',
-              border: 'none',
-              fontWeight: 800,
-              fontSize: '0.95rem',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
-              fontFamily: APPLE_FONT,
-              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
-            }}
-          >
-            <Play size={18} color="#ffffff" fill="#ffffff" />
-            <span>Format Explainer</span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            {/* 3 Fast Sequential Flowing Arrows pointing right into the button */}
+            <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+              <ChevronRight className="fast-arrow-1" size={22} color="#007aff" strokeWidth={3.5} />
+              <ChevronRight className="fast-arrow-2" size={22} color="#007aff" strokeWidth={3.5} style={{ marginLeft: '-10px' }} />
+              <ChevronRight className="fast-arrow-3" size={22} color="#007aff" strokeWidth={3.5} style={{ marginLeft: '-10px' }} />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsPlayingFormatVideo(true)}
+              className="btn-press-effect"
+              style={{
+                padding: '16px 36px',
+                minWidth: '240px',
+                borderRadius: '9999px',
+                background: '#1c1c1e',
+                color: '#ffffff',
+                border: 'none',
+                fontWeight: 800,
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
+                fontFamily: APPLE_FONT,
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
+              }}
+            >
+              <Play size={18} color="#ffffff" fill="#ffffff" />
+              <span>Format Explainer</span>
+            </button>
+          </div>
         </div>
+
+        <style>{`
+          @keyframes fastArrowFlow {
+            0%, 100% {
+              opacity: 0.25;
+              transform: translateX(-3px) scale(0.9);
+            }
+            50% {
+              opacity: 1;
+              transform: translateX(4px) scale(1.15);
+              filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.9));
+            }
+          }
+
+          .fast-arrow-1 {
+            animation: fastArrowFlow 0.7s ease-in-out infinite 0s;
+          }
+          .fast-arrow-2 {
+            animation: fastArrowFlow 0.7s ease-in-out infinite 0.15s;
+          }
+          .fast-arrow-3 {
+            animation: fastArrowFlow 0.7s ease-in-out infinite 0.30s;
+          }
+        `}</style>
       </div>
 
       {/* FULLSCREEN VIDEO MODAL FOR FORMAT EXPLAINER (VIDEO t1) */}
