@@ -537,14 +537,14 @@ export const MainMenuScreen: React.FC = () => {
                           />
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 4px' }}>
-                          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.12em' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', padding: '4px 4px 0 4px' }}>
+                          <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.14em' }}>
                             SELECTED CABIN
                           </div>
-                          <div style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                          <div style={{ fontSize: '1.85rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em', lineHeight: 1.1 }}>
                             {selectedCabin.name}
                           </div>
-                          <div style={{ fontSize: '0.92rem', color: '#34c759', fontWeight: 900, letterSpacing: '0.08em', marginTop: '2px' }}>
+                          <div style={{ fontSize: '1rem', color: '#34c759', fontWeight: 900, letterSpacing: '0.1em', marginTop: '2px' }}>
                             FREE
                           </div>
                         </div>
