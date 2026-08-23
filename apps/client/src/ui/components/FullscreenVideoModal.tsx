@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { SkipForward, Volume2, VolumeX } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { SkipForward } from 'lucide-react';
 import { AudioManager } from '../../utils/AudioManager';
 
 interface FullscreenVideoModalProps {
@@ -10,10 +10,26 @@ interface FullscreenVideoModalProps {
 
 export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ videoSrc, onComplete, title }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [opacity, setOpacity] = useState(0);
+  const isExitingRef = useRef(false);
+
+  const handleFinish = () => {
+    if (isExitingRef.current) return;
+    isExitingRef.current = true;
+    setOpacity(0);
+    setTimeout(() => {
+      onComplete();
+    }, 350);
+  };
 
   useEffect(() => {
     // Smoothly pause background music while video plays
     AudioManager.fadeOut(300);
+
+    // Smooth Fade-In transition on video start
+    const timer = setTimeout(() => {
+      setOpacity(1);
+    }, 40);
 
     const videoEl = videoRef.current;
     if (videoEl) {
@@ -29,16 +45,11 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
     }
 
     return () => {
+      clearTimeout(timer);
       // Resume background music when video finishes or closes
       AudioManager.fadeIn(500);
     };
   }, []);
-
-  const handleToggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-    }
-  };
 
   return (
     <div
@@ -54,6 +65,8 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
+        opacity: opacity,
+        transition: 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
       {/* Top Header Controls Overlay */}
@@ -86,7 +99,7 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
 
         <button
           type="button"
-          onClick={onComplete}
+          onClick={handleFinish}
           className="btn-press-effect"
           style={{
             padding: '10px 24px',
@@ -103,7 +116,7 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
             alignItems: 'center',
             gap: '8px',
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
-            transition: 'all 0.2s ease',
+            transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
           <span>SKIP / PROCEED</span>
@@ -115,7 +128,7 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
       <video
         ref={videoRef}
         src={videoSrc}
-        onEnded={onComplete}
+        onEnded={handleFinish}
         preload="auto"
         autoPlay
         style={{

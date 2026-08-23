@@ -92,6 +92,7 @@ export const WinterDoomScreen: React.FC = () => {
         <button
           type="button"
           onClick={handleBackToMainMenu}
+          className="btn-press-effect"
           style={{
             padding: '10px 20px',
             borderRadius: '9999px',
@@ -105,7 +106,7 @@ export const WinterDoomScreen: React.FC = () => {
             alignItems: 'center',
             gap: '8px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-            transition: 'all 0.2s ease',
+            transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
             fontFamily: APPLE_FONT,
           }}
         >
@@ -453,6 +454,7 @@ export const WinterDoomScreen: React.FC = () => {
 
           <button
             type="button"
+            className="btn-press-effect"
             style={{
               width: '100%',
               padding: '16px',
@@ -467,7 +469,7 @@ export const WinterDoomScreen: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
               fontFamily: APPLE_FONT,
               boxShadow: '0 4px 14px rgba(0, 122, 255, 0.25)',
             }}
@@ -518,23 +520,27 @@ export const WinterDoomScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => setIsPlayingFormatVideo(true)}
+            className="btn-press-effect"
             style={{
-              padding: '12px 26px',
+              padding: '16px 36px',
+              minWidth: '240px',
               borderRadius: '9999px',
               background: '#1c1c1e',
               color: '#ffffff',
               border: 'none',
-              fontWeight: 700,
-              fontSize: '0.9rem',
+              fontWeight: 800,
+              fontSize: '0.95rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
-              transition: 'all 0.2s ease',
+              justifyContent: 'center',
+              gap: '10px',
+              transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
               fontFamily: APPLE_FONT,
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.15)',
             }}
           >
-            <Play size={16} color="#ffffff" fill="#ffffff" />
+            <Play size={18} color="#ffffff" fill="#ffffff" />
             <span>Format Explainer</span>
           </button>
         </div>
