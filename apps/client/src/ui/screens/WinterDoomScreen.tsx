@@ -26,6 +26,8 @@ const APPLE_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro
 export const WinterDoomScreen: React.FC = () => {
   const { setScreen, triggerGateTransition } = useGameStore();
   const [isPlayingFormatVideo, setIsPlayingFormatVideo] = useState(false);
+  const [showRoadmapModal, setShowRoadmapModal] = useState(false);
+  const [showRulesModal, setShowRulesModal] = useState(false);
 
   // Live 10-Day Countdown Timer state
   const [timeLeft, setTimeLeft] = useState({
@@ -267,55 +269,68 @@ export const WinterDoomScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* COLUMN 2: SCHEDULE & TIMELINE */}
-        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {/* COLUMN 2: GUIDELINES & ROADMAP BUTTONS HUB */}
+        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '18px', justifyContent: 'center' }}>
+          <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <Calendar size={20} color="#007aff" />
-            <span>Championship Schedule & Phases</span>
+            <span>Tournament Details & Hub</span>
           </div>
 
-          {/* Vertical Timeline Steps */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative' }}>
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#007aff', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
-                01
+          {/* BUTTON 1: ROADMAP & 3 PHASES */}
+          <div
+            onClick={() => setShowRoadmapModal(true)}
+            style={{
+              background: '#f2f2f7',
+              border: '1px solid #e5e5ea',
+              borderRadius: '22px',
+              padding: '20px 22px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: '#007aff', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Zap size={22} color="#ffffff" />
               </div>
               <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 1: Player Registration</div>
-                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '3px' }}>Starts 1st Week of September 2026. Open for 10 qualified teams.</div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1c1c1e' }}>Roadmap & 3 Phases</div>
+                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '2px' }}>View Phase 1, Phase 2 & Grand Finals timeline</div>
               </div>
             </div>
-
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#e5f1ff', color: '#007aff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
-                02
-              </div>
-              <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 2: Group Stage Knockouts</div>
-                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '3px' }}>5v5 squad elimination rounds across Cyber Arena map tracks.</div>
-              </div>
-            </div>
-
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#e5f1ff', color: '#007aff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
-                03
-              </div>
-              <div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 3: Grand Finals Showdown</div>
-                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '3px' }}>Live broadcasted finals to decide the Season 1 Champion.</div>
-              </div>
+            <div style={{ background: '#007aff', color: '#ffffff', padding: '8px 16px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.78rem' }}>
+              View
             </div>
           </div>
 
-          {/* Rules Summary Box */}
-          <div style={{ background: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '20px', padding: '16px 18px', marginTop: 'auto' }}>
-            <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#475569', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <FileText size={16} /> Official Tournament Rules
+          {/* BUTTON 2: OFFICIAL TOURNAMENT RULES */}
+          <div
+            onClick={() => setShowRulesModal(true)}
+            style={{
+              background: '#f2f2f7',
+              border: '1px solid #e5e5ea',
+              borderRadius: '22px',
+              padding: '20px 22px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: '#e5f1ff', color: '#007aff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <FileText size={22} color="#007aff" />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1c1c1e' }}>Official Tournament Rules</div>
+                <div style={{ fontSize: '0.78rem', color: '#8e8e93', marginTop: '2px' }}>View player guidelines, conduct & match policies</div>
+              </div>
             </div>
-            <div style={{ fontSize: '0.76rem', color: '#64748b', lineHeight: 1.45 }}>
-              • All racers must play using verified accounts.<br />
-              • Unsportsmanlike conduct or hacking leads to immediate ban.<br />
-              • Matches start strictly at scheduled round times.
+            <div style={{ background: '#1c1c1e', color: '#ffffff', padding: '8px 16px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.78rem' }}>
+              Read
             </div>
           </div>
         </div>
@@ -460,6 +475,142 @@ export const WinterDoomScreen: React.FC = () => {
           title="WINTER DOOM • FORMAT EXPLAINER VIDEO (t1)"
           onComplete={() => setIsPlayingFormatVideo(false)}
         />
+      )}
+
+      {/* ROADMAP & 3 PHASES MODAL */}
+      {showRoadmapModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.45)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+            boxSizing: 'border-box',
+          }}
+          onClick={() => setShowRoadmapModal(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '560px',
+              background: '#ffffff',
+              borderRadius: '28px',
+              padding: '32px',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.15)',
+              fontFamily: APPLE_FONT,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1c1c1e' }}>Tournament Roadmap (3 Phases)</div>
+              <button
+                type="button"
+                onClick={() => setShowRoadmapModal(false)}
+                style={{ background: '#f2f2f7', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontWeight: 800 }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#007aff', color: '#ffffff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
+                  01
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 1: Player Registration</div>
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginTop: '3px' }}>Starts 1st Week of September 2026. Open for 10 qualified teams.</div>
+                </div>
+              </div>
+
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#e5f1ff', color: '#007aff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
+                  02
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 2: Group Stage Knockouts</div>
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginTop: '3px' }}>5v5 squad elimination rounds across Cyber Arena map tracks.</div>
+                </div>
+              </div>
+
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: '#e5f1ff', color: '#007aff', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: '0.85rem' }}>
+                  03
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Phase 3: Grand Finals Showdown</div>
+                  <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginTop: '3px' }}>Live broadcasted finals to decide the Season 1 Champion.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OFFICIAL TOURNAMENT RULES MODAL */}
+      {showRulesModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.45)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '24px',
+            boxSizing: 'border-box',
+          }}
+          onClick={() => setShowRulesModal(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '560px',
+              background: '#ffffff',
+              borderRadius: '28px',
+              padding: '32px',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.15)',
+              fontFamily: APPLE_FONT,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1c1c1e' }}>Official Tournament Rules</div>
+              <button
+                type="button"
+                onClick={() => setShowRulesModal(false)}
+                style={{ background: '#f2f2f7', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontWeight: 800 }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', fontSize: '0.88rem', color: '#3a3a3c', lineHeight: 1.5 }}>
+              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '16px' }}>
+                <strong>1. Account Verification:</strong> All racers must play using official verified Clasha accounts.
+              </div>
+              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '16px' }}>
+                <strong>2. Fair Play Policy:</strong> Any third-party software, hacking, or unsportsmanlike conduct will result in instant team disqualification.
+              </div>
+              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '16px' }}>
+                <strong>3. Schedule Punctuality:</strong> Matches will start strictly at designated times. 5 minute grace period allowed for team check-in.
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
