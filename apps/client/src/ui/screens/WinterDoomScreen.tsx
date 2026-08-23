@@ -220,37 +220,15 @@ export const WinterDoomScreen: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Hero Media Card */}
           <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid #e5e5ea', height: '220px' }}>
+            <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid #e5e5ea', height: '240px' }}>
               <img
-                src="/tournament_shutter_bg.png"
-                alt="Winter Doom Tournament"
+                src="/shutterdesign.png"
+                alt="Winter Doom Tournament Shutter"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = '/cabin2.jpeg';
                 }}
               />
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: '60%',
-                  background: 'linear-gradient(180deg, transparent 0%, rgba(28, 28, 30, 0.9) 100%)',
-                  padding: '16px',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#70e1ff', letterSpacing: '0.1em' }}>$10,000 TOTAL POOL</div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff' }}>Winter Doom Battle</div>
-                </div>
-                <span style={{ background: '#e4f9ec', color: '#34c759', padding: '4px 12px', borderRadius: '9999px', fontWeight: 700, fontSize: '0.75rem' }}>
-                  Enrollment Open
-                </span>
-              </div>
             </div>
 
             {/* Quick Match Specs */}
