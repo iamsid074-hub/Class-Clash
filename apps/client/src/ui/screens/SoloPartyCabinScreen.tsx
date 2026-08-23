@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
-import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft, User } from 'lucide-react';
+import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 import { AudioManager } from '../../utils/AudioManager';
 import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
@@ -1043,28 +1043,28 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - WINNER VIDEO PLAYBACK */}
+        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - WINNER VIDEO */}
         {(state.phase === 'GAME_OVER_CHAMPION' || (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds)) && (
           <div
-            key="MATCH_FINISHED_WINNER_VIDEO"
+            key="MATCH_FINISHED_PODIUM"
             className="tv-phase-animated"
             style={{
+              position: 'relative',
               width: '100%',
               height: '100%',
-              position: 'relative',
+              background: '#000000',
+              overflow: 'hidden',
+              borderRadius: 'inherit',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              overflow: 'hidden',
-              borderRadius: 'inherit',
-              background: '#000000',
             }}
           >
             <video
               src="/videos/winner.mp4"
               autoPlay
-              loop
               muted
+              loop
               playsInline
               style={{
                 width: '100%',
@@ -1073,91 +1073,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 display: 'block',
               }}
             />
-            {/* Centered overlay content positioned precisely inside video's pre-rendered pill graphic */}
-            {(() => {
-              const winnerPlayer = championPlayer || sortedPodiumPlayers[0] || (allPlayersList.length > 0 ? allPlayersList[0] : null);
-              const winnerName = (winnerPlayer?.displayName || displayName || 'VIRAT').toUpperCase();
-
-              return (
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    width: '320px',
-                    padding: '0 24px',
-                    boxSizing: 'border-box',
-                    zIndex: 10,
-                    pointerEvents: 'none',
-                  }}
-                >
-                  {/* Left Circular Black Profile Icon (Fits over left side of video's white pill graphic) */}
-                  <div
-                    style={{
-                      width: '52px',
-                      height: '52px',
-                      borderRadius: '50%',
-                      background: '#111827',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      overflow: 'hidden',
-                      flexShrink: 0,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-                    }}
-                  >
-                    {winnerPlayer?.avatar && (winnerPlayer.avatar.startsWith('data:') || winnerPlayer.avatar.startsWith('http') || winnerPlayer.avatar.startsWith('/')) ? (
-                      <img src={winnerPlayer.avatar} alt="Winner Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <User size={28} color="#ffffff" strokeWidth={2.2} />
-                    )}
-                  </div>
-
-                  {/* Right Winner Name & Title (Fits inside white pill body of video graphic) */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      justifyContent: 'center',
-                      marginLeft: '16px',
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: '0.85rem',
-                        fontWeight: 900,
-                        color: '#0f172a',
-                        letterSpacing: '0.08em',
-                        lineHeight: 1,
-                        textTransform: 'uppercase',
-                        fontFamily: "system-ui, -apple-system, sans-serif",
-                      }}
-                    >
-                      WINNER
-                    </div>
-                    <div
-                      style={{
-                        fontSize: '1.75rem',
-                        fontWeight: 900,
-                        fontStyle: 'italic',
-                        color: '#000000',
-                        letterSpacing: '0.03em',
-                        fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
-                        lineHeight: 1.1,
-                        marginTop: '2px',
-                      }}
-                    >
-                      {winnerName}
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
           </div>
         )}
       </div>
