@@ -245,7 +245,7 @@ export const WinterDoomScreen: React.FC = () => {
                   <span style={{ fontSize: '1.2rem' }}>🥇</span>
                   <span style={{ fontWeight: 800, color: '#1c1c1e', fontSize: '0.9rem' }}>1st Place Winner</span>
                 </div>
-                <span style={{ fontWeight: 800, color: '#d97706', fontSize: '0.95rem' }}>$5,000 + Golden Trophy</span>
+                <span style={{ fontWeight: 800, color: '#d97706', fontSize: '0.95rem' }}>TBA</span>
               </div>
 
               <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -253,7 +253,7 @@ export const WinterDoomScreen: React.FC = () => {
                   <span style={{ fontSize: '1.2rem' }}>🥈</span>
                   <span style={{ fontWeight: 800, color: '#1c1c1e', fontSize: '0.9rem' }}>2nd Place Runner Up</span>
                 </div>
-                <span style={{ fontWeight: 800, color: '#64748b', fontSize: '0.95rem' }}>$3,000 Prize</span>
+                <span style={{ fontWeight: 800, color: '#64748b', fontSize: '0.95rem' }}>TBA</span>
               </div>
 
               <div style={{ background: '#fff5f5', border: '1px solid #fed7d7', borderRadius: '16px', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -261,7 +261,7 @@ export const WinterDoomScreen: React.FC = () => {
                   <span style={{ fontSize: '1.2rem' }}>🥉</span>
                   <span style={{ fontWeight: 800, color: '#1c1c1e', fontSize: '0.9rem' }}>3rd Place Finalist</span>
                 </div>
-                <span style={{ fontWeight: 800, color: '#c53030', fontSize: '0.95rem' }}>$2,000 Prize</span>
+                <span style={{ fontWeight: 800, color: '#c53030', fontSize: '0.95rem' }}>TBA</span>
               </div>
             </div>
           </div>
