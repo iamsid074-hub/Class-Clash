@@ -1104,6 +1104,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 transition: 'opacity 0.3s ease-in-out',
               }}
             >
+              {/* WINNER NAME */}
               <div
                 style={{
                   fontSize: 'clamp(0.95rem, 2.2vw, 1.4rem)',
@@ -1118,6 +1119,24 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 }}
               >
                 {(sortedPodiumPlayers[0]?.displayName || championPlayer?.displayName || 'VIRAT').toUpperCase()}
+              </div>
+
+              {/* EARNED POINTS BADGE */}
+              <div
+                style={{
+                  fontSize: 'clamp(0.65rem, 1.4vw, 0.85rem)',
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  background: 'linear-gradient(135deg, #ff0066 0%, #d90429 100%)',
+                  padding: '2px 10px',
+                  borderRadius: '50px',
+                  marginTop: '3px',
+                  boxShadow: '0 2px 8px rgba(255, 0, 102, 0.4)',
+                  letterSpacing: '0.06em',
+                  fontStyle: 'italic',
+                }}
+              >
+                {sortedPodiumPlayers[0]?.score || championPlayer?.score || 150} PTS EARNED
               </div>
             </div>
           </div>
