@@ -218,9 +218,9 @@ export const WinterDoomScreen: React.FC = () => {
       >
         {/* COLUMN 1: TOURNAMENT MEDIA & PRIZES */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Hero Media Card */}
-          <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid #e5e5ea', height: '240px' }}>
+          {/* Hero Media Card (Full Shutter Image) */}
+          <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '16px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid #e5e5ea', height: '290px' }}>
               <img
                 src="/shutterdesign.png"
                 alt="Winter Doom Tournament Shutter"
@@ -229,25 +229,6 @@ export const WinterDoomScreen: React.FC = () => {
                   (e.currentTarget as HTMLImageElement).src = '/cabin2.jpeg';
                 }}
               />
-            </div>
-
-            {/* Quick Match Specs */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Swords size={18} color="#007aff" />
-                <div>
-                  <div style={{ fontSize: '0.65rem', color: '#8e8e93', fontWeight: 700 }}>FORMAT</div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#1c1c1e' }}>5v5 Squad Battle</div>
-                </div>
-              </div>
-
-              <div style={{ background: '#f2f2f7', borderRadius: '16px', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Globe2 size={18} color="#007aff" />
-                <div>
-                  <div style={{ fontSize: '0.65rem', color: '#8e8e93', fontWeight: 700 }}>SERVER</div>
-                  <div style={{ fontSize: '0.82rem', fontWeight: 800, color: '#1c1c1e' }}>Asia East Arena</div>
-                </div>
-              </div>
             </div>
           </div>
 
