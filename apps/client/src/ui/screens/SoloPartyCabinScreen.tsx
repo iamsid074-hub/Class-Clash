@@ -600,8 +600,9 @@ export const SoloPartyCabinScreen: React.FC = () => {
               }
         }
       >
-        {/* Authentic Digital OLED/CRT TV Monitor Scanlines Overlay */}
+        {/* Authentic High-Def 4K OLED TV Monitor Micro-Pixel & Glass Sheen Overlay */}
         <div className="tv-scanlines-overlay" />
+        <div className="tv-glass-glare" />
 
         {/* 🎬 START VIDEO OVERLAY ON LED SCREEN (PLAYS FOR 2 SECONDS WITH SMOOTH FADE OUT) */}
         {showStartVideo && (
