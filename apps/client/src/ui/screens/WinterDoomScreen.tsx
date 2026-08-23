@@ -30,8 +30,8 @@ export const WinterDoomScreen: React.FC = () => {
         zIndex: 10,
       }}
     >
-      {/* 1. TOP NAVIGATION HEADER */}
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+      {/* 1. TOP NAVIGATION HEADER (LEFT ALIGNED) */}
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <button
           type="button"
           onClick={handleBackToMainMenu}
@@ -60,24 +60,24 @@ export const WinterDoomScreen: React.FC = () => {
           <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#007aff', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '2px', fontFamily: APPLE_FONT }}>
             UPCOMING CHAMPIONSHIP
           </div>
-          <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT }}>
+          <div style={{ fontSize: '1.65rem', fontWeight: 800, color: '#1c1c1e', letterSpacing: '-0.02em', fontFamily: APPLE_FONT }}>
             Winter Doom Tournament
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN 2-COLUMN PROFILE-STYLE CARDS LAYOUT (FULL PAGE WIDTH) */}
-      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '28px', marginBottom: '28px' }}>
+      {/* 2. MAIN 2-COLUMN PROFILE-STYLE CARDS LAYOUT (LEFT ALIGNED & COMPACT WIDTH) */}
+      <div style={{ width: '100%', maxWidth: '1000px', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '24px', marginBottom: '20px' }}>
         {/* LEFT COLUMN: BANNER IMAGE & QUICK STATS */}
-        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {/* Main Tournament Image Frame */}
           <div
             style={{
               position: 'relative',
-              borderRadius: '24px',
+              borderRadius: '20px',
               overflow: 'hidden',
               border: '1px solid #e5e5ea',
-              height: '340px',
+              height: '260px',
             }}
           >
             <img
@@ -102,7 +102,7 @@ export const WinterDoomScreen: React.FC = () => {
                 right: 0,
                 height: '55%',
                 background: 'linear-gradient(180deg, transparent 0%, rgba(28, 28, 30, 0.88) 100%)',
-                padding: '20px 24px',
+                padding: '16px 20px',
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'space-between',
@@ -112,7 +112,7 @@ export const WinterDoomScreen: React.FC = () => {
                 <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#70e1ff', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>
                   $10,000 PRIZE POOL
                 </div>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.01em', fontFamily: APPLE_FONT }}>
+                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.01em', fontFamily: APPLE_FONT }}>
                   Squad Battle Royale
                 </div>
               </div>
@@ -121,10 +121,10 @@ export const WinterDoomScreen: React.FC = () => {
                 style={{
                   background: '#e4f9ec',
                   color: '#34c759',
-                  padding: '6px 16px',
+                  padding: '6px 14px',
                   borderRadius: '9999px',
                   fontWeight: 700,
-                  fontSize: '0.78rem',
+                  fontSize: '0.75rem',
                   fontFamily: APPLE_FONT,
                 }}
               >
@@ -134,62 +134,62 @@ export const WinterDoomScreen: React.FC = () => {
           </div>
 
           {/* Quick Stats Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 12px', textAlign: 'center' }}>
-              <Calendar size={20} color="#007aff" style={{ margin: '0 auto 6px' }} />
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>SCHEDULED</div>
-              <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>1st Wk SEPT</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 10px', textAlign: 'center' }}>
+              <Calendar size={18} color="#007aff" style={{ margin: '0 auto 4px' }} />
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>SCHEDULED</div>
+              <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>1st Wk SEPT</div>
             </div>
 
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 12px', textAlign: 'center' }}>
-              <Users size={20} color="#007aff" style={{ margin: '0 auto 6px' }} />
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>CAPACITY</div>
-              <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>10 Teams</div>
+            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 10px', textAlign: 'center' }}>
+              <Users size={18} color="#007aff" style={{ margin: '0 auto 4px' }} />
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>CAPACITY</div>
+              <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>10 Teams</div>
             </div>
 
-            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 12px', textAlign: 'center' }}>
-              <Trophy size={20} color="#007aff" style={{ margin: '0 auto 6px' }} />
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>REWARDS</div>
-              <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>Top 1 Winner</div>
+            <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 10px', textAlign: 'center' }}>
+              <Trophy size={18} color="#007aff" style={{ margin: '0 auto 4px' }} />
+              <div style={{ fontSize: '0.65rem', fontWeight: 700, color: '#8e8e93', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: APPLE_FONT }}>REWARDS</div>
+              <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1c1c1e', marginTop: '2px', fontFamily: APPLE_FONT }}>Top 1 Winner</div>
             </div>
           </div>
         </div>
 
         {/* RIGHT COLUMN: QUALIFICATION REQUIREMENTS */}
-        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '28px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
-            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '18px', letterSpacing: '-0.01em', fontFamily: APPLE_FONT }}>
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: '#1c1c1e', marginBottom: '16px', letterSpacing: '-0.01em', fontFamily: APPLE_FONT }}>
               Qualification Requirements
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '24px' }}>
-              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Check size={18} color="#34c759" strokeWidth={2.5} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Check size={16} color="#34c759" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Play at least 10 rounds on Clasha</div>
-                  <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Minimum match participation requirement</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Play at least 10 rounds on Clasha</div>
+                  <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Minimum match participation requirement</div>
                 </div>
               </div>
 
-              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Check size={18} color="#34c759" strokeWidth={2.5} />
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Check size={16} color="#34c759" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Points on leaderboard &gt; 50</div>
-                  <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Global skill ranking score cutoff</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Points on leaderboard &gt; 50</div>
+                  <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Global skill ranking score cutoff</div>
                 </div>
               </div>
 
-              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '20px', padding: '16px 18px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Check size={18} color="#34c759" strokeWidth={2.5} />
+              <div style={{ background: '#f2f2f7', border: '1px solid #e5e5ea', borderRadius: '18px', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '30px', height: '30px', borderRadius: '50%', background: '#e4f9ec', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Check size={16} color="#34c759" strokeWidth={2.5} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Verified Racer Account</div>
-                  <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Official account authentication check</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1c1c1e', fontFamily: APPLE_FONT }}>Verified Racer Account</div>
+                  <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>Official account authentication check</div>
                 </div>
               </div>
             </div>
@@ -199,13 +199,13 @@ export const WinterDoomScreen: React.FC = () => {
             type="button"
             style={{
               width: '100%',
-              padding: '16px 24px',
+              padding: '14px 20px',
               borderRadius: '9999px',
               background: '#007aff',
               border: 'none',
               color: '#ffffff',
               fontWeight: 700,
-              fontSize: '0.98rem',
+              fontSize: '0.95rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -221,16 +221,15 @@ export const WinterDoomScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (COMPACT SLEEK WIDTH) */}
-      <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (LEFT ALIGNED COMPACT WIDTH) */}
+      <div style={{ width: '100%', maxWidth: '1000px' }}>
         <div
           style={{
             width: '100%',
-            maxWidth: '850px',
             background: '#ffffff',
             border: '1px solid #e5e5ea',
-            borderRadius: '32px',
-            padding: '20px 28px',
+            borderRadius: '28px',
+            padding: '18px 24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
