@@ -1043,119 +1043,60 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - PODIUM CHAMPIONS (1ST, 2ND, 3RD) */}
+        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - WINNER VIDEO PLAYBACK */}
         {(state.phase === 'GAME_OVER_CHAMPION' || (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds)) && (
           <div
-            key="MATCH_FINISHED_PODIUM"
+            key="MATCH_FINISHED_WINNER_VIDEO"
             className="tv-phase-animated"
             style={{
               width: '100%',
               height: '100%',
-              padding: '12px 18px',
-              boxSizing: 'border-box',
+              position: 'relative',
               display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
-              textAlign: 'center',
+              overflow: 'hidden',
+              borderRadius: 'inherit',
+              background: '#000000',
             }}
           >
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '3px 14px', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.25)', borderRadius: '50px' }}>
-              <Trophy size={14} color="#ffffff" />
-              <span style={{ fontSize: '0.72rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.14em' }}>
-                MATCH FINISHED • FINAL PODIUM STANDINGS
+            <video
+              src="/videos/winner.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+            {/* Top Victory Badge Overlay */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '12px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '4px 16px',
+                background: 'rgba(0, 0, 0, 0.65)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(255, 215, 0, 0.4)',
+                borderRadius: '50px',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
+                zIndex: 2,
+              }}
+            >
+              <Trophy size={14} color="#ffd700" />
+              <span style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.14em' }}>
+                MATCH FINISHED • VICTORY
               </span>
             </div>
-
-            {/* Top 3 Champions Cards Row */}
-            <div style={{ display: 'flex', gap: '10px', width: '100%', alignItems: 'flex-end', justifyContent: 'center', flex: 1, margin: '8px 0' }}>
-              {/* 2ND PLACE */}
-              {sortedPodiumPlayers[1] ? (
-                <div
-                  style={{
-                    flex: 1,
-                    height: '80%',
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    border: '1.5px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '12px',
-                    padding: '8px 6px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#94a3b8', letterSpacing: '0.08em' }}>
-                    🥈 2ND PLACE
-                  </div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
-                    {sortedPodiumPlayers[1].displayName.toUpperCase()}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
-                    {sortedPodiumPlayers[1].score || 100} PTS
-                  </div>
-                </div>
-              ) : null}
-
-              {/* 1ST PLACE (CENTER CHAMPION HIGHLIGHT) */}
-              {sortedPodiumPlayers[0] ? (
-                <div
-                  style={{
-                    flex: 1.2,
-                    height: '100%',
-                    background: 'linear-gradient(135deg, rgba(255, 0, 102, 0.2) 0%, rgba(255, 51, 133, 0.1) 100%)',
-                    border: '2px solid #ffffff',
-                    borderRadius: '14px',
-                    padding: '10px 8px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    boxShadow: '0 0 20px rgba(255, 0, 102, 0.4)',
-                  }}
-                >
-                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#fbbf24', letterSpacing: '0.08em' }}>
-                    🥇 1ST CHAMPION
-                  </div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
-                    {sortedPodiumPlayers[0].displayName.toUpperCase()}
-                  </div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff', background: '#ff0066', padding: '2px 10px', borderRadius: '50px' }}>
-                    {sortedPodiumPlayers[0].score || 150} PTS
-                  </div>
-                </div>
-              ) : null}
-
-              {/* 3RD PLACE */}
-              {sortedPodiumPlayers[2] ? (
-                <div
-                  style={{
-                    flex: 1,
-                    height: '70%',
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    border: '1.5px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '12px',
-                    padding: '8px 6px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#b45309', letterSpacing: '0.08em' }}>
-                    🥉 3RD PLACE
-                  </div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
-                    {sortedPodiumPlayers[2].displayName.toUpperCase()}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
-                    {sortedPodiumPlayers[2].score || 50} PTS
-                  </div>
-                </div>
-              ) : null}
-            </div>
-
           </div>
         )}
       </div>
