@@ -1,7 +1,7 @@
 /**
  * Singleton Audio Manager for CLASHA
- * Handles global background music playback with smooth Fade-In / Fade-Out transitions
- * and independent SFX/Dare volume controls.
+ * Handles global background music playback with smooth Fade-In / Fade-Out transitions,
+ * button click sound effects, shutter swish sound effects, and independent SFX/Dare volume controls.
  */
 
 export class AudioManager {
@@ -11,11 +11,145 @@ export class AudioManager {
   private static sfxVolume = 0.9; // SFX & Dare Volume (0-1)
   private static isMusicEnabled = true;
   private static fadeInterval: NodeJS.Timeout | null = null;
+  private static audioCtx: AudioContext | null = null;
+  private static isClickListenerBound = false;
+
+  private static getAudioContext(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
+    if (!this.audioCtx) {
+      const AudioCtxClass =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (AudioCtxClass) {
+        this.audioCtx = new AudioCtxClass();
+      }
+    }
+    if (this.audioCtx && this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume().catch(() => {});
+    }
+    return this.audioCtx;
+  }
 
   /**
-   * Initialize Global Background Music
+   * Play Crisp Arcade / Apple UI Button Click Sound Effect (Web Audio API)
+   */
+  public static playClick(): void {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx || this.sfxVolume <= 0) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'sine';
+      const now = ctx.currentTime;
+
+      // Frequency drop for tactile click feel
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(220, now + 0.035);
+
+      const vol = Math.min(1, Math.max(0, this.sfxVolume * 0.35));
+      gain.gain.setValueAtTime(vol, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch {
+      // Audio context fallback
+    }
+  }
+
+  /**
+   * Play Futuristic Metal Shutter Swish / Whoosh Sound Effect (Web Audio API)
+   */
+  public static playShutterSwish(): void {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx || this.sfxVolume <= 0) return;
+
+      const now = ctx.currentTime;
+      const duration = 0.45; // 450ms metallic swish sound
+
+      // Noise buffer for air turbulence swish
+      const bufferSize = ctx.sampleRate * duration;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      // Bandpass filter sweep for high-to-low heavy swish
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(400, now);
+      filter.frequency.exponentialRampToValueAtTime(2600, now + duration * 0.4);
+      filter.frequency.exponentialRampToValueAtTime(180, now + duration);
+      filter.Q.value = 2.5;
+
+      const gain = ctx.createGain();
+      const vol = Math.min(1, Math.max(0, this.sfxVolume * 0.45));
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(vol, now + duration * 0.25);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      noise.connect(filter);
+      filter.connect(gain);
+
+      // Low-frequency metallic sub boom sweep
+      const osc = ctx.createOscillator();
+      const oscGain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(160, now);
+      osc.frequency.exponentialRampToValueAtTime(45, now + duration);
+
+      oscGain.gain.setValueAtTime(0.001, now);
+      oscGain.gain.linearRampToValueAtTime(vol * 0.5, now + duration * 0.2);
+      oscGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+      osc.connect(oscGain);
+      oscGain.connect(gain);
+
+      gain.connect(ctx.destination);
+
+      noise.start(now);
+      noise.stop(now + duration);
+      osc.start(now);
+      osc.stop(now + duration);
+    } catch {
+      // Audio context fallback
+    }
+  }
+
+  /**
+   * Bind global button click listener for automatic UI click sound effects
+   */
+  public static initClickSoundListener(): void {
+    if (typeof window === 'undefined' || this.isClickListenerBound) return;
+    this.isClickListenerBound = true;
+
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const button = target.closest('button, [role="button"], a, input[type="submit"], input[type="button"], .btn-press-effect');
+      if (button) {
+        AudioManager.playClick();
+      }
+    };
+    window.addEventListener('click', handleGlobalClick, { capture: true });
+  }
+
+  /**
+   * Initialize Global Background Music & SFX Listeners
    */
   public static initBgMusic(): void {
+    this.initClickSoundListener();
+
     if (this.isInitialized && this.bgAudio) return;
 
     // Load saved settings from localStorage if available

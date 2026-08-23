@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { AudioManager } from '../utils/AudioManager';
 import {
   PlayerState,
   Team,
@@ -135,6 +136,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Step 1: Slam gates shut into center (30ms -> 450ms)
     setTimeout(() => {
+      AudioManager.playShutterSwish();
       set({ isGateClosed: true });
     }, 30);
 
@@ -145,6 +147,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Step 3: Retract gates open (1600ms -> 2100ms)
     setTimeout(() => {
+      AudioManager.playShutterSwish();
       set({ isGateClosed: false });
     }, 1600);
 
