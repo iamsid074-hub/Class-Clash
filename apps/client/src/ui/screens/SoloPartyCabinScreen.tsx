@@ -14,6 +14,29 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [shufflingName, setShufflingName] = useState('');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [showStartVideo, setShowStartVideo] = useState(false);
+  const [videoOpacity, setVideoOpacity] = useState(1);
+  const isPlayingStartVideoRef = useRef(false);
+
+  const triggerStartVideoSequence = (onCompleteSequence?: () => void) => {
+    if (isPlayingStartVideoRef.current) return;
+    isPlayingStartVideoRef.current = true;
+
+    setShowStartVideo(true);
+    setVideoOpacity(1);
+
+    // At 2.0s: Smooth Fade-Out over LED screen
+    setTimeout(() => {
+      setVideoOpacity(0);
+    }, 2000);
+
+    // At 2.4s: Finish video sequence & proceed
+    setTimeout(() => {
+      setShowStartVideo(false);
+      isPlayingStartVideoRef.current = false;
+      if (onCompleteSequence) onCompleteSequence();
+    }, 2400);
+  };
 
   // Check if active user is Admin (iamsid073@gmail.com) or Room Leader/Host
   const isAdmin = useMemo(() => {
@@ -210,18 +233,39 @@ export const SoloPartyCabinScreen: React.FC = () => {
     return () => clearInterval(interval);
   }, [playerId]);
 
-  const handleStartMatch = () => {
-    if (NetworkClient.isConnected()) {
-      NetworkClient.send({ type: 'START_SOLO_GAME', payload: {} });
+  // Auto-play 2-second start video on LED screen when 3-min join window timer reaches 0
+  useEffect(() => {
+    if (state.phase === 'LOBBY' && state.phaseTimeRemaining === 0 && !isPlayingStartVideoRef.current) {
+      triggerStartVideoSequence(() => {
+        if (NetworkClient.isConnected()) {
+          NetworkClient.send({ type: 'START_SOLO_GAME', payload: {} });
+        }
+        const current = useGameStore.getState().soloGameState || state;
+        useGameStore.getState().updateSoloGameState({
+          ...current,
+          isLocked: true,
+          phase: 'PLAYER_SELECTION',
+          phaseTimeRemaining: 5,
+          selectedPlayerId: playerId,
+        });
+      });
     }
-    // Always advance state locally as well so UI starts immediately
-    const current = useGameStore.getState().soloGameState || state;
-    useGameStore.getState().updateSoloGameState({
-      ...current,
-      isLocked: true,
-      phase: 'PLAYER_SELECTION',
-      phaseTimeRemaining: 5,
-      selectedPlayerId: playerId,
+  }, [state.phase, state.phaseTimeRemaining, playerId]);
+
+  const handleStartMatch = () => {
+    triggerStartVideoSequence(() => {
+      if (NetworkClient.isConnected()) {
+        NetworkClient.send({ type: 'START_SOLO_GAME', payload: {} });
+      }
+      // Always advance state locally as well so UI starts immediately
+      const current = useGameStore.getState().soloGameState || state;
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        isLocked: true,
+        phase: 'PLAYER_SELECTION',
+        phaseTimeRemaining: 5,
+        selectedPlayerId: playerId,
+      });
     });
   };
 
@@ -449,6 +493,38 @@ export const SoloPartyCabinScreen: React.FC = () => {
       >
         {/* Authentic Digital OLED/CRT TV Monitor Scanlines Overlay */}
         <div className="tv-scanlines-overlay" />
+
+        {/* 🎬 START VIDEO OVERLAY ON LED SCREEN (PLAYS FOR 2 SECONDS WITH SMOOTH FADE OUT) */}
+        {showStartVideo && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              zIndex: 50,
+              background: '#000000',
+              opacity: videoOpacity,
+              transition: 'opacity 0.4s ease-out',
+              overflow: 'hidden',
+              borderRadius: 'inherit',
+            }}
+          >
+            <video
+              src="/videos/start.mp4"
+              autoPlay
+              muted
+              playsInline
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                display: 'block',
+              }}
+            />
+          </div>
+        )}
 
         {/* Phase: LOBBY / CABIN FREE ROAM - Joined Players Roster (Scrollable) */}
         {state.phase === 'LOBBY' && (
