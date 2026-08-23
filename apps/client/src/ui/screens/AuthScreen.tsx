@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
-import { Lock, Mail, User, ArrowRight, Sparkles, Loader2, Zap } from 'lucide-react';
+import { Lock, Mail, User, ArrowRight, Sparkles, Loader2, Zap, Gift, Check, FileText, X } from 'lucide-react';
 
 const GoogleIcon: React.FC = () => (
   <svg width="20" height="20" viewBox="0 0 24 24">
@@ -31,6 +31,9 @@ export const AuthScreen: React.FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [nameInput, setNameInput] = useState('');
+  const [referralCodeInput, setReferralCodeInput] = useState('');
+  const [acceptedTnc, setAcceptedTnc] = useState(false);
+  const [showTncModal, setShowTncModal] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -107,6 +110,12 @@ export const AuthScreen: React.FC = () => {
           return;
         }
 
+        if (!acceptedTnc) {
+          setAuthError('Please accept the Terms & Conditions to register.');
+          setIsLoading(false);
+          return;
+        }
+
         const { error, profile } = await SupabaseAuthService.signUp(
           emailInput.trim(),
           passwordInput.trim(),
@@ -158,11 +167,13 @@ export const AuthScreen: React.FC = () => {
         style={{
           position: 'relative',
           zIndex: 10,
-          width: '440px',
+          width: '450px',
           maxWidth: '92vw',
-          background: 'rgba(24, 24, 30, 0.78)',
-          backdropFilter: 'blur(30px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+          maxHeight: '92vh',
+          overflowY: 'auto',
+          background: 'rgba(24, 24, 30, 0.82)',
+          backdropFilter: 'blur(35px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(35px) saturate(180%)',
           border: '1px solid rgba(255, 255, 255, 0.16)',
           borderRadius: '36px',
           padding: '36px 36px',
@@ -170,7 +181,8 @@ export const AuthScreen: React.FC = () => {
           boxShadow: '0 24px 60px rgba(0, 0, 0, 0.45)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '22px',
+          gap: '20px',
+          transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         {/* Title */}
@@ -199,13 +211,13 @@ export const AuthScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Apple iOS Segmented Control */}
+        {/* Apple iOS Segmented Control with Smooth Sliding Pill */}
         <div
           style={{
             position: 'relative',
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            background: 'rgba(118, 118, 128, 0.26)',
+            background: 'rgba(118, 118, 128, 0.28)',
             padding: '3px',
             borderRadius: '20px',
             overflow: 'hidden',
@@ -221,7 +233,7 @@ export const AuthScreen: React.FC = () => {
               borderRadius: '17px',
               background: '#ffffff',
               boxShadow: '0 3px 10px rgba(0, 0, 0, 0.25)',
-              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
               zIndex: 1,
             }}
           />
@@ -244,7 +256,7 @@ export const AuthScreen: React.FC = () => {
               fontSize: '0.88rem',
               fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
               cursor: 'pointer',
-              transition: 'color 0.2s ease',
+              transition: 'color 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             Sign In
@@ -268,7 +280,7 @@ export const AuthScreen: React.FC = () => {
               fontSize: '0.88rem',
               fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
               cursor: 'pointer',
-              transition: 'color 0.2s ease',
+              transition: 'color 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             Register
@@ -323,11 +335,24 @@ export const AuthScreen: React.FC = () => {
         )}
 
         {/* Input Form */}
-        <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handleAuthSubmit}>
-          {mode === 'REGISTER' && (
+        <form style={{ display: 'flex', flexDirection: 'column', gap: '14px' }} onSubmit={handleAuthSubmit}>
+          {/* Animated Container for Registration Fields (Username, Invitation Code, T&C Checkbox) */}
+          <div
+            style={{
+              maxHeight: mode === 'REGISTER' ? '300px' : '0px',
+              opacity: mode === 'REGISTER' ? 1 : 0,
+              transform: mode === 'REGISTER' ? 'translateY(0px)' : 'translateY(-10px)',
+              overflow: 'hidden',
+              transition: 'max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+            }}
+          >
+            {/* Username */}
             <div>
               <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
-                <User size={15} color="#007aff" /> Username
+                <User size={15} color="#007aff" /> Username / Display Name
               </label>
               <input
                 type="text"
@@ -335,7 +360,7 @@ export const AuthScreen: React.FC = () => {
                 onChange={(e) => setNameInput(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '14px 18px',
+                  padding: '13px 18px',
                   borderRadius: '18px',
                   border: '1px solid rgba(255, 255, 255, 0.16)',
                   background: 'rgba(255, 255, 255, 0.08)',
@@ -346,10 +371,79 @@ export const AuthScreen: React.FC = () => {
                   boxSizing: 'border-box',
                 }}
                 placeholder="Enter Username"
-                required
+                required={mode === 'REGISTER'}
               />
             </div>
-          )}
+
+            {/* Invitation Code Field */}
+            <div>
+              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                <Gift size={15} color="#ff9500" /> Invitation / Referral Code (Optional)
+              </label>
+              <input
+                type="text"
+                value={referralCodeInput}
+                onChange={(e) => setReferralCodeInput(e.target.value.toUpperCase())}
+                style={{
+                  width: '100%',
+                  padding: '13px 18px',
+                  borderRadius: '18px',
+                  border: '1px solid rgba(255, 149, 0, 0.3)',
+                  background: 'rgba(255, 149, 0, 0.06)',
+                  color: '#ff9500',
+                  fontWeight: 700,
+                  fontSize: '0.96rem',
+                  letterSpacing: '0.04em',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+                placeholder="e.g. CLASHA-RACER10"
+              />
+            </div>
+
+            {/* Terms & Conditions Checkbox */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '2px 0',
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
+              onClick={() => setAcceptedTnc(!acceptedTnc)}
+            >
+              <div
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  borderRadius: '7px',
+                  border: acceptedTnc ? '2px solid #007aff' : '2px solid rgba(255, 255, 255, 0.35)',
+                  background: acceptedTnc ? '#007aff' : 'rgba(255, 255, 255, 0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                  flexShrink: 0,
+                }}
+              >
+                {acceptedTnc && <Check size={14} color="#ffffff" strokeWidth={3} />}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.85)', fontWeight: 500, lineHeight: 1.35 }}>
+                I agree to the{' '}
+                <span
+                  style={{ color: '#007aff', fontWeight: 700, textDecoration: 'underline' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowTncModal(true);
+                  }}
+                >
+                  Terms & Conditions
+                </span>{' '}
+                and Fair Play Rules
+              </div>
+            </div>
+          </div>
 
           <div>
             <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
@@ -361,7 +455,7 @@ export const AuthScreen: React.FC = () => {
               onChange={(e) => setEmailInput(e.target.value)}
               style={{
                 width: '100%',
-                padding: '14px 18px',
+                padding: '13px 18px',
                 borderRadius: '18px',
                 border: '1px solid rgba(255, 255, 255, 0.16)',
                 background: 'rgba(255, 255, 255, 0.08)',
@@ -386,7 +480,7 @@ export const AuthScreen: React.FC = () => {
               onChange={(e) => setPasswordInput(e.target.value)}
               style={{
                 width: '100%',
-                padding: '14px 18px',
+                padding: '13px 18px',
                 borderRadius: '18px',
                 border: '1px solid rgba(255, 255, 255, 0.16)',
                 background: 'rgba(255, 255, 255, 0.08)',
@@ -420,12 +514,12 @@ export const AuthScreen: React.FC = () => {
               fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
               cursor: isLoading ? 'wait' : 'pointer',
               boxShadow: '0 8px 24px rgba(0, 122, 255, 0.35)',
-              marginTop: '8px',
+              marginTop: '4px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '10px',
-              transition: 'all 0.2s ease',
+              transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             {isLoading ? (
@@ -446,7 +540,7 @@ export const AuthScreen: React.FC = () => {
         </form>
 
         {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '2px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '0' }}>
           <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
           <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)' }}>
             or
@@ -476,13 +570,112 @@ export const AuthScreen: React.FC = () => {
             justifyContent: 'center',
             gap: '12px',
             cursor: isLoading ? 'not-allowed' : 'pointer',
-            transition: 'all 0.2s ease',
+            transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <GoogleIcon />
           <span>Continue with Google</span>
         </button>
       </div>
+
+      {/* 📜 APPLE iOS LIGHT MODE TERMS & CONDITIONS MODAL */}
+      {showTncModal && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            zIndex: 99999,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '20px',
+          }}
+          onClick={() => setShowTncModal(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '520px',
+              background: '#ffffff',
+              borderRadius: '28px',
+              padding: '28px',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              color: '#1c1c1e',
+              animation: 'slideUpBottom 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <FileText size={22} color="#007aff" />
+                <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 800 }}>Terms & Conditions</h3>
+              </div>
+              <button
+                onClick={() => setShowTncModal(false)}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: '#f2f2f7',
+                  border: 'none',
+                  color: '#1c1c1e',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div style={{ fontSize: '0.86rem', color: '#3a3a3c', lineHeight: 1.6, maxHeight: '60vh', overflowY: 'auto', paddingRight: '6px' }}>
+              <p style={{ margin: '0 0 10px 0' }}>
+                1. <strong>Fair Play & Esports Standards:</strong> All players must maintain respectful sportsmanship. Use of third-party hacks, bots, or unauthorized scripts will result in instant account ban.
+              </p>
+              <p style={{ margin: '0 0 10px 0' }}>
+                2. <strong>Referral & Rewards Qualification:</strong> Referral cash payouts (₹10 per player) require the referred user to complete minimum <strong>3 Party Cabin Rounds</strong> and <strong>1 Tournament Match</strong>.
+              </p>
+              <p style={{ margin: '0 0 10px 0' }}>
+                3. <strong>Account Responsibility:</strong> You are responsible for all activity under your racer profile and credentials.
+              </p>
+              <p style={{ margin: 0 }}>
+                4. <strong>Privacy & Data:</strong> Player scores and leaderboard stats are stored securely for competition tracking.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                setAcceptedTnc(true);
+                setShowTncModal(false);
+              }}
+              style={{
+                width: '100%',
+                padding: '14px',
+                borderRadius: '50px',
+                background: '#007aff',
+                border: 'none',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '0.96rem',
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(0, 122, 255, 0.35)',
+              }}
+            >
+              I Accept & Agree
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
