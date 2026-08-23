@@ -49,7 +49,7 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
         width: '100vw',
         height: '100vh',
         backgroundColor: '#000000',
-        zIndex: 999999,
+        zIndex: 9998,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -116,6 +116,8 @@ export const FullscreenVideoModal: React.FC<FullscreenVideoModalProps> = ({ vide
         ref={videoRef}
         src={videoSrc}
         onEnded={onComplete}
+        preload="auto"
+        autoPlay
         style={{
           width: '100vw',
           height: '100vh',
