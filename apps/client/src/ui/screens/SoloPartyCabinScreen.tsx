@@ -16,7 +16,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [showStartVideo, setShowStartVideo] = useState(false);
   const [videoOpacity, setVideoOpacity] = useState(1);
-  const [isWinnerNameVisible, setIsWinnerNameVisible] = useState(false);
+  const [isWinnerTextVisible, setIsWinnerTextVisible] = useState(false);
   const isPlayingStartVideoRef = useRef(false);
 
   const triggerStartVideoSequence = (onCompleteSequence?: () => void) => {
@@ -1068,14 +1068,14 @@ export const SoloPartyCabinScreen: React.FC = () => {
               loop
               playsInline
               onTimeUpdate={(e) => {
-                const vid = e.currentTarget;
-                const curr = vid.currentTime;
-                const dur = vid.duration;
-                // Show winner name text at 0.2s into video and hide at video end
-                if (curr >= 0.2 && (isNaN(dur) || curr < dur - 0.25)) {
-                  setIsWinnerNameVisible(true);
+                const video = e.currentTarget;
+                const current = video.currentTime;
+                const dur = video.duration || 5;
+                // Show text at 2.0s and hide 0.4s before video finishes/loops
+                if (current >= 2.0 && current <= dur - 0.4) {
+                  setIsWinnerTextVisible(true);
                 } else {
-                  setIsWinnerNameVisible(false);
+                  setIsWinnerTextVisible(false);
                 }
               }}
               style={{
@@ -1099,8 +1099,8 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 pointerEvents: 'none',
                 zIndex: 10,
                 width: '100%',
-                opacity: isWinnerNameVisible ? 1 : 0,
-                transition: 'opacity 0.15s ease-in-out',
+                opacity: isWinnerTextVisible ? 1 : 0,
+                transition: 'opacity 0.3s ease-in-out',
               }}
             >
               <div
