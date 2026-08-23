@@ -27,7 +27,7 @@ export class SoloGameManager {
       currentRound: 1,
       totalRounds: 3,
       phase: 'LOBBY',
-      phaseTimeRemaining: 180, // 3-minute join window
+      phaseTimeRemaining: 10, // TEMPORARY: 10s for fast testing (Original: 180s)
       selectedPlayerId: null,
       leaderPlayerId: null,
       proposals: [],
@@ -66,7 +66,7 @@ export class SoloGameManager {
 
   public startPlayerSelectionPhase(): void {
     this.state.phase = 'PLAYER_SELECTION';
-    this.state.phaseTimeRemaining = 5; // 5s LED Screen shuffling animation
+    this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 5s)
     this.state.proposals = []; // Reset proposals for new round
     this.state.winningProposal = null;
 
@@ -84,7 +84,7 @@ export class SoloGameManager {
     switch (this.state.phase) {
       case 'PLAYER_SELECTION':
         this.state.phase = 'DISCUSSION_AND_VOTING';
-        this.state.phaseTimeRemaining = 120; // 2-minute (120s) punishment decision & proposal voting window in chat
+        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 120s)
         break;
 
       case 'DISCUSSION_AND_VOTING':
@@ -114,17 +114,17 @@ export class SoloGameManager {
         }
 
         this.state.phase = 'LEADER_CONFIRMATION';
-        this.state.phaseTimeRemaining = 12; // 12-second reveal & confirmation window
+        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 12s)
         break;
 
       case 'LEADER_CONFIRMATION':
         this.state.phase = 'CHALLENGE_EXECUTION';
-        this.state.phaseTimeRemaining = 180; // 3-minute (180s) execution timer
+        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 180s)
         break;
 
       case 'CHALLENGE_EXECUTION':
         this.state.phase = 'ROUND_RESULT';
-        this.state.phaseTimeRemaining = 8; // 8s result animation
+        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 8s)
 
         // Award points if challenge completed
         if (this.state.selectedPlayerId && this.players[this.state.selectedPlayerId]) {
@@ -232,7 +232,7 @@ export class SoloGameManager {
   public confirmChallenge(): void {
     if (this.state.phase === 'LEADER_CONFIRMATION') {
       this.state.phase = 'CHALLENGE_EXECUTION';
-      this.state.phaseTimeRemaining = 180; // 3-minute (180s) task execution window for target player
+      this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 180s)
       this.broadcastCallback(this.state);
     }
   }

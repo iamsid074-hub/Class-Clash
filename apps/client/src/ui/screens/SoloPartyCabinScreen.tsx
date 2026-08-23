@@ -84,7 +84,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
     currentRound: 1,
     totalRounds: 3,
     phase: 'LOBBY',
-    phaseTimeRemaining: 180,
+    phaseTimeRemaining: 10, // TEMPORARY: 10s for fast testing (Original: 180s)
     selectedPlayerId: null,
     leaderPlayerId: null,
     proposals: [],
@@ -168,14 +168,14 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 ...storeState,
                 isLocked: true,
                 phase: 'PLAYER_SELECTION',
-                phaseTimeRemaining: 5,
+                phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
                 selectedPlayerId: playerId,
               });
             } else if (storeState.phase === 'PLAYER_SELECTION') {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
                 phase: 'DISCUSSION_AND_VOTING',
-                phaseTimeRemaining: 120,
+                phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 120s)
               });
             } else if (storeState.phase === 'DISCUSSION_AND_VOTING') {
               const winningProp = (storeState.proposals && storeState.proposals.length > 0)
@@ -193,19 +193,19 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 winningProposal: winningProp,
                 leaderPlayerId: playerId,
                 phase: 'LEADER_CONFIRMATION',
-                phaseTimeRemaining: 12,
+                phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 12s)
               });
             } else if (storeState.phase === 'LEADER_CONFIRMATION') {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
                 phase: 'CHALLENGE_EXECUTION',
-                phaseTimeRemaining: 180,
+                phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 180s)
               });
             } else if (storeState.phase === 'CHALLENGE_EXECUTION') {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
                 phase: 'ROUND_RESULT',
-                phaseTimeRemaining: 8,
+                phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 8s)
               });
             } else if (storeState.phase === 'ROUND_RESULT') {
               if ((storeState.currentRound || 1) < (storeState.totalRounds || 3)) {
@@ -213,7 +213,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   ...storeState,
                   currentRound: (storeState.currentRound || 1) + 1,
                   phase: 'PLAYER_SELECTION',
-                  phaseTimeRemaining: 5,
+                  phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
                   selectedPlayerId: playerId,
                 });
               } else {
@@ -245,7 +245,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
           ...current,
           isLocked: true,
           phase: 'PLAYER_SELECTION',
-          phaseTimeRemaining: 5,
+          phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
           selectedPlayerId: playerId,
         });
       });
@@ -263,7 +263,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
         ...current,
         isLocked: true,
         phase: 'PLAYER_SELECTION',
-        phaseTimeRemaining: 5,
+        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
         selectedPlayerId: playerId,
       });
     });
@@ -278,7 +278,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'DISCUSSION_AND_VOTING',
-        phaseTimeRemaining: 120,
+        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 120s)
       });
     } else if (current.phase === 'DISCUSSION_AND_VOTING') {
       const winningProp = (current.proposals && current.proposals.length > 0)
@@ -296,19 +296,19 @@ export const SoloPartyCabinScreen: React.FC = () => {
         winningProposal: winningProp,
         leaderPlayerId: playerId,
         phase: 'LEADER_CONFIRMATION',
-        phaseTimeRemaining: 12,
+        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 12s)
       });
     } else if (current.phase === 'LEADER_CONFIRMATION') {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'CHALLENGE_EXECUTION',
-        phaseTimeRemaining: 180,
+        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 180s)
       });
     } else if (current.phase === 'CHALLENGE_EXECUTION') {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'ROUND_RESULT',
-        phaseTimeRemaining: 8,
+        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 8s)
       });
     } else if (current.phase === 'ROUND_RESULT') {
       if ((current.currentRound || 1) < (current.totalRounds || 3)) {
@@ -316,7 +316,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
           ...current,
           currentRound: (current.currentRound || 1) + 1,
           phase: 'PLAYER_SELECTION',
-          phaseTimeRemaining: 5,
+          phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
           selectedPlayerId: playerId,
         });
       } else {
