@@ -16,6 +16,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
   const [showStartVideo, setShowStartVideo] = useState(false);
   const [videoOpacity, setVideoOpacity] = useState(1);
+  const [isWinnerNameVisible, setIsWinnerNameVisible] = useState(false);
   const isPlayingStartVideoRef = useRef(false);
 
   const triggerStartVideoSequence = (onCompleteSequence?: () => void) => {
@@ -1066,6 +1067,17 @@ export const SoloPartyCabinScreen: React.FC = () => {
               muted
               loop
               playsInline
+              onTimeUpdate={(e) => {
+                const vid = e.currentTarget;
+                const curr = vid.currentTime;
+                const dur = vid.duration;
+                // Show winner name text at 0.2s into video and hide at video end
+                if (curr >= 0.2 && (isNaN(dur) || curr < dur - 0.25)) {
+                  setIsWinnerNameVisible(true);
+                } else {
+                  setIsWinnerNameVisible(false);
+                }
+              }}
               style={{
                 width: '100%',
                 height: '100%',
@@ -1087,6 +1099,8 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 pointerEvents: 'none',
                 zIndex: 10,
                 width: '100%',
+                opacity: isWinnerNameVisible ? 1 : 0,
+                transition: 'opacity 0.15s ease-in-out',
               }}
             >
               <div
