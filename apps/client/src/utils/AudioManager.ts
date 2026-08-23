@@ -31,32 +31,36 @@ export class AudioManager {
   }
 
   /**
-   * Play Crisp Arcade / Apple UI Button Click Sound Effect (Web Audio API)
+   * Play Authentic Apple iOS Soft Haptic Click/Pop Sound Effect (Web Audio API)
+   * Ultra-subtle, premium, soft organic Apple haptic audio feedback.
    */
   public static playClick(): void {
     try {
       const ctx = this.getAudioContext();
       if (!ctx || this.sfxVolume <= 0) return;
 
+      const now = ctx.currentTime;
+      const duration = 0.018; // 18ms ultra-subtle Apple haptic click
+
+      // Soft Sine wave oscillator for Apple iOS wood-like haptic pop
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
       osc.type = 'sine';
-      const now = ctx.currentTime;
+      // Pitch sweep mimicking iOS native click resonance (880Hz -> 420Hz)
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(420, now + duration);
 
-      // Frequency drop for tactile click feel
-      osc.frequency.setValueAtTime(1400, now);
-      osc.frequency.exponentialRampToValueAtTime(220, now + 0.035);
-
-      const vol = Math.min(1, Math.max(0, this.sfxVolume * 0.35));
+      // Very soft, subtle volume matching iOS UI design
+      const vol = Math.min(1, Math.max(0, this.sfxVolume * 0.14));
       gain.gain.setValueAtTime(vol, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
 
       osc.start(now);
-      osc.stop(now + 0.04);
+      osc.stop(now + duration + 0.002);
     } catch {
       // Audio context fallback
     }
