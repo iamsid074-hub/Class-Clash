@@ -136,7 +136,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
     // Step 1: Slam gates shut into center (30ms -> 450ms)
     setTimeout(() => {
-      AudioManager.playShutterSwish();
+      AudioManager.playWinterDoomShutterSound();
       set({ isGateClosed: true });
     }, 30);
 
@@ -145,9 +145,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       if (onMidpoint) onMidpoint();
     }, 500);
 
-    // Step 3: Retract gates open (1600ms -> 2100ms)
+    // Step 3: Retract gates open silently (1600ms -> 2100ms)
     setTimeout(() => {
-      AudioManager.playShutterSwish();
       set({ isGateClosed: false });
     }, 1600);
 

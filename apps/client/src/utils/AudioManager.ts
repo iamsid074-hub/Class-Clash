@@ -62,6 +62,27 @@ export class AudioManager {
     }
   }
 
+  private static shutterAudio: HTMLAudioElement | null = null;
+
+  /**
+   * Play Custom Winter Doom Shutter Sound Effect (/sounds/winterdoom.shuttersound.mp3)
+   * Plays ONCE when shutter closes.
+   */
+  public static playWinterDoomShutterSound(): void {
+    try {
+      if (!this.shutterAudio) {
+        this.shutterAudio = new Audio('/sounds/winterdoom.shuttersound.mp3');
+      }
+      this.shutterAudio.currentTime = 0;
+      this.shutterAudio.volume = Math.max(0, Math.min(1, this.sfxVolume * 0.95));
+      this.shutterAudio.play().catch(() => {
+        // Autoplay policy fallback
+      });
+    } catch (err) {
+      console.warn('Failed to play custom shutter sound effect:', err);
+    }
+  }
+
   /**
    * Play Futuristic Metal Shutter Swish / Whoosh Sound Effect (Web Audio API)
    */
