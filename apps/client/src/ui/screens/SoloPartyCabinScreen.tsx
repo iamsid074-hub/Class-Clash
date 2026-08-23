@@ -1061,7 +1061,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             }}
           >
             <video
-              src="/videos/winner.mp4"
+              src="/videos/winner1.mp4"
               autoPlay
               muted
               loop
