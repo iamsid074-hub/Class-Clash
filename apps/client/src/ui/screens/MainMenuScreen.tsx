@@ -3,7 +3,7 @@ import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { ClassClashLogo } from '../components/ClassClashLogo';
 import { PinkNeonFrame } from '../components/PinkNeonFrame';
-import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap, Lock } from 'lucide-react';
+import { Plus, ArrowRight, User, Trophy, Settings, X, Snowflake, Calendar, ShieldCheck, CheckCircle2, Flame, Home, ChevronLeft, ChevronRight, Sparkles, Megaphone, Zap, Lock, Copy, Check, Share2, Gift, FileText } from 'lucide-react';
 
 export const MainMenuScreen: React.FC = () => {
   const { displayName, setDisplayName, setScreen, setRoomCode, setRoomPassword, setCabinName, isJoiningCabin, setIsJoiningCabin, initializeLocalRoom, triggerGateTransition, playFullscreenVideo, errorMessage, setErrorMessage } = useGameStore();
@@ -21,6 +21,16 @@ export const MainMenuScreen: React.FC = () => {
   const [profileNameInput, setProfileNameInput] = useState(displayName || 'RACER_ONE');
   const [activeModal, setActiveModal] = useState<'NONE' | 'CREATE' | 'JOIN' | 'TOURNAMENT'>('NONE');
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+
+  // Apple-Style Referral Bottom Sheet State
+  const [isReferralSheetOpen, setIsReferralSheetOpen] = useState(false);
+  const [showTncView, setShowTncView] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  const userReferralCode = React.useMemo(() => {
+    const cleanName = (displayName || 'RACER').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    return `CLASHA-${cleanName.slice(0, 6)}10`;
+  }, [displayName]);
 
   // Interactive Event Announcements Carousel State
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -824,12 +834,13 @@ export const MainMenuScreen: React.FC = () => {
         </div>
       )}
 
-      {/* 2.5 EVENT ANNOUNCEMENT BANNER CAROUSEL (BOX MATCHING EXACT IMAGE ASPECT RATIO) */}
+      {/* 2.5 EVENT ANNOUNCEMENT BANNER CAROUSEL (CLICK OPENS APPLE-STYLE REFERRAL SHEET) */}
       {(() => {
         const boxImages = ['/box1.jpeg', '/box2.jpeg'];
         const activeImg = boxImages[currentSlideIndex % boxImages.length];
         return (
           <div
+            onClick={() => setIsReferralSheetOpen(true)}
             style={{
               position: 'absolute',
               bottom: '100px',
@@ -1016,6 +1027,457 @@ export const MainMenuScreen: React.FC = () => {
           <ArrowRight size={22} color="#ffffff" strokeWidth={3} />
         </div>
       </div>
+      {/* 🍎 APPLE STYLE REFERRAL BOTTOM SHEET DRAWER */}
+      {isReferralSheetOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0, 0, 0, 0.68)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            zIndex: 9999,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            pointerEvents: 'auto',
+          }}
+          onClick={() => {
+            setIsReferralSheetOpen(false);
+            setShowTncView(false);
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '540px',
+              height: 'auto',
+              maxHeight: '85vh',
+              background: 'rgba(24, 24, 28, 0.96)',
+              backdropFilter: 'blur(30px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              borderTopLeftRadius: '28px',
+              borderTopRightRadius: '28px',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderBottom: 'none',
+              boxShadow: '0 -12px 40px rgba(0, 0, 0, 0.85)',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              animation: 'slideUpBottom 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          >
+            {/* iOS Top Drag Pill Handle */}
+            <div
+              style={{
+                width: '100%',
+                padding: '10px 0 6px 0',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                style={{
+                  width: '36px',
+                  height: '5px',
+                  borderRadius: '10px',
+                  background: 'rgba(255, 255, 255, 0.3)',
+                }}
+              />
+            </div>
+
+            {/* Header with Title & Close Button */}
+            <div
+              style={{
+                padding: '12px 24px 16px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #ff9500 0%, #ff5e00 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 16px rgba(255, 149, 0, 0.45)',
+                  }}
+                >
+                  <Gift size={22} color="#ffffff" />
+                </div>
+                <div>
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: '1.2rem',
+                      fontWeight: 800,
+                      color: '#ffffff',
+                      fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+                    }}
+                  >
+                    Refer & Earn ₹10 Cash
+                  </h3>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: '0.78rem',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Invite friends & earn rewards per qualifying player
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setIsReferralSheetOpen(false);
+                  setShowTncView(false);
+                }}
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Scrollable Content Body */}
+            <div
+              style={{
+                padding: '20px 24px 28px 24px',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '18px',
+              }}
+            >
+              {!showTncView ? (
+                <>
+                  {/* Referral Code Box */}
+                  <div
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1.5px dashed rgba(255, 149, 0, 0.5)',
+                      borderRadius: '18px',
+                      padding: '16px 20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '12px',
+                    }}
+                  >
+                    <div>
+                      <div
+                        style={{
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          color: 'rgba(255, 255, 255, 0.55)',
+                          letterSpacing: '0.08em',
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        YOUR UNIQUE INVITATION CODE
+                      </div>
+                      <div
+                        style={{
+                          fontSize: '1.45rem',
+                          fontWeight: 900,
+                          color: '#ff9500',
+                          letterSpacing: '0.1em',
+                          fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+                          marginTop: '2px',
+                        }}
+                      >
+                        {userReferralCode}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(userReferralCode);
+                        setCopiedCode(true);
+                        setTimeout(() => setCopiedCode(false), 2000);
+                      }}
+                      style={{
+                        padding: '10px 18px',
+                        borderRadius: '12px',
+                        background: copiedCode ? '#34c759' : '#ff9500',
+                        border: 'none',
+                        color: '#ffffff',
+                        fontWeight: 700,
+                        fontSize: '0.85rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      {copiedCode ? <Check size={16} /> : <Copy size={16} />}
+                      {copiedCode ? 'COPIED!' : 'COPY'}
+                    </button>
+                  </div>
+
+                  {/* WhatsApp / Share Quick Button */}
+                  <button
+                    onClick={() => {
+                      const shareMsg = `Join me on CLASHA Quiz Battles & Competitions! Use my invite code *${userReferralCode}* to get started: https://clasha.vercel.app`;
+                      if (navigator.share) {
+                        navigator.share({ title: 'CLASHA Invite', text: shareMsg, url: 'https://clasha.vercel.app' });
+                      } else {
+                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(shareMsg)}`, '_blank');
+                      }
+                    }}
+                    style={{
+                      width: '100%',
+                      padding: '14px',
+                      borderRadius: '16px',
+                      background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                      border: 'none',
+                      color: '#ffffff',
+                      fontWeight: 800,
+                      fontSize: '1rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      boxShadow: '0 6px 20px rgba(37, 211, 102, 0.35)',
+                    }}
+                  >
+                    <Share2 size={18} /> SHARE VIA WHATSAPP / LINK
+                  </button>
+
+                  {/* 3 Step How It Works Overview */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
+                    <div
+                      style={{
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        letterSpacing: '0.06em',
+                      }}
+                    >
+                      HOW REFERRAL WORKS:
+                    </div>
+
+                    <div
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '16px',
+                        padding: '12px 16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '14px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'rgba(255, 149, 0, 0.15)',
+                          color: '#ff9500',
+                          fontWeight: 800,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.9rem',
+                        }}
+                      >
+                        1
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Send Code to Friend</div>
+                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Friend signs up on CLASHA with your code</div>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '16px',
+                        padding: '12px 16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '14px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'rgba(0, 240, 255, 0.15)',
+                          color: '#00f0ff',
+                          fontWeight: 800,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.9rem',
+                        }}
+                      >
+                        2
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Friend Plays Games</div>
+                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Must play 3 Party Rounds + 1 Tournament Match</div>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: '16px',
+                        padding: '12px 16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '14px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'rgba(52, 199, 89, 0.15)',
+                          color: '#34c759',
+                          fontWeight: 800,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.9rem',
+                        }}
+                      >
+                        3
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Get ₹10 Instantly</div>
+                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Reward is credited to your wallet balance</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Apple Style T&C Button */}
+                  <button
+                    onClick={() => setShowTncView(true)}
+                    style={{
+                      marginTop: '6px',
+                      padding: '12px 16px',
+                      borderRadius: '14px',
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      color: 'rgba(255, 255, 255, 0.85)',
+                      fontWeight: 600,
+                      fontSize: '0.85rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <FileText size={16} color="#ff9500" />
+                      <span>Terms & Conditions (T&C)</span>
+                    </div>
+                    <ChevronRight size={16} color="rgba(255, 255, 255, 0.5)" />
+                  </button>
+                </>
+              ) : (
+                /* Apple-Style Detailed Terms & Conditions View */
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                  <button
+                    onClick={() => setShowTncView(false)}
+                    style={{
+                      alignSelf: 'flex-start',
+                      background: 'none',
+                      border: 'none',
+                      color: '#ff9500',
+                      fontWeight: 700,
+                      fontSize: '0.85rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      cursor: 'pointer',
+                      padding: 0,
+                    }}
+                  >
+                    <ChevronLeft size={16} /> Back to Referral
+                  </button>
+
+                  <div
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.04)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      borderRadius: '18px',
+                      padding: '18px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '14px',
+                    }}
+                  >
+                    <h4
+                      style={{
+                        margin: 0,
+                        fontSize: '1rem',
+                        fontWeight: 800,
+                        color: '#ffffff',
+                        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+                      }}
+                    >
+                      📜 Referral Program Terms & Conditions
+                    </h4>
+
+                    <div style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.55 }}>
+                      <p style={{ margin: '0 0 10px 0' }}>
+                        1. <strong>Signup Condition:</strong> Sending an invitation code and a new user completing sign-up alone <em>will not</em> immediately trigger the ₹10 reward.
+                      </p>
+                      <p style={{ margin: '0 0 10px 0' }}>
+                        2. <strong>Gameplay Qualification Criteria:</strong> For the referrer to receive ₹10 Cash, the newly registered user must complete:
+                      </p>
+                      <ul style={{ margin: '0 0 10px 0', paddingLeft: '20px', color: '#ff9500' }}>
+                        <li>Minimum <strong>3 Party Cabin Rounds</strong></li>
+                        <li>Minimum <strong>1 Tournament Match</strong></li>
+                      </ul>
+                      <p style={{ margin: '0 0 10px 0' }}>
+                        3. <strong>Reward Payout:</strong> As soon as the referred player satisfies both gameplay criteria, ₹10 is automatically credited to the referrer's account wallet balance.
+                      </p>
+                      <p style={{ margin: 0 }}>
+                        4. <strong>Fair Play & Anti-Fraud Policy:</strong> Self-referrals, fake account creations, or bot activities will result in immediate disqualification and account ban.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
