@@ -134,9 +134,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Step 0: Mount gates off-screen in open position with locked title, subhead & custom shutterBg
     set({ isGateActive: true, isGateClosed: false, gateTitle: title, gateSubhead: subhead, gateShutterBg: shutterBg || null });
 
+    const isWinterDoom = (title && title.toUpperCase().includes('WINTER DOOM')) || (shutterBg && shutterBg.includes('shutterdesign'));
+
     // Step 1: Slam gates shut into center (30ms -> 450ms)
     setTimeout(() => {
-      AudioManager.playWinterDoomShutterSound();
+      if (isWinterDoom) {
+        AudioManager.playWinterDoomShutterSound();
+      } else {
+        AudioManager.playShutterSwish();
+      }
       set({ isGateClosed: true });
     }, 30);
 
