@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useGameStore } from '../../state/useGameStore';
 import { NetworkClient } from '../../networking/NetworkClient';
 import { SupabaseAuthService } from '../../networking/supabaseClient';
-import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft, SkipForward } from 'lucide-react';
+import { Crown, MessageSquare, Send, Trophy, Users, CheckCircle, Zap, Shield, Play, Lock, Copy, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { ChallengeProposal, ChatMessage } from '@class-clash/shared';
 import { AudioManager } from '../../utils/AudioManager';
 import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
@@ -269,25 +269,39 @@ export const SoloPartyCabinScreen: React.FC = () => {
     });
   };
 
-  const handleSkipDiscussionTimer = () => {
-    AudioManager.playClick();
-    const winningProp = (state.proposals && state.proposals.length > 0)
-      ? [...state.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
-      : {
-          id: 'fallback_dare',
-          proposerId: 'system',
-          proposerName: 'SYSTEM',
-          text: 'Do 10 Pushups or Sing a Song live on mic!',
-          votesCount: 0,
-          voterIds: [],
-        };
-    useGameStore.getState().updateSoloGameState({
-      ...state,
-      winningProposal: winningProp,
-      leaderPlayerId: playerId,
-      phase: 'LEADER_CONFIRMATION',
-      phaseTimeRemaining: 12,
-    });
+  const handleBypassVoting = () => {
+    const current = useGameStore.getState().soloGameState || state;
+    if (current.phase === 'DISCUSSION_AND_VOTING') {
+      const winningProp = (current.proposals && current.proposals.length > 0)
+        ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+        : {
+            id: 'fallback_dare',
+            proposerId: 'system',
+            proposerName: 'SYSTEM',
+            text: 'Do 10 Pushups or Sing a Song live on mic!',
+            votesCount: 0,
+            voterIds: [],
+          };
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        winningProposal: winningProp,
+        leaderPlayerId: playerId,
+        phase: 'LEADER_CONFIRMATION',
+        phaseTimeRemaining: 10,
+      });
+    } else if (current.phase === 'LEADER_CONFIRMATION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'CHALLENGE_EXECUTION',
+        phaseTimeRemaining: 180,
+      });
+    } else if (current.phase === 'CHALLENGE_EXECUTION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'ROUND_RESULT',
+        phaseTimeRemaining: 8,
+      });
+    }
   };
 
   const handleCopyRoomCode = () => {
@@ -714,33 +728,29 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 {Math.floor(state.phaseTimeRemaining / 60)} : {(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
               </div>
 
-              {/* ADMIN SKIP TIMER BUTTON */}
               {isAdmin && (
                 <button
                   type="button"
-                  onClick={handleSkipDiscussionTimer}
-                  className="btn-press-effect"
+                  className="hud-interactive btn-press-effect"
+                  onClick={handleBypassVoting}
                   style={{
-                    marginTop: '12px',
-                    padding: '8px 22px',
-                    borderRadius: '9999px',
-                    background: 'rgba(255, 42, 95, 0.25)',
-                    border: '1px solid rgba(255, 42, 95, 0.6)',
+                    marginTop: '10px',
+                    padding: '8px 20px',
+                    fontSize: '0.78rem',
+                    fontWeight: 900,
+                    background: '#007aff',
                     color: '#ffffff',
-                    fontWeight: 800,
-                    fontSize: '0.82rem',
-                    letterSpacing: '0.06em',
+                    border: 'none',
+                    borderRadius: '50px',
                     cursor: 'pointer',
+                    letterSpacing: '0.06em',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '8px',
-                    boxShadow: '0 4px 15px rgba(255, 42, 95, 0.3)',
-                    backdropFilter: 'blur(10px)',
-                    transition: 'all 0.15s ease',
+                    gap: '6px',
+                    boxShadow: '0 4px 16px rgba(0, 122, 255, 0.45)',
                   }}
                 >
-                  <SkipForward size={16} color="#ffffff" fill="#ffffff" />
-                  <span>SKIP 2-MIN TIMER</span>
+                  <Zap size={14} color="#ffffff" fill="#ffffff" /> START DARE (BYPASS 2-MIN TIMER)
                 </button>
               )}
             </div>
@@ -1376,6 +1386,33 @@ export const SoloPartyCabinScreen: React.FC = () => {
             }}
           >
             <Play size={22} color="#000000" /> START MATCH
+          </button>
+        </div>
+      )}
+
+      {/* 5. BOTTOM ADMIN BYPASS DARE TIMER BUTTON */}
+      {state.phase === 'DISCUSSION_AND_VOTING' && isAdmin && (
+        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
+          <button
+            className="cyber-button glow btn-press-effect"
+            onClick={handleBypassVoting}
+            style={{
+              padding: '14px 36px',
+              fontSize: '1.15rem',
+              fontWeight: 900,
+              letterSpacing: '0.08em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: '#007aff',
+              boxShadow: '0 8px 30px rgba(0, 122, 255, 0.5)',
+              border: '2px solid #007aff',
+              borderRadius: '16px',
+              cursor: 'pointer',
+              color: '#ffffff',
+            }}
+          >
+            <Zap size={22} color="#ffffff" fill="#ffffff" /> START DARE (BYPASS 2-MIN TIMER)
           </button>
         </div>
       )}
