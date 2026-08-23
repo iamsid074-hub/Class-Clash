@@ -37,15 +37,15 @@ export const MainMenuScreen: React.FC = () => {
       icon: Snowflake,
       action: () => {
         triggerGateTransition(
+          () => setActiveModal('NONE'),
+          'WINTER DOOM',
+          'TOURNAMENT CHAMPIONSHIP',
+          '/shutterdesign.png',
           () => {
-            setActiveModal('NONE');
             playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
               setScreen('WINTER_DOOM');
             });
-          },
-          'WINTER DOOM',
-          'TOURNAMENT CHAMPIONSHIP',
-          '/shutterdesign.png'
+          }
         );
       },
     },
@@ -911,15 +911,15 @@ export const MainMenuScreen: React.FC = () => {
       <div
         onClick={() => {
           triggerGateTransition(
+            () => setActiveModal('NONE'),
+            'WINTER DOOM',
+            'TOURNAMENT CHAMPIONSHIP',
+            '/shutterdesign.png',
             () => {
-              setActiveModal('NONE');
               playFullscreenVideo('/videos/t2.mp4', 'WINTER DOOM • INTRO ANNOUNCEMENT (t2)', () => {
                 setScreen('WINTER_DOOM');
               });
-            },
-            'WINTER DOOM',
-            'TOURNAMENT CHAMPIONSHIP',
-            '/shutterdesign.png'
+            }
           );
         }}
         style={{

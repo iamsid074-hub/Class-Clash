@@ -92,7 +92,13 @@ interface GameStore {
   stopFullscreenVideo: () => void;
   errorMessage: string | null;
   setErrorMessage: (msg: string | null) => void;
-  triggerGateTransition: (onMidpoint?: () => void, title?: string, subhead?: string, shutterBg?: string | null) => void;
+  triggerGateTransition: (
+    onMidpoint?: () => void,
+    title?: string,
+    subhead?: string,
+    shutterBg?: string | null,
+    onComplete?: () => void
+  ) => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -123,7 +129,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   errorMessage: null,
   setErrorMessage: (errorMessage) => set({ errorMessage }),
 
-  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASHA', shutterBg = null) => {
+  triggerGateTransition: (onMidpoint, title = 'ENTER ARENA', subhead = 'CLASHA', shutterBg = null, onComplete) => {
     // Step 0: Mount gates off-screen in open position with locked title, subhead & custom shutterBg
     set({ isGateActive: true, isGateClosed: false, gateTitle: title, gateSubhead: subhead, gateShutterBg: shutterBg || null });
 
@@ -142,9 +148,10 @@ export const useGameStore = create<GameStore>((set, get) => ({
       set({ isGateClosed: false });
     }, 1600);
 
-    // Step 4: Unmount transition overlay (2150ms) and reset shutterBg
+    // Step 4: Unmount transition overlay (2150ms), reset shutterBg, and call onComplete after animation finishes
     setTimeout(() => {
       set({ isGateActive: false, gateShutterBg: null });
+      if (onComplete) onComplete();
     }, 2150);
   },
 
