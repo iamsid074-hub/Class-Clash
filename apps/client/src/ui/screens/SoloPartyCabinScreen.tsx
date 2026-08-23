@@ -8,12 +8,27 @@ import { AudioManager } from '../../utils/AudioManager';
 import { Cabin2RainEffect } from '../components/Cabin2RainEffect';
 
 export const SoloPartyCabinScreen: React.FC = () => {
-  const { playerId, soloGameState, roomCode, roomPassword, cabinName, cabinTemplate, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
+  const { playerId, displayName, soloGameState, roomCode, roomPassword, cabinName, cabinTemplate, players, isConnected, setScreen, triggerGateTransition } = useGameStore();
   const [proposalInput, setProposalInput] = useState('');
   const [chatInput, setChatInput] = useState('');
   const [copied, setCopied] = useState(false);
   const [shufflingName, setShufflingName] = useState('');
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+
+  // Check if active user is Admin (iamsid073@gmail.com)
+  const isAdmin = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    const name = (displayName || '').trim().toLowerCase();
+    const savedEmail = (localStorage.getItem('clasha_user_email') || '').trim().toLowerCase();
+    return (
+      name === 'iamsid073@gmail.com' ||
+      name === 'iamsid073' ||
+      name.includes('iamsid073') ||
+      savedEmail === 'iamsid073@gmail.com' ||
+      savedEmail.includes('iamsid073') ||
+      new URLSearchParams(window.location.search).get('admin') === 'true'
+    );
+  }, [displayName]);
 
   // Dynamic Cabin Template Background Visual Renderer
   const activeCabinTemplate = cabinTemplate || soloGameState?.cabinTemplate || 'cabin_1';
@@ -1203,9 +1218,9 @@ export const SoloPartyCabinScreen: React.FC = () => {
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* 4. BOTTOM START MATCH ACTION BUTTON */}
+      {/* 4. BOTTOM START MATCH ACTION BUTTON (RESTRICTED TO ADMIN iamsid073@gmail.com) */}
       {/* ------------------------------------------------------------- */}
-      {state.phase === 'LOBBY' && (
+      {state.phase === 'LOBBY' && isAdmin && (
         <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
           <button
             className="cyber-button glow btn-press-effect"

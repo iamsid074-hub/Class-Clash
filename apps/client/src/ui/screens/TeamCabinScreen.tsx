@@ -64,6 +64,20 @@ export const TeamCabinScreen: React.FC = () => {
   const [isLaunching, setIsLaunching] = useState(false);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
+  const isAdmin = React.useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    const name = (displayName || '').trim().toLowerCase();
+    const savedEmail = (localStorage.getItem('clasha_user_email') || '').trim().toLowerCase();
+    return (
+      name === 'iamsid073@gmail.com' ||
+      name === 'iamsid073' ||
+      name.includes('iamsid073') ||
+      savedEmail === 'iamsid073@gmail.com' ||
+      savedEmail.includes('iamsid073') ||
+      new URLSearchParams(window.location.search).get('admin') === 'true'
+    );
+  }, [displayName]);
+
   const localPlayer = players[playerId];
   const allTeams = Object.values(teams);
   const hostTeam = allTeams[0] || { id: 't1', name: 'TEAM NEON PINK', color: '#ff007f', members: [] };
@@ -410,53 +424,49 @@ export const TeamCabinScreen: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* BOTTOM CONTROLS BAR: ENTER ARENA BUTTON WITH INSTANT PRESS FEEDBACK */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', zIndex: 20 }}>
-        <button
-          className="hud-interactive"
-          onClick={handleStartTournament}
-          disabled={isLaunching}
-          style={{
-            height: '56px',
-            padding: '0 48px',
-            borderRadius: '50px',
-            fontSize: '1.15rem',
-            fontWeight: 900,
-            fontFamily: 'Outfit',
-            letterSpacing: '0.06em',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '12px',
-            cursor: isLaunching ? 'wait' : 'pointer',
-            background: isLaunching
-              ? 'linear-gradient(135deg, #ff007f 0%, #ff3399 100%)'
-              : 'linear-gradient(135deg, #ff0066 0%, #ff007f 50%, #e6005c 100%)',
-            border: '2.5px solid #ffffff',
-            color: '#ffffff',
-            boxShadow: isLaunching
-              ? '0 0 45px rgba(255, 0, 127, 0.95), inset 0 2px 4px #ffffff'
-              : '0 8px 30px rgba(255, 0, 127, 0.6), inset 0 1.5px 2px #ffffff',
-            transform: isLaunching ? 'scale(0.95)' : 'scale(1)',
-            transition: 'all 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
-            outline: 'none',
-            userSelect: 'none',
-          }}
-        >
-          {isLaunching ? (
-            <>
-              <Loader2 size={22} color="#ffffff" style={{ animation: 'spin 1s linear infinite' }} />
-              <span>LAUNCHING ARENA...</span>
-            </>
-          ) : (
-            <>
-              <Play size={22} color="#ffffff" fill="#ffffff" />
-              <span>Enter Arena</span>
-              <Sparkles size={16} color="#ff99cc" />
-            </>
-          )}
-        </button>
-      </div>
+      {/* BOTTOM CONTROLS BAR: ENTER ARENA BUTTON (RESTRICTED TO ADMIN iamsid073@gmail.com) */}
+      {isAdmin && (
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', zIndex: 20 }}>
+          <button
+            className="hud-interactive"
+            onClick={handleStartTournament}
+            disabled={isLaunching}
+            style={{
+              height: '56px',
+              padding: '0 48px',
+              borderRadius: '50px',
+              fontSize: '1.15rem',
+              fontWeight: 900,
+              fontFamily: 'Outfit',
+              letterSpacing: '0.06em',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '12px',
+              cursor: isLaunching ? 'wait' : 'pointer',
+              background: isLaunching
+                ? 'linear-gradient(135deg, #ff007f 0%, #ff3399 100%)'
+                : 'linear-gradient(135deg, #ff0066 0%, #ff007f 50%, #e6005c 100%)',
+              border: '2.5px solid #ffffff',
+              color: '#ffffff',
+              boxShadow: '0 8px 30px rgba(255, 0, 127, 0.6)',
+              opacity: isLaunching ? 0.7 : 1,
+            }}
+          >
+            {isLaunching ? (
+              <>
+                <Loader2 size={22} color="#ffffff" style={{ animation: 'spin 1s linear infinite' }} />
+                <span>LAUNCHING ARENA...</span>
+              </>
+            ) : (
+              <>
+                <Play size={22} color="#ffffff" fill="#ffffff" />
+                <span>Enter Arena</span>
+                <Sparkles size={16} color="#ff99cc" />
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* BOTTOM LEFT CORNER EXIT ARROW BUTTON - CLEAN iOS UI */}
       <button
