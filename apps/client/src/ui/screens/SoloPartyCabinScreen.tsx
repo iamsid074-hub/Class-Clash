@@ -1073,7 +1073,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 display: 'block',
               }}
             />
-            {/* Pill Capsule Overlay with Left Circular Profile Icon & Right Winner Name */}
+            {/* Overlay content positioned transparently inside video's pre-rendered pill graphic */}
             {(() => {
               const winnerPlayer = championPlayer || sortedPodiumPlayers[0] || (allPlayersList.length > 0 ? allPlayersList[0] : null);
               const winnerName = (winnerPlayer?.displayName || displayName || 'WINNER').toUpperCase();
@@ -1087,28 +1087,23 @@ export const SoloPartyCabinScreen: React.FC = () => {
                     transform: 'translateX(-50%)',
                     display: 'flex',
                     alignItems: 'center',
-                    background: '#ffffff',
-                    borderRadius: '50px',
-                    padding: '4px 18px 4px 4px',
-                    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.75), 0 0 20px rgba(220, 38, 38, 0.5)',
-                    border: '2.5px solid #dc2626',
+                    background: 'transparent',
+                    padding: '2px 10px',
                     zIndex: 10,
+                    pointerEvents: 'none',
                   }}
                 >
-                  {/* Left Circular Profile Icon */}
+                  {/* Left Profile Icon (Fits over video's red circle) */}
                   <div
                     style={{
-                      width: '38px',
-                      height: '38px',
+                      width: '40px',
+                      height: '40px',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       overflow: 'hidden',
-                      boxShadow: '0 2px 8px rgba(185, 28, 28, 0.6)',
                       flexShrink: 0,
-                      border: '1.5px solid #ffffff',
                     }}
                   >
                     {winnerPlayer?.avatar && (winnerPlayer.avatar.startsWith('data:') || winnerPlayer.avatar.startsWith('http') || winnerPlayer.avatar.startsWith('/')) ? (
@@ -1118,30 +1113,33 @@ export const SoloPartyCabinScreen: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Right Side Winner Name */}
+                  {/* Right Winner Name & Title (Fits over video's white pill bar) */}
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'flex-start',
-                      marginLeft: '10px',
+                      marginLeft: '12px',
                     }}
                   >
                     <div
                       style={{
-                        fontSize: '0.6rem',
+                        fontSize: '0.65rem',
                         fontWeight: 900,
                         color: '#dc2626',
-                        letterSpacing: '0.12em',
+                        letterSpacing: '0.1em',
                         lineHeight: 1,
                         textTransform: 'uppercase',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '3px',
                       }}
                     >
                       1ST CHAMPION 👑
                     </div>
                     <div
                       style={{
-                        fontSize: '1.15rem',
+                        fontSize: '1.25rem',
                         fontWeight: 900,
                         fontStyle: 'italic',
                         color: '#0f172a',
