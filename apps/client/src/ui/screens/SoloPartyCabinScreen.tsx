@@ -147,79 +147,83 @@ export const SoloPartyCabinScreen: React.FC = () => {
     }
   }, [state.phase, allPlayersList.length]);
 
-  // Local timer decrement & auto-phase progression (works seamlessly online & offline/Vercel)
+  // Local fallback timer decrement & auto-phase progression (works seamlessly online & offline/Vercel)
   useEffect(() => {
     const interval = setInterval(() => {
+      const isConnected = useGameStore.getState().isConnected;
       const storeState = useGameStore.getState().soloGameState || state;
 
       if (storeState) {
-        if (storeState.phaseTimeRemaining > 0) {
-          useGameStore.getState().updateSoloGameState({
-            ...storeState,
-            phaseTimeRemaining: storeState.phaseTimeRemaining - 1,
-          });
-        } else {
-          // Auto advance phases locally if time expires
-          if (storeState.phase === 'LOBBY') {
+        if (!isConnected) {
+          // If offline / disconnected on Vercel, decrement timer locally
+          if (storeState.phaseTimeRemaining > 0) {
             useGameStore.getState().updateSoloGameState({
               ...storeState,
-              isLocked: true,
-              phase: 'PLAYER_SELECTION',
-              phaseTimeRemaining: 5,
-              selectedPlayerId: playerId,
+              phaseTimeRemaining: storeState.phaseTimeRemaining - 1,
             });
-          } else if (storeState.phase === 'PLAYER_SELECTION') {
-            useGameStore.getState().updateSoloGameState({
-              ...storeState,
-              phase: 'DISCUSSION_AND_VOTING',
-              phaseTimeRemaining: 120,
-            });
-          } else if (storeState.phase === 'DISCUSSION_AND_VOTING') {
-            const winningProp = (storeState.proposals && storeState.proposals.length > 0)
-              ? [...storeState.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
-              : {
-                  id: 'fallback_dare',
-                  proposerId: 'system',
-                  proposerName: 'SYSTEM',
-                  text: 'Do 10 Pushups or Sing a Song live on mic!',
-                  votesCount: 1,
-                  voterIds: [],
-                };
-            useGameStore.getState().updateSoloGameState({
-              ...storeState,
-              winningProposal: winningProp,
-              leaderPlayerId: playerId,
-              phase: 'CHALLENGE_EXECUTION',
-              phaseTimeRemaining: 180,
-            });
-          } else if (storeState.phase === 'LEADER_CONFIRMATION') {
-            useGameStore.getState().updateSoloGameState({
-              ...storeState,
-              phase: 'CHALLENGE_EXECUTION',
-              phaseTimeRemaining: 180,
-            });
-          } else if (storeState.phase === 'CHALLENGE_EXECUTION') {
-            useGameStore.getState().updateSoloGameState({
-              ...storeState,
-              phase: 'ROUND_RESULT',
-              phaseTimeRemaining: 8,
-            });
-          } else if (storeState.phase === 'ROUND_RESULT') {
-            if ((storeState.currentRound || 1) < (storeState.totalRounds || 3)) {
+          } else {
+            // Auto advance phases locally if time expires offline
+            if (storeState.phase === 'LOBBY') {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
-                currentRound: (storeState.currentRound || 1) + 1,
+                isLocked: true,
                 phase: 'PLAYER_SELECTION',
                 phaseTimeRemaining: 5,
                 selectedPlayerId: playerId,
               });
-            } else {
+            } else if (storeState.phase === 'PLAYER_SELECTION') {
               useGameStore.getState().updateSoloGameState({
                 ...storeState,
-                phase: 'GAME_OVER_CHAMPION',
-                phaseTimeRemaining: 999,
-                championPlayerId: playerId,
+                phase: 'DISCUSSION_AND_VOTING',
+                phaseTimeRemaining: 120,
               });
+            } else if (storeState.phase === 'DISCUSSION_AND_VOTING') {
+              const winningProp = (storeState.proposals && storeState.proposals.length > 0)
+                ? [...storeState.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+                : {
+                    id: 'fallback_dare',
+                    proposerId: 'system',
+                    proposerName: 'SYSTEM',
+                    text: 'Do 10 Pushups or Sing a Song live on mic!',
+                    votesCount: 0,
+                    voterIds: [],
+                  };
+              useGameStore.getState().updateSoloGameState({
+                ...storeState,
+                winningProposal: winningProp,
+                leaderPlayerId: playerId,
+                phase: 'LEADER_CONFIRMATION',
+                phaseTimeRemaining: 12,
+              });
+            } else if (storeState.phase === 'LEADER_CONFIRMATION') {
+              useGameStore.getState().updateSoloGameState({
+                ...storeState,
+                phase: 'CHALLENGE_EXECUTION',
+                phaseTimeRemaining: 180,
+              });
+            } else if (storeState.phase === 'CHALLENGE_EXECUTION') {
+              useGameStore.getState().updateSoloGameState({
+                ...storeState,
+                phase: 'ROUND_RESULT',
+                phaseTimeRemaining: 8,
+              });
+            } else if (storeState.phase === 'ROUND_RESULT') {
+              if ((storeState.currentRound || 1) < (storeState.totalRounds || 3)) {
+                useGameStore.getState().updateSoloGameState({
+                  ...storeState,
+                  currentRound: (storeState.currentRound || 1) + 1,
+                  phase: 'PLAYER_SELECTION',
+                  phaseTimeRemaining: 5,
+                  selectedPlayerId: playerId,
+                });
+              } else {
+                useGameStore.getState().updateSoloGameState({
+                  ...storeState,
+                  phase: 'GAME_OVER_CHAMPION',
+                  phaseTimeRemaining: 999,
+                  championPlayerId: playerId,
+                });
+              }
             }
           }
         }
@@ -265,33 +269,112 @@ export const SoloPartyCabinScreen: React.FC = () => {
     });
   };
 
-  const handleBypassVoting = () => {
+  const handlePhaseAction = () => {
     const current = useGameStore.getState().soloGameState || state;
-    const activeSelectedPlayerId = current.selectedPlayerId || playerId || (allPlayersList[0] ? allPlayersList[0].id : 'p1');
-    const winningProp = (current.proposals && current.proposals.length > 0)
-      ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
-      : {
-          id: 'fallback_dare',
-          proposerId: 'system',
-          proposerName: 'SYSTEM',
-          text: 'Do 10 Pushups or Sing a Song live on mic!',
-          votesCount: 1,
-          voterIds: [playerId],
-        };
 
-    if (NetworkClient.isConnected()) {
-      NetworkClient.send({ type: 'CONFIRM_CHALLENGE', payload: {} });
+    if (current.phase === 'LOBBY') {
+      handleStartMatch();
+    } else if (current.phase === 'PLAYER_SELECTION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'DISCUSSION_AND_VOTING',
+        phaseTimeRemaining: 120,
+      });
+    } else if (current.phase === 'DISCUSSION_AND_VOTING') {
+      const winningProp = (current.proposals && current.proposals.length > 0)
+        ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+        : {
+            id: 'fallback_dare',
+            proposerId: 'system',
+            proposerName: 'SYSTEM',
+            text: 'Do 10 Pushups or Sing a Song live on mic!',
+            votesCount: 0,
+            voterIds: [],
+          };
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        winningProposal: winningProp,
+        leaderPlayerId: playerId,
+        phase: 'LEADER_CONFIRMATION',
+        phaseTimeRemaining: 12,
+      });
+    } else if (current.phase === 'LEADER_CONFIRMATION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'CHALLENGE_EXECUTION',
+        phaseTimeRemaining: 180,
+      });
+    } else if (current.phase === 'CHALLENGE_EXECUTION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'ROUND_RESULT',
+        phaseTimeRemaining: 8,
+      });
+    } else if (current.phase === 'ROUND_RESULT') {
+      if ((current.currentRound || 1) < (current.totalRounds || 3)) {
+        useGameStore.getState().updateSoloGameState({
+          ...current,
+          currentRound: (current.currentRound || 1) + 1,
+          phase: 'PLAYER_SELECTION',
+          phaseTimeRemaining: 5,
+          selectedPlayerId: playerId,
+        });
+      } else {
+        useGameStore.getState().updateSoloGameState({
+          ...current,
+          phase: 'GAME_OVER_CHAMPION',
+          phaseTimeRemaining: 999,
+          championPlayerId: playerId,
+        });
+      }
     }
+  };
 
-    // Immediately advance phase to active CHALLENGE_EXECUTION (3-min active dare timer!)
-    useGameStore.getState().updateSoloGameState({
-      ...current,
-      winningProposal: winningProp,
-      leaderPlayerId: playerId,
-      selectedPlayerId: activeSelectedPlayerId,
-      phase: 'CHALLENGE_EXECUTION',
-      phaseTimeRemaining: 180,
-    });
+  const getPhaseButtonContent = () => {
+    switch (state.phase) {
+      case 'LOBBY':
+        return (
+          <>
+            <Play size={22} color="#000000" fill="#000000" /> START MATCH
+          </>
+        );
+      case 'PLAYER_SELECTION':
+        return (
+          <>
+            <Zap size={22} color="#000000" fill="#000000" /> START SELECTION NOW
+          </>
+        );
+      case 'DISCUSSION_AND_VOTING':
+        return (
+          <>
+            <CheckCircle size={22} color="#000000" /> CONFIRM & START DARE
+          </>
+        );
+      case 'LEADER_CONFIRMATION':
+        return (
+          <>
+            <Play size={22} color="#000000" fill="#000000" /> START DARE TIMER NOW
+          </>
+        );
+      case 'CHALLENGE_EXECUTION':
+        return (
+          <>
+            <CheckCircle size={22} color="#000000" /> COMPLETE CHALLENGE NOW
+          </>
+        );
+      case 'ROUND_RESULT':
+        return (
+          <>
+            <Sparkles size={22} color="#000000" /> START NEXT ROUND
+          </>
+        );
+      default:
+        return (
+          <>
+            <Play size={22} color="#000000" fill="#000000" /> ADVANCE PHASE
+          </>
+        );
+    }
   };
 
   const handleCopyRoomCode = () => {
@@ -717,32 +800,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
               >
                 {Math.floor(state.phaseTimeRemaining / 60)} : {(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
               </div>
-
-              {isAdmin && (
-                <button
-                  type="button"
-                  className="hud-interactive btn-press-effect"
-                  onClick={handleBypassVoting}
-                  style={{
-                    marginTop: '10px',
-                    padding: '8px 20px',
-                    fontSize: '0.78rem',
-                    fontWeight: 900,
-                    background: '#007aff',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '50px',
-                    cursor: 'pointer',
-                    letterSpacing: '0.06em',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    boxShadow: '0 4px 16px rgba(0, 122, 255, 0.45)',
-                  }}
-                >
-                  <Zap size={14} color="#ffffff" fill="#ffffff" /> START DARE (BYPASS 2-MIN TIMER)
-                </button>
-              )}
             </div>
           </div>
         )}
@@ -1352,16 +1409,16 @@ export const SoloPartyCabinScreen: React.FC = () => {
       )}
 
       {/* ------------------------------------------------------------- */}
-      {/* 4. BOTTOM START MATCH ACTION BUTTON (RESTRICTED TO ADMIN iamsid073@gmail.com) */}
+      {/* 4. BOTTOM START / ADVANCE PHASE ACTION BUTTON (AVAILABLE ACROSS ALL TIMED PHASES FOR ADMIN/HOST) */}
       {/* ------------------------------------------------------------- */}
-      {state.phase === 'LOBBY' && isAdmin && (
+      {isAdmin && (
         <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
           <button
             className="cyber-button glow btn-press-effect"
-            onClick={handleStartMatch}
+            onClick={handlePhaseAction}
             style={{
               padding: '14px 36px',
-              fontSize: '1.2rem',
+              fontSize: '1.15rem',
               fontWeight: 900,
               letterSpacing: '0.08em',
               display: 'flex',
@@ -1375,34 +1432,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
               color: '#000000',
             }}
           >
-            <Play size={22} color="#000000" /> START MATCH
-          </button>
-        </div>
-      )}
-
-      {/* 5. BOTTOM ADMIN BYPASS DARE TIMER BUTTON */}
-      {state.phase === 'DISCUSSION_AND_VOTING' && isAdmin && (
-        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
-          <button
-            className="cyber-button glow btn-press-effect"
-            onClick={handleBypassVoting}
-            style={{
-              padding: '14px 36px',
-              fontSize: '1.15rem',
-              fontWeight: 900,
-              letterSpacing: '0.08em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              background: '#007aff',
-              boxShadow: '0 8px 30px rgba(0, 122, 255, 0.5)',
-              border: '2px solid #007aff',
-              borderRadius: '16px',
-              cursor: 'pointer',
-              color: '#ffffff',
-            }}
-          >
-            <Zap size={22} color="#ffffff" fill="#ffffff" /> START DARE (BYPASS 2-MIN TIMER)
+            {getPhaseButtonContent()}
           </button>
         </div>
       )}
