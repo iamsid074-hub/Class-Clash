@@ -1043,7 +1043,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
           </div>
         )}
 
-        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - WINNER VIDEO */}
+        {/* Phase: GAME OVER CHAMPION or ROUND 3 FINISH - WINNER VIDEO WITH DYNAMIC WINNER NAME */}
         {(state.phase === 'GAME_OVER_CHAMPION' || (state.phase === 'ROUND_RESULT' && state.currentRound >= state.totalRounds)) && (
           <div
             key="MATCH_FINISHED_PODIUM"
@@ -1073,6 +1073,38 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 display: 'block',
               }}
             />
+            {/* DYNAMIC WINNER NAME OVERLAY POSITIONED UNDER 'WINNER' TEXT IN VIDEO GRAPHIC PILL */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '52%',
+                transform: 'translate(-50%, -50%)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                pointerEvents: 'none',
+                zIndex: 10,
+                width: '100%',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 'clamp(0.95rem, 2.2vw, 1.4rem)',
+                  fontWeight: 900,
+                  fontStyle: 'italic',
+                  color: '#000000',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Kanit', sans-serif",
+                  marginTop: '16px',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.12)',
+                }}
+              >
+                {(sortedPodiumPlayers[0]?.displayName || championPlayer?.displayName || 'VIRAT').toUpperCase()}
+              </div>
+            </div>
           </div>
         )}
       </div>
