@@ -31,7 +31,7 @@ export const WinterDoomScreen: React.FC = () => {
       }}
     >
       {/* 1. TOP NAVIGATION HEADER */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
         <button
           type="button"
           onClick={handleBackToMainMenu}
@@ -66,8 +66,8 @@ export const WinterDoomScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. MAIN 2-COLUMN PROFILE-STYLE CARDS LAYOUT */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '28px', marginBottom: '28px' }}>
+      {/* 2. MAIN 2-COLUMN PROFILE-STYLE CARDS LAYOUT (FULL PAGE WIDTH) */}
+      <div style={{ width: '100%', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '28px', marginBottom: '28px' }}>
         {/* LEFT COLUMN: BANNER IMAGE & QUICK STATS */}
         <div style={{ background: '#ffffff', border: '1px solid #e5e5ea', borderRadius: '32px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {/* Main Tournament Image Frame */}
@@ -77,7 +77,7 @@ export const WinterDoomScreen: React.FC = () => {
               borderRadius: '24px',
               overflow: 'hidden',
               border: '1px solid #e5e5ea',
-              height: '300px',
+              height: '340px',
             }}
           >
             <img
@@ -221,8 +221,8 @@ export const WinterDoomScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (PLAYS VIDEO t1) */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (FULL PAGE WIDTH) */}
+      <div style={{ width: '100%' }}>
         <div
           style={{
             background: '#ffffff',
