@@ -557,26 +557,25 @@ export const WinterDoomScreen: React.FC = () => {
         </div>
 
         <style>{`
-          @keyframes fastArrowFlow {
+          @keyframes arrowLightChase {
             0%, 100% {
-              opacity: 0.25;
-              transform: translateX(-3px) scale(0.9);
+              opacity: 0.18;
+              filter: drop-shadow(0 0 0px transparent);
             }
-            50% {
+            40% {
               opacity: 1;
-              transform: translateX(4px) scale(1.15);
-              filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.9));
+              filter: drop-shadow(0 0 8px #007aff) drop-shadow(0 0 14px rgba(0, 122, 255, 0.9));
             }
           }
 
           .fast-arrow-1 {
-            animation: fastArrowFlow 0.7s ease-in-out infinite 0s;
+            animation: arrowLightChase 0.9s linear infinite 0s;
           }
           .fast-arrow-2 {
-            animation: fastArrowFlow 0.7s ease-in-out infinite 0.15s;
+            animation: arrowLightChase 0.9s linear infinite 0.3s;
           }
           .fast-arrow-3 {
-            animation: fastArrowFlow 0.7s ease-in-out infinite 0.30s;
+            animation: arrowLightChase 0.9s linear infinite 0.6s;
           }
         `}</style>
       </div>
