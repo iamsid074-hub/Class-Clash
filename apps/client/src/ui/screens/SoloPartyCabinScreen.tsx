@@ -271,37 +271,31 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
   const handleBypassVoting = () => {
     const current = useGameStore.getState().soloGameState || state;
-    if (current.phase === 'DISCUSSION_AND_VOTING') {
-      const winningProp = (current.proposals && current.proposals.length > 0)
-        ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
-        : {
-            id: 'fallback_dare',
-            proposerId: 'system',
-            proposerName: 'SYSTEM',
-            text: 'Do 10 Pushups or Sing a Song live on mic!',
-            votesCount: 0,
-            voterIds: [],
-          };
-      useGameStore.getState().updateSoloGameState({
-        ...current,
-        winningProposal: winningProp,
-        leaderPlayerId: playerId,
-        phase: 'LEADER_CONFIRMATION',
-        phaseTimeRemaining: 10,
-      });
-    } else if (current.phase === 'LEADER_CONFIRMATION') {
-      useGameStore.getState().updateSoloGameState({
-        ...current,
-        phase: 'CHALLENGE_EXECUTION',
-        phaseTimeRemaining: 180,
-      });
-    } else if (current.phase === 'CHALLENGE_EXECUTION') {
-      useGameStore.getState().updateSoloGameState({
-        ...current,
-        phase: 'ROUND_RESULT',
-        phaseTimeRemaining: 8,
-      });
+    const activeSelectedPlayerId = current.selectedPlayerId || playerId || (allPlayersList[0] ? allPlayersList[0].id : 'p1');
+    const winningProp = (current.proposals && current.proposals.length > 0)
+      ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+      : {
+          id: 'fallback_dare',
+          proposerId: 'system',
+          proposerName: 'SYSTEM',
+          text: 'Do 10 Pushups or Sing a Song live on mic!',
+          votesCount: 1,
+          voterIds: [playerId],
+        };
+
+    if (NetworkClient.isConnected()) {
+      NetworkClient.send({ type: 'CONFIRM_CHALLENGE', payload: {} });
     }
+
+    // Immediately advance phase to active CHALLENGE_EXECUTION (3-min active dare timer!)
+    useGameStore.getState().updateSoloGameState({
+      ...current,
+      winningProposal: winningProp,
+      leaderPlayerId: playerId,
+      selectedPlayerId: activeSelectedPlayerId,
+      phase: 'CHALLENGE_EXECUTION',
+      phaseTimeRemaining: 180,
+    });
   };
 
   const handleCopyRoomCode = () => {
