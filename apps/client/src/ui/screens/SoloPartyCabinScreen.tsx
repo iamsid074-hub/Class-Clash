@@ -1073,80 +1073,83 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 display: 'block',
               }}
             />
-            {/* Overlay content positioned transparently inside video's pre-rendered pill graphic */}
+            {/* Centered overlay content positioned precisely inside video's pre-rendered pill graphic */}
             {(() => {
               const winnerPlayer = championPlayer || sortedPodiumPlayers[0] || (allPlayersList.length > 0 ? allPlayersList[0] : null);
-              const winnerName = (winnerPlayer?.displayName || displayName || 'WINNER').toUpperCase();
+              const winnerName = (winnerPlayer?.displayName || displayName || 'VIRAT').toUpperCase();
 
               return (
                 <div
                   style={{
                     position: 'absolute',
-                    top: '16px',
+                    top: '50%',
                     left: '50%',
-                    transform: 'translateX(-50%)',
+                    transform: 'translate(-50%, -50%)',
                     display: 'flex',
                     alignItems: 'center',
-                    background: 'transparent',
-                    padding: '2px 10px',
+                    justifyContent: 'flex-start',
+                    width: '320px',
+                    padding: '0 24px',
+                    boxSizing: 'border-box',
                     zIndex: 10,
                     pointerEvents: 'none',
                   }}
                 >
-                  {/* Left Profile Icon (Fits over video's red circle) */}
+                  {/* Left Circular Black Profile Icon (Fits over left side of video's white pill graphic) */}
                   <div
                     style={{
-                      width: '40px',
-                      height: '40px',
+                      width: '52px',
+                      height: '52px',
                       borderRadius: '50%',
+                      background: '#111827',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       overflow: 'hidden',
                       flexShrink: 0,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
                     }}
                   >
                     {winnerPlayer?.avatar && (winnerPlayer.avatar.startsWith('data:') || winnerPlayer.avatar.startsWith('http') || winnerPlayer.avatar.startsWith('/')) ? (
                       <img src={winnerPlayer.avatar} alt="Winner Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
-                      <User size={22} color="#ffffff" strokeWidth={2.5} />
+                      <User size={28} color="#ffffff" strokeWidth={2.2} />
                     )}
                   </div>
 
-                  {/* Right Winner Name & Title (Fits over video's white pill bar) */}
+                  {/* Right Winner Name & Title (Fits inside white pill body of video graphic) */}
                   <div
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'flex-start',
-                      marginLeft: '12px',
+                      justifyContent: 'center',
+                      marginLeft: '16px',
                     }}
                   >
                     <div
                       style={{
-                        fontSize: '0.65rem',
+                        fontSize: '0.85rem',
                         fontWeight: 900,
-                        color: '#dc2626',
-                        letterSpacing: '0.1em',
+                        color: '#0f172a',
+                        letterSpacing: '0.08em',
                         lineHeight: 1,
                         textTransform: 'uppercase',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '3px',
+                        fontFamily: "system-ui, -apple-system, sans-serif",
                       }}
                     >
-                      1ST CHAMPION 👑
+                      WINNER
                     </div>
                     <div
                       style={{
-                        fontSize: '1.25rem',
+                        fontSize: '1.75rem',
                         fontWeight: 900,
                         fontStyle: 'italic',
-                        color: '#0f172a',
-                        letterSpacing: '0.04em',
+                        color: '#000000',
+                        letterSpacing: '0.03em',
                         fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                         lineHeight: 1.1,
-                        marginTop: '1px',
+                        marginTop: '2px',
                       }}
                     >
                       {winnerName}
