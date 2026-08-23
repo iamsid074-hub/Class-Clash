@@ -510,7 +510,7 @@ export const WinterDoomScreen: React.FC = () => {
             </div>
             <div>
               <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#1c1c1e', fontFamily: APPLE_FONT }}>
-                Official Format Explainer Video
+                Official Format Explainer
               </div>
               <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginTop: '2px', fontFamily: APPLE_FONT }}>
                 Watch the official tournament rules and battle format breakdown video (Video t1)
