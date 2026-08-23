@@ -301,7 +301,7 @@ export const MainMenuScreen: React.FC = () => {
             fontSize: '2.2rem',
             fontWeight: 900,
             fontStyle: 'italic',
-            fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+            fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
             letterSpacing: '0.04em',
             margin: 0,
             display: 'flex',
@@ -338,7 +338,7 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 CREATE ROOM
               </div>
               <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -356,7 +356,7 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 JOIN ROOM
               </div>
               <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -374,7 +374,7 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 PROFILE
               </div>
               <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -392,7 +392,7 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 LEADERBOARD
               </div>
               <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -410,7 +410,7 @@ export const MainMenuScreen: React.FC = () => {
         >
           <div className="diagonal-menu-btn-content">
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 'clamp(1.15rem, 1.4vw, 1.65rem)', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em' }}>
                 SETTINGS
               </div>
               <div style={{ fontSize: 'clamp(0.72rem, 0.8vw, 0.85rem)', fontWeight: 800, color: 'rgba(255, 255, 255, 0.85)', letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -541,7 +541,7 @@ export const MainMenuScreen: React.FC = () => {
                           <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.12em' }}>
                             SELECTED CABIN
                           </div>
-                          <div style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                          <div style={{ fontSize: '1.35rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                             {selectedCabin.name}
                           </div>
                           <div style={{ fontSize: '0.92rem', color: '#34c759', fontWeight: 900, letterSpacing: '0.08em', marginTop: '2px' }}>
@@ -572,7 +572,7 @@ export const MainMenuScreen: React.FC = () => {
                     <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.14em' }}>
                       HOST A NEW MATCH
                     </div>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", marginTop: '2px' }}>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", marginTop: '2px' }}>
                       CREATE CABIN
                     </div>
                   </div>
@@ -688,7 +688,7 @@ export const MainMenuScreen: React.FC = () => {
                       fontWeight: 900,
                       fontSize: '1.15rem',
                       fontStyle: 'italic',
-                      fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                      fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                       cursor: isJoiningCabin ? 'wait' : 'pointer',
                       letterSpacing: '0.06em',
                       opacity: isJoiningCabin ? 0.7 : 1,
@@ -709,7 +709,7 @@ export const MainMenuScreen: React.FC = () => {
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff0066', letterSpacing: '0.14em' }}>
                     CONNECT TO CABIN
                   </div>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", marginTop: '2px' }}>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", marginTop: '2px' }}>
                     JOIN CABIN
                   </div>
                 </div>
@@ -803,7 +803,7 @@ export const MainMenuScreen: React.FC = () => {
                     fontWeight: 900,
                     fontSize: '1.15rem',
                     fontStyle: 'italic',
-                    fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                    fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                     cursor: isJoiningCabin ? 'wait' : 'pointer',
                     letterSpacing: '0.06em',
                     marginTop: '4px',
@@ -972,7 +972,7 @@ export const MainMenuScreen: React.FC = () => {
             fontSize: '1.85rem',
             fontWeight: 900,
             fontStyle: 'italic',
-            fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+            fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
             letterSpacing: '0.04em',
             margin: 0,
             color: '#ffffff',

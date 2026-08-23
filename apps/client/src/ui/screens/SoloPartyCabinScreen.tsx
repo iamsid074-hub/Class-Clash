@@ -340,14 +340,14 @@ export const SoloPartyCabinScreen: React.FC = () => {
           >
             <div>
               <div style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700, letterSpacing: '0.08em' }}>ROOM ID</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.08em', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.08em', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                 {state.roomCode || roomCode || 'ROOM1'}
               </div>
             </div>
 
             <div style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.18)', paddingLeft: '16px' }}>
               <div style={{ fontSize: '0.68rem', color: 'rgba(255, 255, 255, 0.6)', fontWeight: 700, letterSpacing: '0.08em' }}>PASS</div>
-              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ff3b30', letterSpacing: '0.08em', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#ff3b30', letterSpacing: '0.08em', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                 {roomPassword || '1234'}
               </div>
             </div>
@@ -375,7 +375,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.65)', letterSpacing: '0.1em' }}>
               JOIN WINDOW
             </div>
-            <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+            <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
               {Math.floor(state.phaseTimeRemaining / 60)}:{(state.phaseTimeRemaining % 60).toString().padStart(2, '0')}
             </div>
           </div>
@@ -541,7 +541,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 borderRadius: '12px',
                 border: '1px solid rgba(0, 240, 255, 0.3)',
                 letterSpacing: '0.08em',
-                fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                 textShadow: '0 0 15px rgba(0, 240, 255, 0.5)',
                 transition: 'all 0.15s ease',
               }}
@@ -566,7 +566,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                 <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ffffff', letterSpacing: '0.1em' }}>
                   TARGET PLAYER
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ff2a5f', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em', marginTop: '2px' }}>
+                <div style={{ fontSize: '1.8rem', fontWeight: 900, fontStyle: 'italic', color: '#ff2a5f', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.04em', marginTop: '2px' }}>
                   {selectedPlayer ? selectedPlayer.displayName.toUpperCase() : 'PLAYER'}
                 </div>
               </div>
@@ -586,7 +586,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   fontWeight: 900,
                   fontStyle: 'italic',
                   color: '#ffffff',
-                  fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                  fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                   letterSpacing: '0.05em',
                   lineHeight: 1,
                   textShadow: 'none',
@@ -683,7 +683,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
               {/* Center Dare Text Box */}
               <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '8px 0' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', lineHeight: 1.3, fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', lineHeight: 1.3, fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                   "{state.winningProposal ? state.winningProposal.text : 'Complete Challenge'}"
                 </div>
               </div>
@@ -725,7 +725,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   fontWeight: 900,
                   fontStyle: 'italic',
                   color: '#ffffff',
-                  fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+                  fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
                   letterSpacing: '0.05em',
                   lineHeight: 1,
                   textShadow: 'none',
@@ -816,7 +816,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.06em' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#ffffff', fontStyle: 'italic', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.06em' }}>
                   NEXT ROUND
                 </div>
               </div>
@@ -827,7 +827,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
               ✓ DARE TIMER EXPIRED
             </div>
 
-            <div style={{ fontSize: '3.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.06em', margin: '4px 0', lineHeight: 1 }}>
+            <div style={{ fontSize: '3.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif", letterSpacing: '0.06em', margin: '4px 0', lineHeight: 1 }}>
               NEXT ROUND
             </div>
 
@@ -883,7 +883,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#94a3b8', letterSpacing: '0.08em' }}>
                     🥈 2ND PLACE
                   </div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                     {sortedPodiumPlayers[1].displayName.toUpperCase()}
                   </div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
@@ -912,7 +912,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#fbbf24', letterSpacing: '0.08em' }}>
                     🥇 1ST CHAMPION
                   </div>
-                  <div style={{ fontSize: '1.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                     {sortedPodiumPlayers[0].displayName.toUpperCase()}
                   </div>
                   <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#ffffff', background: '#ff0066', padding: '2px 10px', borderRadius: '50px' }}>
@@ -940,7 +940,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
                   <div style={{ fontSize: '0.7rem', fontWeight: 900, color: '#b45309', letterSpacing: '0.08em' }}>
                     🥉 3RD PLACE
                   </div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif" }}>
                     {sortedPodiumPlayers[2].displayName.toUpperCase()}
                   </div>
                   <div style={{ fontSize: '0.75rem', fontWeight: 900, color: '#ff2a5f' }}>
@@ -1248,7 +1248,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
             fontWeight: 900,
             fontSize: '1rem',
             fontStyle: 'italic',
-            fontFamily: "'Misery', 'QUARTZO', 'Kanit', sans-serif",
+            fontFamily: "'Vandria', 'Bebas Neue', 'Anton', 'Misery', 'QUARTZO', 'Kanit', sans-serif",
             letterSpacing: '0.06em',
             display: 'flex',
             alignItems: 'center',
