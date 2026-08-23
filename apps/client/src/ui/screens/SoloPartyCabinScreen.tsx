@@ -248,11 +248,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
           phaseTimeRemaining: 5,
           selectedPlayerId: playerId,
         });
-
-        // Trigger Cyber Gate Shutter transition directly into Matchmaking Shuffle & Racing Arena
-        triggerGateTransition(() => {
-          setScreen('MATCHMAKING_SHUFFLE');
-        }, 'ENTER ARENA', 'CLASHA');
       });
     }
   }, [state.phase, state.phaseTimeRemaining, playerId]);
@@ -271,11 +266,6 @@ export const SoloPartyCabinScreen: React.FC = () => {
         phaseTimeRemaining: 5,
         selectedPlayerId: playerId,
       });
-
-      // Trigger Cyber Gate Shutter transition directly into Matchmaking Shuffle & Racing Arena
-      triggerGateTransition(() => {
-        setScreen('MATCHMAKING_SHUFFLE');
-      }, 'ENTER ARENA', 'CLASHA');
     });
   };
 
@@ -284,11 +274,59 @@ export const SoloPartyCabinScreen: React.FC = () => {
 
     if (current.phase === 'LOBBY') {
       handleStartMatch();
-    } else {
-      // Instant bypass: Launch directly into Matchmaking Shuffle & Arena Match
-      triggerGateTransition(() => {
-        setScreen('MATCHMAKING_SHUFFLE');
-      }, 'ENTER ARENA', 'CLASHA');
+    } else if (current.phase === 'PLAYER_SELECTION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'DISCUSSION_AND_VOTING',
+        phaseTimeRemaining: 120,
+      });
+    } else if (current.phase === 'DISCUSSION_AND_VOTING') {
+      const winningProp = (current.proposals && current.proposals.length > 0)
+        ? [...current.proposals].sort((a, b) => b.votesCount - a.votesCount)[0]
+        : {
+            id: 'fallback_dare',
+            proposerId: 'system',
+            proposerName: 'SYSTEM',
+            text: 'Do 10 Pushups or Sing a Song live on mic!',
+            votesCount: 0,
+            voterIds: [],
+          };
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        winningProposal: winningProp,
+        leaderPlayerId: playerId,
+        phase: 'LEADER_CONFIRMATION',
+        phaseTimeRemaining: 12,
+      });
+    } else if (current.phase === 'LEADER_CONFIRMATION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'CHALLENGE_EXECUTION',
+        phaseTimeRemaining: 180,
+      });
+    } else if (current.phase === 'CHALLENGE_EXECUTION') {
+      useGameStore.getState().updateSoloGameState({
+        ...current,
+        phase: 'ROUND_RESULT',
+        phaseTimeRemaining: 8,
+      });
+    } else if (current.phase === 'ROUND_RESULT') {
+      if ((current.currentRound || 1) < (current.totalRounds || 3)) {
+        useGameStore.getState().updateSoloGameState({
+          ...current,
+          currentRound: (current.currentRound || 1) + 1,
+          phase: 'PLAYER_SELECTION',
+          phaseTimeRemaining: 5,
+          selectedPlayerId: playerId,
+        });
+      } else {
+        useGameStore.getState().updateSoloGameState({
+          ...current,
+          phase: 'GAME_OVER_CHAMPION',
+          phaseTimeRemaining: 999,
+          championPlayerId: playerId,
+        });
+      }
     }
   };
 
