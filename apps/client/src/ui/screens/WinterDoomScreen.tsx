@@ -454,28 +454,29 @@ export const WinterDoomScreen: React.FC = () => {
 
           <button
             type="button"
-            className="btn-press-effect"
+            disabled
             style={{
               width: '100%',
               padding: '16px',
               borderRadius: '9999px',
-              background: '#007aff',
-              border: 'none',
-              color: '#ffffff',
-              fontWeight: 700,
+              background: '#2c2c2e',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              color: 'rgba(255, 255, 255, 0.65)',
+              fontWeight: 800,
               fontSize: '0.98rem',
-              cursor: 'pointer',
+              cursor: 'not-allowed',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px',
+              gap: '10px',
               transition: 'all 0.18s cubic-bezier(0.4, 0, 0.2, 1)',
               fontFamily: APPLE_FONT,
-              boxShadow: '0 4px 14px rgba(0, 122, 255, 0.25)',
+              boxShadow: '0 4px 14px rgba(0, 0, 0, 0.2)',
+              userSelect: 'none',
             }}
           >
-            <Sparkles size={18} color="#ffffff" />
-            <span>Enroll in Winter Doom</span>
+            <Lock size={18} color="#ff3366" />
+            <span>ENROLLMENT LOCKED</span>
           </button>
         </div>
       </div>
