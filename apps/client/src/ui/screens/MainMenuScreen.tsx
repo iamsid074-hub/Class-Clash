@@ -1027,7 +1027,7 @@ export const MainMenuScreen: React.FC = () => {
           <ArrowRight size={22} color="#ffffff" strokeWidth={3} />
         </div>
       </div>
-      {/* 🍎 APPLE STYLE REFERRAL BOTTOM SHEET DRAWER */}
+      {/* 🍎 APPLE LIGHT MODE WHITE REFERRAL BOTTOM SHEET DRAWER */}
       {isReferralSheetOpen && (
         <div
           style={{
@@ -1036,7 +1036,7 @@ export const MainMenuScreen: React.FC = () => {
             left: 0,
             width: '100vw',
             height: '100vh',
-            background: 'rgba(0, 0, 0, 0.68)',
+            background: 'rgba(0, 0, 0, 0.55)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             zIndex: 9999,
@@ -1053,18 +1053,16 @@ export const MainMenuScreen: React.FC = () => {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              width: '100%',
-              maxWidth: '540px',
+              width: '94vw',
+              maxWidth: '720px',
               height: 'auto',
-              maxHeight: '85vh',
-              background: 'rgba(24, 24, 28, 0.96)',
-              backdropFilter: 'blur(30px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              maxHeight: '88vh',
+              background: '#ffffff',
               borderTopLeftRadius: '28px',
               borderTopRightRadius: '28px',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
+              border: '1px solid #e5e5ea',
               borderBottom: 'none',
-              boxShadow: '0 -12px 40px rgba(0, 0, 0, 0.85)',
+              boxShadow: '0 -16px 60px rgba(0, 0, 0, 0.35)',
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden',
@@ -1075,18 +1073,19 @@ export const MainMenuScreen: React.FC = () => {
             <div
               style={{
                 width: '100%',
-                padding: '10px 0 6px 0',
+                padding: '12px 0 4px 0',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                background: '#ffffff',
               }}
             >
               <div
                 style={{
-                  width: '36px',
+                  width: '40px',
                   height: '5px',
                   borderRadius: '10px',
-                  background: 'rgba(255, 255, 255, 0.3)',
+                  background: '#d1d1d6',
                 }}
               />
             </div>
@@ -1094,35 +1093,36 @@ export const MainMenuScreen: React.FC = () => {
             {/* Header with Title & Close Button */}
             <div
               style={{
-                padding: '12px 24px 16px 24px',
+                padding: '12px 28px 18px 28px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                borderBottom: '1px solid #f2f2f7',
+                background: '#ffffff',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                 <div
                   style={{
-                    width: '40px',
-                    height: '40px',
-                    borderRadius: '12px',
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '14px',
                     background: 'linear-gradient(135deg, #ff9500 0%, #ff5e00 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 16px rgba(255, 149, 0, 0.45)',
+                    boxShadow: '0 4px 16px rgba(255, 149, 0, 0.35)',
                   }}
                 >
-                  <Gift size={22} color="#ffffff" />
+                  <Gift size={24} color="#ffffff" />
                 </div>
                 <div>
                   <h3
                     style={{
                       margin: 0,
-                      fontSize: '1.2rem',
+                      fontSize: '1.3rem',
                       fontWeight: 800,
-                      color: '#ffffff',
+                      color: '#1c1c1e',
                       fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
                     }}
                   >
@@ -1131,8 +1131,8 @@ export const MainMenuScreen: React.FC = () => {
                   <p
                     style={{
                       margin: 0,
-                      fontSize: '0.78rem',
-                      color: 'rgba(255, 255, 255, 0.6)',
+                      fontSize: '0.82rem',
+                      color: '#636366',
                       fontWeight: 500,
                     }}
                   >
@@ -1147,16 +1147,17 @@ export const MainMenuScreen: React.FC = () => {
                   setShowTncView(false);
                 }}
                 style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '34px',
+                  height: '34px',
                   borderRadius: '50%',
-                  background: 'rgba(255, 255, 255, 0.1)',
+                  background: '#f2f2f7',
                   border: 'none',
-                  color: '#ffffff',
+                  color: '#1c1c1e',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
+                  transition: 'background 0.2s ease',
                 }}
               >
                 <X size={18} />
@@ -1166,11 +1167,12 @@ export const MainMenuScreen: React.FC = () => {
             {/* Scrollable Content Body */}
             <div
               style={{
-                padding: '20px 24px 28px 24px',
+                padding: '24px 28px 32px 28px',
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '18px',
+                gap: '20px',
+                background: '#ffffff',
               }}
             >
               {!showTncView ? (
@@ -1178,22 +1180,22 @@ export const MainMenuScreen: React.FC = () => {
                   {/* Referral Code Box */}
                   <div
                     style={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1.5px dashed rgba(255, 149, 0, 0.5)',
-                      borderRadius: '18px',
-                      padding: '16px 20px',
+                      background: 'linear-gradient(135deg, rgba(255, 149, 0, 0.08) 0%, rgba(255, 94, 0, 0.04) 100%)',
+                      border: '1.5px dashed #ff9500',
+                      borderRadius: '20px',
+                      padding: '18px 24px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      gap: '12px',
+                      gap: '16px',
                     }}
                   >
                     <div>
                       <div
                         style={{
-                          fontSize: '0.72rem',
+                          fontSize: '0.74rem',
                           fontWeight: 700,
-                          color: 'rgba(255, 255, 255, 0.55)',
+                          color: '#8e8e93',
                           letterSpacing: '0.08em',
                           textTransform: 'uppercase',
                         }}
@@ -1202,9 +1204,9 @@ export const MainMenuScreen: React.FC = () => {
                       </div>
                       <div
                         style={{
-                          fontSize: '1.45rem',
+                          fontSize: '1.6rem',
                           fontWeight: 900,
-                          color: '#ff9500',
+                          color: '#ff3b30',
                           letterSpacing: '0.1em',
                           fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
                           marginTop: '2px',
@@ -1221,21 +1223,22 @@ export const MainMenuScreen: React.FC = () => {
                         setTimeout(() => setCopiedCode(false), 2000);
                       }}
                       style={{
-                        padding: '10px 18px',
-                        borderRadius: '12px',
+                        padding: '12px 22px',
+                        borderRadius: '14px',
                         background: copiedCode ? '#34c759' : '#ff9500',
                         border: 'none',
                         color: '#ffffff',
-                        fontWeight: 700,
-                        fontSize: '0.85rem',
+                        fontWeight: 800,
+                        fontSize: '0.9rem',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '6px',
+                        gap: '8px',
                         cursor: 'pointer',
+                        boxShadow: '0 4px 14px rgba(255, 149, 0, 0.3)',
                         transition: 'all 0.2s ease',
                       }}
                     >
-                      {copiedCode ? <Check size={16} /> : <Copy size={16} />}
+                      {copiedCode ? <Check size={18} /> : <Copy size={18} />}
                       {copiedCode ? 'COPIED!' : 'COPY'}
                     </button>
                   </div>
@@ -1252,31 +1255,31 @@ export const MainMenuScreen: React.FC = () => {
                     }}
                     style={{
                       width: '100%',
-                      padding: '14px',
-                      borderRadius: '16px',
+                      padding: '16px',
+                      borderRadius: '18px',
                       background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
                       border: 'none',
                       color: '#ffffff',
                       fontWeight: 800,
-                      fontSize: '1rem',
+                      fontSize: '1.05rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '8px',
+                      gap: '10px',
                       cursor: 'pointer',
-                      boxShadow: '0 6px 20px rgba(37, 211, 102, 0.35)',
+                      boxShadow: '0 8px 24px rgba(37, 211, 102, 0.35)',
                     }}
                   >
-                    <Share2 size={18} /> SHARE VIA WHATSAPP / LINK
+                    <Share2 size={20} /> SHARE VIA WHATSAPP / LINK
                   </button>
 
                   {/* 3 Step How It Works Overview */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '4px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '4px' }}>
                     <div
                       style={{
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
-                        color: 'rgba(255, 255, 255, 0.7)',
+                        fontSize: '0.82rem',
+                        fontWeight: 800,
+                        color: '#1c1c1e',
                         letterSpacing: '0.06em',
                       }}
                     >
@@ -1285,100 +1288,100 @@ export const MainMenuScreen: React.FC = () => {
 
                     <div
                       style={{
-                        background: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
-                        borderRadius: '16px',
-                        padding: '12px 16px',
+                        background: '#f2f2f7',
+                        border: '1px solid #e5e5ea',
+                        borderRadius: '18px',
+                        padding: '14px 18px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '14px',
+                        gap: '16px',
                       }}
                     >
                       <div
                         style={{
-                          width: '32px',
-                          height: '32px',
+                          width: '36px',
+                          height: '36px',
                           borderRadius: '50%',
                           background: 'rgba(255, 149, 0, 0.15)',
                           color: '#ff9500',
-                          fontWeight: 800,
+                          fontWeight: 900,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '0.9rem',
+                          fontSize: '1rem',
                         }}
                       >
                         1
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Send Code to Friend</div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Friend signs up on CLASHA with your code</div>
+                        <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Send Code to Friend</div>
+                        <div style={{ fontSize: '0.8rem', color: '#636366', fontWeight: 500 }}>Friend signs up on CLASHA with your code</div>
                       </div>
                     </div>
 
                     <div
                       style={{
-                        background: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
-                        borderRadius: '16px',
-                        padding: '12px 16px',
+                        background: '#f2f2f7',
+                        border: '1px solid #e5e5ea',
+                        borderRadius: '18px',
+                        padding: '14px 18px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '14px',
+                        gap: '16px',
                       }}
                     >
                       <div
                         style={{
-                          width: '32px',
-                          height: '32px',
+                          width: '36px',
+                          height: '36px',
                           borderRadius: '50%',
-                          background: 'rgba(0, 240, 255, 0.15)',
-                          color: '#00f0ff',
-                          fontWeight: 800,
+                          background: 'rgba(0, 122, 255, 0.15)',
+                          color: '#007aff',
+                          fontWeight: 900,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '0.9rem',
+                          fontSize: '1rem',
                         }}
                       >
                         2
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Friend Plays Games</div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Must play 3 Party Rounds + 1 Tournament Match</div>
+                        <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Friend Plays Games</div>
+                        <div style={{ fontSize: '0.8rem', color: '#636366', fontWeight: 500 }}>Must play 3 Party Rounds + 1 Tournament Match</div>
                       </div>
                     </div>
 
                     <div
                       style={{
-                        background: 'rgba(255, 255, 255, 0.04)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
-                        borderRadius: '16px',
-                        padding: '12px 16px',
+                        background: '#f2f2f7',
+                        border: '1px solid #e5e5ea',
+                        borderRadius: '18px',
+                        padding: '14px 18px',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '14px',
+                        gap: '16px',
                       }}
                     >
                       <div
                         style={{
-                          width: '32px',
-                          height: '32px',
+                          width: '36px',
+                          height: '36px',
                           borderRadius: '50%',
                           background: 'rgba(52, 199, 89, 0.15)',
                           color: '#34c759',
-                          fontWeight: 800,
+                          fontWeight: 900,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '0.9rem',
+                          fontSize: '1rem',
                         }}
                       >
                         3
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#ffffff' }}>Get ₹10 Instantly</div>
-                        <div style={{ fontSize: '0.78rem', color: 'rgba(255, 255, 255, 0.55)' }}>Reward is credited to your wallet balance</div>
+                        <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1c1c1e' }}>Get ₹10 Instantly</div>
+                        <div style={{ fontSize: '0.8rem', color: '#636366', fontWeight: 500 }}>Reward is credited to your wallet balance</div>
                       </div>
                     </div>
                   </div>
@@ -1388,29 +1391,29 @@ export const MainMenuScreen: React.FC = () => {
                     onClick={() => setShowTncView(true)}
                     style={{
                       marginTop: '6px',
-                      padding: '12px 16px',
-                      borderRadius: '14px',
-                      background: 'rgba(255, 255, 255, 0.06)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
-                      color: 'rgba(255, 255, 255, 0.85)',
-                      fontWeight: 600,
-                      fontSize: '0.85rem',
+                      padding: '14px 18px',
+                      borderRadius: '16px',
+                      background: '#f2f2f7',
+                      border: '1px solid #e5e5ea',
+                      color: '#1c1c1e',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       cursor: 'pointer',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FileText size={16} color="#ff9500" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <FileText size={18} color="#ff9500" />
                       <span>Terms & Conditions (T&C)</span>
                     </div>
-                    <ChevronRight size={16} color="rgba(255, 255, 255, 0.5)" />
+                    <ChevronRight size={18} color="#8e8e93" />
                   </button>
                 </>
               ) : (
                 /* Apple-Style Detailed Terms & Conditions View */
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <button
                     onClick={() => setShowTncView(false)}
                     style={{
@@ -1418,53 +1421,53 @@ export const MainMenuScreen: React.FC = () => {
                       background: 'none',
                       border: 'none',
                       color: '#ff9500',
-                      fontWeight: 700,
-                      fontSize: '0.85rem',
+                      fontWeight: 800,
+                      fontSize: '0.9rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '4px',
+                      gap: '6px',
                       cursor: 'pointer',
                       padding: 0,
                     }}
                   >
-                    <ChevronLeft size={16} /> Back to Referral
+                    <ChevronLeft size={18} /> Back to Referral
                   </button>
 
                   <div
                     style={{
-                      background: 'rgba(255, 255, 255, 0.04)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      borderRadius: '18px',
-                      padding: '18px',
+                      background: '#f9f9fb',
+                      border: '1px solid #e5e5ea',
+                      borderRadius: '20px',
+                      padding: '22px',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '14px',
+                      gap: '16px',
                     }}
                   >
                     <h4
                       style={{
                         margin: 0,
-                        fontSize: '1rem',
+                        fontSize: '1.15rem',
                         fontWeight: 800,
-                        color: '#ffffff',
+                        color: '#1c1c1e',
                         fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
                       }}
                     >
                       📜 Referral Program Terms & Conditions
                     </h4>
 
-                    <div style={{ fontSize: '0.82rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.55 }}>
-                      <p style={{ margin: '0 0 10px 0' }}>
+                    <div style={{ fontSize: '0.88rem', color: '#3a3a3c', lineHeight: 1.6 }}>
+                      <p style={{ margin: '0 0 12px 0' }}>
                         1. <strong>Signup Condition:</strong> Sending an invitation code and a new user completing sign-up alone <em>will not</em> immediately trigger the ₹10 reward.
                       </p>
-                      <p style={{ margin: '0 0 10px 0' }}>
+                      <p style={{ margin: '0 0 12px 0' }}>
                         2. <strong>Gameplay Qualification Criteria:</strong> For the referrer to receive ₹10 Cash, the newly registered user must complete:
                       </p>
-                      <ul style={{ margin: '0 0 10px 0', paddingLeft: '20px', color: '#ff9500' }}>
+                      <ul style={{ margin: '0 0 12px 0', paddingLeft: '22px', color: '#ff9500', fontWeight: 700 }}>
                         <li>Minimum <strong>3 Party Cabin Rounds</strong></li>
                         <li>Minimum <strong>1 Tournament Match</strong></li>
                       </ul>
-                      <p style={{ margin: '0 0 10px 0' }}>
+                      <p style={{ margin: '0 0 12px 0' }}>
                         3. <strong>Reward Payout:</strong> As soon as the referred player satisfies both gameplay criteria, ₹10 is automatically credited to the referrer's account wallet balance.
                       </p>
                       <p style={{ margin: 0 }}>
