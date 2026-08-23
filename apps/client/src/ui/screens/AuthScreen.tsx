@@ -145,77 +145,83 @@ export const AuthScreen: React.FC = () => {
         backgroundRepeat: 'no-repeat',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        padding: '40px 40px 40px 8%',
+        justifyContent: 'flex-end',
+        padding: '40px 8% 40px 40px',
         boxSizing: 'border-box',
         overflow: 'hidden',
         zIndex: 50,
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif",
+        fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', sans-serif",
       }}
     >
-      {/* Sleek Deep-Navy Frosted Glass Login Card matching loginpage.png theme */}
+      {/* Pure Apple iOS Dark Glass Login Card */}
       <div
         style={{
           position: 'relative',
           zIndex: 10,
           width: '440px',
-          maxWidth: '100%',
-          background: 'rgba(5, 15, 36, 0.78)',
-          backdropFilter: 'blur(25px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(25px) saturate(180%)',
-          border: '1.5px solid rgba(255, 0, 102, 0.4)',
-          borderRadius: '26px',
+          maxWidth: '92vw',
+          background: 'rgba(24, 24, 30, 0.78)',
+          backdropFilter: 'blur(30px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.16)',
+          borderRadius: '36px',
           padding: '36px 36px',
           boxSizing: 'border-box',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.75), 0 0 30px rgba(255, 0, 102, 0.25)',
+          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.45)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '20px',
+          gap: '22px',
         }}
       >
-        {/* Card Title & Subtitle */}
+        {/* Title */}
         <div>
-          <div
+          <h2
             style={{
-              fontSize: '2.0rem',
-              fontWeight: 900,
-              fontStyle: 'italic',
+              margin: 0,
+              fontSize: '1.75rem',
+              fontWeight: 700,
               color: '#ffffff',
-              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-              letterSpacing: '0.02em',
+              letterSpacing: '-0.02em',
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
             }}
           >
-            {mode === 'LOGIN' ? 'RACER LOGIN' : 'CREATE ACCOUNT'}
-          </div>
-          <div style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', marginTop: '4px', fontWeight: 500 }}>
-            {mode === 'LOGIN' ? 'Enter your credentials to access live matches' : 'Register your racer profile & start competing'}
-          </div>
+            {mode === 'LOGIN' ? 'Sign In' : 'Create Account'}
+          </h2>
+          <p
+            style={{
+              margin: '4px 0 0 0',
+              fontSize: '0.86rem',
+              color: 'rgba(255, 255, 255, 0.65)',
+              fontWeight: 500,
+            }}
+          >
+            {mode === 'LOGIN' ? 'Enter your credentials to access live matches' : 'Register your player profile & start competing'}
+          </p>
         </div>
 
-        {/* Mode Switcher Tabs */}
+        {/* Apple iOS Segmented Control */}
         <div
           style={{
             position: 'relative',
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            background: 'rgba(3, 9, 22, 0.65)',
-            padding: '4px',
-            borderRadius: '16px',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
+            background: 'rgba(118, 118, 128, 0.26)',
+            padding: '3px',
+            borderRadius: '20px',
             overflow: 'hidden',
           }}
         >
           <div
             style={{
               position: 'absolute',
-              top: '4px',
-              bottom: '4px',
-              left: mode === 'LOGIN' ? '4px' : 'calc(50% + 2px)',
-              width: 'calc(50% - 6px)',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-              transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-              boxShadow: '0 4px 15px rgba(255, 0, 102, 0.45)',
+              top: '3px',
+              bottom: '3px',
+              left: mode === 'LOGIN' ? '3px' : 'calc(50% + 1.5px)',
+              width: 'calc(50% - 4.5px)',
+              borderRadius: '17px',
+              background: '#ffffff',
+              boxShadow: '0 3px 10px rgba(0, 0, 0, 0.25)',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               zIndex: 1,
             }}
           />
@@ -229,21 +235,19 @@ export const AuthScreen: React.FC = () => {
             style={{
               position: 'relative',
               zIndex: 2,
-              padding: '11px',
-              borderRadius: '12px',
+              padding: '10px 0',
+              borderRadius: '17px',
               border: 'none',
               background: 'transparent',
-              color: '#ffffff',
-              fontWeight: 900,
-              fontSize: '0.9rem',
-              fontStyle: 'italic',
-              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-              letterSpacing: '0.06em',
+              color: mode === 'LOGIN' ? '#000000' : 'rgba(255, 255, 255, 0.75)',
+              fontWeight: mode === 'LOGIN' ? 700 : 500,
+              fontSize: '0.88rem',
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
               cursor: 'pointer',
-              transition: 'color 0.3s ease',
+              transition: 'color 0.2s ease',
             }}
           >
-            SIGN IN
+            Sign In
           </button>
 
           <button
@@ -255,21 +259,19 @@ export const AuthScreen: React.FC = () => {
             style={{
               position: 'relative',
               zIndex: 2,
-              padding: '11px',
-              borderRadius: '12px',
+              padding: '10px 0',
+              borderRadius: '17px',
               border: 'none',
               background: 'transparent',
-              color: '#ffffff',
-              fontWeight: 900,
-              fontSize: '0.9rem',
-              fontStyle: 'italic',
-              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
-              letterSpacing: '0.06em',
+              color: mode === 'REGISTER' ? '#000000' : 'rgba(255, 255, 255, 0.75)',
+              fontWeight: mode === 'REGISTER' ? 700 : 500,
+              fontSize: '0.88rem',
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
               cursor: 'pointer',
-              transition: 'color 0.3s ease',
+              transition: 'color 0.2s ease',
             }}
           >
-            REGISTER
+            Register
           </button>
         </div>
 
@@ -277,14 +279,13 @@ export const AuthScreen: React.FC = () => {
         {authError && (
           <div
             style={{
-              background: 'rgba(255, 59, 48, 0.18)',
-              backdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255, 69, 58, 0.35)',
-              borderRadius: '14px',
+              background: 'rgba(255, 59, 48, 0.15)',
+              border: '1px solid rgba(255, 69, 58, 0.3)',
+              borderRadius: '18px',
               padding: '12px 16px',
               color: '#ff453a',
               fontSize: '0.84rem',
-              fontWeight: 600,
+              fontWeight: 500,
               lineHeight: 1.4,
               display: 'flex',
               flexDirection: 'column',
@@ -304,10 +305,10 @@ export const AuthScreen: React.FC = () => {
               style={{
                 padding: '8px 14px',
                 borderRadius: '50px',
-                background: '#ff0066',
+                background: '#007aff',
                 border: 'none',
                 color: '#ffffff',
-                fontWeight: 800,
+                fontWeight: 700,
                 fontSize: '0.78rem',
                 cursor: 'pointer',
                 display: 'flex',
@@ -325,8 +326,8 @@ export const AuthScreen: React.FC = () => {
         <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }} onSubmit={handleAuthSubmit}>
           {mode === 'REGISTER' && (
             <div>
-              <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <User size={14} color="#ff0066" /> USERNAME / DISPLAY NAME
+              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                <User size={15} color="#007aff" /> Username
               </label>
               <input
                 type="text"
@@ -334,15 +335,14 @@ export const AuthScreen: React.FC = () => {
                 onChange={(e) => setNameInput(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '13px 16px',
-                  borderRadius: '12px',
-                  border: '1.5px solid rgba(255, 255, 255, 0.18)',
-                  background: 'rgba(2, 8, 20, 0.55)',
+                  padding: '14px 18px',
+                  borderRadius: '18px',
+                  border: '1px solid rgba(255, 255, 255, 0.16)',
+                  background: 'rgba(255, 255, 255, 0.08)',
                   color: '#ffffff',
-                  fontWeight: 700,
-                  fontSize: '1rem',
+                  fontWeight: 500,
+                  fontSize: '0.96rem',
                   outline: 'none',
-                  marginTop: '6px',
                   boxSizing: 'border-box',
                 }}
                 placeholder="Enter Username"
@@ -352,8 +352,8 @@ export const AuthScreen: React.FC = () => {
           )}
 
           <div>
-            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Mail size={14} color="#ff0066" /> EMAIL ADDRESS
+            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Mail size={15} color="#007aff" /> Email Address
             </label>
             <input
               type="email"
@@ -361,15 +361,14 @@ export const AuthScreen: React.FC = () => {
               onChange={(e) => setEmailInput(e.target.value)}
               style={{
                 width: '100%',
-                padding: '13px 16px',
-                borderRadius: '12px',
-                border: '1.5px solid rgba(255, 255, 255, 0.18)',
-                background: 'rgba(2, 8, 20, 0.55)',
+                padding: '14px 18px',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.08)',
                 color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '1rem',
+                fontWeight: 500,
+                fontSize: '0.96rem',
                 outline: 'none',
-                marginTop: '6px',
                 boxSizing: 'border-box',
               }}
               placeholder="Enter Email Address"
@@ -378,8 +377,8 @@ export const AuthScreen: React.FC = () => {
           </div>
 
           <div>
-            <label style={{ fontSize: '0.72rem', fontWeight: 800, color: 'rgba(255, 255, 255, 0.8)', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Lock size={14} color="#ff0066" /> PASSWORD
+            <label style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.75)', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+              <Lock size={15} color="#007aff" /> Password
             </label>
             <input
               type="password"
@@ -387,15 +386,14 @@ export const AuthScreen: React.FC = () => {
               onChange={(e) => setPasswordInput(e.target.value)}
               style={{
                 width: '100%',
-                padding: '13px 16px',
-                borderRadius: '12px',
-                border: '1.5px solid rgba(255, 255, 255, 0.18)',
-                background: 'rgba(2, 8, 20, 0.55)',
+                padding: '14px 18px',
+                borderRadius: '18px',
+                border: '1px solid rgba(255, 255, 255, 0.16)',
+                background: 'rgba(255, 255, 255, 0.08)',
                 color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '1rem',
+                fontWeight: 500,
+                fontSize: '0.96rem',
                 outline: 'none',
-                marginTop: '6px',
                 boxSizing: 'border-box',
               }}
               placeholder="Enter Password"
@@ -403,7 +401,7 @@ export const AuthScreen: React.FC = () => {
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Apple iOS Pill Action Button */}
           <button
             type="submit"
             className="hud-interactive btn-press-effect"
@@ -411,38 +409,37 @@ export const AuthScreen: React.FC = () => {
             style={{
               width: '100%',
               height: '52px',
-              borderRadius: '14px',
+              borderRadius: '50px',
               background: isLoading
-                ? 'linear-gradient(135deg, #cc0052 0%, #e6005c 100%)'
-                : 'linear-gradient(135deg, #ff0066 0%, #ff3385 100%)',
-              border: '2px solid #ffffff',
+                ? 'linear-gradient(135deg, #0056b3 0%, #004085 100%)'
+                : 'linear-gradient(135deg, #007aff 0%, #0056b3 100%)',
+              border: 'none',
               color: '#ffffff',
-              fontWeight: 900,
-              fontSize: '1.1rem',
-              fontStyle: 'italic',
-              fontFamily: "'QUARTZO', 'Kanit', sans-serif",
+              fontWeight: 700,
+              fontSize: '1rem',
+              fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
               cursor: isLoading ? 'wait' : 'pointer',
-              boxShadow: '0 8px 25px rgba(255, 0, 102, 0.55)',
-              letterSpacing: '0.06em',
+              boxShadow: '0 8px 24px rgba(0, 122, 255, 0.35)',
               marginTop: '8px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '10px',
+              transition: 'all 0.2s ease',
             }}
           >
             {isLoading ? (
               <>
-                <Loader2 size={22} color="#ffffff" className="spin-icon" />
-                <span>{mode === 'LOGIN' ? 'LOGGING IN...' : 'CREATING PROFILE...'}</span>
+                <Loader2 size={20} color="#ffffff" className="spin-icon" />
+                <span>{mode === 'LOGIN' ? 'Signing In...' : 'Creating Profile...'}</span>
               </>
             ) : mode === 'LOGIN' ? (
               <>
-                <span>ENTER ARENA LOBBY</span> <ArrowRight size={18} />
+                <span>Sign In</span> <ArrowRight size={18} />
               </>
             ) : (
               <>
-                <span>CREATE PROFILE & ENTER ARENA</span> <Sparkles size={18} />
+                <span>Create Account</span> <Sparkles size={18} />
               </>
             )}
           </button>
@@ -450,14 +447,14 @@ export const AuthScreen: React.FC = () => {
 
         {/* Divider */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '2px 0' }}>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.15)' }} />
-          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255, 255, 255, 0.55)', letterSpacing: '0.08em' }}>
-            OR CONTINUE WITH
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
+          <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)' }}>
+            or
           </span>
-          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.15)' }} />
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255, 255, 255, 0.12)' }} />
         </div>
 
-        {/* Google Sign In Button */}
+        {/* Apple iOS Glass Google Button */}
         <button
           type="button"
           className="hud-interactive btn-press-effect"
@@ -465,19 +462,21 @@ export const AuthScreen: React.FC = () => {
           disabled={isLoading}
           style={{
             width: '100%',
-            padding: '12px 18px',
-            borderRadius: '14px',
-            background: 'rgba(255, 255, 255, 0.08)',
+            padding: '13px 20px',
+            borderRadius: '50px',
+            background: 'rgba(255, 255, 255, 0.12)',
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255, 255, 255, 0.2)',
             color: '#ffffff',
             fontWeight: 600,
-            fontSize: '0.92rem',
+            fontSize: '0.94rem',
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '12px',
             cursor: isLoading ? 'not-allowed' : 'pointer',
+            transition: 'all 0.2s ease',
           }}
         >
           <GoogleIcon />
