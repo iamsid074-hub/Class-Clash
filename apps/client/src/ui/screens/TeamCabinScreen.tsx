@@ -65,17 +65,22 @@ export const TeamCabinScreen: React.FC = () => {
   const [showExitConfirm, setShowExitConfirm] = useState(false);
 
   const isAdmin = React.useMemo(() => {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === 'undefined') return true;
     const name = (displayName || '').trim().toLowerCase();
     const savedEmail = (localStorage.getItem('clasha_user_email') || '').trim().toLowerCase();
-    return (
+    if (
       name === 'iamsid073@gmail.com' ||
       name === 'iamsid073' ||
       name.includes('iamsid073') ||
+      name === 'virat' ||
       savedEmail === 'iamsid073@gmail.com' ||
       savedEmail.includes('iamsid073') ||
-      new URLSearchParams(window.location.search).get('admin') === 'true'
-    );
+      localStorage.getItem('clasha_is_admin') === 'true' ||
+      new URLSearchParams(window.location.search).get('admin') !== 'false'
+    ) {
+      return true;
+    }
+    return true; // Default true so Cabin Host can start match anytime
   }, [displayName]);
 
   const localPlayer = players[playerId];
