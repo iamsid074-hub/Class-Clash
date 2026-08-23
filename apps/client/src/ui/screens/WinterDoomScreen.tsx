@@ -221,14 +221,16 @@ export const WinterDoomScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (FULL PAGE WIDTH) */}
-      <div style={{ width: '100%' }}>
+      {/* 3. BOTTOM FEATURED CARD: FORMAT EXPLAINER BUTTON (COMPACT SLEEK WIDTH) */}
+      <div style={{ width: '100%', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
         <div
           style={{
+            width: '100%',
+            maxWidth: '850px',
             background: '#ffffff',
             border: '1px solid #e5e5ea',
             borderRadius: '32px',
-            padding: '24px 32px',
+            padding: '20px 28px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
