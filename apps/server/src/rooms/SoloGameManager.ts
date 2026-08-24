@@ -27,7 +27,7 @@ export class SoloGameManager {
       currentRound: 1,
       totalRounds: 3,
       phase: 'LOBBY',
-      phaseTimeRemaining: 10, // TEMPORARY: 10s for fast testing (Original: 180s)
+      phaseTimeRemaining: 180, // 180s (3 Minutes)
       selectedPlayerId: null,
       leaderPlayerId: null,
       proposals: [],
@@ -66,7 +66,7 @@ export class SoloGameManager {
 
   public startPlayerSelectionPhase(): void {
     this.state.phase = 'PLAYER_SELECTION';
-    this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 5s)
+    this.state.phaseTimeRemaining = 5; // 5s
     this.state.proposals = []; // Reset proposals for new round
     this.state.winningProposal = null;
 
@@ -84,7 +84,7 @@ export class SoloGameManager {
     switch (this.state.phase) {
       case 'PLAYER_SELECTION':
         this.state.phase = 'DISCUSSION_AND_VOTING';
-        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 120s)
+        this.state.phaseTimeRemaining = 120; // 120s (2 Minutes)
         break;
 
       case 'DISCUSSION_AND_VOTING':
@@ -114,17 +114,17 @@ export class SoloGameManager {
         }
 
         this.state.phase = 'LEADER_CONFIRMATION';
-        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 12s)
+        this.state.phaseTimeRemaining = 12; // 12s
         break;
 
       case 'LEADER_CONFIRMATION':
         this.state.phase = 'CHALLENGE_EXECUTION';
-        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 180s)
+        this.state.phaseTimeRemaining = 180; // 180s (3 Minutes)
         break;
 
       case 'CHALLENGE_EXECUTION':
         this.state.phase = 'ROUND_RESULT';
-        this.state.phaseTimeRemaining = 10; // TEMPORARY: 10s for fast testing (Original: 8s)
+        this.state.phaseTimeRemaining = 8; // 8s
 
         // Award points if challenge completed
         if (this.state.selectedPlayerId && this.players[this.state.selectedPlayerId]) {

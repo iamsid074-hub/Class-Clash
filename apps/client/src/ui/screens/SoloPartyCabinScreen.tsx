@@ -311,7 +311,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'DISCUSSION_AND_VOTING',
-        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 120s)
+        phaseTimeRemaining: 120, // 120s (2 Minutes)
       });
     } else if (current.phase === 'DISCUSSION_AND_VOTING') {
       const winningProp = (current.proposals && current.proposals.length > 0)
@@ -329,19 +329,19 @@ export const SoloPartyCabinScreen: React.FC = () => {
         winningProposal: winningProp,
         leaderPlayerId: playerId,
         phase: 'LEADER_CONFIRMATION',
-        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 12s)
+        phaseTimeRemaining: 12, // 12s
       });
     } else if (current.phase === 'LEADER_CONFIRMATION') {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'CHALLENGE_EXECUTION',
-        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 180s)
+        phaseTimeRemaining: 180, // 180s (3 Minutes)
       });
     } else if (current.phase === 'CHALLENGE_EXECUTION') {
       useGameStore.getState().updateSoloGameState({
         ...current,
         phase: 'ROUND_RESULT',
-        phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 8s)
+        phaseTimeRemaining: 8, // 8s
       });
     } else if (current.phase === 'ROUND_RESULT') {
       if ((current.currentRound || 1) < (current.totalRounds || 3)) {
@@ -349,7 +349,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
           ...current,
           currentRound: (current.currentRound || 1) + 1,
           phase: 'PLAYER_SELECTION',
-          phaseTimeRemaining: 10, // TEMPORARY: 10s (Original: 5s)
+          phaseTimeRemaining: 5, // 5s
           selectedPlayerId: playerId,
         });
       } else {
@@ -1486,34 +1486,7 @@ export const SoloPartyCabinScreen: React.FC = () => {
         </div>
       )}
 
-      {/* ------------------------------------------------------------- */}
-      {/* 4. BOTTOM START / ADVANCE PHASE ACTION BUTTON (AVAILABLE ACROSS ALL TIMED PHASES FOR ADMIN/HOST) */}
-      {/* ------------------------------------------------------------- */}
-      {isAdmin && (
-        <div style={{ position: 'absolute', bottom: '28px', left: '50%', transform: 'translateX(-50%)', pointerEvents: 'auto', zIndex: 30 }}>
-          <button
-            className="cyber-button glow btn-press-effect"
-            onClick={handlePhaseAction}
-            style={{
-              padding: '14px 36px',
-              fontSize: '1.15rem',
-              fontWeight: 900,
-              letterSpacing: '0.08em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              background: '#ffffff',
-              boxShadow: '0 8px 30px rgba(255, 255, 255, 0.4)',
-              border: '2px solid #ffffff',
-              borderRadius: '16px',
-              cursor: 'pointer',
-              color: '#000000',
-            }}
-          >
-            {getPhaseButtonContent()}
-          </button>
-        </div>
-      )}
+
 
       {/* BOTTOM LEFT CORNER EXIT ARROW (HIDDEN WHEN MATCH IS FINISHED AND REDIRECTING) */}
       {!isMatchFinished && (
